@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
+  <Metadata>
+    <Identity Id="27dd9dea-6dd2-403e-929d-3ff20d896c5e" Version="0.9" Language="ru-RU" Publisher="Denis Malikov" />
+    <DisplayName>Создание Bars-объекта</DisplayName>
+    <Description xml:space="preserve">Создание нового Bars-объекта (включая Entity, Map, Controller, View и UpdateSchema, DomainService(Interceptor)) и многое многое другое</Description>
+    <License>Resources\License.txt</License>
+    <Icon>Resources\bars-icon.png</Icon>
+    <PreviewImage>Resources\bars.png</PreviewImage>
+    <Tags>file, add</Tags>
+  </Metadata>
+  <Installation InstalledByMsi="false">
+    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="11.0" />
+    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="12.0" />
+    <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="14.0" />
+  </Installation>
+  <Dependencies>
+  </Dependencies>
+  <Assets>
+    <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+  </Assets>
+</PackageManifest>
