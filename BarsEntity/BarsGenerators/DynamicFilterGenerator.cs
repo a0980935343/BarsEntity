@@ -31,7 +31,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             ns.OuterUsing.Add("System.Linq.Expressions");
 
             ns.InnerUsing.Add("Bars.B4.Modules.ReportPanel");
-            ns.InnerUsing.Add("Bars.MosKs.DynamicFilters.Entities");            
+            ns.InnerUsing.Add("Bars.MosKs.DynamicFilters.Entities");
             ns.InnerUsing.Add("Entities");
 
             var entityName = new PropertyInfo
@@ -85,8 +85,8 @@ namespace Barsix.BarsEntity.BarsGenerators
                     entityAttributes.Body.Add("                selectWindowConfig = new");
                     entityAttributes.Body.Add("                {");
                     entityAttributes.Body.Add("                    selectWindowXType = \"mosksmultiselectwindow\",");
-                    entityAttributes.Body.Add("                    gridConfig  = new { columns = new[] { new { header = \"Наименование\", dataIndex = \"Name\" } } },");
-                    entityAttributes.Body.Add("                    storeConfig = new { fields  = new[] { \"Id\", \"Name\" }, controllerName = \"" + field.TypeName + "\", controllerAction = \"List\" }");
+                    entityAttributes.Body.Add("                    gridConfig  = new { columns = new[] { new { header = \"Наименование\", dataIndex = \"" + field.TextProperty + "\" } } },");
+                    entityAttributes.Body.Add("                    storeConfig = new { fields  = new[] { \"Id\", \""+ field.TextProperty +"\" }, controllerName = \"" + field.TypeName + "\", controllerAction = \"List\" }");
                     entityAttributes.Body.Add("                },");
                     entityAttributes.Body.Add("                ActionGetDisplayNamesByIds = \"GetDisplayNamesByIds\"");
                     entityAttributes.Body.Add("            },");

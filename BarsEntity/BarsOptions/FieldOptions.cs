@@ -23,7 +23,9 @@ namespace Barsix.BarsEntity.BarsOptions
 
         public string ViewType = "textfield";
         public string ViewColumnType = "easwraptextcolumn";
-        
+
+        public string TextProperty = "Name";
+
         public string Comment;
 
         public string DefaultValue;

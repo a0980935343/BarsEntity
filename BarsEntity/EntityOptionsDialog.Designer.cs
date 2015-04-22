@@ -134,6 +134,8 @@
             this.chStateful = new System.Windows.Forms.CheckBox();
             this.chvTreeGrid = new System.Windows.Forms.CheckBox();
             this.chmLogMap = new System.Windows.Forms.CheckBox();
+            this.tbvTextProperty = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -241,6 +243,7 @@
             this.cheList.TabIndex = 14;
             this.cheList.Text = "IList";
             this.cheList.UseVisualStyleBackColor = true;
+            this.cheList.CheckedChanged += new System.EventHandler(this.cheList_CheckedChanged);
             // 
             // cheNullable
             // 
@@ -582,6 +585,8 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.label10);
+            this.tabPage4.Controls.Add(this.tbvTextProperty);
             this.tabPage4.Controls.Add(this.chvDynamicField);
             this.tabPage4.Controls.Add(this.chvDynamicFilter);
             this.tabPage4.Controls.Add(this.cbvSelectionModel);
@@ -613,7 +618,7 @@
             // chvDynamicField
             // 
             this.chvDynamicField.AutoSize = true;
-            this.chvDynamicField.Location = new System.Drawing.Point(464, 149);
+            this.chvDynamicField.Location = new System.Drawing.Point(464, 177);
             this.chvDynamicField.Name = "chvDynamicField";
             this.chvDynamicField.Size = new System.Drawing.Size(139, 17);
             this.chvDynamicField.TabIndex = 36;
@@ -1198,6 +1203,22 @@
             this.chmLogMap.Text = "Создать LogMap";
             this.chmLogMap.UseVisualStyleBackColor = true;
             // 
+            // tbvTextProperty
+            // 
+            this.tbvTextProperty.Location = new System.Drawing.Point(464, 150);
+            this.tbvTextProperty.Name = "tbvTextProperty";
+            this.tbvTextProperty.Size = new System.Drawing.Size(174, 20);
+            this.tbvTextProperty.TabIndex = 37;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(401, 153);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(63, 13);
+            this.label10.TabIndex = 38;
+            this.label10.Text = "textProperty";
+            // 
             // EntityOptionsDialog
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1217,7 +1238,6 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "EntityOptionsDialog";
-            this.ShowInTaskbar = false;
             this.Text = "Создание Bars-объекта";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -1351,5 +1371,7 @@
         private System.Windows.Forms.CheckBox chvDynamicField;
         private System.Windows.Forms.CheckBox chvTreeGrid;
         private System.Windows.Forms.CheckBox chmLogMap;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox tbvTextProperty;
     }
 }

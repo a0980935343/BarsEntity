@@ -74,7 +74,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                         prop.Value = (int)3;
                 }
                 DontForget.Add("ResourceManifect.cs/ResourceManifest/BaseInit");
-                DontForget.Add("container.Add(\"scripts/modules/{0}.{1}.js\", \"{0}.dll/{0}.Views.{2}{1}.js\");".F(project.Name.Substring(5), options.ClassName, options.IsDictionary ? "Dict." : ""));
+                DontForget.Add("container.Add(\"scripts/modules/{3}.{1}.js\", \"{0}.dll/{0}.Views.{2}{1}.js\");".F(project.Name, options.ClassName, options.IsDictionary ? "Dict." : "", options.View.Namespace));
             }
             else
             {
@@ -265,7 +265,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                     }
                     else if (BaseBarsGenerator.IsReference(field))
                     {
-                        col.AddScalar("rendered", "function (value) { if (!value) return ''; return value.Name; } ");
+                        col.AddScalar("renderer", "function (value) {{ if (!value) return ''; return value.{0}; }}".F(field.TextProperty));
                     }
                     else
                     {
@@ -288,7 +288,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             gridApply.Add(tbarButtons);
 
             var filter = new JsObject() { Name = "filter" };
-            foreach (var field in options.Fields.Where(x => x.DisplayName != ""))
+            foreach (var field in options.Fields.Where(x => x.DisplayName != "" && !x.Collection))
             {
                 var fil = new JsObject() { Name = field.FieldName, Inline = true };
                 if (options.Stateful && field.FieldName == "State")
@@ -299,7 +299,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 }
                 else
                 {
-                    fil.AddString("xtype", field.TypeName != "bool" ? field.ViewType : "combobox");
+                    fil.AddString("xtype", field.TypeName != "bool" ? (field.ViewType == "easselectfield" ? "textfield" : field.ViewType) : "combobox");
                     if (field.TypeName == "bool")
                     {
                         fil.AddScalar("items", "[[null, '-'], [true, 'да'], [false, 'нет']]");
@@ -370,29 +370,31 @@ namespace Barsix.BarsEntity.BarsGenerators
                 
 
                 fld.AddString("xtype", field.ViewType);
-                fld.AddScalar("fieldLabel", "lc('{0}')".F(field.DisplayName));
+                fld.AddLocal("fieldLabel", field.DisplayName);
 
                 if (options.Stateful && field.FieldName == "State")
                 {
                     fld.AddString("ref", "../field_State");
                     fld.AddString("controllerName", controllerName);
-                    fld.AddString("entityTypeId", options.ClassFullName);
+                    fld.AddScalar("entityTypeId", "this.entityTypeId");
                 }
                 else
                 {
                     fld.AddString("dataIndex", field.FieldName);
+                    
+                    if (!field.Nullable)
+                        fld.AddBoolean("allowBlank", false);
                 }
-                if (!field.Nullable)
-                    fld.AddBoolean("required", true);
+                
 
                 if (field.ViewType == "easselectfield")
                 {
                     fld.AddString("idProperty", "Id");
-                    fld.AddString("textProperty", "Name");
+                    fld.AddString("textProperty", field.TextProperty);
                         var selectConfig = new JsObject() { Name = "selectWindowConfig" };
                         selectConfig.AddString("title", field.DisplayName);
-                        selectConfig.AddScalar("storeConfig", "{{ fields: ['Id', 'Name'], controllerName: '{0}' }}".F(options.ClassName));
-                        selectConfig.AddScalar("gridConfig", "{ columns: [{ dataIndex: 'Name', header: lc('Наименование'), xtype: 'easwraptextcolumn' }] }");
+                        selectConfig.AddScalar("storeConfig", "{{ fields: ['Id', '{1}'], controllerName: '{0}' }}".F(field.TypeName, field.TextProperty));
+                        selectConfig.AddScalar("gridConfig", "{{ columns: [{{ dataIndex: '{0}', header: lc('{1}'), xtype: 'easwraptextcolumn' }}] }}".F(field.TextProperty, field.DisplayName));
                     fld.Add(selectConfig);
                     fld.Inline = false;
                 }

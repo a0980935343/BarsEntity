@@ -304,14 +304,17 @@ namespace Barsix.BarsEntity
                 tbeName.Text = fopt.FieldName;
                 tbeType.Text = fopt.TypeName;
                 tbeComment.Text = fopt.Comment;
-                cheOwnerReference.Checked = fopt.JsonIgnore;
-                cheParentReference.Checked = fopt.OwnerReference;
+                cheOwnerReference.Checked = fopt.OwnerReference;
+                cheParentReference.Checked = fopt.ParentReference;
                 cheNullable.Checked = fopt.Nullable;
+                cheNullable.Enabled = !(fopt.OwnerReference || fopt.ParentReference);
                 cheList.Checked = fopt.Collection;
+
+                btnUpsertEntityField.Text = "Обновить";
             }
             else
             {
-                if (e.Item == null)
+                //if (e.Item == null)
                 {
                     lviEntity       = null;
                     tbeName.Text    = "";
@@ -319,8 +322,11 @@ namespace Barsix.BarsEntity
                     tbeComment.Text = "";
                     cheOwnerReference.Checked  = false;
                     cheParentReference.Checked = false;
-                    cheNullable.Checked        = false;
+                    cheNullable.Enabled = true;
+                    cheNullable.Checked = false;
                     cheList.Checked = false;
+
+                    btnUpsertEntityField.Text = "Создать";
                 }
             }
         }
@@ -375,6 +381,9 @@ namespace Barsix.BarsEntity
                     if (fopt.TypeName == "FileInfo")
                         fopt.ReferenceTable = "B4_FILE_INFO";
                     else
+                    if (fopt.TypeName == "State")
+                        fopt.ReferenceTable = "EAS_STATE";
+                    else
                     {
                         var parts = Project.Name.Split('.');
 
@@ -408,6 +417,7 @@ namespace Barsix.BarsEntity
                 cheOwnerReference.Checked = false;
                 cheParentReference.Checked = false;
                 cheNullable.Checked = false;
+                cheNullable.Enabled = true;
                 cheList.Checked = false;
             }
         }
@@ -506,7 +516,7 @@ namespace Barsix.BarsEntity
                 
                 if (BaseBarsGenerator.IsReference(fopt))
                 {
-                    // easselectfield
+                    fopt.TextProperty = tbvTextProperty.Text;
                 }
 
                 lviView.SubItems[1].Text = fopt.DisplayName;
@@ -527,10 +537,8 @@ namespace Barsix.BarsEntity
                 tbvDisplayName.Text = fopt.DisplayName;
                 chvDynamicField.Checked = fopt.DynamicFilter;
 
-                if (BaseBarsGenerator.IsReference(fopt))
-                {
-
-                }
+                tbvTextProperty.Text = fopt.TextProperty;
+                tbvTextProperty.Visible = BaseBarsGenerator.IsReference(fopt);
             }
         }
 
@@ -577,12 +585,17 @@ namespace Barsix.BarsEntity
             {
                 foreach (ListViewItem lvi in lvFields.Items)
                 {
-                    if (((FieldOptions)lvi.Tag).OwnerReference) 
+                    if (((FieldOptions)lvi.Tag).OwnerReference && ((FieldOptions)lvi.Tag).FieldName != tbeName.Text) 
                     {
                         MessageBox.Show("Поле {0} уже назначено ссылкой на владельца!".F(((FieldOptions)lvi.Tag).FieldName), "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         cheOwnerReference.Checked = false;
                         break;
                     }
+                }
+                if (cheOwnerReference.Checked)
+                {
+                    cheNullable.Checked = false;
+                    cheNullable.Enabled = false;
                 }
             }
         }
@@ -599,13 +612,31 @@ namespace Barsix.BarsEntity
                 else
                 foreach (ListViewItem lvi in lvFields.Items)
                 {
-                    if (((FieldOptions)lvi.Tag).ParentReference)
+                    if (((FieldOptions)lvi.Tag).ParentReference && ((FieldOptions)lvi.Tag).FieldName != tbeName.Text)
                     {
-                        MessageBox.Show("Поле {0} уже назначено ссылкой на родителя!", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        MessageBox.Show("Поле {0} уже назначено ссылкой на родителя!".F(((FieldOptions)lvi.Tag).FieldName), "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         cheParentReference.Checked = false;
                         break;
                     }
                 }
+                if (cheParentReference.Checked)
+                {
+                    cheNullable.Checked = true;
+                    cheNullable.Enabled = false;
+                }
+            }
+        }
+
+        private void cheList_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cheList.Checked)
+            {
+                cheOwnerReference.Enabled = cheParentReference.Enabled = cheNullable.Enabled = 
+                cheOwnerReference.Checked = cheParentReference.Checked = cheNullable.Checked = false;
+            }
+            else
+            {
+                cheOwnerReference.Enabled = cheParentReference.Enabled = cheNullable.Enabled = true;
             }
         }
     }
