@@ -12,7 +12,7 @@ namespace Barsix.BarsEntity.CodeGeneration
     {
         private Dictionary<string, List<string>> _lines = new Dictionary<string,List<string>>();
         
-        public void AddLines(string fileName, BaseBarsGenerator source, List<string> lines)
+        public void AddLines(string fileName, IBarsGenerator source, List<string> lines)
         {
             if (!_lines.ContainsKey(fileName))
                 _lines.Add(fileName, new List<string>());

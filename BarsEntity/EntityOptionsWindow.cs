@@ -207,7 +207,7 @@ namespace Barsix.BarsEntity
 
             if (confirmDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                IList<BaseBarsGenerator> generators = new List<BaseBarsGenerator>();
+                IList<IBarsGenerator> generators = new List<IBarsGenerator>();
 
                 if (confirmDialog.chEntity.Checked)
                     generators.Add(new EntityGenerator());
@@ -261,7 +261,7 @@ namespace Barsix.BarsEntity
             }
         }
 
-        private DontForgetThis GenerateEntity(IEnumerable<BaseBarsGenerator> generators)
+        private DontForgetThis GenerateEntity(IEnumerable<IBarsGenerator> generators)
         {
             StringBuilder remaining = new StringBuilder();
             GeneratedFragments dontForgetLines = new GeneratedFragments();
