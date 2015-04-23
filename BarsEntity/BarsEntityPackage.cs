@@ -18,6 +18,7 @@ namespace Barsix.BarsEntity
 {
     using BarsGenerators;
     using BarsOptions;
+    using CodeGeneration;
 
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
@@ -105,7 +106,7 @@ namespace Barsix.BarsEntity
             var gen = new MigrationGenerator();
             try
             {
-                gen.Generate(project, Options);
+                gen.Generate(project, Options, new GeneratedFragments());
             }
             catch (Exception ex)
             {

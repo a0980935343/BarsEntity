@@ -1,4 +1,5 @@
-﻿using EnvDTE;
+﻿using System.Collections.Generic;
+using EnvDTE;
 
 namespace Barsix.BarsEntity.BarsGenerators
 {
@@ -7,9 +8,9 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class AuditLogMapProviderGenerator : BaseBarsGenerator
     {
-        public override void Generate(Project project, EntityOptions options)
+        public override void Generate(Project project, EntityOptions options, GeneratedFragments fragments)
         {
-            base.Generate(project, options);
+            base.Generate(project, options, fragments);
 
             if (!FileExists("AuditLogMapProvider.cs"))
             {
@@ -28,13 +29,11 @@ namespace Barsix.BarsEntity.BarsGenerators
 
                 CreateFile("AuditLogMapProvider.cs", ns.ToString());
 
-                DontForget.Add("Module.cs/Module/Install");
-                DontForget.Add("Container.Register(Component.For<IAuditLogMapProvider>().ImplementedBy<AuditLogMapProvider>().LifestyleTransient());");
+                fragments.AddLines("Module.cs", this, new List<string> { "Container.Register(Component.For<IAuditLogMapProvider>().ImplementedBy<AuditLogMapProvider>().LifestyleTransient());"});
             }
             else
             {
-                DontForget.Add("AuditLogMapProvider.cs");
-                DontForget.Add("container.Add<{0}LogMap>();".F(options.ClassName));
+                fragments.AddLines("AuditLogMapProvider.cs", this, new List<string>{ "container.Add<{0}LogMap>();".F(options.ClassName)});
             }
         }
     }

@@ -12,9 +12,9 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class StatefulEntitiesManifestGenerator : BaseBarsGenerator
     {
-        public override void Generate(Project project, EntityOptions options)
+        public override void Generate(Project project, EntityOptions options, GeneratedFragments fragments)
         {
-            base.Generate(project, options);
+            base.Generate(project, options, fragments);
 
             if (!FileExists("Domain\\StatefulEntitiesManifest.cs"))
             {
@@ -48,20 +48,18 @@ namespace Barsix.BarsEntity.BarsGenerators
 
                 CreateFile("Domain\\StatefulEntitiesManifest.cs", ns.ToString());
 
-                DontForget.Add("Module.cs/Module/Install");
-                DontForget.Add("Container.Register(Component.For<IStatefulEntitiesManifest>().ImplementedBy<StatefulEntitiesManifest>().LifestyleTransient());");
+                fragments.AddLines("Module.cs", this, new List<string> { 
+                    "Container.Register(Component.For<IStatefulEntitiesManifest>().ImplementedBy<StatefulEntitiesManifest>().LifestyleTransient());"});
             }
             else
             {
-                DontForget.Add("Domain/StatefulEntitiesManifest.cs");
-
                 var field = (new FieldInfo {
                     Name = options.ClassName,
                     Type = "StatefulEntityInfo",
                     Value = "new StatefulEntityInfo(\"{0}\", \"{1}\".Localize(), typeof({2}))".F(options.ClassFullName, options.DisplayName, options.ClassName)
                 }).Public.Static.ReadOnly.Generate(0).First();
 
-                DontForget.Add(field);
+                fragments.AddLines("Domain/StatefulEntitiesManifest.cs", this, new List<string> { field });
             }
         }
     }

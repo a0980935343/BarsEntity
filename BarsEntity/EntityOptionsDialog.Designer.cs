@@ -136,6 +136,7 @@
             this.chmLogMap = new System.Windows.Forms.CheckBox();
             this.tbvTextProperty = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
+            this.chvGroupField = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -585,6 +586,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.chvGroupField);
             this.tabPage4.Controls.Add(this.label10);
             this.tabPage4.Controls.Add(this.tbvTextProperty);
             this.tabPage4.Controls.Add(this.chvDynamicField);
@@ -618,7 +620,7 @@
             // chvDynamicField
             // 
             this.chvDynamicField.AutoSize = true;
-            this.chvDynamicField.Location = new System.Drawing.Point(464, 177);
+            this.chvDynamicField.Location = new System.Drawing.Point(464, 176);
             this.chvDynamicField.Name = "chvDynamicField";
             this.chvDynamicField.Size = new System.Drawing.Size(139, 17);
             this.chvDynamicField.TabIndex = 36;
@@ -1202,6 +1204,7 @@
             this.chmLogMap.TabIndex = 37;
             this.chmLogMap.Text = "Создать LogMap";
             this.chmLogMap.UseVisualStyleBackColor = true;
+            this.chmLogMap.CheckedChanged += new System.EventHandler(this.chmLogMap_CheckedChanged);
             // 
             // tbvTextProperty
             // 
@@ -1218,6 +1221,17 @@
             this.label10.Size = new System.Drawing.Size(63, 13);
             this.label10.TabIndex = 38;
             this.label10.Text = "textProperty";
+            // 
+            // chvGroupField
+            // 
+            this.chvGroupField.AutoSize = true;
+            this.chvGroupField.Location = new System.Drawing.Point(464, 197);
+            this.chvGroupField.Name = "chvGroupField";
+            this.chvGroupField.Size = new System.Drawing.Size(140, 17);
+            this.chvGroupField.TabIndex = 39;
+            this.chvGroupField.Text = "Группировать по полю";
+            this.chvGroupField.UseVisualStyleBackColor = true;
+            this.chvGroupField.CheckedChanged += new System.EventHandler(this.chvGroupField_CheckedChanged);
             // 
             // EntityOptionsDialog
             // 
@@ -1373,5 +1387,6 @@
         private System.Windows.Forms.CheckBox chmLogMap;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox tbvTextProperty;
+        private System.Windows.Forms.CheckBox chvGroupField;
     }
 }

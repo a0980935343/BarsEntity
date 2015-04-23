@@ -16,6 +16,7 @@ using EnvDTE;
 namespace Barsix.BarsEntity
 {
     using BarsGenerators;
+    using CodeGeneration;
 
     public partial class EntityOptionsDialog : Form
     {
@@ -59,21 +60,18 @@ namespace Barsix.BarsEntity
                 Options.Fields.Add(fopt);
             }
 
-            if (chvTreeGrid.Checked)
+            if (chvTreeGrid.Checked && !Options.Fields.Any(x => x.ParentReference && x.TypeName == Options.ClassName))
             {
-                if (!Options.Fields.Any(x => x.ParentReference && x.TypeName == Options.ClassName))
+                Options.Fields.Add(new FieldOptions
                 {
-                    Options.Fields.Add(new FieldOptions
-                    {
-                        FieldName = "Parent",
-                        TypeName = Options.ClassName,
-                        ColumnName = "PARENT_ID",
-                        ReferenceTable = Options.TableName,
-                        DisplayName = "Родитель",
-                        ParentReference = true,
-                        ViewType = "easselectfield"
-                    });
-                }
+                    FieldName = "Parent",
+                    TypeName = Options.ClassName,
+                    ColumnName = "PARENT_ID",
+                    ReferenceTable = Options.TableName,
+                    DisplayName = "Родитель",
+                    ParentReference = true,
+                    ViewType = "easselectfield"
+                });
             }
 
             if (Options.Stateful)
@@ -86,6 +84,7 @@ namespace Barsix.BarsEntity
                         TypeName = "State",
                         ColumnName = "STATE_ID",
                         ReferenceTable = "EAS_STATE",
+                        Index = Options.ClassName.CamelToSnake() + "__STATE",
                         DisplayName = "Статус",
                         ViewType = "easstatefield"
                     });
@@ -265,20 +264,13 @@ namespace Barsix.BarsEntity
         private DontForgetThis GenerateEntity(IEnumerable<BaseBarsGenerator> generators)
         {
             StringBuilder remaining = new StringBuilder();
+            GeneratedFragments dontForgetLines = new GeneratedFragments();
 
             foreach (var generator in generators)
             {
                 try
                 {
-                    generator.Generate(Project, Options);
-
-                    if (generator.DontForget.Any())
-                    {
-                        remaining.AppendLine(generator.GetType().Name + ":");
-                        generator.DontForget.ForEach(x => remaining.AppendLine(x));
-                        remaining.AppendLine("");
-                        remaining.AppendLine("");
-                    }
+                    generator.Generate(Project, Options, dontForgetLines);
                 }
                 catch (Exception ex)
                 {
@@ -286,10 +278,10 @@ namespace Barsix.BarsEntity
                 }
             }
 
-            if (remaining.Length > 0)
+            if (dontForgetLines.Any())
             {
                 DontForgetThis form = new DontForgetThis();
-                form.richTextBox1.Text = remaining.ToString();
+                form.richTextBox1.Text = string.Join(Environment.NewLine, dontForgetLines.ToList());
                 return form;
             }
             return null;
@@ -513,7 +505,8 @@ namespace Barsix.BarsEntity
                 fopt.DisplayName = tbvDisplayName.Text;
                 fopt.ViewType = tbvType.Text;
                 fopt.DynamicFilter = chvDynamicField.Checked;
-                
+                fopt.GroupField = chvGroupField.Checked;
+
                 if (BaseBarsGenerator.IsReference(fopt))
                 {
                     fopt.TextProperty = tbvTextProperty.Text;
@@ -536,6 +529,7 @@ namespace Barsix.BarsEntity
                 tbvType.Text = fopt.ViewType;
                 tbvDisplayName.Text = fopt.DisplayName;
                 chvDynamicField.Checked = fopt.DynamicFilter;
+                chvGroupField.Checked = fopt.GroupField;
 
                 tbvTextProperty.Text = fopt.TextProperty;
                 tbvTextProperty.Visible = BaseBarsGenerator.IsReference(fopt);
@@ -618,6 +612,13 @@ namespace Barsix.BarsEntity
                         cheParentReference.Checked = false;
                         break;
                     }
+
+                    if (((FieldOptions)lvi.Tag).GroupField)
+                    {
+                        MessageBox.Show("Иерархия невозможна в таблице с группировкой!", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        cheParentReference.Checked = false;
+                        break;
+                    }
                 }
                 if (cheParentReference.Checked)
                 {
@@ -637,6 +638,29 @@ namespace Barsix.BarsEntity
             else
             {
                 cheOwnerReference.Enabled = cheParentReference.Enabled = cheNullable.Enabled = true;
+            }
+        }
+
+        private void chvGroupField_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chvGroupField.Checked)
+            {
+                foreach (ListViewItem lvi in lvFields.Items)
+                {
+                    if (((FieldOptions)lvi.Tag).GroupField && ((FieldOptions)lvi.Tag).FieldName != tbvViewName.Text)
+                    {
+                        MessageBox.Show("Поле {0} уже назначено группировкой таблицы!".F(((FieldOptions)lvi.Tag).FieldName), "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        chvGroupField.Checked = false;
+                        break;
+                    }
+
+                    if (((FieldOptions)lvi.Tag).ParentReference)
+                    {
+                        MessageBox.Show("Группировка невозможна в иерархической таблице!".F(((FieldOptions)lvi.Tag).FieldName), "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        chvGroupField.Checked = false;
+                        break;
+                    }
+                }
             }
         }
     }

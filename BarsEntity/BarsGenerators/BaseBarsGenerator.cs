@@ -16,9 +16,7 @@ namespace Barsix.BarsEntity.BarsGenerators
         protected EntityOptions _options;
         protected string _projectFolder;
 
-        public List<string> DontForget = new List<string>();
-
-        public virtual void Generate(Project project, EntityOptions options)
+        public virtual void Generate(Project project, EntityOptions options, GeneratedFragments fragments)
         {
             _project = project;
             _options = options;

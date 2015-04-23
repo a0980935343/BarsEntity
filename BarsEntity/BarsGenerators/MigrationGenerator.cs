@@ -11,9 +11,9 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class MigrationGenerator : BaseBarsGenerator
     {
-        public override void Generate(EnvDTE.Project project, EntityOptions options)
+        public override void Generate(EnvDTE.Project project, EntityOptions options, GeneratedFragments fragments)
         {
-            base.Generate(project, options);
+            base.Generate(project, options, fragments);
 
             string folderVersion = "Version_{0}".F(options.MigrationVersion);
 

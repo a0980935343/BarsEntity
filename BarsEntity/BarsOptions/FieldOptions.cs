@@ -48,6 +48,8 @@ namespace Barsix.BarsEntity.BarsOptions
 
         public string DynamicFilterType;
 
+        public bool GroupField;
+
         internal void SetRelatedTypes()
         {
             if (BarsGenerators.BaseBarsGenerator.IsBasicType(TypeName))

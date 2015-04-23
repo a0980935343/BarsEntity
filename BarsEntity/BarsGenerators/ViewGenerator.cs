@@ -13,9 +13,9 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class ViewGenerator : BaseBarsGenerator
     {
-        public override void Generate(Project project, EntityOptions options)
+        public override void Generate(Project project, EntityOptions options, GeneratedFragments fragments)
         {
-            base.Generate(project, options);
+            base.Generate(project, options, fragments);
 
             ControllerOptions controllerOpts = options.Controller;
             if (controllerOpts == null)
@@ -73,8 +73,9 @@ namespace Barsix.BarsEntity.BarsGenerators
                     if (prop.Name == "BuildAction")
                         prop.Value = (int)3;
                 }
-                DontForget.Add("ResourceManifect.cs/ResourceManifest/BaseInit");
-                DontForget.Add("container.Add(\"scripts/modules/{3}.{1}.js\", \"{0}.dll/{0}.Views.{2}{1}.js\");".F(project.Name, options.ClassName, options.IsDictionary ? "Dict." : "", options.View.Namespace));
+
+                fragments.AddLines("ResourceManifect.cs", this, new List<string> { 
+                    "container.Add(\"scripts/modules/{3}.{1}.js\", \"{0}.dll/{0}.Views.{2}{1}.js\");".F(project.Name, options.ClassName, options.IsDictionary ? "Dict." : "", options.View.Namespace)} );
             }
             else
             {
@@ -113,8 +114,8 @@ namespace Barsix.BarsEntity.BarsGenerators
 
                 var pi = CreateFile("ViewModels\\" + (options.IsDictionary ? "Dict\\" : "") + options.ClassName + "ViewModel.cs", ns.ToString());
                 
-                DontForget.Add("ResourceManifect.cs/ResourceManifest/BaseInit");
-                DontForget.Add("container.Add(\"scripts/modules/{0}.{1}.js\", new GridPageView<{1}ViewModel>());".F(project.Name, options.ClassName, options.IsDictionary ? "Dict." : ""));
+                fragments.AddLines("ResourceManifect.cs", this, new List<string> { 
+                    "container.Add(\"scripts/modules/{0}.{1}.js\", new GridPageView<{1}ViewModel>());".F(project.Name, options.ClassName, options.IsDictionary ? "Dict." : "")});
             }
         }
 
@@ -146,7 +147,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             
             var storeFields = new JsArray() { Name = "fields", Inline = true };
             storeFields.AddString("Id");
-            foreach (var field in options.Fields.Where(x => x.DisplayName != "" && !x.Collection))
+            foreach (var field in options.Fields.Where(x => x.DisplayName != "" && !x.Collection && !x.ParentReference))
                 storeFields.AddString(field.FieldName);
 
             if (options.Signable)
@@ -154,7 +155,7 @@ namespace Barsix.BarsEntity.BarsGenerators
 
             if (options.View.TreeGrid)
             {
-                gridApply.AddString("master_column_id", "column" + options.Fields.First(x => x.DisplayName != "" && !x.Collection).FieldName);
+                gridApply.AddString("master_column_id", "column" + options.Fields.First(x => x.DisplayName != "" && !x.Collection && !x.GroupField).FieldName);
 
                 storeParams.AddBoolean("autoLoad", true);
                 storeParams.AddBoolean("remoteSort", true);
@@ -203,6 +204,22 @@ namespace Barsix.BarsEntity.BarsGenerators
             }
             else
             {
+                var groupField = options.Fields.FirstOrDefault(x => x.GroupField);
+                if (groupField != null)
+                {
+                    storeParams.AddString("groupField", groupField.FieldName);
+
+                    gridApply.Add(new JsInstance
+                    {
+                        Name = "view",
+                        Function = "Ext3.grid.GroupingView",
+                        Inline = true,
+                        Params = new List<JsProperty>{ new JsObject{
+                            Inline = true,
+                            Properties = new List<JsProperty>{ JsScalar.Boolean("hideGroupedColumn", true) }
+                        }}
+                    });
+                }
                 storeParams.Add(storeFields);
                 storeParams.AddScalar("controllerName", "config.controllerName");
             }
@@ -229,7 +246,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 columns.Values.Add(signColumn);
             }
 
-            foreach (var field in options.Fields.Where(x => x.DisplayName != "" && !x.Collection))
+            foreach (var field in options.Fields.Where(x => x.DisplayName != "" && !x.Collection && !x.ParentReference && !x.GroupField))
             {
                 if (options.Stateful && field.FieldName == "State")
                 {
@@ -288,7 +305,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             gridApply.Add(tbarButtons);
 
             var filter = new JsObject() { Name = "filter" };
-            foreach (var field in options.Fields.Where(x => x.DisplayName != "" && !x.Collection))
+            foreach (var field in options.Fields.Where(x => x.DisplayName != "" && !x.Collection && !x.ParentReference && !x.GroupField))
             {
                 var fil = new JsObject() { Name = field.FieldName, Inline = true };
                 if (options.Stateful && field.FieldName == "State")
@@ -316,7 +333,8 @@ namespace Barsix.BarsEntity.BarsGenerators
 
             if (options.View.SelectionModel.StartsWith("Checkbox"))
                 getGridConfig.Add(new JsInstance { Name = "sm", Function = "Ext3.grid." + options.View.SelectionModel });
-            
+
+            getGridConfig.Add("var thisGrid = this;");
             getGridConfig.Add(gridConfig);
 
             var extendParams = new JsObject();
@@ -447,6 +465,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             var init = new JsFunction() { Name = "initPage" };
             init.Add("ns.Page.superclass.initPage.call(this);");
             init.Add("");
+            init.Add("var thisPage = this;");
 
             var addMain = new JsFunctionCall { Function = "this.addMainComponent" };
             addMain.Params.Add(new JsScalar() { Value = "'grid'" });

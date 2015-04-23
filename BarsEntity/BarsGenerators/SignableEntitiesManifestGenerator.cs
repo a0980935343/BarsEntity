@@ -13,9 +13,9 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class SignableEntitiesManifestGenerator : BaseBarsGenerator
     {
-        public override void Generate(Project project, EntityOptions options)
+        public override void Generate(Project project, EntityOptions options, GeneratedFragments fragments)
         {
-            base.Generate(project, options);
+            base.Generate(project, options, fragments);
 
             if (!FileExists("SignableEntitiesManifest.cs"))
             {
@@ -42,20 +42,18 @@ namespace Barsix.BarsEntity.BarsGenerators
                 getAllInfo.Body.Add("return new[]");
                 getAllInfo.Body.Add("{");
                 getAllInfo.Body.Add("    new SignableEntityInfo({0}Id, \"{1}\", typeof({0}))".F(options.ClassName, options.DisplayName));
-                getAllInfo.Body.Add("}");
+                getAllInfo.Body.Add("};");
                 cls.AddMethod(getAllInfo);
 
                 ns.NestedValues.Add(cls);
 
                 CreateFile("SignableEntitiesManifest.cs", ns.ToString());
                 
-                DontForget.Add("Module.cs/Module/Install");
-                DontForget.Add("Container.Register(Component.For<ISignableEntitiesManifest>().ImplementedBy<SignableEntitiesManifest>().LifestyleTransient());");
+                fragments.AddLines("Module.cs", this, new List<string> { 
+                    "Container.Register(Component.For<ISignableEntitiesManifest>().ImplementedBy<SignableEntitiesManifest>().LifestyleTransient());"});
             }
             else
             {
-                DontForget.Add("SignableEntitiesManifest.cs");
-
                 var field = (new FieldInfo
                 {
                     Name = options.ClassName + "Id",
@@ -64,10 +62,10 @@ namespace Barsix.BarsEntity.BarsGenerators
                 })
                 .Public.Const.Generate(0).First();
 
-                DontForget.Add(field);
-                DontForget.Add("");
-                DontForget.Add("SignableEntitiesManifest.cs/GetAllInfo");
-                DontForget.Add("    new SignableEntityInfo({0}Id, \"{1}\", typeof({0}))".F(options.ClassName, options.DisplayName));
+                fragments.AddLines("SignableEntitiesManifest.cs", this, new List<string> { 
+                    field, 
+                    "", 
+                    "    new SignableEntityInfo({0}Id, \"{1}\", typeof({0}))".F(options.ClassName, options.DisplayName) });
             }
         }
     }

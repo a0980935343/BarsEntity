@@ -13,9 +13,9 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class DomainServiceGenerator : BaseBarsGenerator
     {
-        public override void Generate(Project project, EntityOptions options)
+        public override void Generate(Project project, EntityOptions options, GeneratedFragments fragments)
         {
-            base.Generate(project, options);
+            base.Generate(project, options, fragments);
 
             CheckFolder("DomainServices");
 
@@ -226,8 +226,8 @@ namespace Barsix.BarsEntity.BarsGenerators
                 cls.AddMethod(mi);
             }
 
-            DontForget.Add("Module.cs/Module/Install");
-            DontForget.Add("Container.RegisterDomain<{0}DomainService>();".F(options.ClassName));
+            fragments.AddLines("Module.cs", this, new List<string> { 
+                "Container.RegisterDomain<{0}DomainService>();".F(options.ClassName)});
 
             var pi = CreateFile("DomainServices\\" + options.ClassName + "DomainService.cs", ns.ToString());
         }

@@ -11,9 +11,9 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class InterceptorGenerator : BaseBarsGenerator
     {
-        public override void Generate(Project project, EntityOptions options)
+        public override void Generate(Project project, EntityOptions options, GeneratedFragments fragments)
         {
-            base.Generate(project, options);
+            base.Generate(project, options, fragments);
 
             CheckFolder("DomainServices");
 
@@ -50,8 +50,8 @@ namespace Barsix.BarsEntity.BarsGenerators
                 cls.AddMethod(action);
             }
 
-            DontForget.Add("Module.cs/Module/Install");
-            DontForget.Add("Container.Register(Component.For<IDomainServiceInterceptor<{0}>>().ImplementedBy<{0}DomainServiceInterceptor>().LifeStyle.Transient);".F(options.ClassName));
+            fragments.AddLines("Module.cs", this, new List<string> { 
+                "Container.Register(Component.For<IDomainServiceInterceptor<{0}>>().ImplementedBy<{0}DomainServiceInterceptor>().LifeStyle.Transient);".F(options.ClassName)});
 
             var pi = CreateFile("DomainServices\\" + options.ClassName + "DomainServiceInterceptor.cs", ns.ToString());
         }

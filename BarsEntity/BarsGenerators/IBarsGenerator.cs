@@ -4,9 +4,10 @@ using EnvDTE;
 namespace Barsix.BarsEntity.BarsGenerators
 {
     using BarsOptions;
+    using CodeGeneration;
 
     public interface IBarsGenerator
     {
-        void Generate(Project project, EntityOptions options);
+        void Generate(Project project, EntityOptions options, GeneratedFragments fragments);
     }
 }

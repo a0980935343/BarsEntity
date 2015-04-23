@@ -13,9 +13,9 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class ControllerGenerator : BaseBarsGenerator
     {
-        public override void Generate(Project project, EntityOptions options)
+        public override void Generate(Project project, EntityOptions options, GeneratedFragments fragments)
         {
-            base.Generate(project, options);
+            base.Generate(project, options, fragments);
 
             CheckFolder("Controllers" + (options.IsDictionary ? "\\Dict" : ""));
 
@@ -26,6 +26,8 @@ namespace Barsix.BarsEntity.BarsGenerators
             };
             ns.NestedValues.Add(cls);
 
+            if (options.Fields.Any(x => x.TypeName == "DateTime"))
+                ns.OuterUsing.Add("System");
             ns.OuterUsing.Add("System.Linq");
             ns.OuterUsing.Add("System.Web.Mvc");
             
@@ -145,8 +147,8 @@ namespace Barsix.BarsEntity.BarsGenerators
 
             var pi = CreateFile("Controllers\\" + (options.IsDictionary ? "Dict\\" : "") + options.Controller.Name + "Controller.cs", ns.ToString());
 
-            DontForget.Add("Module.cs/Module/Install");
-            DontForget.Add("Container.RegisterController<{0}Controller>();".F(options.Controller.Name));
+            fragments.AddLines("Module.cs", this, new List<string> { 
+                "Container.RegisterController<{0}Controller>();".F(options.Controller.Name)});
         }
     }
 }

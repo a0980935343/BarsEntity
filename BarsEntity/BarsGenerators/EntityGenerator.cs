@@ -13,9 +13,9 @@ namespace Barsix.BarsEntity.BarsGenerators
     /// <summary>  </summary>
     public class EntityGenerator : BaseBarsGenerator
     {
-        public override void Generate(Project project, EntityOptions options)
+        public override void Generate(Project project, EntityOptions options, GeneratedFragments fragments)
         {
-            base.Generate(project, options); 
+            base.Generate(project, options, fragments); 
 
             CheckFolder("Entities" + (options.IsDictionary ? "\\Dict" : ""));
 

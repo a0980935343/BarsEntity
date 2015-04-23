@@ -13,9 +13,9 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class DynamicFilterGenerator : BaseBarsGenerator
     {
-        public override void Generate(Project project, EntityOptions options)
+        public override void Generate(Project project, EntityOptions options, GeneratedFragments fragments)
         {
-            base.Generate(project, options);
+            base.Generate(project, options, fragments);
 
             CheckFolder("Domain\\DynamicFilterableEntities");
 
@@ -85,7 +85,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                     entityAttributes.Body.Add("                selectWindowConfig = new");
                     entityAttributes.Body.Add("                {");
                     entityAttributes.Body.Add("                    selectWindowXType = \"mosksmultiselectwindow\",");
-                    entityAttributes.Body.Add("                    gridConfig  = new { columns = new[] { new { header = \"Наименование\", dataIndex = \"" + field.TextProperty + "\" } } },");
+                    entityAttributes.Body.Add("                    gridConfig  = new { columns = new[] { new { header = \""+field.DisplayName+"\", dataIndex = \"" + field.TextProperty + "\" } } },");
                     entityAttributes.Body.Add("                    storeConfig = new { fields  = new[] { \"Id\", \""+ field.TextProperty +"\" }, controllerName = \"" + field.TypeName + "\", controllerAction = \"List\" }");
                     entityAttributes.Body.Add("                },");
                     entityAttributes.Body.Add("                ActionGetDisplayNamesByIds = \"GetDisplayNamesByIds\"");
@@ -105,11 +105,11 @@ namespace Barsix.BarsEntity.BarsGenerators
             cls.AddProperty(displayEntityName);
             cls.AddMethod(entityAttributes);
 
-            DontForget.Add("Module.cs/Module/Install");
-            DontForget.Add("Container.Register(Component.For<IDynamicFilterable>().ImplementedBy<Filterable{0}>().Named(\"{0}\"));".F(options.ClassName));
-            DontForget.Add("Container.Register(Component.For<IDomainServiceReadInterceptor<{0}>>().ImplementedBy<DynamicFilterDomainServiceReadInterceptor<{0}>>().LifeStyle.Transient);".F(options.ClassName));
-            DontForget.Add("Container.Register(Component.For<IDomainServiceReadInterceptor<{0}>>().ImplementedBy<RuleLimitingAccessDomainServiceReadInterceptor<{0}>>().LifeStyle.Transient);".F(options.ClassName));
-
+            fragments.AddLines("Module.cs", this, new List<string>{ 
+                "Container.Register(Component.For<IDynamicFilterable>().ImplementedBy<Filterable{0}>().Named(\"{0}\"));".F(options.ClassName),
+                "Container.Register(Component.For<IDomainServiceReadInterceptor<{0}>>().ImplementedBy<DynamicFilterDomainServiceReadInterceptor<{0}>>().LifeStyle.Transient);".F(options.ClassName),
+                "Container.Register(Component.For<IDomainServiceReadInterceptor<{0}>>().ImplementedBy<RuleLimitingAccessDomainServiceReadInterceptor<{0}>>().LifeStyle.Transient);".F(options.ClassName)
+            });
 
             var pi = CreateFile("Domain\\DynamicFilterableEntities\\Filterable" + options.ClassName + ".cs", ns.ToString());
         }

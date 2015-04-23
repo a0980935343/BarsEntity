@@ -156,6 +156,7 @@
     <Compile Include="CodeGeneration\CSharp\NamespaceInfo.cs" />
     <Compile Include="CodeGeneration\CSharp\PropertyInfo.cs" />
     <Compile Include="CodeGeneration\CSharp\FieldInfo.cs" />
+    <Compile Include="CodeGeneration\GeneratedFragments.cs" />
     <Compile Include="CodeGeneration\JavaScript\ExtJsMetadata.cs" />
     <Compile Include="BarsGenerators\MigrationGenerator.cs" />
     <Compile Include="BarsGenerators\NavigationGenerator.cs" />
