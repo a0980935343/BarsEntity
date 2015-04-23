@@ -74,7 +74,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                         prop.Value = (int)3;
                 }
 
-                fragments.AddLines("ResourceManifect.cs", this, new List<string> { 
+                fragments.AddLines("ResourceManifest.cs", this, new List<string> { 
                     "container.Add(\"scripts/modules/{3}.{1}.js\", \"{0}.dll/{0}.Views.{2}{1}.js\");".F(project.Name, options.ClassName, options.IsDictionary ? "Dict." : "", options.View.Namespace)} );
             }
             else
@@ -114,7 +114,7 @@ namespace Barsix.BarsEntity.BarsGenerators
 
                 var pi = CreateFile("ViewModels\\" + (options.IsDictionary ? "Dict\\" : "") + options.ClassName + "ViewModel.cs", ns.ToString());
                 
-                fragments.AddLines("ResourceManifect.cs", this, new List<string> { 
+                fragments.AddLines("ResourceManifest.cs", this, new List<string> { 
                     "container.Add(\"scripts/modules/{0}.{1}.js\", new GridPageView<{1}ViewModel>());".F(project.Name, options.ClassName, options.IsDictionary ? "Dict." : "")});
             }
         }
@@ -280,7 +280,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                     {
                         col.AddScalar("renderer", "function (value) { return !!value ? 'да' : 'нет'; }");
                     }
-                    else if (BaseBarsGenerator.IsReference(field))
+                    else if (field.IsReference())
                     {
                         col.AddScalar("renderer", "function (value) {{ if (!value) return ''; return value.{0}; }}".F(field.TextProperty));
                     }

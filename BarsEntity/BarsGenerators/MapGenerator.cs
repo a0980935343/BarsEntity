@@ -58,7 +58,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 if (options.BaseClass == "NamedBaseEntity" && field.FieldName == "Name")
                     continue;
 
-                if (IsBasicType(field.TypeName))
+                if (field.IsBasicType())
                     ctor.Body.Add("Map(x => x.{0}, \"{1}\", {2}{3});".F(field.FieldName, field.ColumnName, (!field.Nullable).ToString().ToLower(), field.TypeName == "string" && field.Length >0 ? ", " + field.Length.ToString() : ""));
                 else
                 {

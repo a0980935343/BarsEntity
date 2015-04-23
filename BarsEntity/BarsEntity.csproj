@@ -185,11 +185,11 @@
     <Compile Include="DontForgetThis.Designer.cs">
       <DependentUpon>DontForgetThis.cs</DependentUpon>
     </Compile>
-    <Compile Include="EntityOptionsDialog.cs">
+    <Compile Include="EntityOptionsWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EntityOptionsDialog.Designer.cs">
-      <DependentUpon>EntityOptionsDialog.cs</DependentUpon>
+    <Compile Include="EntityOptionsWindow.Designer.cs">
+      <DependentUpon>EntityOptionsWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Helpers\ProjectExt.cs" />
     <Compile Include="Guids.cs" />
@@ -214,8 +214,8 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="EntityOptionsDialog.resx">
-      <DependentUpon>EntityOptionsDialog.cs</DependentUpon>
+    <EmbeddedResource Include="EntityOptionsWindow.resx">
+      <DependentUpon>EntityOptionsWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VSPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>

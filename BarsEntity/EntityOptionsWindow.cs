@@ -18,9 +18,9 @@ namespace Barsix.BarsEntity
     using BarsGenerators;
     using CodeGeneration;
 
-    public partial class EntityOptionsDialog : Form
+    public partial class EntityOptionsWindow : Form
     {
-        public EntityOptionsDialog()
+        public EntityOptionsWindow()
         {
             InitializeComponent();
             Options = new EntityOptions();
@@ -181,6 +181,12 @@ namespace Barsix.BarsEntity
                 return;
             }
 
+            if (File.Exists(Path.Combine(Project.RootFolder(), "Migrations\\Version_{0}\\UpdateSchema.cs".F(Options.MigrationVersion))))
+            {
+                MessageBox.Show("Миграция с номером версии 'Version_{0}' уже существует! Измените версию.".F(Options.MigrationVersion), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             ConfirmCreationParts confirmDialog = new ConfirmCreationParts();
 
             confirmDialog.chEntity.Checked = true;
@@ -216,14 +222,8 @@ namespace Barsix.BarsEntity
                     generators.Add(new ViewGenerator());
 
                 if (confirmDialog.chMigration.Checked)
-                {
-                    if (File.Exists(Path.Combine(Project.RootFolder(), "Migrations\\{0}\\UpdateSchema.cs".F(Options.MigrationVersion))))
-                    {
-                        MessageBox.Show("Миграция с этим номером версии уже существует! Измените версию", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        return;
-                    }
                     generators.Add(new MigrationGenerator());
-                }
+                
                 if (Options.Navigation != null)
                     generators.Add(new NavigationGenerator());
 
@@ -398,7 +398,7 @@ namespace Barsix.BarsEntity
                 lvi.Tag = fopt;
 
                 lvi = lvView.Items.Add(fopt.FieldName);
-                lvi.SubItems.Add("");
+                lvi.SubItems.Add(fopt.ViewType + " / " + fopt.ViewColumnType);
                 lvi.Tag = fopt;
 
 
@@ -411,6 +411,31 @@ namespace Barsix.BarsEntity
                 cheNullable.Checked = false;
                 cheNullable.Enabled = true;
                 cheList.Checked = false;
+            }
+            UpdateListViews();
+        }
+
+        private void UpdateListViews()
+        {
+            foreach (ListViewItem lvi in lvView.Items)
+            {
+                FieldOptions fopt = (FieldOptions)lvi.Tag;
+                lvi.Text = fopt.FieldName;
+                lvi.SubItems[1].Text = fopt.ViewType + " / " + (fopt.ViewType == "easselectfield" ? "renderer: " + fopt.TextProperty : fopt.ViewColumnType);
+            }
+
+            foreach (ListViewItem lvi in lvFields.Items)
+            {
+                FieldOptions fopt = (FieldOptions)lvi.Tag;
+                lvi.Text = fopt.FieldName;
+                lvi.SubItems[1].Text = fopt.FullTypeName;
+            }
+
+            foreach (ListViewItem lvi in lvMap.Items)
+            {
+                FieldOptions fopt = (FieldOptions)lvi.Tag;
+                lvi.Text = fopt.FieldName;
+                lvi.SubItems[1].Text = fopt.ColumnName;
             }
         }
 
@@ -472,6 +497,7 @@ namespace Barsix.BarsEntity
                 lviMap.SubItems[1].Text = fopt.ColumnName;
                 lviMap.Tag = fopt;
             }
+            UpdateListViews();
         }
 
         private void tabPage6_Enter(object sender, EventArgs e)
@@ -512,9 +538,10 @@ namespace Barsix.BarsEntity
                     fopt.TextProperty = tbvTextProperty.Text;
                 }
 
-                lviView.SubItems[1].Text = fopt.DisplayName;
+                lviView.SubItems[1].Text = fopt.ViewType + " / " + fopt.ViewColumnType;
                 lviView.Tag = fopt;
             }
+            UpdateListViews();
         }
 
         public ListViewItem lviView;

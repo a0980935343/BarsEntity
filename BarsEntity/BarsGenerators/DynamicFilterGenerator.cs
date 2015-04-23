@@ -76,7 +76,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 entityAttributes.Body.Add("        Name = \"{0}\",".F(field.DisplayName));
                 entityAttributes.Body.Add("        TypeId = {0}EntityAttributeType.UniqueId,".F(field.DynamicFilterType));
 
-                if (BaseBarsGenerator.IsReference(field))
+                if (field.IsReference())
                 { 
                     entityAttributes.Body.Add("        UserParameter = new PersistentObjectUserParameter");
                     entityAttributes.Body.Add("        {");
@@ -95,7 +95,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 }
 
 
-                entityAttributes.Body.Add("        InitExpression = ((Expression<Func<{0}, {1}>>) (x => x.{2}{3}))".F(options.ClassName, BaseBarsGenerator.IsReference(field) ? "long" : field.FullTypeName, field.FieldName, BaseBarsGenerator.IsReference(field) ? ".Id" : ""));
+                entityAttributes.Body.Add("        InitExpression = ((Expression<Func<{0}, {1}>>) (x => x.{2}{3}))".F(options.ClassName, field.IsReference() ? "long" : field.FullTypeName, field.FieldName, field.IsReference() ? ".Id" : ""));
                 entityAttributes.Body.Add("    }}{0}".F(i < fields.Count-1 ? "," : "" ));
             }
             entityAttributes.Body.Add("};");

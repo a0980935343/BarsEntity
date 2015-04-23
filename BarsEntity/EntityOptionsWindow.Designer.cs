@@ -1,6 +1,6 @@
 ﻿namespace Barsix.BarsEntity
 {
-    partial class EntityOptionsDialog
+    partial class EntityOptionsWindow
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntityOptionsDialog));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntityOptionsWindow));
             this.label1 = new System.Windows.Forms.Label();
             this.tbEntityName = new System.Windows.Forms.TextBox();
             this.btnOk = new System.Windows.Forms.Button();

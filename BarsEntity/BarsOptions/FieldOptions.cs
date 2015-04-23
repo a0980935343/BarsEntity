@@ -52,7 +52,7 @@ namespace Barsix.BarsEntity.BarsOptions
 
         internal void SetRelatedTypes()
         {
-            if (BarsGenerators.BaseBarsGenerator.IsBasicType(TypeName))
+            if (this.IsBasicType())
             {
                 switch (TypeName)
                 {
@@ -72,13 +72,13 @@ namespace Barsix.BarsEntity.BarsOptions
                     case "decimal": ViewType = "eascurrencyfield"; ViewColumnType = "eascurrencycolumn"; DynamicFilterType = "Decimal"; break;
                 }
             }
-            else if (BarsGenerators.BaseBarsGenerator.IsReference(this))
+            else if (this.IsReference())
             {
                 ViewType = "easselectfield";
                 DynamicFilterType = "LongSet";
             }
         }
 
-        public string FullTypeName { get { return Collection ? "IList<{0}>".F(TypeName) : TypeName + (Nullable && BaseBarsGenerator.IsBasicType(TypeName) && TypeName != "string" ? "?" : ""); } }
+        public string FullTypeName { get { return Collection ? "IList<{0}>".F(TypeName) : TypeName + (Nullable && this.IsBasicType() && TypeName != "string" ? "?" : ""); } }
     }
 }

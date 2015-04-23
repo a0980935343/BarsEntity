@@ -58,11 +58,11 @@ namespace Barsix.BarsEntity.BarsGenerators
                     {
                         var field = options.Fields[i];
                         string ind = "    ";
-                        if (IsReference(field))
+                        if (field.IsReference())
                         {
                             up.Body.Add(ind + "new RefColumn(\"{0}\", \"{1}\", \"{2}\", \"ID\")".F(field.ColumnName, field.Index, field.ReferenceTable) + (i < options.Fields.Count - 1 ? "," : ""));
                         }
-                        else if (IsBasicType(field.TypeName))
+                        else if (field.IsBasicType())
                         {
                             string col = "new Column(\"{0}\", ".F(field.ColumnName);
                             string dbType = "DbType.";
