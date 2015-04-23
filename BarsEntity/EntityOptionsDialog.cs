@@ -365,10 +365,10 @@ namespace Barsix.BarsEntity
                 }
                 else
                 {
-                    fopt.ColumnName = tbeName.Text.CamelToSnake() + (!BaseBarsGenerator.IsBasicType(tbeType.Text) ? "_ID" : "");
+                    fopt.ColumnName = tbeName.Text.CamelToSnake() + (!fopt.IsBasicType() ? "_ID" : "");
                 }
 
-                if (BaseBarsGenerator.IsReference(fopt))
+                if (fopt.IsReference())
                 {
                     if (fopt.TypeName == "FileInfo")
                         fopt.ReferenceTable = "B4_FILE_INFO";
@@ -436,13 +436,13 @@ namespace Barsix.BarsEntity
                     tbmLength.Text = fopt.Length.ToString();
                 }
                 tbmLength.Visible = fopt.TypeName == "string";
-                
-                if (BaseBarsGenerator.IsReference(fopt))
+
+                if (fopt.IsReference())
                 {
                     tbmForeignTable.Text = fopt.ReferenceTable;
                     tbmIndex.Text = fopt.Index;
                 }
-                tbmForeignTable.Visible = tbmIndex.Visible = BaseBarsGenerator.IsReference(fopt);
+                tbmForeignTable.Visible = tbmIndex.Visible = fopt.IsReference();
 
                 cheNullable.Checked = fopt.Nullable;
             }
@@ -454,7 +454,7 @@ namespace Barsix.BarsEntity
             {
                 FieldOptions fopt = (FieldOptions)lviMap.Tag;
                 fopt.ColumnName = tbmColumn.Text;
-                if (BaseBarsGenerator.IsReference(fopt))
+                if (fopt.IsReference())
                 {
                     fopt.ReferenceTable = tbmForeignTable.Text;
                     fopt.Index = tbmIndex.Text;
@@ -507,7 +507,7 @@ namespace Barsix.BarsEntity
                 fopt.DynamicFilter = chvDynamicField.Checked;
                 fopt.GroupField = chvGroupField.Checked;
 
-                if (BaseBarsGenerator.IsReference(fopt))
+                if (fopt.IsReference())
                 {
                     fopt.TextProperty = tbvTextProperty.Text;
                 }
@@ -532,7 +532,7 @@ namespace Barsix.BarsEntity
                 chvGroupField.Checked = fopt.GroupField;
 
                 tbvTextProperty.Text = fopt.TextProperty;
-                tbvTextProperty.Visible = BaseBarsGenerator.IsReference(fopt);
+                tbvTextProperty.Visible = fopt.IsReference();
             }
         }
 

@@ -45,16 +45,6 @@ namespace Barsix.BarsEntity.BarsGenerators
             return _project.ProjectItems.AddFromFile(fullPath);
         }
 
-        public static bool IsBasicType(string type)
-        {
-            List<string> types = new List<string>() { "int", "long", "string", "DateTime", "bool", "short", "byte" };
-
-            return types.Contains(type);
-        }
-        
-        public static bool IsReference(FieldOptions opts)
-        {
-            return !IsBasicType(opts.TypeName) && !opts.Collection;
-        }
+       
     }
 }

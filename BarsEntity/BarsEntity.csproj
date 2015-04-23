@@ -191,11 +191,12 @@
     <Compile Include="EntityOptionsDialog.Designer.cs">
       <DependentUpon>EntityOptionsDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="Extensions\ProjectExt.cs" />
+    <Compile Include="Helpers\ProjectExt.cs" />
     <Compile Include="Guids.cs" />
     <Compile Include="BarsEntityPackage.cs" />
+    <Compile Include="Helpers\TypeHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Extensions\StringExt.cs" />
+    <Compile Include="Helpers\StringExt.cs" />
     <Content Include="Resources\bars-icon.png">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
