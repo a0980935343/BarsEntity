@@ -17,6 +17,11 @@ namespace Barsix.BarsEntity.BarsGenerators
         protected string _projectFolder;
         protected List<string> _knownTypes = new List<string>();
 
+        public BaseBarsGenerator()
+        {
+            ClassList = new List<string>();
+        }
+
         public virtual GeneratedFile Generate(Project project, EntityOptions options, GeneratedFragments fragments)
         {
             _project = project;
@@ -34,7 +39,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             string clsName = ClassList.FirstOrDefault(x => x.EndsWith("." + type));
             if (!string.IsNullOrEmpty(clsName))
                 return clsName.Substring(0, clsName.Length - type.Length - 1);
-            return null;
+            return "";
         }
 
 

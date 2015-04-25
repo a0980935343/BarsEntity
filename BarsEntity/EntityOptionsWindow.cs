@@ -548,7 +548,7 @@ namespace Barsix.BarsEntity
 
         private void UpdateEditors()
         {
-            if (_project == null)
+            if (_project == null || _preventMessages)
                 return;
             var options = ComposeOptions();
 
@@ -926,6 +926,23 @@ namespace Barsix.BarsEntity
         private void RestoreOptions(EntityOptions options)
         {
             _preventMessages = true;
+
+            foreach (var field in options.Fields)
+            {
+                var lvif = lvFields.Items.Add(field.FieldName);
+                lvif.Tag = field;
+                lvif.SubItems.Add("");
+
+                var lviv = lvView.Items.Add(field.FieldName);
+                lviv.Tag = field;
+                lviv.SubItems.Add("");
+                lviv.SubItems.Add("");
+
+                var lvim = lvMap.Items.Add(field.FieldName);
+                lvim.Tag = field;
+                lvim.SubItems.Add("");
+            }
+
             options.Map(tbEntityName, x => x.ClassName);
             options.Map(chDictionary, x => x.IsDictionary);
             options.Map(tbTableName, x => x.TableName);
@@ -986,25 +1003,11 @@ namespace Barsix.BarsEntity
             options.Map(chStateful, x => x.Stateful);
             options.Map(chmLogMap, x => x.AuditLogMap);
 
-            foreach (var field in options.Fields)
-            {
-                var lvif = lvFields.Items.Add(field.FieldName);
-                lvif.Tag = field;
-                lvif.SubItems.Add("");
-
-                var lviv = lvView.Items.Add(field.FieldName);
-                lviv.Tag = field;
-                lviv.SubItems.Add("");
-                lviv.SubItems.Add("");
-
-                var lvim = lvMap.Items.Add(field.FieldName);
-                lvim.Tag = field;
-                lvim.SubItems.Add("");
-            }
+            _preventMessages = false;
             UpdateListViews();
             UpdateEditors();
 
-            _preventMessages = false;
+            
         }
 
         private bool _preventMessages = false;

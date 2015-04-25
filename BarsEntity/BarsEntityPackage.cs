@@ -93,7 +93,7 @@ namespace Barsix.BarsEntity
                 throw new ArgumentException("Project not found!");
             }
 
-            GenerationManager manager = new GenerationManager(project);
+            GenerationManager manager = new GenerationManager(project, false);
             manager.AddGenerator(new MigrationGenerator());
 
             EntityOptions Options = new EntityOptions ();

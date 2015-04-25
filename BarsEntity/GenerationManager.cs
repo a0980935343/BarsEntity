@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Threading.Tasks;
 
 using EnvDTE;
 
@@ -22,12 +23,20 @@ namespace Barsix.BarsEntity
 
         private GeneratedFragments _fragments;
 
-        private List<string> _classList;
+        private List<string> _classList = new List<string>();
 
-        public GenerationManager(Project project)
+        public GenerationManager(Project project, bool classSearching = true)
         {
             _project = project;
-            _classList = project.GetClassList("Bars");
+
+            if (classSearching)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    _classList = _project.GetClassList("Bars");
+                    _generators.ForEach(g => g.ClassList = _classList);
+                });
+            }
         }
 
         private void AddFile(IBarsGenerator generator, GeneratedFile file)
