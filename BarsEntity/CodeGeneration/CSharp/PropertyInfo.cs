@@ -13,12 +13,12 @@ namespace Barsix.BarsEntity.CodeGeneration
         public List<string> Getter;
         public List<string> Setter;
 
-        public PropertyInfo Public { get { return (PropertyInfo)base.Public; } }
-        public PropertyInfo Protected { get { return (PropertyInfo)base.Protected; } }
-        public PropertyInfo Private { get { return (PropertyInfo)base.Private; } }
+        public new PropertyInfo Public { get { return (PropertyInfo)base.Public; } }
+        public new PropertyInfo Protected { get { return (PropertyInfo)base.Protected; } }
+        public new PropertyInfo Private { get { return (PropertyInfo)base.Private; } }
 
-        public PropertyInfo Virtual { get { return (PropertyInfo)base.Virtual; } }
-        public PropertyInfo Override { get { return (PropertyInfo)base.Override; } }
+        public new PropertyInfo Virtual { get { return (PropertyInfo)base.Virtual; } }
+        public new PropertyInfo Override { get { return (PropertyInfo)base.Override; } }
         public PropertyInfo Nullable { get { IsNullable = true; return this; } }
         public PropertyInfo Auto { get { AutoProperty = true; return this; } }
         public PropertyInfo Get(string modifier = "") { Getter = new List<string> { modifier }; return this; }

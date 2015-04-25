@@ -16,12 +16,12 @@ namespace Barsix.BarsEntity.CodeGeneration
             Type = "void";
         }
 
-        public MethodInfo Public { get { return (MethodInfo)base.Public; } }
-        public MethodInfo Protected { get { return (MethodInfo)base.Protected; } }
-        public MethodInfo Private { get { return (MethodInfo)base.Private; } }
+        public new MethodInfo Public { get { return (MethodInfo)base.Public; } }
+        public new MethodInfo Protected { get { return (MethodInfo)base.Protected; } }
+        public new MethodInfo Private { get { return (MethodInfo)base.Private; } }
 
-        public MethodInfo Virtual { get { return (MethodInfo)base.Virtual; } }
-        public MethodInfo Override { get { return (MethodInfo)base.Override; } }
+        public new MethodInfo Virtual { get { return (MethodInfo)base.Virtual; } }
+        public new MethodInfo Override { get { return (MethodInfo)base.Override; } }
 
         public override List<string> Generate(int indent)
         {

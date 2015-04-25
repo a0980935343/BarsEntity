@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Xml.Serialization;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Threading.Tasks;
@@ -59,8 +60,6 @@ namespace Barsix.BarsEntity
 
         private Dictionary<string, FastColoredTextBox> _codeEditors = new Dictionary<string, FastColoredTextBox>();
 
-        private IEnumerable<string> _knownTypes = new List<string> { "BaseEntity" };
-
         private FastColoredTextBox CreateEditor(TabPage tab, string name)
         {
             var editor = new FastColoredTextBox();
@@ -76,6 +75,7 @@ namespace Barsix.BarsEntity
             editor.ReadOnly = true;
             editor.CharHeight = 15;
             editor.CharWidth = 8;
+            editor.Tag = new List<string>();
 
             TextStyle BlueStyle = new TextStyle(Brushes.Blue, null, FontStyle.Regular);
             TextStyle BoldStyle = new TextStyle(new SolidBrush(Color.FromArgb(43, 145, 175)), null, FontStyle.Regular);
@@ -108,7 +108,7 @@ namespace Barsix.BarsEntity
                     //attribute highlighting
                     e.ChangedRange.SetStyle(GrayStyle, @"^\s*(?<range>\[.+?\])\s*$", RegexOptions.Multiline);
                     //class name highlighting
-                    e.ChangedRange.SetStyle(BoldStyle, @"\b(" +string.Join("|", _knownTypes)+ @")\b");
+                    e.ChangedRange.SetStyle(BoldStyle, @"\b(" +string.Join("|", ((IEnumerable<string>)((FastColoredTextBox)s).Tag) )+ @")\b");
                     //keyword highlighting
                     e.ChangedRange.SetStyle(BlueStyle, @"\b(abstract|as|base|bool|break|byte|case|catch|char|checked|class|const|continue|decimal|default|delegate|do|double|else|enum|event|explicit|extern|false|finally|fixed|float|for|foreach|goto|if|implicit|in|int|interface|internal|is|lock|long|namespace|new|null|object|operator|out|override|params|private|protected|public|readonly|ref|return|sbyte|sealed|short|sizeof|stackalloc|static|string|struct|switch|this|throw|true|try|typeof|uint|ulong|unchecked|unsafe|ushort|using|virtual|void|volatile|while|add|alias|ascending|descending|dynamic|from|get|global|group|into|join|let|orderby|partial|remove|select|set|value|var|where|yield)\b|#region\b|#endregion\b");
 
@@ -292,13 +292,13 @@ namespace Barsix.BarsEntity
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (File.Exists(Path.Combine(_project.RootFolder(), "Migrations\\Version_{0}\\UpdateSchema.cs".F(options.MigrationVersion))))
             {
-                MessageBox.Show("Миграция с номером версии 'Version_{0}' уже существует! Измените версию.".F(options.MigrationVersion), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox("Миграция с номером версии 'Version_{0}' уже существует! Измените версию.".F(options.MigrationVersion), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -415,7 +415,7 @@ namespace Barsix.BarsEntity
         {
             if (string.IsNullOrWhiteSpace(tbeName.Text) || string.IsNullOrWhiteSpace(tbeType.Text))
             {
-                MessageBox.Show("Укажите тип и название свойства");
+                MessageBox("Укажите тип и название свойства", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
 
@@ -473,7 +473,7 @@ namespace Barsix.BarsEntity
                     {
                         var parts = _project.Name.Split('.');
 
-                        fopt.ReferenceTable = parts[1].ToUpper() + "_" + tbeType.Text.CamelToSnake();
+                        fopt.ReferenceTable = parts[parts.Count() > 1 ? 1 : 0].ToUpper() + "_" + tbeType.Text.CamelToSnake();
                     }
                     fopt.Index = tbEntityName.Text.CamelToSnake() + "__" + tbeName.Text.CamelToSnake();
                 }
@@ -531,8 +531,6 @@ namespace Barsix.BarsEntity
                 lvi.Text = fopt.FieldName;
                 lvi.SubItems[1].Text = fopt.ColumnName;
             }
-
-            UpdateEditors();
         }
 
         private void UpdateEditors()
@@ -557,7 +555,7 @@ namespace Barsix.BarsEntity
 
                 if (_manager.Files.Any(x => x.Key == gen.GetType() && x.Value != null))
                 {
-                    _knownTypes = gen.KnownTypes;
+                    _codeEditors[name].Tag = gen.KnownTypes;
                     _codeEditors[name].Text = string.Join(Environment.NewLine, _manager.Files.First(x => x.Key == gen.GetType()).Value.Body);
                 }
                 else
@@ -572,7 +570,7 @@ namespace Barsix.BarsEntity
             if (converted != "" && tbMapTable.Text == "")
             {
                 var parts = _project.Name.Split('.');
-                tbMapTable.Text = parts[1].ToUpper() + "_" + converted;
+                tbMapTable.Text = parts[ parts.Count() > 1 ? 1 : 0].ToUpper() + "_" + converted;
             }
             UpdateEditors();
         }
@@ -699,40 +697,36 @@ namespace Barsix.BarsEntity
         {
             if (chSignable.Checked && !_project.HasReference("Bars.B4.Modules.DigitalSignature"))
             {
-                MessageBox.Show("В проекте нет ссылки на B4.Modules.DigitalSignature!", "Зависимости", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox("В проекте нет ссылки на B4.Modules.DigitalSignature!", "Зависимости", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-            //UpdateEditors();
         }
 
         private void chmLogMap_CheckedChanged(object sender, EventArgs e)
         {
             if (chmLogMap.Checked && !_project.HasReference("Bars.B4.Modules.NHibernateChangeLog"))
             {
-                MessageBox.Show("В проекте нет ссылки на B4.Modules.NHibernateChangeLog!", "Зависимости", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox("В проекте нет ссылки на B4.Modules.NHibernateChangeLog!", "Зависимости", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-            //UpdateEditors();
         }
 
         private void chvDynamicFilter_CheckedChanged(object sender, EventArgs e)
         {
             if (chvDynamicFilter.Checked && !_project.HasReference("Bars.MosKs.DynamicFilters"))
             {
-                MessageBox.Show("В проекте нет ссылки на MosKs.DynamicFilters!", "Зависимости", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox("В проекте нет ссылки на MosKs.DynamicFilters!", "Зависимости", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
             if (chvDynamicFilter.Checked && !_project.HasReference("Bars.B4.Modules.ReportPanel"))
             {
-                MessageBox.Show("В проекте нет ссылки на B4.Modules.ReportPanel!", "Зависимости", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox("В проекте нет ссылки на B4.Modules.ReportPanel!", "Зависимости", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-            //UpdateEditors();
         }
 
         private void chStateful_CheckedChanged(object sender, EventArgs e)
         {
             if (chStateful.Checked && !_project.HasReference("Bars.B4.Modules.States"))
             {
-                MessageBox.Show("В проекте нет ссылки на B4.Modules.States!", "Зависимости", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                MessageBox("В проекте нет ссылки на B4.Modules.States!", "Зависимости", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
-            //UpdateEditors();
         }
 
         private void tbEntityName_KeyUp(object sender, KeyEventArgs e)
@@ -748,7 +742,7 @@ namespace Barsix.BarsEntity
                 {
                     if (((FieldOptions)lvi.Tag).OwnerReference && ((FieldOptions)lvi.Tag).FieldName != tbeName.Text) 
                     {
-                        MessageBox.Show("Поле {0} уже назначено ссылкой на владельца!".F(((FieldOptions)lvi.Tag).FieldName), "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        MessageBox("Поле {0} уже назначено ссылкой на владельца!".F(((FieldOptions)lvi.Tag).FieldName), "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         cheOwnerReference.Checked = false;
                         break;
                     }
@@ -759,7 +753,6 @@ namespace Barsix.BarsEntity
                     cheNullable.Enabled = false;
                 }
             }
-            //UpdateEditors();
         }
 
         private void cheParentReference_CheckedChanged(object sender, EventArgs e)
@@ -768,7 +761,7 @@ namespace Barsix.BarsEntity
             {
                 if (tbeType.Text != tbEntityName.Text)
                 {
-                    MessageBox.Show("Тип поля должен совпадать с именем класса!", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                    MessageBox("Тип поля должен совпадать с именем класса!", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                     cheParentReference.Checked = false;
                 }
                 else
@@ -776,14 +769,14 @@ namespace Barsix.BarsEntity
                 {
                     if (((FieldOptions)lvi.Tag).ParentReference && ((FieldOptions)lvi.Tag).FieldName != tbeName.Text)
                     {
-                        MessageBox.Show("Поле {0} уже назначено ссылкой на родителя!".F(((FieldOptions)lvi.Tag).FieldName), "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        MessageBox("Поле {0} уже назначено ссылкой на родителя!".F(((FieldOptions)lvi.Tag).FieldName), "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         cheParentReference.Checked = false;
                         break;
                     }
 
                     if (((FieldOptions)lvi.Tag).GroupField)
                     {
-                        MessageBox.Show("Иерархия невозможна в таблице с группировкой!", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        MessageBox("Иерархия невозможна в таблице с группировкой!", "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         cheParentReference.Checked = false;
                         break;
                     }
@@ -794,7 +787,6 @@ namespace Barsix.BarsEntity
                     cheNullable.Enabled = false;
                 }
             }
-            //UpdateEditors();
         }
 
         private void cheList_CheckedChanged(object sender, EventArgs e)
@@ -808,7 +800,6 @@ namespace Barsix.BarsEntity
             {
                 cheOwnerReference.Enabled = cheParentReference.Enabled = cheNullable.Enabled = true;
             }
-            //UpdateEditors();
         }
 
         private void chvGroupField_CheckedChanged(object sender, EventArgs e)
@@ -819,20 +810,19 @@ namespace Barsix.BarsEntity
                 {
                     if (((FieldOptions)lvi.Tag).GroupField && ((FieldOptions)lvi.Tag).FieldName != tbvViewName.Text)
                     {
-                        MessageBox.Show("Поле {0} уже назначено группировкой таблицы!".F(((FieldOptions)lvi.Tag).FieldName), "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        MessageBox("Поле {0} уже назначено группировкой таблицы!".F(((FieldOptions)lvi.Tag).FieldName), "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         chvGroupField.Checked = false;
                         break;
                     }
 
                     if (((FieldOptions)lvi.Tag).ParentReference)
                     {
-                        MessageBox.Show("Группировка невозможна в иерархической таблице!".F(((FieldOptions)lvi.Tag).FieldName), "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        MessageBox("Группировка невозможна в иерархической таблице!".F(((FieldOptions)lvi.Tag).FieldName), "Предупреждение", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                         chvGroupField.Checked = false;
                         break;
                     }
                 }
             }
-            //UpdateEditors();
         }
 
         private void lvFields_KeyUp(object sender, KeyEventArgs e)
@@ -895,6 +885,122 @@ namespace Barsix.BarsEntity
                 UpdateListViews();
             }
         }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            if (saveDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                XmlSerializer writer = new XmlSerializer(typeof(EntityOptions));
+                StreamWriter file = new StreamWriter(saveDialog.FileName);
+                writer.Serialize(file, ComposeOptions());
+                file.Close();
+            }
+        }
+
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            if (openDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                XmlSerializer reader = new XmlSerializer(typeof(EntityOptions));
+                StreamReader file = new StreamReader(openDialog.FileName);
+                EntityOptions options = (EntityOptions)reader.Deserialize(file);
+                file.Close();
+
+                RestoreOptions(options);
+            }
+        }
+
+        private void RestoreOptions(EntityOptions options)
+        {
+            _preventMessages = true;
+            options.Map(tbEntityName, x => x.ClassName);
+            options.Map(chDictionary, x => x.IsDictionary);
+            options.Map(tbMapTable, x => x.TableName);
+
+            if (options.Controller != null)
+                options.Map(tbcName, x => x.Controller.Name);
+
+            if (options.View != null)
+            {
+                options.Map(tbvDisplayName, x => x.DisplayName);
+                options.Map(tbvNamespace, x => x.View.Namespace);
+                options.Map(chvEditing, x => x.View.EditingDisabled);
+                options.Map(chvDynamicFilter, x => x.View.DynamicFilter);
+                options.Map(cbvSelectionModel, x => x.View.SelectionModel);
+                options.Map(chvInline, x => x.View.Inline);
+                options.Map(chvTreeGrid, x => x.View.TreeGrid);
+            }
+
+            options.Map(tbMigrationVersion, x => x.MigrationVersion);
+
+            if (options.Permission != null)
+            {
+                options.Map(tbpPrefix, x => x.Permission.Prefix);
+                options.Map(chpNeedNamespace, x => x.Permission.NeedNamespace);
+                options.Map(chpSimpleCRUDMap, x => x.Permission.SimpleCRUDMap);
+            }
+
+            if (options.Navigation != null)
+            {
+                options.Map(tbnRoot, x => x.Navigation.Root);
+                options.Map(tbnName, x => x.Navigation.Name);
+                options.Map(tbnAnchor, x => x.Navigation.Anchor);
+                options.Map(chnMapPermissions, x => x.Navigation.MapPermission);
+            }
+
+            if (options.Interceptor != null)
+            {
+                options.Map(chdCreateBefore, x => x.Interceptor.Actions.Contains("BeforeCreate"));
+                options.Map(chdCreateAfter, x => x.Interceptor.Actions.Contains("AfterCreate"));
+                options.Map(chdUpdateBefore, x => x.Interceptor.Actions.Contains("BeforeUpdate"));
+                options.Map(chdUpdateAfter, x => x.Interceptor.Actions.Contains("AfterUpdate"));
+                options.Map(chdDeleteBefore, x => x.Interceptor.Actions.Contains("BeforeDelete"));
+                options.Map(chdDeleteAfter, x => x.Interceptor.Actions.Contains("AfterDelete"));
+            }
+
+            if (options.DomainService != null)
+            {
+                options.Map(chdsSave, x => x.DomainService.Save);
+                options.Map(chdsUpdate, x => x.DomainService.Update);
+                options.Map(chdsDelete, x => x.DomainService.Delete);
+                options.Map(chdsSaveInternal, x => x.DomainService.SaveInternal);
+                options.Map(chdsUpdateInternal, x => x.DomainService.UpdateInternal);
+                options.Map(chdsDeleteInternal, x => x.DomainService.DeleteInternal);
+            }
+
+            options.Map(chSignable, x => x.Signable);
+            options.Map(chStateful, x => x.Stateful);
+            options.Map(chmLogMap, x => x.AuditLogMap);
+
+            foreach (var field in options.Fields)
+            {
+                var lvif = lvFields.Items.Add(field.FieldName);
+                lvif.Tag = field;
+                lvif.SubItems.Add("");
+
+                var lviv = lvView.Items.Add(field.FieldName);
+                lviv.Tag = field;
+                lviv.SubItems.Add("");
+                lviv.SubItems.Add("");
+
+                var lvim = lvMap.Items.Add(field.FieldName);
+                lvim.Tag = field;
+                lvim.SubItems.Add("");
+            }
+            UpdateListViews();
+            UpdateEditors();
+
+            _preventMessages = false;
+        }
+
+        private bool _preventMessages = false;
+
+        private void MessageBox(string text, string caption, MessageBoxButtons buttons, MessageBoxIcon icon)
+        {
+            if (!_preventMessages)
+                System.Windows.Forms.MessageBox.Show(text, caption, buttons, icon);
+        }
+
     }
 
     public static class Classs

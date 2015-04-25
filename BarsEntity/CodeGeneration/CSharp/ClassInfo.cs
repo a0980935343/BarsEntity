@@ -12,9 +12,9 @@ namespace Barsix.BarsEntity.CodeGeneration
         
         public List<string> Interfaces = new List<string>();
 
-        public ClassInfo Public { get { return (ClassInfo)base.Public; } }
-        public ClassInfo Protected { get { return (ClassInfo)base.Protected; } }
-        public ClassInfo Private { get { return (ClassInfo)base.Private; } }
+        public new ClassInfo Public { get { return (ClassInfo)base.Public; } }
+        public new ClassInfo Protected { get { return (ClassInfo)base.Protected; } }
+        public new ClassInfo Private { get { return (ClassInfo)base.Private; } }
 
         public IEnumerable<FieldInfo> Fields { get { return NestedValues.Where(x => x is FieldInfo).Select(x => x as FieldInfo); } }
         public IEnumerable<PropertyInfo> Properties { get { return NestedValues.Where(x => x is PropertyInfo).Select(x => x as PropertyInfo); } }

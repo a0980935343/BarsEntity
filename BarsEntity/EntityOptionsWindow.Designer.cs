@@ -36,6 +36,8 @@ namespace Barsix.BarsEntity
             this.btnOk = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btnDown = new System.Windows.Forms.Button();
+            this.btnUp = new System.Windows.Forms.Button();
             this.cbeBaseClass = new System.Windows.Forms.ComboBox();
             this.cheList = new System.Windows.Forms.CheckBox();
             this.cheNullable = new System.Windows.Forms.CheckBox();
@@ -152,8 +154,10 @@ namespace Barsix.BarsEntity
             this.tgFilterable = new System.Windows.Forms.TabPage();
             this.tgSignable = new System.Windows.Forms.TabPage();
             this.tgStateful = new System.Windows.Forms.TabPage();
-            this.btnUp = new System.Windows.Forms.Button();
-            this.btnDown = new System.Windows.Forms.Button();
+            this.btnSave = new System.Windows.Forms.Button();
+            this.btnLoad = new System.Windows.Forms.Button();
+            this.openDialog = new System.Windows.Forms.OpenFileDialog();
+            this.saveDialog = new System.Windows.Forms.SaveFileDialog();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -241,6 +245,26 @@ namespace Barsix.BarsEntity
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Entity";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // btnDown
+            // 
+            this.btnDown.Location = new System.Drawing.Point(319, 7);
+            this.btnDown.Name = "btnDown";
+            this.btnDown.Size = new System.Drawing.Size(75, 23);
+            this.btnDown.TabIndex = 17;
+            this.btnDown.Text = "Вниз";
+            this.btnDown.UseVisualStyleBackColor = true;
+            this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
+            // 
+            // btnUp
+            // 
+            this.btnUp.Location = new System.Drawing.Point(238, 7);
+            this.btnUp.Name = "btnUp";
+            this.btnUp.Size = new System.Drawing.Size(75, 23);
+            this.btnUp.TabIndex = 16;
+            this.btnUp.Text = "Вверх";
+            this.btnUp.UseVisualStyleBackColor = true;
+            this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
             // 
             // cbeBaseClass
             // 
@@ -1390,31 +1414,43 @@ namespace Barsix.BarsEntity
             this.tgStateful.Text = "Stateful";
             this.tgStateful.UseVisualStyleBackColor = true;
             // 
-            // btnUp
+            // btnSave
             // 
-            this.btnUp.Location = new System.Drawing.Point(238, 7);
-            this.btnUp.Name = "btnUp";
-            this.btnUp.Size = new System.Drawing.Size(75, 23);
-            this.btnUp.TabIndex = 16;
-            this.btnUp.Text = "Вверх";
-            this.btnUp.UseVisualStyleBackColor = true;
-            this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
+            this.btnSave.Location = new System.Drawing.Point(573, 5);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 41;
+            this.btnSave.Text = "Сохранить";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // btnDown
+            // btnLoad
             // 
-            this.btnDown.Location = new System.Drawing.Point(319, 7);
-            this.btnDown.Name = "btnDown";
-            this.btnDown.Size = new System.Drawing.Size(75, 23);
-            this.btnDown.TabIndex = 17;
-            this.btnDown.Text = "Вниз";
-            this.btnDown.UseVisualStyleBackColor = true;
-            this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
+            this.btnLoad.Location = new System.Drawing.Point(492, 5);
+            this.btnLoad.Name = "btnLoad";
+            this.btnLoad.Size = new System.Drawing.Size(75, 23);
+            this.btnLoad.TabIndex = 42;
+            this.btnLoad.Text = "Открыть";
+            this.btnLoad.UseVisualStyleBackColor = true;
+            this.btnLoad.Click += new System.EventHandler(this.btnLoad_Click);
+            // 
+            // openDialog
+            // 
+            this.openDialog.FileName = "entity.xml";
+            this.openDialog.Filter = "XML entity description|*.xml";
+            // 
+            // saveDialog
+            // 
+            this.saveDialog.FileName = "entity.xml";
+            this.saveDialog.Filter = "XML entity description|*.xml";
             // 
             // EntityOptionsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(654, 731);
+            this.Controls.Add(this.btnLoad);
+            this.Controls.Add(this.btnSave);
             this.Controls.Add(this.tabGenerated);
             this.Controls.Add(this.chmLogMap);
             this.Controls.Add(this.chvTreeGrid);
@@ -1582,5 +1618,9 @@ namespace Barsix.BarsEntity
         private System.Windows.Forms.TabPage tgStateful;
         private System.Windows.Forms.Button btnDown;
         private System.Windows.Forms.Button btnUp;
+        private System.Windows.Forms.Button btnSave;
+        private System.Windows.Forms.Button btnLoad;
+        private System.Windows.Forms.OpenFileDialog openDialog;
+        private System.Windows.Forms.SaveFileDialog saveDialog;
     }
 }

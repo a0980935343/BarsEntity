@@ -13,12 +13,12 @@ namespace Barsix.BarsEntity.CodeGeneration
         public bool IsConst;
         public string Value;
 
-        public FieldInfo Public { get { return (FieldInfo)base.Public; } }
-        public FieldInfo Protected { get { return (FieldInfo)base.Protected; } }
-        public FieldInfo Private { get { return (FieldInfo)base.Private; } }
-        public FieldInfo Static { get { return (FieldInfo)base.Static; } }
-        public FieldInfo Virtual { get { throw new NotSupportedException(); } }
-        public FieldInfo Override { get { throw new NotSupportedException(); } }
+        public new FieldInfo Public { get { return (FieldInfo)base.Public; } }
+        public new FieldInfo Protected { get { return (FieldInfo)base.Protected; } }
+        public new FieldInfo Private { get { return (FieldInfo)base.Private; } }
+        public new FieldInfo Static { get { return (FieldInfo)base.Static; } }
+        public new FieldInfo Virtual { get { throw new NotSupportedException(); } }
+        public new FieldInfo Override { get { throw new NotSupportedException(); } }
         public FieldInfo Nullable { get { IsNullable = true; return this ; } }
 
         public FieldInfo ReadOnly { get { IsReadOnly = true; return this; } }
