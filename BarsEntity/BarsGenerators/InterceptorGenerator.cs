@@ -11,11 +11,9 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class InterceptorGenerator : BaseBarsGenerator
     {
-        public override void Generate(Project project, EntityOptions options, GeneratedFragments fragments)
+        public override GeneratedFile Generate(Project project, EntityOptions options, GeneratedFragments fragments)
         {
-            base.Generate(project, options, fragments);
-
-            CheckFolder("DomainServices");
+            var file = base.Generate(project, options, fragments);
 
             var ns = new NamespaceInfo() { Name = project.Name + ".DomainServices" };
             var cls = new ClassInfo
@@ -26,6 +24,13 @@ namespace Barsix.BarsEntity.BarsGenerators
             ns.NestedValues.Add(cls);
             ns.InnerUsing.Add("Bars.B4");
             ns.InnerUsing.Add("Entities");
+
+            _knownTypes.Clear();
+            _knownTypes.Add(cls.Name);
+            _knownTypes.Add("EmptyDomainInterceptor");
+            _knownTypes.Add("IDomainService");
+            _knownTypes.Add(options.ClassName);
+            _knownTypes.Add("IStateProvider");
 
             InterceptorOptions dsOpts = options.Interceptor;
             foreach (string methodName in dsOpts.Actions)
@@ -52,8 +57,11 @@ namespace Barsix.BarsEntity.BarsGenerators
 
             fragments.AddLines("Module.cs", this, new List<string> { 
                 "Container.Register(Component.For<IDomainServiceInterceptor<{0}>>().ImplementedBy<{0}DomainServiceInterceptor>().LifeStyle.Transient);".F(options.ClassName)});
-
-            var pi = CreateFile("DomainServices\\" + options.ClassName + "DomainServiceInterceptor.cs", ns.ToString());
+                        
+            file.Name = options.ClassName + "DomainServiceInterceptor.cs";
+            file.Path = "DomainServices";
+            file.Body = ns.Generate();
+            return file;
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Barsix.BarsEntity.CodeGeneration
         public List<string> InnerUsing = new List<string>();
         public List<string> OuterUsing = new List<string>();
 
-        public override IList<string> Generate(int indent)
+        public override List<string> Generate(int indent = 0)
         {
             List<string> result = new List<string>();
 

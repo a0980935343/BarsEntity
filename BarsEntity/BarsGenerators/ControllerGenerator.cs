@@ -10,14 +10,12 @@ namespace Barsix.BarsEntity.BarsGenerators
 {
     using BarsOptions;
     using CodeGeneration;
-
+    
     public class ControllerGenerator : BaseBarsGenerator
     {
-        public override void Generate(Project project, EntityOptions options, GeneratedFragments fragments)
+        public override GeneratedFile Generate(Project project, EntityOptions options, GeneratedFragments fragments)
         {
-            base.Generate(project, options, fragments);
-
-            CheckFolder("Controllers" + (options.IsDictionary ? "\\Dict" : ""));
+            var file = base.Generate(project, options, fragments);
 
             var ns = new NamespaceInfo() { Name = "{0}.Controllers".F(project.Name) };
             var cls = new ClassInfo()
@@ -55,12 +53,21 @@ namespace Barsix.BarsEntity.BarsGenerators
             }
 
             var basePrefix = "B4.Alt.";
-            if (options.Controller.Inline)
+            if (options.View.Inline)
                 basePrefix = "B4.Alt.Inline";
             else if (options.AcceptFiles)
                 basePrefix = "FileStorage";
 
             cls.BaseClass = "{0}DataController<{1}>".F(basePrefix, options.ClassName);
+
+            _knownTypes.Clear();
+            _knownTypes.Add(cls.Name);
+            _knownTypes.Add(options.ClassName);
+            _knownTypes.Add("DataController");
+            _knownTypes.Add("InlineDataController");
+            _knownTypes.Add("FileStorageDataController");
+            _knownTypes.Add("ActionResult");
+            _knownTypes.Add("IDomainService");
 
             if (options.Fields.Any(x => x.OwnerReference) || options.View.TreeGrid || options.Signable)
             {
@@ -73,6 +80,8 @@ namespace Barsix.BarsEntity.BarsGenerators
                 };
 
                 var proxyClass = new ClassInfo { Name = "QueryResult" };
+                _knownTypes.Add("QueryResult");
+                
                 if (options.View.TreeGrid || options.Signable)
                 {
                     proxyClass.AddProperty(new PropertyInfo() { Name = "Id", Type = "long" });
@@ -80,6 +89,8 @@ namespace Barsix.BarsEntity.BarsGenerators
                     foreach (var field in options.Fields.Where(x => !x.Collection))
                     {
                         proxyClass.AddProperty(new PropertyInfo() { Name = field.FieldName, Type = field.FullTypeName });
+                        if (field.IsBasicType() && field.TypeName != field.FieldName)
+                            _knownTypes.Add(field.TypeName);
                     }
 
                     if (options.Signable)
@@ -145,10 +156,13 @@ namespace Barsix.BarsEntity.BarsGenerators
                 cls.AddMethod(list);
             }
 
-            var pi = CreateFile("Controllers\\" + (options.IsDictionary ? "Dict\\" : "") + options.Controller.Name + "Controller.cs", ns.ToString());
-
             fragments.AddLines("Module.cs", this, new List<string> { 
                 "Container.RegisterController<{0}Controller>();".F(options.Controller.Name)});
+
+            file.Name = options.Controller.Name + "Controller.cs";
+            file.Path = "Controllers\\" + (options.IsDictionary ? "Dict\\" : "");
+            file.Body = ns.Generate();
+            return file;
         }
     }
 }

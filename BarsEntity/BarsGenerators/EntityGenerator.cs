@@ -13,11 +13,13 @@ namespace Barsix.BarsEntity.BarsGenerators
     /// <summary>  </summary>
     public class EntityGenerator : BaseBarsGenerator
     {
-        public override void Generate(Project project, EntityOptions options, GeneratedFragments fragments)
+        public override GeneratedFile Generate(Project project, EntityOptions options, GeneratedFragments fragments)
         {
-            base.Generate(project, options, fragments); 
-
-            CheckFolder("Entities" + (options.IsDictionary ? "\\Dict" : ""));
+            var file = base.Generate(project, options, fragments);
+            _knownTypes.Clear();
+            _knownTypes.Add(options.ClassName);
+            _knownTypes.Add(options.BaseClass);
+            _knownTypes.Add("IList");
 
             NamespaceInfo ns = new NamespaceInfo();
             ClassInfo cls = new ClassInfo();
@@ -57,6 +59,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             {
                 ns.InnerUsing.Add("Bars.B4.Modules.States");
                 cls.Interfaces.Add("IStatefulEntity");
+                _knownTypes.Add("IStatefulEntity");
             }
 
             if (options.Signable)
@@ -64,6 +67,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 ns.InnerUsing.Add("Bars.B4.Modules.DigitalSignature");
                 ns.InnerUsing.Add("Bars.B4.Modules.DigitalSignature.Attributes");
                 cls.Interfaces.Add("ISignableEntity");
+                _knownTypes.Add("ISignableEntity");
             }
 
             foreach (var field in options.Fields.Where(x => !x.Collection && !x.TypeName.EndsWith("View")))
@@ -86,6 +90,9 @@ namespace Barsix.BarsEntity.BarsGenerators
                     pi.Attributes.Add("DigitalSignature(\"{0}\")".F(pi.Name));
 
                 cls.AddProperty(pi);
+
+                if (!field.IsBasicType() && field.TypeName != field.FieldName)
+                    _knownTypes.Add(field.TypeName);
             }
 
             foreach (var field in options.Fields.Where(x => x.Collection))
@@ -101,6 +108,9 @@ namespace Barsix.BarsEntity.BarsGenerators
                 pi.Type = field.FullTypeName;
 
                 cls.AddProperty(pi);
+
+                if (!field.IsBasicType())
+                    _knownTypes.Add(field.TypeName);
             }
 
             foreach (var field in options.Fields.Where(x => x.TypeName.EndsWith("View")))
@@ -116,14 +126,15 @@ namespace Barsix.BarsEntity.BarsGenerators
                 pi.Type = field.FullTypeName;
 
                 cls.AddProperty(pi);
-            }
 
-            /*if (options.Stateful)
-            {
-                cls.AddProperty(new PropertyInfo() { Name = "State", Type = "State", Attributes = new List<string>{"DigitalSignature(\"State\")" }});
-            }*/
+                _knownTypes.Add(field.TypeName);
+            }
             
-            CreateFile("Entities\\" +(options.IsDictionary ? "Dict\\" : "")+ options.ClassName + ".cs", ns.ToString());
+            file.Name = options.ClassName + ".cs";
+            file.Path = "Entities\\" + (options.IsDictionary ? "Dict\\" : "");
+            file.Body = ns.Generate(0).ToList();
+
+            return file;
         }
     }
 }

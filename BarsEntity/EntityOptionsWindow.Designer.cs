@@ -1,4 +1,6 @@
-﻿namespace Barsix.BarsEntity
+﻿using FastColoredTextBoxNS;
+
+namespace Barsix.BarsEntity
 {
     partial class EntityOptionsWindow
     {
@@ -74,6 +76,9 @@
             this.tbcName = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.chvGroupField = new System.Windows.Forms.CheckBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.tbvTextProperty = new System.Windows.Forms.TextBox();
             this.chvDynamicField = new System.Windows.Forms.CheckBox();
             this.chvDynamicFilter = new System.Windows.Forms.CheckBox();
             this.cbvSelectionModel = new System.Windows.Forms.ComboBox();
@@ -94,6 +99,7 @@
             this.lvView = new System.Windows.Forms.ListView();
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label21 = new System.Windows.Forms.Label();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tbMigrationVersion = new System.Windows.Forms.TextBox();
@@ -134,9 +140,20 @@
             this.chStateful = new System.Windows.Forms.CheckBox();
             this.chvTreeGrid = new System.Windows.Forms.CheckBox();
             this.chmLogMap = new System.Windows.Forms.CheckBox();
-            this.tbvTextProperty = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.chvGroupField = new System.Windows.Forms.CheckBox();
+            this.tabGenerated = new System.Windows.Forms.TabControl();
+            this.tgEntity = new System.Windows.Forms.TabPage();
+            this.tgMap = new System.Windows.Forms.TabPage();
+            this.tgController = new System.Windows.Forms.TabPage();
+            this.tgView = new System.Windows.Forms.TabPage();
+            this.tgMigration = new System.Windows.Forms.TabPage();
+            this.tgDomainService = new System.Windows.Forms.TabPage();
+            this.tgInterceptor = new System.Windows.Forms.TabPage();
+            this.tgLogMap = new System.Windows.Forms.TabPage();
+            this.tgFilterable = new System.Windows.Forms.TabPage();
+            this.tgSignable = new System.Windows.Forms.TabPage();
+            this.tgStateful = new System.Windows.Forms.TabPage();
+            this.btnUp = new System.Windows.Forms.Button();
+            this.btnDown = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -148,12 +165,13 @@
             this.tabPage8.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
+            this.tabGenerated.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 13);
+            this.label1.Location = new System.Drawing.Point(12, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(68, 13);
             this.label1.TabIndex = 0;
@@ -161,7 +179,7 @@
             // 
             // tbEntityName
             // 
-            this.tbEntityName.Location = new System.Drawing.Point(86, 10);
+            this.tbEntityName.Location = new System.Drawing.Point(86, 5);
             this.tbEntityName.Name = "tbEntityName";
             this.tbEntityName.Size = new System.Drawing.Size(179, 20);
             this.tbEntityName.TabIndex = 1;
@@ -169,9 +187,9 @@
             // 
             // btnOk
             // 
-            this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnOk.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnOk.Location = new System.Drawing.Point(497, 390);
+            this.btnOk.Location = new System.Drawing.Point(497, 318);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(152, 33);
             this.btnOk.TabIndex = 3;
@@ -181,8 +199,7 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
@@ -192,14 +209,16 @@
             this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Controls.Add(this.tabPage7);
             this.tabControl1.Controls.Add(this.tabPage8);
-            this.tabControl1.Location = new System.Drawing.Point(-4, 36);
+            this.tabControl1.Location = new System.Drawing.Point(0, 30);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(653, 349);
+            this.tabControl1.Size = new System.Drawing.Size(653, 286);
             this.tabControl1.TabIndex = 4;
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.btnDown);
+            this.tabPage1.Controls.Add(this.btnUp);
             this.tabPage1.Controls.Add(this.cbeBaseClass);
             this.tabPage1.Controls.Add(this.cheList);
             this.tabPage1.Controls.Add(this.cheNullable);
@@ -218,7 +237,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(645, 323);
+            this.tabPage1.Size = new System.Drawing.Size(645, 260);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Entity";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -352,22 +371,25 @@
             this.lvFields.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.colName,
             this.colType});
+            this.lvFields.FullRowSelect = true;
             this.lvFields.Location = new System.Drawing.Point(6, 32);
+            this.lvFields.MultiSelect = false;
             this.lvFields.Name = "lvFields";
             this.lvFields.Size = new System.Drawing.Size(389, 220);
             this.lvFields.TabIndex = 1;
             this.lvFields.UseCompatibleStateImageBehavior = false;
             this.lvFields.View = System.Windows.Forms.View.Details;
             this.lvFields.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvFields_ItemSelectionChanged);
+            this.lvFields.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lvFields_KeyUp);
             // 
             // colName
             // 
             this.colName.Text = "Название";
-            this.colName.Width = 150;
+            this.colName.Width = 100;
             // 
             // colType
             // 
-            this.colType.Text = "тип";
+            this.colType.Text = "Тип";
             this.colType.Width = 100;
             // 
             // label2
@@ -399,7 +421,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(645, 323);
+            this.tabPage2.Size = new System.Drawing.Size(645, 260);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Map";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -517,6 +539,7 @@
             this.lvMap.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
+            this.lvMap.FullRowSelect = true;
             this.lvMap.Location = new System.Drawing.Point(6, 32);
             this.lvMap.Name = "lvMap";
             this.lvMap.Size = new System.Drawing.Size(373, 220);
@@ -552,7 +575,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(645, 323);
+            this.tabPage3.Size = new System.Drawing.Size(645, 260);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Controller";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -611,26 +634,53 @@
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(645, 323);
+            this.tabPage4.Size = new System.Drawing.Size(645, 260);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "View";
             this.tabPage4.UseVisualStyleBackColor = true;
             this.tabPage4.Enter += new System.EventHandler(this.tabPage4_Enter);
             // 
+            // chvGroupField
+            // 
+            this.chvGroupField.AutoSize = true;
+            this.chvGroupField.Location = new System.Drawing.Point(464, 180);
+            this.chvGroupField.Name = "chvGroupField";
+            this.chvGroupField.Size = new System.Drawing.Size(140, 17);
+            this.chvGroupField.TabIndex = 39;
+            this.chvGroupField.Text = "Группировать по полю";
+            this.chvGroupField.UseVisualStyleBackColor = true;
+            this.chvGroupField.CheckedChanged += new System.EventHandler(this.chvGroupField_CheckedChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(401, 134);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(63, 13);
+            this.label10.TabIndex = 38;
+            this.label10.Text = "textProperty";
+            // 
+            // tbvTextProperty
+            // 
+            this.tbvTextProperty.Location = new System.Drawing.Point(464, 131);
+            this.tbvTextProperty.Name = "tbvTextProperty";
+            this.tbvTextProperty.Size = new System.Drawing.Size(174, 20);
+            this.tbvTextProperty.TabIndex = 37;
+            // 
             // chvDynamicField
             // 
             this.chvDynamicField.AutoSize = true;
-            this.chvDynamicField.Location = new System.Drawing.Point(464, 176);
+            this.chvDynamicField.Location = new System.Drawing.Point(464, 159);
             this.chvDynamicField.Name = "chvDynamicField";
-            this.chvDynamicField.Size = new System.Drawing.Size(139, 17);
+            this.chvDynamicField.Size = new System.Drawing.Size(142, 17);
             this.chvDynamicField.TabIndex = 36;
-            this.chvDynamicField.Text = "динамический фильтр";
+            this.chvDynamicField.Text = "Динамический фильтр";
             this.chvDynamicField.UseVisualStyleBackColor = true;
             // 
             // chvDynamicFilter
             // 
             this.chvDynamicFilter.AutoSize = true;
-            this.chvDynamicFilter.Location = new System.Drawing.Point(10, 259);
+            this.chvDynamicFilter.Location = new System.Drawing.Point(10, 236);
             this.chvDynamicFilter.Name = "chvDynamicFilter";
             this.chvDynamicFilter.Size = new System.Drawing.Size(142, 17);
             this.chvDynamicFilter.TabIndex = 34;
@@ -645,7 +695,7 @@
             this.cbvSelectionModel.Items.AddRange(new object[] {
             "RowSelectionModel",
             "CheckboxSelectionModel"});
-            this.cbvSelectionModel.Location = new System.Drawing.Point(96, 295);
+            this.cbvSelectionModel.Location = new System.Drawing.Point(253, 234);
             this.cbvSelectionModel.Name = "cbvSelectionModel";
             this.cbvSelectionModel.Size = new System.Drawing.Size(165, 21);
             this.cbvSelectionModel.TabIndex = 33;
@@ -653,7 +703,7 @@
             // label31
             // 
             this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(7, 301);
+            this.label31.Location = new System.Drawing.Point(168, 237);
             this.label31.Name = "label31";
             this.label31.Size = new System.Drawing.Size(82, 13);
             this.label31.TabIndex = 32;
@@ -662,7 +712,7 @@
             // chvEditing
             // 
             this.chvEditing.AutoSize = true;
-            this.chvEditing.Location = new System.Drawing.Point(472, 39);
+            this.chvEditing.Location = new System.Drawing.Point(472, 37);
             this.chvEditing.Name = "chvEditing";
             this.chvEditing.Size = new System.Drawing.Size(156, 17);
             this.chvEditing.TabIndex = 31;
@@ -705,7 +755,7 @@
             // chvInline
             // 
             this.chvInline.AutoSize = true;
-            this.chvInline.Location = new System.Drawing.Point(407, 297);
+            this.chvInline.Location = new System.Drawing.Point(450, 238);
             this.chvInline.Name = "chvInline";
             this.chvInline.Size = new System.Drawing.Size(188, 17);
             this.chvInline.TabIndex = 26;
@@ -715,7 +765,7 @@
             // label17
             // 
             this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(401, 126);
+            this.label17.Location = new System.Drawing.Point(401, 109);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(57, 13);
             this.label17.TabIndex = 25;
@@ -723,16 +773,16 @@
             // 
             // tbvDisplayName
             // 
-            this.tbvDisplayName.Location = new System.Drawing.Point(464, 123);
+            this.tbvDisplayName.Location = new System.Drawing.Point(464, 106);
             this.tbvDisplayName.Name = "tbvDisplayName";
             this.tbvDisplayName.Size = new System.Drawing.Size(174, 20);
             this.tbvDisplayName.TabIndex = 24;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(401, 219);
+            this.button1.Location = new System.Drawing.Point(401, 200);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(238, 34);
+            this.button1.Size = new System.Drawing.Size(238, 30);
             this.button1.TabIndex = 20;
             this.button1.Text = "Обновить";
             this.button1.UseVisualStyleBackColor = true;
@@ -740,7 +790,7 @@
             // 
             // tbvType
             // 
-            this.tbvType.Location = new System.Drawing.Point(464, 96);
+            this.tbvType.Location = new System.Drawing.Point(464, 82);
             this.tbvType.Name = "tbvType";
             this.tbvType.Size = new System.Drawing.Size(174, 20);
             this.tbvType.TabIndex = 19;
@@ -748,7 +798,7 @@
             // tbvViewName
             // 
             this.tbvViewName.Enabled = false;
-            this.tbvViewName.Location = new System.Drawing.Point(464, 69);
+            this.tbvViewName.Location = new System.Drawing.Point(464, 58);
             this.tbvViewName.Name = "tbvViewName";
             this.tbvViewName.Size = new System.Drawing.Size(174, 20);
             this.tbvViewName.TabIndex = 18;
@@ -756,7 +806,7 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(401, 99);
+            this.label19.Location = new System.Drawing.Point(401, 86);
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(26, 13);
             this.label19.TabIndex = 16;
@@ -765,7 +815,7 @@
             // label20
             // 
             this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(401, 72);
+            this.label20.Location = new System.Drawing.Point(401, 61);
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(33, 13);
             this.label20.TabIndex = 15;
@@ -775,10 +825,12 @@
             // 
             this.lvView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader3,
-            this.columnHeader4});
+            this.columnHeader4,
+            this.columnHeader5});
+            this.lvView.FullRowSelect = true;
             this.lvView.Location = new System.Drawing.Point(6, 33);
             this.lvView.Name = "lvView";
-            this.lvView.Size = new System.Drawing.Size(389, 220);
+            this.lvView.Size = new System.Drawing.Size(389, 196);
             this.lvView.TabIndex = 14;
             this.lvView.UseCompatibleStateImageBehavior = false;
             this.lvView.View = System.Windows.Forms.View.Details;
@@ -786,13 +838,18 @@
             // 
             // columnHeader3
             // 
-            this.columnHeader3.Text = "Название";
-            this.columnHeader3.Width = 150;
+            this.columnHeader3.Text = "Поле";
+            this.columnHeader3.Width = 100;
             // 
             // columnHeader4
             // 
-            this.columnHeader4.Text = "тип";
-            this.columnHeader4.Width = 100;
+            this.columnHeader4.Text = "Тип";
+            this.columnHeader4.Width = 150;
+            // 
+            // columnHeader5
+            // 
+            this.columnHeader5.Text = "Описание";
+            this.columnHeader5.Width = 120;
             // 
             // label21
             // 
@@ -810,7 +867,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(645, 323);
+            this.tabPage5.Size = new System.Drawing.Size(645, 260);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Migration";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -841,7 +898,7 @@
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(645, 323);
+            this.tabPage6.Size = new System.Drawing.Size(645, 260);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Permission";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -852,9 +909,9 @@
             this.chpSimpleCRUDMap.AutoSize = true;
             this.chpSimpleCRUDMap.Location = new System.Drawing.Point(99, 69);
             this.chpSimpleCRUDMap.Name = "chpSimpleCRUDMap";
-            this.chpSimpleCRUDMap.Size = new System.Drawing.Size(154, 17);
+            this.chpSimpleCRUDMap.Size = new System.Drawing.Size(156, 17);
             this.chpSimpleCRUDMap.TabIndex = 3;
-            this.chpSimpleCRUDMap.Text = "простые CRUD-операции";
+            this.chpSimpleCRUDMap.Text = "Простые CRUD-операции";
             this.chpSimpleCRUDMap.UseVisualStyleBackColor = true;
             // 
             // chpNeedNamespace
@@ -862,9 +919,9 @@
             this.chpNeedNamespace.AutoSize = true;
             this.chpNeedNamespace.Location = new System.Drawing.Point(99, 45);
             this.chpNeedNamespace.Name = "chpNeedNamespace";
-            this.chpNeedNamespace.Size = new System.Drawing.Size(125, 17);
+            this.chpNeedNamespace.Size = new System.Drawing.Size(126, 17);
             this.chpNeedNamespace.TabIndex = 2;
-            this.chpNeedNamespace.Text = "создать namespace";
+            this.chpNeedNamespace.Text = "Cоздать namespace";
             this.chpNeedNamespace.UseVisualStyleBackColor = true;
             // 
             // tbpPrefix
@@ -895,7 +952,7 @@
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(645, 323);
+            this.tabPage7.Size = new System.Drawing.Size(645, 260);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "Navigation";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -905,9 +962,9 @@
             this.chnMapPermissions.AutoSize = true;
             this.chnMapPermissions.Location = new System.Drawing.Point(101, 101);
             this.chnMapPermissions.Name = "chnMapPermissions";
-            this.chnMapPermissions.Size = new System.Drawing.Size(130, 17);
+            this.chnMapPermissions.Size = new System.Drawing.Size(132, 17);
             this.chnMapPermissions.TabIndex = 6;
-            this.chnMapPermissions.Text = "ограничить правами";
+            this.chnMapPermissions.Text = "Ограничить правами";
             this.chnMapPermissions.UseVisualStyleBackColor = true;
             // 
             // tbnAnchor
@@ -965,7 +1022,7 @@
             this.tabPage8.Location = new System.Drawing.Point(4, 22);
             this.tabPage8.Name = "tabPage8";
             this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage8.Size = new System.Drawing.Size(645, 323);
+            this.tabPage8.Size = new System.Drawing.Size(645, 260);
             this.tabPage8.TabIndex = 7;
             this.tabPage8.Text = "DomainService";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -978,9 +1035,9 @@
             this.groupBox2.Controls.Add(this.chdsDelete);
             this.groupBox2.Controls.Add(this.chdsUpdate);
             this.groupBox2.Controls.Add(this.chdsSave);
-            this.groupBox2.Location = new System.Drawing.Point(320, 48);
+            this.groupBox2.Location = new System.Drawing.Point(320, 7);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(318, 269);
+            this.groupBox2.Size = new System.Drawing.Size(318, 243);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "DomainService";
@@ -988,7 +1045,7 @@
             // chdsDeleteInternal
             // 
             this.chdsDeleteInternal.AutoSize = true;
-            this.chdsDeleteInternal.Location = new System.Drawing.Point(132, 131);
+            this.chdsDeleteInternal.Location = new System.Drawing.Point(182, 131);
             this.chdsDeleteInternal.Name = "chdsDeleteInternal";
             this.chdsDeleteInternal.Size = new System.Drawing.Size(92, 17);
             this.chdsDeleteInternal.TabIndex = 6;
@@ -998,7 +1055,7 @@
             // chdsUpdateInternal
             // 
             this.chdsUpdateInternal.AutoSize = true;
-            this.chdsUpdateInternal.Location = new System.Drawing.Point(132, 90);
+            this.chdsUpdateInternal.Location = new System.Drawing.Point(182, 90);
             this.chdsUpdateInternal.Name = "chdsUpdateInternal";
             this.chdsUpdateInternal.Size = new System.Drawing.Size(96, 17);
             this.chdsUpdateInternal.TabIndex = 5;
@@ -1008,7 +1065,7 @@
             // chdsSaveInternal
             // 
             this.chdsSaveInternal.AutoSize = true;
-            this.chdsSaveInternal.Location = new System.Drawing.Point(132, 51);
+            this.chdsSaveInternal.Location = new System.Drawing.Point(182, 51);
             this.chdsSaveInternal.Name = "chdsSaveInternal";
             this.chdsSaveInternal.Size = new System.Drawing.Size(86, 17);
             this.chdsSaveInternal.TabIndex = 4;
@@ -1056,9 +1113,9 @@
             this.groupBox1.Controls.Add(this.label30);
             this.groupBox1.Controls.Add(this.label29);
             this.groupBox1.Controls.Add(this.label28);
-            this.groupBox1.Location = new System.Drawing.Point(6, 48);
+            this.groupBox1.Location = new System.Drawing.Point(6, 7);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(308, 269);
+            this.groupBox1.Size = new System.Drawing.Size(308, 243);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Interceptor";
@@ -1066,7 +1123,7 @@
             // chdDeleteAfter
             // 
             this.chdDeleteAfter.AutoSize = true;
-            this.chdDeleteAfter.Location = new System.Drawing.Point(95, 228);
+            this.chdDeleteAfter.Location = new System.Drawing.Point(95, 213);
             this.chdDeleteAfter.Name = "chdDeleteAfter";
             this.chdDeleteAfter.Size = new System.Drawing.Size(48, 17);
             this.chdDeleteAfter.TabIndex = 17;
@@ -1077,7 +1134,7 @@
             // chdDeleteBefore
             // 
             this.chdDeleteBefore.AutoSize = true;
-            this.chdDeleteBefore.Location = new System.Drawing.Point(95, 193);
+            this.chdDeleteBefore.Location = new System.Drawing.Point(95, 178);
             this.chdDeleteBefore.Name = "chdDeleteBefore";
             this.chdDeleteBefore.Size = new System.Drawing.Size(57, 17);
             this.chdDeleteBefore.TabIndex = 16;
@@ -1087,7 +1144,7 @@
             // chdUpdateAfter
             // 
             this.chdUpdateAfter.AutoSize = true;
-            this.chdUpdateAfter.Location = new System.Drawing.Point(95, 150);
+            this.chdUpdateAfter.Location = new System.Drawing.Point(95, 137);
             this.chdUpdateAfter.Name = "chdUpdateAfter";
             this.chdUpdateAfter.Size = new System.Drawing.Size(48, 17);
             this.chdUpdateAfter.TabIndex = 15;
@@ -1098,7 +1155,7 @@
             // chdUpdateBefore
             // 
             this.chdUpdateBefore.AutoSize = true;
-            this.chdUpdateBefore.Location = new System.Drawing.Point(95, 115);
+            this.chdUpdateBefore.Location = new System.Drawing.Point(95, 102);
             this.chdUpdateBefore.Name = "chdUpdateBefore";
             this.chdUpdateBefore.Size = new System.Drawing.Size(57, 17);
             this.chdUpdateBefore.TabIndex = 14;
@@ -1108,7 +1165,7 @@
             // chdCreateAfter
             // 
             this.chdCreateAfter.AutoSize = true;
-            this.chdCreateAfter.Location = new System.Drawing.Point(95, 67);
+            this.chdCreateAfter.Location = new System.Drawing.Point(95, 63);
             this.chdCreateAfter.Name = "chdCreateAfter";
             this.chdCreateAfter.Size = new System.Drawing.Size(48, 17);
             this.chdCreateAfter.TabIndex = 13;
@@ -1119,7 +1176,7 @@
             // chdCreateBefore
             // 
             this.chdCreateBefore.AutoSize = true;
-            this.chdCreateBefore.Location = new System.Drawing.Point(95, 32);
+            this.chdCreateBefore.Location = new System.Drawing.Point(95, 28);
             this.chdCreateBefore.Name = "chdCreateBefore";
             this.chdCreateBefore.Size = new System.Drawing.Size(57, 17);
             this.chdCreateBefore.TabIndex = 12;
@@ -1129,7 +1186,7 @@
             // label30
             // 
             this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(23, 212);
+            this.label30.Location = new System.Drawing.Point(23, 197);
             this.label30.Name = "label30";
             this.label30.Size = new System.Drawing.Size(38, 13);
             this.label30.TabIndex = 11;
@@ -1138,7 +1195,7 @@
             // label29
             // 
             this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(23, 132);
+            this.label29.Location = new System.Drawing.Point(23, 119);
             this.label29.Name = "label29";
             this.label29.Size = new System.Drawing.Size(42, 13);
             this.label29.TabIndex = 10;
@@ -1147,7 +1204,7 @@
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(23, 52);
+            this.label28.Location = new System.Drawing.Point(23, 48);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(38, 13);
             this.label28.TabIndex = 9;
@@ -1156,7 +1213,7 @@
             // chDictionary
             // 
             this.chDictionary.AutoSize = true;
-            this.chDictionary.Location = new System.Drawing.Point(348, 13);
+            this.chDictionary.Location = new System.Drawing.Point(313, 7);
             this.chDictionary.Name = "chDictionary";
             this.chDictionary.Size = new System.Drawing.Size(86, 17);
             this.chDictionary.TabIndex = 12;
@@ -1166,7 +1223,7 @@
             // chSignable
             // 
             this.chSignable.AutoSize = true;
-            this.chSignable.Location = new System.Drawing.Point(12, 399);
+            this.chSignable.Location = new System.Drawing.Point(15, 326);
             this.chSignable.Name = "chSignable";
             this.chSignable.Size = new System.Drawing.Size(49, 17);
             this.chSignable.TabIndex = 13;
@@ -1177,7 +1234,7 @@
             // chStateful
             // 
             this.chStateful.AutoSize = true;
-            this.chStateful.Location = new System.Drawing.Point(73, 399);
+            this.chStateful.Location = new System.Drawing.Point(76, 326);
             this.chStateful.Name = "chStateful";
             this.chStateful.Size = new System.Drawing.Size(60, 17);
             this.chStateful.TabIndex = 14;
@@ -1188,7 +1245,7 @@
             // chvTreeGrid
             // 
             this.chvTreeGrid.AutoSize = true;
-            this.chvTreeGrid.Location = new System.Drawing.Point(142, 399);
+            this.chvTreeGrid.Location = new System.Drawing.Point(145, 326);
             this.chvTreeGrid.Name = "chvTreeGrid";
             this.chvTreeGrid.Size = new System.Drawing.Size(104, 17);
             this.chvTreeGrid.TabIndex = 36;
@@ -1198,7 +1255,7 @@
             // chmLogMap
             // 
             this.chmLogMap.AutoSize = true;
-            this.chmLogMap.Location = new System.Drawing.Point(285, 399);
+            this.chmLogMap.Location = new System.Drawing.Point(288, 326);
             this.chmLogMap.Name = "chmLogMap";
             this.chmLogMap.Size = new System.Drawing.Size(110, 17);
             this.chmLogMap.TabIndex = 37;
@@ -1206,38 +1263,159 @@
             this.chmLogMap.UseVisualStyleBackColor = true;
             this.chmLogMap.CheckedChanged += new System.EventHandler(this.chmLogMap_CheckedChanged);
             // 
-            // tbvTextProperty
+            // tabGenerated
             // 
-            this.tbvTextProperty.Location = new System.Drawing.Point(464, 150);
-            this.tbvTextProperty.Name = "tbvTextProperty";
-            this.tbvTextProperty.Size = new System.Drawing.Size(174, 20);
-            this.tbvTextProperty.TabIndex = 37;
+            this.tabGenerated.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tabGenerated.Controls.Add(this.tgEntity);
+            this.tabGenerated.Controls.Add(this.tgMap);
+            this.tabGenerated.Controls.Add(this.tgController);
+            this.tabGenerated.Controls.Add(this.tgView);
+            this.tabGenerated.Controls.Add(this.tgMigration);
+            this.tabGenerated.Controls.Add(this.tgDomainService);
+            this.tabGenerated.Controls.Add(this.tgInterceptor);
+            this.tabGenerated.Controls.Add(this.tgLogMap);
+            this.tabGenerated.Controls.Add(this.tgFilterable);
+            this.tabGenerated.Controls.Add(this.tgSignable);
+            this.tabGenerated.Controls.Add(this.tgStateful);
+            this.tabGenerated.Location = new System.Drawing.Point(0, 352);
+            this.tabGenerated.Name = "tabGenerated";
+            this.tabGenerated.SelectedIndex = 0;
+            this.tabGenerated.Size = new System.Drawing.Size(652, 377);
+            this.tabGenerated.TabIndex = 40;
             // 
-            // label10
+            // tgEntity
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(401, 153);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(63, 13);
-            this.label10.TabIndex = 38;
-            this.label10.Text = "textProperty";
+            this.tgEntity.Location = new System.Drawing.Point(4, 22);
+            this.tgEntity.Name = "tgEntity";
+            this.tgEntity.Padding = new System.Windows.Forms.Padding(3);
+            this.tgEntity.Size = new System.Drawing.Size(644, 351);
+            this.tgEntity.TabIndex = 0;
+            this.tgEntity.Text = "Entity";
+            this.tgEntity.UseVisualStyleBackColor = true;
             // 
-            // chvGroupField
+            // tgMap
             // 
-            this.chvGroupField.AutoSize = true;
-            this.chvGroupField.Location = new System.Drawing.Point(464, 197);
-            this.chvGroupField.Name = "chvGroupField";
-            this.chvGroupField.Size = new System.Drawing.Size(140, 17);
-            this.chvGroupField.TabIndex = 39;
-            this.chvGroupField.Text = "Группировать по полю";
-            this.chvGroupField.UseVisualStyleBackColor = true;
-            this.chvGroupField.CheckedChanged += new System.EventHandler(this.chvGroupField_CheckedChanged);
+            this.tgMap.Location = new System.Drawing.Point(4, 22);
+            this.tgMap.Name = "tgMap";
+            this.tgMap.Padding = new System.Windows.Forms.Padding(3);
+            this.tgMap.Size = new System.Drawing.Size(644, 351);
+            this.tgMap.TabIndex = 1;
+            this.tgMap.Text = "Map";
+            this.tgMap.UseVisualStyleBackColor = true;
             // 
-            // EntityOptionsDialog
+            // tgController
+            // 
+            this.tgController.Location = new System.Drawing.Point(4, 22);
+            this.tgController.Name = "tgController";
+            this.tgController.Padding = new System.Windows.Forms.Padding(3);
+            this.tgController.Size = new System.Drawing.Size(644, 351);
+            this.tgController.TabIndex = 3;
+            this.tgController.Text = "Controller";
+            this.tgController.UseVisualStyleBackColor = true;
+            // 
+            // tgView
+            // 
+            this.tgView.Location = new System.Drawing.Point(4, 22);
+            this.tgView.Name = "tgView";
+            this.tgView.Padding = new System.Windows.Forms.Padding(3);
+            this.tgView.Size = new System.Drawing.Size(644, 351);
+            this.tgView.TabIndex = 2;
+            this.tgView.Text = "View";
+            this.tgView.UseVisualStyleBackColor = true;
+            // 
+            // tgMigration
+            // 
+            this.tgMigration.Location = new System.Drawing.Point(4, 22);
+            this.tgMigration.Name = "tgMigration";
+            this.tgMigration.Size = new System.Drawing.Size(644, 351);
+            this.tgMigration.TabIndex = 4;
+            this.tgMigration.Text = "Migration";
+            this.tgMigration.UseVisualStyleBackColor = true;
+            // 
+            // tgDomainService
+            // 
+            this.tgDomainService.Location = new System.Drawing.Point(4, 22);
+            this.tgDomainService.Name = "tgDomainService";
+            this.tgDomainService.Size = new System.Drawing.Size(644, 351);
+            this.tgDomainService.TabIndex = 5;
+            this.tgDomainService.Text = "DomainService";
+            this.tgDomainService.UseVisualStyleBackColor = true;
+            // 
+            // tgInterceptor
+            // 
+            this.tgInterceptor.Location = new System.Drawing.Point(4, 22);
+            this.tgInterceptor.Name = "tgInterceptor";
+            this.tgInterceptor.Size = new System.Drawing.Size(644, 351);
+            this.tgInterceptor.TabIndex = 6;
+            this.tgInterceptor.Text = "Interceptor";
+            this.tgInterceptor.UseVisualStyleBackColor = true;
+            // 
+            // tgLogMap
+            // 
+            this.tgLogMap.Location = new System.Drawing.Point(4, 22);
+            this.tgLogMap.Name = "tgLogMap";
+            this.tgLogMap.Size = new System.Drawing.Size(644, 351);
+            this.tgLogMap.TabIndex = 7;
+            this.tgLogMap.Text = "LogMap";
+            this.tgLogMap.UseVisualStyleBackColor = true;
+            // 
+            // tgFilterable
+            // 
+            this.tgFilterable.Location = new System.Drawing.Point(4, 22);
+            this.tgFilterable.Name = "tgFilterable";
+            this.tgFilterable.Size = new System.Drawing.Size(644, 351);
+            this.tgFilterable.TabIndex = 8;
+            this.tgFilterable.Text = "Filterable";
+            this.tgFilterable.UseVisualStyleBackColor = true;
+            // 
+            // tgSignable
+            // 
+            this.tgSignable.Location = new System.Drawing.Point(4, 22);
+            this.tgSignable.Name = "tgSignable";
+            this.tgSignable.Padding = new System.Windows.Forms.Padding(3);
+            this.tgSignable.Size = new System.Drawing.Size(644, 351);
+            this.tgSignable.TabIndex = 9;
+            this.tgSignable.Text = "Signable";
+            this.tgSignable.UseVisualStyleBackColor = true;
+            // 
+            // tgStateful
+            // 
+            this.tgStateful.Location = new System.Drawing.Point(4, 22);
+            this.tgStateful.Name = "tgStateful";
+            this.tgStateful.Padding = new System.Windows.Forms.Padding(3);
+            this.tgStateful.Size = new System.Drawing.Size(644, 351);
+            this.tgStateful.TabIndex = 10;
+            this.tgStateful.Text = "Stateful";
+            this.tgStateful.UseVisualStyleBackColor = true;
+            // 
+            // btnUp
+            // 
+            this.btnUp.Location = new System.Drawing.Point(238, 7);
+            this.btnUp.Name = "btnUp";
+            this.btnUp.Size = new System.Drawing.Size(75, 23);
+            this.btnUp.TabIndex = 16;
+            this.btnUp.Text = "Вверх";
+            this.btnUp.UseVisualStyleBackColor = true;
+            this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
+            // 
+            // btnDown
+            // 
+            this.btnDown.Location = new System.Drawing.Point(319, 7);
+            this.btnDown.Name = "btnDown";
+            this.btnDown.Size = new System.Drawing.Size(75, 23);
+            this.btnDown.TabIndex = 17;
+            this.btnDown.Text = "Вниз";
+            this.btnDown.UseVisualStyleBackColor = true;
+            this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
+            // 
+            // EntityOptionsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(654, 426);
+            this.ClientSize = new System.Drawing.Size(654, 731);
+            this.Controls.Add(this.tabGenerated);
             this.Controls.Add(this.chmLogMap);
             this.Controls.Add(this.chvTreeGrid);
             this.Controls.Add(this.chStateful);
@@ -1249,9 +1427,9 @@
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "EntityOptionsDialog";
+            this.MinimumSize = new System.Drawing.Size(670, 400);
+            this.Name = "EntityOptionsWindow";
             this.Text = "Создание Bars-объекта";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -1273,6 +1451,7 @@
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.tabGenerated.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1388,5 +1567,20 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox tbvTextProperty;
         private System.Windows.Forms.CheckBox chvGroupField;
+        private System.Windows.Forms.ColumnHeader columnHeader5;
+        private System.Windows.Forms.TabControl tabGenerated;
+        private System.Windows.Forms.TabPage tgEntity;
+        private System.Windows.Forms.TabPage tgMap;
+        private System.Windows.Forms.TabPage tgView;
+        private System.Windows.Forms.TabPage tgController;
+        private System.Windows.Forms.TabPage tgMigration;
+        private System.Windows.Forms.TabPage tgDomainService;
+        private System.Windows.Forms.TabPage tgInterceptor;
+        private System.Windows.Forms.TabPage tgLogMap;
+        private System.Windows.Forms.TabPage tgFilterable;
+        private System.Windows.Forms.TabPage tgSignable;
+        private System.Windows.Forms.TabPage tgStateful;
+        private System.Windows.Forms.Button btnDown;
+        private System.Windows.Forms.Button btnUp;
     }
 }

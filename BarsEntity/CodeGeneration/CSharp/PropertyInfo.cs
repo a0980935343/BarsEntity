@@ -24,7 +24,7 @@ namespace Barsix.BarsEntity.CodeGeneration
         public PropertyInfo Get(string modifier = "") { Getter = new List<string> { modifier }; return this; }
         public PropertyInfo Set(string modifier = "") { Setter = new List<string> { modifier }; return this; }
 
-        public override IList<string> Generate(int indent)
+        public override List<string> Generate(int indent)
         {
             List<string> list = new List<string>();
 

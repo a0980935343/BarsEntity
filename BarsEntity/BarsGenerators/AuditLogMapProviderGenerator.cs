@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using EnvDTE;
 
 namespace Barsix.BarsEntity.BarsGenerators
@@ -8,11 +9,11 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class AuditLogMapProviderGenerator : BaseBarsGenerator
     {
-        public override void Generate(Project project, EntityOptions options, GeneratedFragments fragments)
+        public override GeneratedFile Generate(Project project, EntityOptions options, GeneratedFragments fragments)
         {
-            base.Generate(project, options, fragments);
+            var file = base.Generate(project, options, fragments);
 
-            if (!FileExists("AuditLogMapProvider.cs"))
+            if (!File.Exists(Path.Combine(_projectFolder, "AuditLogMapProvider.cs")))
             {
                 var ns = new NamespaceInfo { Name = project.Name };
                 ns.InnerUsing.Add("B4.Modules.NHibernateChangeLog");
@@ -26,14 +27,17 @@ namespace Barsix.BarsEntity.BarsGenerators
                 cls.AddMethod(init);
 
                 ns.NestedValues.Add(cls);
-
-                CreateFile("AuditLogMapProvider.cs", ns.ToString());
-
+                
                 fragments.AddLines("Module.cs", this, new List<string> { "Container.Register(Component.For<IAuditLogMapProvider>().ImplementedBy<AuditLogMapProvider>().LifestyleTransient());"});
+
+                file.Name = "AuditLogMapProvider.cs";
+                file.Body = ns.Generate();
+                return file;
             }
             else
             {
                 fragments.AddLines("AuditLogMapProvider.cs", this, new List<string>{ "container.Add<{0}LogMap>();".F(options.ClassName)});
+                return null;
             }
         }
     }

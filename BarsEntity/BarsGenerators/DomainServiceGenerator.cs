@@ -13,12 +13,10 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class DomainServiceGenerator : BaseBarsGenerator
     {
-        public override void Generate(Project project, EntityOptions options, GeneratedFragments fragments)
+        public override GeneratedFile Generate(Project project, EntityOptions options, GeneratedFragments fragments)
         {
-            base.Generate(project, options, fragments);
-
-            CheckFolder("DomainServices");
-
+            var file = base.Generate(project, options, fragments);
+            
             var ns = new NamespaceInfo() { Name = "{0}.DomainServices".F(project.Name) };
             var cls = new ClassInfo
             {
@@ -35,6 +33,16 @@ namespace Barsix.BarsEntity.BarsGenerators
                 ns.InnerUsing.Add("B4.Modules.FileStorage.DomainService");
 
             ns.InnerUsing.Add("Entities");
+
+            _knownTypes.Clear();
+            _knownTypes.Add(cls.Name);
+            _knownTypes.Add("FileStorageDomainService");
+            _knownTypes.Add("BaseDomainService");
+            _knownTypes.Add(options.ClassName);
+            _knownTypes.Add("List");
+            _knownTypes.Add("IDataResult");
+            _knownTypes.Add("BaseParams");
+            _knownTypes.Add("IDomainServiceInterceptor");
 
             if (options.DomainService.Save)
             {
@@ -229,7 +237,10 @@ namespace Barsix.BarsEntity.BarsGenerators
             fragments.AddLines("Module.cs", this, new List<string> { 
                 "Container.RegisterDomain<{0}DomainService>();".F(options.ClassName)});
 
-            var pi = CreateFile("DomainServices\\" + options.ClassName + "DomainService.cs", ns.ToString());
+            file.Name = options.ClassName + "DomainService.cs";
+            file.Path = "DomainServices";
+            file.Body = ns.Generate();
+            return file;
         }
     }
 }

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Barsix.BarsEntity.BarsOptions
+namespace Barsix.BarsEntity
 {
-    public class ControllerOptions
+    public class GenerationResult
     {
-        public string Name;
+        public List<string> Errors = new List<string>();
     }
 }

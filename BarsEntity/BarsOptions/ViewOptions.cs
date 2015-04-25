@@ -17,6 +17,8 @@ namespace Barsix.BarsEntity.BarsOptions
 
         public bool TreeGrid;
 
+        public bool Inline;
+
         public string SelectionModel = "RowSelectionModel";
     }
 }

@@ -13,18 +13,16 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class ViewGenerator : BaseBarsGenerator
     {
-        public override void Generate(Project project, EntityOptions options, GeneratedFragments fragments)
+        public override GeneratedFile Generate(Project project, EntityOptions options, GeneratedFragments fragments)
         {
-            base.Generate(project, options, fragments);
+            var file = base.Generate(project, options, fragments);
 
             ControllerOptions controllerOpts = options.Controller;
             if (controllerOpts == null)
                 controllerOpts = new ControllerOptions { Name = options.ClassName };
 
-            if (!controllerOpts.Inline)
+            if (!options.View.Inline)
             {
-                CheckFolder("Views" + (options.IsDictionary ? "\\Dict" : ""));
-                
                 var aFunction = new JsFunction() { Inline = false };
 
                 var ns = new JsFunctionCall() { Function = "Ext3.ns", Name = "var ns", Inline = true };
@@ -67,20 +65,18 @@ namespace Barsix.BarsEntity.BarsGenerators
                 define.Params.Add(deps);
                 define.Params.Add(aFunction);
 
-                var pi = CreateFile("Views\\" + (options.IsDictionary ? "Dict\\" : "") + options.ClassName + ".js", string.Join(Environment.NewLine, define.Draw(0)));
-                foreach (Property prop in pi.Properties)
-                {
-                    if (prop.Name == "BuildAction")
-                        prop.Value = (int)3;
-                }
-
+                file.Name = options.ClassName + ".js";
+                file.Path = "Views\\" + (options.IsDictionary ? "Dict\\" : "");
+                file.Body = define.Draw(0);
+                file.Properties.Add("BuildAction", 3);
+                
                 fragments.AddLines("ResourceManifest.cs", this, new List<string> { 
                     "container.Add(\"scripts/modules/{3}.js\", \"{0}.dll/{0}.Views.{2}{1}.js\");".F(project.Name, options.ClassName, options.IsDictionary ? "Dict." : "", options.View.Namespace)} );
+
+                return file;
             }
             else
             {
-                CheckFolder("ViewModels" + (options.IsDictionary ? "\\Dict" : ""));
-
                 var ns = new NamespaceInfo();
                 var cls = new ClassInfo();
 
@@ -111,11 +107,14 @@ namespace Barsix.BarsEntity.BarsGenerators
                 ctor.Body.Add("InlineEdit();");
 
                 cls.AddMethod(ctor);
-
-                var pi = CreateFile("ViewModels\\" + (options.IsDictionary ? "Dict\\" : "") + options.ClassName + "ViewModel.cs", ns.ToString());
                 
                 fragments.AddLines("ResourceManifest.cs", this, new List<string> { 
                     "container.Add(\"scripts/modules/{0}.{1}.js\", new GridPageView<{1}ViewModel>());".F(project.Name, options.ClassName, options.IsDictionary ? "Dict." : "")});
+
+                file.Name = options.ClassName + "ViewModel.cs";
+                file.Path = "ViewModels\\" + (options.IsDictionary ? "Dict\\" : "");
+                file.Body = ns.Generate();
+                return file;
             }
         }
 

@@ -12,11 +12,9 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class MapGenerator : BaseBarsGenerator
     {
-        public override void Generate(Project project, EntityOptions options, GeneratedFragments fragments)
+        public override GeneratedFile Generate(Project project, EntityOptions options, GeneratedFragments fragments)
         {
-            base.Generate(project, options, fragments);
-
-            CheckFolder("Map" + (options.IsDictionary ? "\\Dict" : ""));
+            var file = base.Generate(project, options, fragments);
 
             var ns = new NamespaceInfo();
             var cls = new ClassInfo();
@@ -37,6 +35,12 @@ namespace Barsix.BarsEntity.BarsGenerators
             
             cls.Name = "{0}Map".F(options.ClassName);
             cls.BaseClass = "{2}{0}Map<{1}>".F(options.BaseClass, options.ClassName, project.Name.StartsWith("Bars.B4.") ? "" : "Bars.MosKs.Core.Map.Base.");
+
+            _knownTypes.Clear();
+            _knownTypes.Add(cls.Name);
+            _knownTypes.Add(cls.BaseClass);
+            _knownTypes.Add("IList");
+            _knownTypes.Add("ReferenceMapConfig");
 
             var ctor = new MethodInfo() 
             { 
@@ -63,6 +67,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 else
                 {
                     ctor.Body.Add("References(x => x.{0}, \"{1}\", ReferenceMapConfig.{2}Fetch);".F(field.FieldName, field.ColumnName, field.Nullable ? "" : "NotNullAnd"));
+                    _knownTypes.Add(field.TypeName);
                 }
             }
 
@@ -72,6 +77,9 @@ namespace Barsix.BarsEntity.BarsGenerators
             foreach (var field in options.Fields.Where(x => x.Collection))
             {
                 ctor.Body.Add("HasMany(x => x.{0}, \"{1}\", ReferenceMapConfig.CascadeDelete);".F(field.FieldName, field.ColumnName));
+
+                if (!field.IsBasicType())
+                    _knownTypes.Add(field.TypeName);
             }
             
 
@@ -80,11 +88,15 @@ namespace Barsix.BarsEntity.BarsGenerators
             foreach (var field in options.Fields.Where(x => x.TypeName.EndsWith("View")))
             {
                 ctor.Body.Add("OneToOne(x => x.{0}, map => {{ map.PropertyReference(typeof({1}).GetProperty(\"{2}\")); }});".F(field.FieldName, field.TypeName, options.ClassName));
+                _knownTypes.Add(field.TypeName);
             }
 
             cls.AddMethod(ctor);
 
-            var pi = CreateFile("Map\\" + (options.IsDictionary ? "Dict\\" : "") + options.ClassName + "Map.cs", ns.ToString());
+            file.Name = options.ClassName + "Map.cs";
+            file.Path = "Map\\" + (options.IsDictionary ? "Dict\\" : "");
+            file.Body = ns.Generate();
+            return file;
         }
     }
 }

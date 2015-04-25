@@ -8,6 +8,8 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public interface IBarsGenerator
     {
-        void Generate(Project project, EntityOptions options, GeneratedFragments fragments);
+        GeneratedFile Generate(Project project, EntityOptions options, GeneratedFragments fragments);
+
+        IEnumerable<string> KnownTypes { get; }
     }
 }

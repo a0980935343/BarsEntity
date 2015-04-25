@@ -11,14 +11,12 @@ namespace Barsix.BarsEntity.BarsGenerators
     using BarsOptions;
     using CodeGeneration;
 
-    public class DynamicFilterGenerator : BaseBarsGenerator
+    public class FilterableGenerator : BaseBarsGenerator
     {
-        public override void Generate(Project project, EntityOptions options, GeneratedFragments fragments)
+        public override GeneratedFile Generate(Project project, EntityOptions options, GeneratedFragments fragments)
         {
-            base.Generate(project, options, fragments);
-
-            CheckFolder("Domain\\DynamicFilterableEntities");
-
+            var file = base.Generate(project, options, fragments);
+            
             var ns = new NamespaceInfo() { Name = project.Name + ".DynamicFilterableEntities" };
             var cls = new ClassInfo {
                 Name = "Filterable{0}".F(options.ClassName),
@@ -33,6 +31,14 @@ namespace Barsix.BarsEntity.BarsGenerators
             ns.InnerUsing.Add("Bars.B4.Modules.ReportPanel");
             ns.InnerUsing.Add("Bars.MosKs.DynamicFilters.Entities");
             ns.InnerUsing.Add("Entities");
+
+            _knownTypes.Clear();
+            _knownTypes.Add(cls.Name);
+            _knownTypes.Add(cls.BaseClass);
+            _knownTypes.Add("EntityAttribute");
+            _knownTypes.Add("SimpleSelectFieldConfig");
+            _knownTypes.Add("Expression");
+            _knownTypes.Add("Func");
 
             var entityName = new PropertyInfo
             {
@@ -76,6 +82,8 @@ namespace Barsix.BarsEntity.BarsGenerators
                 entityAttributes.Body.Add("        Name = \"{0}\",".F(field.DisplayName));
                 entityAttributes.Body.Add("        TypeId = {0}EntityAttributeType.UniqueId,".F(field.DynamicFilterType));
 
+                _knownTypes.Add(field.DynamicFilterType + "EntityAttributeType");
+
                 if (field.IsReference())
                 { 
                     entityAttributes.Body.Add("        UserParameter = new PersistentObjectUserParameter");
@@ -110,8 +118,11 @@ namespace Barsix.BarsEntity.BarsGenerators
                 "Container.Register(Component.For<IDomainServiceReadInterceptor<{0}>>().ImplementedBy<DynamicFilterDomainServiceReadInterceptor<{0}>>().LifeStyle.Transient);".F(options.ClassName),
                 "Container.Register(Component.For<IDomainServiceReadInterceptor<{0}>>().ImplementedBy<RuleLimitingAccessDomainServiceReadInterceptor<{0}>>().LifeStyle.Transient);".F(options.ClassName)
             });
-
-            var pi = CreateFile("Domain\\DynamicFilterableEntities\\Filterable" + options.ClassName + ".cs", ns.ToString());
+            
+            file.Name = "Filterable" + options.ClassName + "Map.cs";
+            file.Path = "Domain\\DynamicFilterableEntities";
+            file.Body = ns.Generate();
+            return file;
         }
     }
 }

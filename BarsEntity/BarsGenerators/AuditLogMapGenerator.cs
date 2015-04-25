@@ -13,12 +13,9 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class AuditLogMapGenerator : BaseBarsGenerator
     {
-        public override void Generate(Project project, EntityOptions options, GeneratedFragments fragments)
+        public override GeneratedFile Generate(Project project, EntityOptions options, GeneratedFragments fragments)
         {
-            base.Generate(project, options, fragments);
-
-            CheckFolder("Map\\Log");
-
+            var file = base.Generate(project, options, fragments);
             var ns = new NamespaceInfo() { Name = "{0}.Map".F(project.Name) };
             var cls = new ClassInfo
             {
@@ -35,6 +32,11 @@ namespace Barsix.BarsEntity.BarsGenerators
                 Name = cls.Name
             };
 
+            _knownTypes.Clear();
+            _knownTypes.Add(cls.Name);
+            _knownTypes.Add("AuditLogMap");
+            _knownTypes.Add(options.ClassName);
+
             ctor.Body.Add("Name(\"{0}\");".F(options.DisplayName));
             ctor.Body.Add("Description(x => string.Format(\"{0} №{{0}}\", x.Id));".F(options.DisplayName));
             ctor.Body.Add("");
@@ -45,7 +47,10 @@ namespace Barsix.BarsEntity.BarsGenerators
             }
             cls.AddMethod(ctor);
 
-            var pi = CreateFile("Map\\Log\\" + options.ClassName + "LogMap.cs", ns.ToString());
+            file.Name = options.ClassName + "LogMap.cs";
+            file.Path = "Map\\Log\\";
+            file.Body = ns.Generate();
+            return file;
         }
     }
 }

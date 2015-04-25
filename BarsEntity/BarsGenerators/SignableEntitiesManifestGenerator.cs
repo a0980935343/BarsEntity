@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 using EnvDTE;
 
@@ -13,11 +13,11 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class SignableEntitiesManifestGenerator : BaseBarsGenerator
     {
-        public override void Generate(Project project, EntityOptions options, GeneratedFragments fragments)
+        public override GeneratedFile Generate(Project project, EntityOptions options, GeneratedFragments fragments)
         {
-            base.Generate(project, options, fragments);
+            var file = base.Generate(project, options, fragments);
 
-            if (!FileExists("SignableEntitiesManifest.cs"))
+            if (!File.Exists(Path.Combine(_projectFolder, "SignableEntitiesManifest.cs")))
             {
                 var ns = new NamespaceInfo { Name = "{0}.Domain".F(project.Name) };
                 ns.InnerUsing.Add("Bars.B4.Modules.DigitalSignature");
@@ -36,6 +36,12 @@ namespace Barsix.BarsEntity.BarsGenerators
                 })
                 .Public.Const;
 
+                _knownTypes.Clear();
+                _knownTypes.Add(cls.Name);
+                _knownTypes.AddRange(cls.Interfaces);
+                _knownTypes.Add("SignableEntityInfo");
+                _knownTypes.Add("IEnumerable");
+
                 cls.AddField(classInfo);
 
                 var getAllInfo = new MethodInfo { Name = "GetAllInfo", Type = "IEnumerable<SignableEntityInfo>" };
@@ -46,11 +52,13 @@ namespace Barsix.BarsEntity.BarsGenerators
                 cls.AddMethod(getAllInfo);
 
                 ns.NestedValues.Add(cls);
-
-                CreateFile("SignableEntitiesManifest.cs", ns.ToString());
-                
+                                
                 fragments.AddLines("Module.cs", this, new List<string> { 
                     "Container.Register(Component.For<ISignableEntitiesManifest>().ImplementedBy<SignableEntitiesManifest>().LifestyleTransient());"});
+
+                file.Name = "SignableEntitiesManifest.cs";
+                file.Body = ns.Generate();
+                return file;
             }
             else
             {
@@ -66,6 +74,8 @@ namespace Barsix.BarsEntity.BarsGenerators
                     field, 
                     "", 
                     "    new SignableEntityInfo({0}Id, \"{1}\", typeof({0}))".F(options.ClassName, options.DisplayName) });
+
+                return null;
             }
         }
     }

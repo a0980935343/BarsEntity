@@ -12,7 +12,7 @@ namespace Barsix.BarsEntity.CodeGeneration
 
         public List<BaseCodeFragment> NestedValues = new List<BaseCodeFragment>();
 
-        public abstract IList<string> Generate(int indent);
+        public abstract List<string> Generate(int indent);
     }
 
     public class CodeFragment : BaseCodeFragment
@@ -28,7 +28,7 @@ namespace Barsix.BarsEntity.CodeGeneration
         public CodeFragment Private { get { Access = "private"; return this; } }
         public CodeFragment Static { get { IsStatic = true; return this; } }
 
-        public override IList<string> Generate(int indent)
+        public override List<string> Generate(int indent)
         {
             throw new NotImplementedException();
         }

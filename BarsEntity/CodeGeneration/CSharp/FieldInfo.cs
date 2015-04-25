@@ -24,7 +24,7 @@ namespace Barsix.BarsEntity.CodeGeneration
         public FieldInfo ReadOnly { get { IsReadOnly = true; return this; } }
         public FieldInfo Const { get { IsConst = true; return this; } }
 
-        public override IList<string> Generate(int indent)
+        public override List<string> Generate(int indent)
         {
             List<string> list = new List<string>();
 

@@ -66,10 +66,10 @@ namespace Barsix.BarsEntity
             {
                 throw new ArgumentException("Project not found!");
             }
-
+            
             EntityOptionsWindow dialog = new EntityOptionsWindow();
             dialog.Text = "Создание Bars-объекта ({0})".F(project.Name);
-            dialog.Project = project;
+            dialog.SetProject(project);
             dialog.Show();
         }
 

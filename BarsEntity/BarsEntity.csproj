@@ -56,6 +56,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FastColoredTextBox">
+      <HintPath>..\packages\FCTB.2.16.11.0\lib\FastColoredTextBox.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Microsoft.VisualStudio.OLE.Interop" />
@@ -144,7 +147,7 @@
     <Compile Include="BarsGenerators\AuditLogMapProviderGenerator.cs" />
     <Compile Include="BarsGenerators\AuditLogMapGenerator.cs" />
     <Compile Include="BarsGenerators\DomainServiceGenerator.cs" />
-    <Compile Include="BarsGenerators\DynamicFilterGenerator.cs" />
+    <Compile Include="BarsGenerators\FilterableGenerator.cs" />
     <Compile Include="BarsGenerators\SignableEntitiesManifestGenerator.cs" />
     <Compile Include="BarsGenerators\StatefulEntitiesManifestGenerator.cs" />
     <Compile Include="BarsOptions\DomainServiceOptions.cs" />
@@ -156,8 +159,9 @@
     <Compile Include="CodeGeneration\CSharp\NamespaceInfo.cs" />
     <Compile Include="CodeGeneration\CSharp\PropertyInfo.cs" />
     <Compile Include="CodeGeneration\CSharp\FieldInfo.cs" />
+    <Compile Include="CodeGeneration\GeneratedFile.cs" />
     <Compile Include="CodeGeneration\GeneratedFragments.cs" />
-    <Compile Include="CodeGeneration\JavaScript\ExtJsMetadata.cs" />
+    <Compile Include="CodeGeneration\JavaScript\JsProperty.cs" />
     <Compile Include="BarsGenerators\MigrationGenerator.cs" />
     <Compile Include="BarsGenerators\NavigationGenerator.cs" />
     <Compile Include="BarsGenerators\PermissionGenerator.cs" />
@@ -173,6 +177,12 @@
     <Compile Include="BarsOptions\NavigationOptions.cs" />
     <Compile Include="BarsOptions\PermissionOptions.cs" />
     <Compile Include="BarsOptions\ViewOptions.cs" />
+    <Compile Include="CodeGeneration\JavaScript\JsArray.cs" />
+    <Compile Include="CodeGeneration\JavaScript\JsFunction.cs" />
+    <Compile Include="CodeGeneration\JavaScript\JsFunctionCall.cs" />
+    <Compile Include="CodeGeneration\JavaScript\JsInstance.cs" />
+    <Compile Include="CodeGeneration\JavaScript\JsObject.cs" />
+    <Compile Include="CodeGeneration\JavaScript\JsScalar.cs" />
     <Compile Include="ConfirmCreationParts.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -191,6 +201,8 @@
     <Compile Include="EntityOptionsWindow.Designer.cs">
       <DependentUpon>EntityOptionsWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="GenerationManager.cs" />
+    <Compile Include="GenerationResult.cs" />
     <Compile Include="Helpers\ProjectExt.cs" />
     <Compile Include="Guids.cs" />
     <Compile Include="BarsEntityPackage.cs" />
@@ -223,6 +235,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="source.extension.vsixmanifest">
       <SubType>Designer</SubType>
     </None>

@@ -23,9 +23,9 @@ namespace Barsix.BarsEntity.CodeGeneration
         public MethodInfo Virtual { get { return (MethodInfo)base.Virtual; } }
         public MethodInfo Override { get { return (MethodInfo)base.Override; } }
 
-        public override IList<string> Generate(int indent)
+        public override List<string> Generate(int indent)
         {
-            IList<string> list = new List<string>();
+            List<string> list = new List<string>();
 
             
             if (!string.IsNullOrEmpty(Summary))

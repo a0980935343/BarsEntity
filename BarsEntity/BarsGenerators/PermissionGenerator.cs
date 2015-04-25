@@ -7,9 +7,9 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class PermissionGenerator : BaseBarsGenerator
     {
-        public override void Generate(EnvDTE.Project project, EntityOptions options, GeneratedFragments fragments)
+        public override GeneratedFile Generate(EnvDTE.Project project, EntityOptions options, GeneratedFragments fragments)
         {
-            base.Generate(project, options, fragments);
+            var file = base.Generate(project, options, fragments);
             var map = options.Permission;
             List<string> lines = new List<string>();
 
@@ -38,7 +38,8 @@ namespace Barsix.BarsEntity.BarsGenerators
             if (options.Signable)
                 lines.Add("Permission(\"{0}.Sign\", \"Подписание документа\");".F(map.Prefix));
 
-            fragments.AddLines("PermissionMap/PermissionMap.cs", this, lines); 
+            fragments.AddLines("PermissionMap/PermissionMap.cs", this, lines);
+            return null;
         }
     }
 }

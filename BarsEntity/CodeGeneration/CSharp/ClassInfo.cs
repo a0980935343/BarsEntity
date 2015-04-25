@@ -35,7 +35,7 @@ namespace Barsix.BarsEntity.CodeGeneration
             NestedValues.Add(field);
         }
 
-        public override IList<string> Generate(int indent)
+        public override List<string> Generate(int indent)
         {
             List<string> list = new List<string>();
             

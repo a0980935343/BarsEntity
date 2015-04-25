@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.IO;
 
 using EnvDTE;
 
@@ -12,14 +12,12 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class StatefulEntitiesManifestGenerator : BaseBarsGenerator
     {
-        public override void Generate(Project project, EntityOptions options, GeneratedFragments fragments)
+        public override GeneratedFile Generate(Project project, EntityOptions options, GeneratedFragments fragments)
         {
-            base.Generate(project, options, fragments);
+            var file = base.Generate(project, options, fragments);
 
-            if (!FileExists("Domain\\StatefulEntitiesManifest.cs"))
+            if (!File.Exists(Path.Combine(_projectFolder, "Domain\\StatefulEntitiesManifest.cs")))
             {
-                CheckFolder("Domain");
-
                 var ns = new NamespaceInfo { Name = "{0}.Domain".F(project.Name) };
                 ns.InnerUsing.Add("Bars.B4");
                 ns.InnerUsing.Add("Bars.B4.Modules.States");
@@ -38,6 +36,12 @@ namespace Barsix.BarsEntity.BarsGenerators
                 }
                 ).Public.Static.ReadOnly;
 
+                _knownTypes.Clear();
+                _knownTypes.Add(cls.Name);
+                _knownTypes.AddRange(cls.Interfaces);
+                _knownTypes.Add("StatefulEntityInfo");
+                _knownTypes.Add("IEnumerable");
+
                 cls.AddField(classInfo);
 
                 var getAllInfo = new MethodInfo { Name = "GetAllInfo", Type = "IEnumerable<StatefulEntityInfo>" };
@@ -45,11 +49,14 @@ namespace Barsix.BarsEntity.BarsGenerators
                 cls.AddMethod(getAllInfo);
 
                 ns.NestedValues.Add(cls);
-
-                CreateFile("Domain\\StatefulEntitiesManifest.cs", ns.ToString());
-
+                
                 fragments.AddLines("Module.cs", this, new List<string> { 
                     "Container.Register(Component.For<IStatefulEntitiesManifest>().ImplementedBy<StatefulEntitiesManifest>().LifestyleTransient());"});
+
+                file.Name = "StatefulEntitiesManifest.cs";
+                file.Path = "Domain";
+                file.Body = ns.Generate();
+                return file;
             }
             else
             {
@@ -60,6 +67,8 @@ namespace Barsix.BarsEntity.BarsGenerators
                 }).Public.Static.ReadOnly.Generate(0).First();
 
                 fragments.AddLines("Domain/StatefulEntitiesManifest.cs", this, new List<string> { field });
+
+                return null;
             }
         }
     }

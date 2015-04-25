@@ -11,14 +11,12 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class MigrationGenerator : BaseBarsGenerator
     {
-        public override void Generate(EnvDTE.Project project, EntityOptions options, GeneratedFragments fragments)
+        public override GeneratedFile Generate(EnvDTE.Project project, EntityOptions options, GeneratedFragments fragments)
         {
-            base.Generate(project, options, fragments);
+            var file = base.Generate(project, options, fragments);
 
             string folderVersion = "Version_{0}".F(options.MigrationVersion);
-
-            CheckFolder("Migrations\\"+folderVersion);
-
+            
             var ns = new NamespaceInfo();
             var cls = new ClassInfo();
             ns.NestedValues.Add(cls);
@@ -36,6 +34,12 @@ namespace Barsix.BarsEntity.BarsGenerators
 
             cls.Name = "UpdateSchema";
             cls.BaseClass = "Migration";
+
+            _knownTypes.Clear();
+            _knownTypes.Add(cls.Name);
+            _knownTypes.Add(cls.BaseClass);
+            _knownTypes.Add("Column");
+            _knownTypes.Add("RefColumn");
             
             var up = new MethodInfo() 
             { 
@@ -124,7 +128,10 @@ namespace Barsix.BarsEntity.BarsGenerators
             if (File.Exists(Path.Combine(_projectFolder, options.ResultFile)))
                 throw new Exception("Файл '{0}' уже существует! Измените версию миграции".F(options.ResultFile));
 
-            var pi = CreateFile(options.ResultFile, ns.ToString());
+            file.Name = "UpdateSchema.cs";
+            file.Path = "Migrations\\" + folderVersion;
+            file.Body = ns.Generate();
+            return file;
         }
 
     }
