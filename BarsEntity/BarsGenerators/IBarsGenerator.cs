@@ -11,5 +11,7 @@ namespace Barsix.BarsEntity.BarsGenerators
         GeneratedFile Generate(Project project, EntityOptions options, GeneratedFragments fragments);
 
         IEnumerable<string> KnownTypes { get; }
+
+        List<string> ClassList { get; set; }
     }
 }

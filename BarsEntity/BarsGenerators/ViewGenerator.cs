@@ -82,8 +82,8 @@ namespace Barsix.BarsEntity.BarsGenerators
 
                 ns.Name = "{0}.ViewModels".F(project.Name);
 
-                ns.InnerUsing.Add("Bars.B4");
-                ns.InnerUsing.Add("Bars.B4.Modules.Templates");
+                ns.InnerUsing.Add("B4");
+                ns.InnerUsing.Add("B4.Modules.Templates");
                 ns.InnerUsing.Add("{0}.Entities".F(project.Name));
 
                 ns.NestedValues.Add(cls);

@@ -20,7 +20,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             if (!File.Exists(Path.Combine(_projectFolder, "SignableEntitiesManifest.cs")))
             {
                 var ns = new NamespaceInfo { Name = "{0}.Domain".F(project.Name) };
-                ns.InnerUsing.Add("Bars.B4.Modules.DigitalSignature");
+                ns.InnerUsing.Add("B4.Modules.DigitalSignature");
                 ns.InnerUsing.Add("Entities");
 
                 ns.OuterUsing.Add("System.Collections.Generic");

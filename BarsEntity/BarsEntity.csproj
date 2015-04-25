@@ -204,6 +204,7 @@
     </Compile>
     <Compile Include="GenerationManager.cs" />
     <Compile Include="GenerationResult.cs" />
+    <Compile Include="Helpers\CollectionExt.cs" />
     <Compile Include="Helpers\ProjectExt.cs" />
     <Compile Include="Guids.cs" />
     <Compile Include="BarsEntityPackage.cs" />

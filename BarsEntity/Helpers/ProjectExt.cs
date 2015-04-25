@@ -64,5 +64,37 @@ namespace Barsix.BarsEntity
                 throw new ArgumentException("Не найден путь проекта " + project.Name);
             }
         }
+
+        public static List<string> GetClassList(this Project project, string filter = "")
+        {
+            List<string> classes = new List<string>();
+
+            Func<CodeNamespace, List<string>> enumClasses = null;
+            enumClasses = ns =>
+            {
+                List<string> list = new List<string>();
+
+                if (!ns.FullName.StartsWith(filter))
+                    return list;
+
+                foreach (CodeNamespace ens in ns.Members.OfType<CodeNamespace>())
+                {
+                    list.AddRange(enumClasses(ens));
+                }
+
+                foreach (CodeClass @class in ns.Members.OfType<CodeClass>())
+                {
+                    list.Add(@class.FullName.Substring(filter.Length+1));
+                }
+
+                return list;
+            };
+
+            foreach (CodeNamespace element in project.CodeModel.CodeElements.OfType<CodeNamespace>())
+            {
+                classes.AddRange(enumClasses(element));
+            }
+            return classes;
+        }
     }
 }

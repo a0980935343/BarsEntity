@@ -23,7 +23,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 BaseClass = "EmptyDomainInterceptor<{0}>".F(options.ClassName)
             };
             ns.NestedValues.Add(cls);
-            ns.InnerUsing.Add("Bars.B4");
+            ns.InnerUsing.Add("B4");
             ns.InnerUsing.Add("Entities");
 
             _knownTypes.Clear();

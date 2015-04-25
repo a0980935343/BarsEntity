@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.IO;
 
 using EnvDTE;
@@ -25,6 +25,18 @@ namespace Barsix.BarsEntity.BarsGenerators
             return new GeneratedFile() { Generator = this };
         }
 
+        public List<string> ClassList { get; set; }
+
         public IEnumerable<string> KnownTypes { get { return _knownTypes; } }
+
+        protected string GetTypeNamespace(string type)
+        { 
+            string clsName = ClassList.FirstOrDefault(x => x.EndsWith("." + type));
+            if (!string.IsNullOrEmpty(clsName))
+                return clsName.Substring(0, clsName.Length - type.Length - 1);
+            return null;
+        }
+
+
     }
 }

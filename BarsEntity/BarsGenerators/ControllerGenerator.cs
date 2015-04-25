@@ -30,17 +30,17 @@ namespace Barsix.BarsEntity.BarsGenerators
             ns.OuterUsing.Add("System.Web.Mvc");
             
             
-            ns.InnerUsing.Add("Bars.B4");
-            ns.InnerUsing.Add("Bars.B4.Utils");
+            ns.InnerUsing.Add("B4");
+            ns.InnerUsing.Add("B4.Utils");
 
             if (options.Stateful)
-                ns.InnerUsing.Add("Bars.B4.Modules.States");
+                ns.InnerUsing.Add("B4.Modules.States");
 
             if (options.Signable)
-                ns.InnerUsing.Add("Bars.B4.Modules.DigitalSignature.Entities");
+                ns.InnerUsing.Add("B4.Modules.DigitalSignature.Entities");
 
             if (options.AcceptFiles)
-                ns.InnerUsing.Add("Bars.B4.Modules.FileStorage");
+                ns.InnerUsing.Add("B4.Modules.FileStorage");
 
             ns.InnerUsing.Add("Entities");
 
@@ -91,7 +91,10 @@ namespace Barsix.BarsEntity.BarsGenerators
                     {
                         proxyClass.AddProperty(new PropertyInfo() { Name = field.FieldName, Type = field.FullTypeName });
                         if (!field.IsBasicType() && field.TypeName != field.FieldName)
+                        {
                             _knownTypes.Add(field.TypeName);
+                            ns.InnerUsing.AddDistinct(GetTypeNamespace(field.TypeName));
+                        }
                     }
 
                     if (options.Signable)

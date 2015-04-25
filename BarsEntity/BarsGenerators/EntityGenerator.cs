@@ -37,16 +37,16 @@ namespace Barsix.BarsEntity.BarsGenerators
 
             if (options.BaseClass == "NamedBaseEntity")
             {
-                ns.InnerUsing.Add("Bars.MosKs.Core.Entities.Base");
+                ns.InnerUsing.Add("MosKs.Core.Entities.Base");
             }
             else
             {
-                ns.InnerUsing.Add("Bars.B4.DataAccess");
+                ns.InnerUsing.Add("B4.DataAccess");
             }
 
             if (options.AcceptFiles)
             {
-                ns.InnerUsing.Add("Bars.B4.Modules.FileStorage");
+                ns.InnerUsing.Add("B4.Modules.FileStorage");
             }
 
             if (!string.IsNullOrEmpty(options.DisplayName))
@@ -57,15 +57,15 @@ namespace Barsix.BarsEntity.BarsGenerators
 
             if (options.Stateful)
             {
-                ns.InnerUsing.Add("Bars.B4.Modules.States");
+                ns.InnerUsing.Add("B4.Modules.States");
                 cls.Interfaces.Add("IStatefulEntity");
                 _knownTypes.Add("IStatefulEntity");
             }
 
             if (options.Signable)
             {
-                ns.InnerUsing.Add("Bars.B4.Modules.DigitalSignature");
-                ns.InnerUsing.Add("Bars.B4.Modules.DigitalSignature.Attributes");
+                ns.InnerUsing.Add("B4.Modules.DigitalSignature");
+                ns.InnerUsing.Add("B4.Modules.DigitalSignature.Attributes");
                 cls.Interfaces.Add("ISignableEntity");
                 _knownTypes.Add("ISignableEntity");
             }
@@ -91,6 +91,9 @@ namespace Barsix.BarsEntity.BarsGenerators
 
                 cls.AddProperty(pi);
 
+                if (!field.IsBasicType())
+                    ns.InnerUsing.AddDistinct(GetTypeNamespace(field.TypeName));
+
                 if (!field.IsBasicType() && field.TypeName != field.FieldName)
                     _knownTypes.Add(field.TypeName);
             }
@@ -110,7 +113,10 @@ namespace Barsix.BarsEntity.BarsGenerators
                 cls.AddProperty(pi);
 
                 if (!field.IsBasicType())
+                {
+                    ns.InnerUsing.AddDistinct(GetTypeNamespace(field.TypeName));
                     _knownTypes.Add(field.TypeName);
+                }
             }
 
             foreach (var field in options.Fields.Where(x => x.TypeName.EndsWith("View")))

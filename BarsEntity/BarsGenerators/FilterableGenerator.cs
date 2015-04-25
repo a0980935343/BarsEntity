@@ -28,8 +28,8 @@ namespace Barsix.BarsEntity.BarsGenerators
             ns.OuterUsing.Add("System.Linq");
             ns.OuterUsing.Add("System.Linq.Expressions");
 
-            ns.InnerUsing.Add("Bars.B4.Modules.ReportPanel");
-            ns.InnerUsing.Add("Bars.MosKs.DynamicFilters.Entities");
+            ns.InnerUsing.Add("B4.Modules.ReportPanel");
+            ns.InnerUsing.Add("MosKs.DynamicFilters.Entities");
             ns.InnerUsing.Add("Entities");
 
             _knownTypes.Clear();

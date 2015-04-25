@@ -24,14 +24,14 @@ namespace Barsix.BarsEntity.BarsGenerators
             
             if (options.BaseClass == "BaseEntity")
             {
-                ns.InnerUsing.Add("Bars.B4.DataAccess");
+                ns.InnerUsing.Add("B4.DataAccess");
             }
             else if (options.BaseClass == "NamedBaseEntity")
             {
-                ns.InnerUsing.Add("Bars.MosKs.Core.Map.Base");
+                ns.InnerUsing.Add("MosKs.Core.Map.Base");
             }
 
-            ns.InnerUsing.Add("Bars.B4.DataAccess.ByCode");
+            ns.InnerUsing.Add("B4.DataAccess.ByCode");
             ns.InnerUsing.Add("Entities");
             
             cls.Name = "{0}Map".F(options.ClassName);

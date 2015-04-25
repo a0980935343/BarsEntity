@@ -82,7 +82,6 @@ namespace Barsix.BarsEntity
             this.label10 = new System.Windows.Forms.Label();
             this.tbvTextProperty = new System.Windows.Forms.TextBox();
             this.chvDynamicField = new System.Windows.Forms.CheckBox();
-            this.chvDynamicFilter = new System.Windows.Forms.CheckBox();
             this.cbvSelectionModel = new System.Windows.Forms.ComboBox();
             this.label31 = new System.Windows.Forms.Label();
             this.chvEditingDisabled = new System.Windows.Forms.CheckBox();
@@ -137,6 +136,7 @@ namespace Barsix.BarsEntity
             this.label30 = new System.Windows.Forms.Label();
             this.label29 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
+            this.chvDynamicFilter = new System.Windows.Forms.CheckBox();
             this.chDictionary = new System.Windows.Forms.CheckBox();
             this.chSignable = new System.Windows.Forms.CheckBox();
             this.chStateful = new System.Windows.Forms.CheckBox();
@@ -700,17 +700,6 @@ namespace Barsix.BarsEntity
             this.chvDynamicField.Text = "Динамический фильтр";
             this.chvDynamicField.UseVisualStyleBackColor = true;
             // 
-            // chvDynamicFilter
-            // 
-            this.chvDynamicFilter.AutoSize = true;
-            this.chvDynamicFilter.Location = new System.Drawing.Point(642, 171);
-            this.chvDynamicFilter.Name = "chvDynamicFilter";
-            this.chvDynamicFilter.Size = new System.Drawing.Size(142, 17);
-            this.chvDynamicFilter.TabIndex = 34;
-            this.chvDynamicFilter.Text = "Динамический фильтр";
-            this.chvDynamicFilter.UseVisualStyleBackColor = true;
-            this.chvDynamicFilter.CheckedChanged += new System.EventHandler(this.chvDynamicFilter_CheckedChanged);
-            // 
             // cbvSelectionModel
             // 
             this.cbvSelectionModel.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -890,7 +879,7 @@ namespace Barsix.BarsEntity
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(645, 260);
+            this.tabPage5.Size = new System.Drawing.Size(622, 260);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Migration";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -921,7 +910,7 @@ namespace Barsix.BarsEntity
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
             this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(645, 260);
+            this.tabPage6.Size = new System.Drawing.Size(622, 260);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Permission";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -975,7 +964,7 @@ namespace Barsix.BarsEntity
             this.tabPage7.Location = new System.Drawing.Point(4, 22);
             this.tabPage7.Name = "tabPage7";
             this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(645, 260);
+            this.tabPage7.Size = new System.Drawing.Size(622, 260);
             this.tabPage7.TabIndex = 6;
             this.tabPage7.Text = "Navigation";
             this.tabPage7.UseVisualStyleBackColor = true;
@@ -1045,7 +1034,7 @@ namespace Barsix.BarsEntity
             this.tabPage8.Location = new System.Drawing.Point(4, 22);
             this.tabPage8.Name = "tabPage8";
             this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage8.Size = new System.Drawing.Size(645, 260);
+            this.tabPage8.Size = new System.Drawing.Size(622, 260);
             this.tabPage8.TabIndex = 7;
             this.tabPage8.Text = "DomainService";
             this.tabPage8.UseVisualStyleBackColor = true;
@@ -1233,6 +1222,17 @@ namespace Barsix.BarsEntity
             this.label28.TabIndex = 9;
             this.label28.Text = "Create";
             // 
+            // chvDynamicFilter
+            // 
+            this.chvDynamicFilter.AutoSize = true;
+            this.chvDynamicFilter.Location = new System.Drawing.Point(642, 171);
+            this.chvDynamicFilter.Name = "chvDynamicFilter";
+            this.chvDynamicFilter.Size = new System.Drawing.Size(142, 17);
+            this.chvDynamicFilter.TabIndex = 34;
+            this.chvDynamicFilter.Text = "Динамический фильтр";
+            this.chvDynamicFilter.UseVisualStyleBackColor = true;
+            this.chvDynamicFilter.CheckedChanged += new System.EventHandler(this.chvDynamicFilter_CheckedChanged);
+            // 
             // chDictionary
             // 
             this.chDictionary.AutoSize = true;
@@ -1324,7 +1324,7 @@ namespace Barsix.BarsEntity
             this.tgMap.Location = new System.Drawing.Point(4, 22);
             this.tgMap.Name = "tgMap";
             this.tgMap.Padding = new System.Windows.Forms.Padding(3);
-            this.tgMap.Size = new System.Drawing.Size(644, 351);
+            this.tgMap.Size = new System.Drawing.Size(780, 381);
             this.tgMap.TabIndex = 1;
             this.tgMap.Text = "Map";
             this.tgMap.UseVisualStyleBackColor = true;
@@ -1334,7 +1334,7 @@ namespace Barsix.BarsEntity
             this.tgController.Location = new System.Drawing.Point(4, 22);
             this.tgController.Name = "tgController";
             this.tgController.Padding = new System.Windows.Forms.Padding(3);
-            this.tgController.Size = new System.Drawing.Size(644, 351);
+            this.tgController.Size = new System.Drawing.Size(780, 381);
             this.tgController.TabIndex = 3;
             this.tgController.Text = "Controller";
             this.tgController.UseVisualStyleBackColor = true;
@@ -1344,7 +1344,7 @@ namespace Barsix.BarsEntity
             this.tgView.Location = new System.Drawing.Point(4, 22);
             this.tgView.Name = "tgView";
             this.tgView.Padding = new System.Windows.Forms.Padding(3);
-            this.tgView.Size = new System.Drawing.Size(644, 351);
+            this.tgView.Size = new System.Drawing.Size(780, 381);
             this.tgView.TabIndex = 2;
             this.tgView.Text = "View";
             this.tgView.UseVisualStyleBackColor = true;
@@ -1353,7 +1353,7 @@ namespace Barsix.BarsEntity
             // 
             this.tgMigration.Location = new System.Drawing.Point(4, 22);
             this.tgMigration.Name = "tgMigration";
-            this.tgMigration.Size = new System.Drawing.Size(644, 351);
+            this.tgMigration.Size = new System.Drawing.Size(780, 381);
             this.tgMigration.TabIndex = 4;
             this.tgMigration.Text = "Migration";
             this.tgMigration.UseVisualStyleBackColor = true;
@@ -1362,7 +1362,7 @@ namespace Barsix.BarsEntity
             // 
             this.tgDomainService.Location = new System.Drawing.Point(4, 22);
             this.tgDomainService.Name = "tgDomainService";
-            this.tgDomainService.Size = new System.Drawing.Size(644, 351);
+            this.tgDomainService.Size = new System.Drawing.Size(780, 381);
             this.tgDomainService.TabIndex = 5;
             this.tgDomainService.Text = "DomainService";
             this.tgDomainService.UseVisualStyleBackColor = true;
@@ -1371,7 +1371,7 @@ namespace Barsix.BarsEntity
             // 
             this.tgInterceptor.Location = new System.Drawing.Point(4, 22);
             this.tgInterceptor.Name = "tgInterceptor";
-            this.tgInterceptor.Size = new System.Drawing.Size(644, 351);
+            this.tgInterceptor.Size = new System.Drawing.Size(780, 381);
             this.tgInterceptor.TabIndex = 6;
             this.tgInterceptor.Text = "Interceptor";
             this.tgInterceptor.UseVisualStyleBackColor = true;
@@ -1380,7 +1380,7 @@ namespace Barsix.BarsEntity
             // 
             this.tgLogMap.Location = new System.Drawing.Point(4, 22);
             this.tgLogMap.Name = "tgLogMap";
-            this.tgLogMap.Size = new System.Drawing.Size(644, 351);
+            this.tgLogMap.Size = new System.Drawing.Size(780, 381);
             this.tgLogMap.TabIndex = 7;
             this.tgLogMap.Text = "LogMap";
             this.tgLogMap.UseVisualStyleBackColor = true;
@@ -1389,7 +1389,7 @@ namespace Barsix.BarsEntity
             // 
             this.tgFilterable.Location = new System.Drawing.Point(4, 22);
             this.tgFilterable.Name = "tgFilterable";
-            this.tgFilterable.Size = new System.Drawing.Size(644, 351);
+            this.tgFilterable.Size = new System.Drawing.Size(780, 381);
             this.tgFilterable.TabIndex = 8;
             this.tgFilterable.Text = "Filterable";
             this.tgFilterable.UseVisualStyleBackColor = true;
@@ -1399,7 +1399,7 @@ namespace Barsix.BarsEntity
             this.tgSignable.Location = new System.Drawing.Point(4, 22);
             this.tgSignable.Name = "tgSignable";
             this.tgSignable.Padding = new System.Windows.Forms.Padding(3);
-            this.tgSignable.Size = new System.Drawing.Size(644, 351);
+            this.tgSignable.Size = new System.Drawing.Size(780, 381);
             this.tgSignable.TabIndex = 9;
             this.tgSignable.Text = "Signable";
             this.tgSignable.UseVisualStyleBackColor = true;
@@ -1409,7 +1409,7 @@ namespace Barsix.BarsEntity
             this.tgStateful.Location = new System.Drawing.Point(4, 22);
             this.tgStateful.Name = "tgStateful";
             this.tgStateful.Padding = new System.Windows.Forms.Padding(3);
-            this.tgStateful.Size = new System.Drawing.Size(644, 351);
+            this.tgStateful.Size = new System.Drawing.Size(780, 381);
             this.tgStateful.TabIndex = 10;
             this.tgStateful.Text = "Stateful";
             this.tgStateful.UseVisualStyleBackColor = true;

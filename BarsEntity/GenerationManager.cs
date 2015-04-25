@@ -22,9 +22,12 @@ namespace Barsix.BarsEntity
 
         private GeneratedFragments _fragments;
 
+        private List<string> _classList;
+
         public GenerationManager(Project project)
         {
             _project = project;
+            _classList = project.GetClassList("Bars");
         }
 
         private void AddFile(IBarsGenerator generator, GeneratedFile file)
@@ -38,7 +41,10 @@ namespace Barsix.BarsEntity
         public void AddGenerator(IBarsGenerator generator)
         {
             if (!_generators.Any(x => x.GetType() == generator.GetType()))
+            {
+                generator.ClassList = _classList;
                 _generators.Add(generator);
+            }
         }
 
         public void Generate(EntityOptions options)
