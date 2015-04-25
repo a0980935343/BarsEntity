@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO;
 
 using EnvDTE;
 
@@ -94,7 +95,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             cls.AddMethod(ctor);
 
             file.Name = options.ClassName + "Map.cs";
-            file.Path = "Map\\" + (options.IsDictionary ? "Dict\\" : "");
+            file.Path = (Directory.Exists(Path.Combine(_projectFolder, "Map")) ? "Map\\" : "Maps\\") + (options.IsDictionary ? "Dict\\" : (!string.IsNullOrWhiteSpace(options.Subfolder) ? options.Subfolder : ""));
             file.Body = ns.Generate();
             return file;
         }

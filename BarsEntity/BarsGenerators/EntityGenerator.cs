@@ -131,7 +131,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             }
             
             file.Name = options.ClassName + ".cs";
-            file.Path = "Entities\\" + (options.IsDictionary ? "Dict\\" : "");
+            file.Path = "Entities\\" + (options.IsDictionary ? "Dict\\" : (!string.IsNullOrWhiteSpace(options.Subfolder) ? options.Subfolder : ""));
             file.Body = ns.Generate(0).ToList();
 
             return file;

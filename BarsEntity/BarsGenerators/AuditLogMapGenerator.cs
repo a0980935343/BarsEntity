@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 using EnvDTE;
 
@@ -48,7 +48,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             cls.AddMethod(ctor);
 
             file.Name = options.ClassName + "LogMap.cs";
-            file.Path = "Map\\Log\\";
+            file.Path = (Directory.Exists(Path.Combine(_projectFolder, "Map")) ? "Map\\" : "Maps\\") + "Log\\";
             file.Body = ns.Generate();
             return file;
         }

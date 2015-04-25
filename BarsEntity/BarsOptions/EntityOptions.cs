@@ -20,6 +20,8 @@ namespace Barsix.BarsEntity.BarsOptions
 
         public string DisplayName;
 
+        public string Subfolder;
+
         public bool IsDictionary;
 
         public bool Stateful;
@@ -41,8 +43,6 @@ namespace Barsix.BarsEntity.BarsOptions
         public InterceptorOptions Interceptor;
 
         public DomainServiceOptions DomainService;
-
-        public string ResultFile;
 
         public bool AuditLogMap;
     }

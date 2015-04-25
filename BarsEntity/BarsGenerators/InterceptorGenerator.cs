@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 using EnvDTE;
 
@@ -59,7 +60,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 "Container.Register(Component.For<IDomainServiceInterceptor<{0}>>().ImplementedBy<{0}DomainServiceInterceptor>().LifeStyle.Transient);".F(options.ClassName)});
                         
             file.Name = options.ClassName + "DomainServiceInterceptor.cs";
-            file.Path = "DomainServices";
+            file.Path = (Directory.Exists(Path.Combine(_projectFolder, "DomainService")) ? "DomainService" : "DomainServices") + (!string.IsNullOrWhiteSpace(options.Subfolder) ? "\\" + options.Subfolder : "");
             file.Body = ns.Generate();
             return file;
         }

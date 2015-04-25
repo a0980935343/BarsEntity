@@ -66,7 +66,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 define.Params.Add(aFunction);
 
                 file.Name = options.ClassName + ".js";
-                file.Path = "Views\\" + (options.IsDictionary ? "Dict\\" : "");
+                file.Path = "Views\\" + (options.IsDictionary ? "Dict\\" : (!string.IsNullOrWhiteSpace(options.Subfolder) ? options.Subfolder : ""));
                 file.Body = define.Draw(0);
                 file.Properties.Add("BuildAction", 3);
                 

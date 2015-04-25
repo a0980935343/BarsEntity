@@ -123,11 +123,6 @@ namespace Barsix.BarsEntity.BarsGenerators
             cls.AddMethod(up);
             cls.AddMethod(down);
 
-            options.ResultFile = "Migrations\\" +folderVersion + "\\UpdateSchema.cs";
-
-            if (File.Exists(Path.Combine(_projectFolder, options.ResultFile)))
-                throw new Exception("Файл '{0}' уже существует! Измените версию миграции".F(options.ResultFile));
-
             file.Name = "UpdateSchema.cs";
             file.Path = "Migrations\\" + folderVersion;
             file.Body = ns.Generate();

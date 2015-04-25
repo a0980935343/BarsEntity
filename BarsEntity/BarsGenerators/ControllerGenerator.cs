@@ -162,7 +162,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 "Container.RegisterController<{0}Controller>();".F(options.Controller.Name)});
 
             file.Name = options.Controller.Name + "Controller.cs";
-            file.Path = "Controllers\\" + (options.IsDictionary ? "Dict\\" : "");
+            file.Path = "Controllers\\" + (options.IsDictionary ? "Dict\\" : (!string.IsNullOrWhiteSpace(options.Subfolder) ? options.Subfolder : ""));
             file.Body = ns.Generate();
             return file;
         }

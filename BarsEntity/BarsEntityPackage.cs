@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.ComponentModel.Design;
 using System.IO;
 using System.Reflection;
@@ -92,6 +93,9 @@ namespace Barsix.BarsEntity
                 throw new ArgumentException("Project not found!");
             }
 
+            GenerationManager manager = new GenerationManager(project);
+            manager.AddGenerator(new MigrationGenerator());
+
             EntityOptions Options = new EntityOptions ();
             Options.MigrationVersion = Interaction.InputBox("Укажите версию", "Миграция", DateTime.Now.ToString("yyyy_MM_dd_00"));
 
@@ -104,18 +108,18 @@ namespace Barsix.BarsEntity
                 return;
             }
 
-            var gen = new MigrationGenerator();
             try
             {
-                gen.Generate(project, Options, new GeneratedFragments());
+                manager.AddToProject(Options, new List<Type> { typeof(MigrationGenerator) });
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-            Window window = _dte.ItemOperations.OpenFile(Path.Combine(project.RootFolder(), Options.ResultFile));
+            var file = manager.Files.First().Value;
+            
+            Window window = _dte.ItemOperations.OpenFile(Path.Combine(project.RootFolder(), file.Path, file.Name));
             return;
         }
 

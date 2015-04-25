@@ -158,13 +158,14 @@ namespace Barsix.BarsEntity
             EntityOptions  options = new EntityOptions();
             options.ClassName = tbEntityName.Text;
             options.ClassFullName = _project.Name + ".Entities." + tbEntityName.Text;
-            options.TableName = tbMapTable.Text;
+            options.TableName = tbTableName.Text;
             options.BaseClass = cbeBaseClass.Text;
             options.IsDictionary = chDictionary.Checked;
             options.Stateful = chStateful.Checked;
             options.Signable = chSignable.Checked;
             options.MigrationVersion = tbMigrationVersion.Text;
             options.AuditLogMap = chmLogMap.Checked;
+            options.Subfolder = tbSubfolder.Text;
 
             foreach (ListViewItem item in lvFields.Items)
             {
@@ -236,7 +237,7 @@ namespace Barsix.BarsEntity
             {
                 Namespace = tbvNamespace.Text,
                 Title = tbvEntityDisplayName.Text,
-                EditingDisabled = chvEditing.Checked,
+                EditingDisabled = chvEditingDisabled.Checked,
                 SelectionModel = cbvSelectionModel.Text,
                 DynamicFilter = chvDynamicFilter.Checked,
                 TreeGrid = chvTreeGrid.Checked,
@@ -339,7 +340,7 @@ namespace Barsix.BarsEntity
                 if (confirmDialog.chMigration.Checked)
                     generatorTypes.Add(typeof(MigrationGenerator));
 
-                if (options.Navigation != null)
+                if (options.Navigation != null && !options.Fields.Any(x => x.OwnerReference))
                     generatorTypes.Add(typeof(NavigationGenerator));
 
                 if (options.Permission != null)
@@ -579,10 +580,10 @@ namespace Barsix.BarsEntity
         {
             string converted = tbEntityName.Text.CamelToSnake();
 
-            if (converted != "" && tbMapTable.Text == "")
+            if (converted != "" && tbTableName.Text == "")
             {
                 var parts = _project.Name.Split('.');
-                tbMapTable.Text = parts[ parts.Count() > 1 ? 1 : 0].ToUpper() + "_" + converted;
+                tbTableName.Text = parts[ parts.Count() > 1 ? 1 : 0].ToUpper() + "_" + converted;
             }
             UpdateEditors();
         }
@@ -927,7 +928,8 @@ namespace Barsix.BarsEntity
             _preventMessages = true;
             options.Map(tbEntityName, x => x.ClassName);
             options.Map(chDictionary, x => x.IsDictionary);
-            options.Map(tbMapTable, x => x.TableName);
+            options.Map(tbTableName, x => x.TableName);
+            options.Map(tbSubfolder, x => x.Subfolder);
 
             if (options.Controller != null)
                 options.Map(tbcName, x => x.Controller.Name);
@@ -936,7 +938,7 @@ namespace Barsix.BarsEntity
             {
                 options.Map(tbvDisplayName, x => x.DisplayName);
                 options.Map(tbvNamespace, x => x.View.Namespace);
-                options.Map(chvEditing, x => x.View.EditingDisabled);
+                options.Map(chvEditingDisabled, x => x.View.EditingDisabled);
                 options.Map(chvDynamicFilter, x => x.View.DynamicFilter);
                 options.Map(cbvSelectionModel, x => x.View.SelectionModel);
                 options.Map(chvInline, x => x.View.Inline);
@@ -947,7 +949,7 @@ namespace Barsix.BarsEntity
 
             if (options.Permission != null)
             {
-                options.Map(tbpPrefix, x => x.Permission.Prefix);
+                options.Map(tbpPrefix,        x => x.Permission.Prefix);
                 options.Map(chpNeedNamespace, x => x.Permission.NeedNamespace);
                 options.Map(chpSimpleCRUDMap, x => x.Permission.SimpleCRUDMap);
             }
@@ -1011,6 +1013,11 @@ namespace Barsix.BarsEntity
         {
             if (!_preventMessages)
                 System.Windows.Forms.MessageBox.Show(text, caption, buttons, icon);
+        }
+
+        private void chDictionary_CheckedChanged(object sender, EventArgs e)
+        {
+            tbSubfolder.Enabled = !chDictionary.Checked;
         }
 
     }

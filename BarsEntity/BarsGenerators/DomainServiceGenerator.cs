@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 using EnvDTE;
 
@@ -238,7 +238,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 "Container.RegisterDomain<{0}DomainService>();".F(options.ClassName)});
 
             file.Name = options.ClassName + "DomainService.cs";
-            file.Path = "DomainServices";
+            file.Path = (Directory.Exists(Path.Combine(_projectFolder, "DomainService")) ? "DomainService" : "DomainServices") + (!string.IsNullOrWhiteSpace(options.Subfolder) ? "\\"+ options.Subfolder : "");
             file.Body = ns.Generate();
             return file;
         }

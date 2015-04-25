@@ -58,7 +58,7 @@ namespace Barsix.BarsEntity
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.label22 = new System.Windows.Forms.Label();
             this.tbmLength = new System.Windows.Forms.TextBox();
-            this.tbMapTable = new System.Windows.Forms.TextBox();
+            this.tbTableName = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.tbmIndex = new System.Windows.Forms.TextBox();
             this.tbmForeignTable = new System.Windows.Forms.TextBox();
@@ -85,7 +85,7 @@ namespace Barsix.BarsEntity
             this.chvDynamicFilter = new System.Windows.Forms.CheckBox();
             this.cbvSelectionModel = new System.Windows.Forms.ComboBox();
             this.label31 = new System.Windows.Forms.Label();
-            this.chvEditing = new System.Windows.Forms.CheckBox();
+            this.chvEditingDisabled = new System.Windows.Forms.CheckBox();
             this.label24 = new System.Windows.Forms.Label();
             this.tbvEntityDisplayName = new System.Windows.Forms.TextBox();
             this.tbvNamespace = new System.Windows.Forms.TextBox();
@@ -158,6 +158,8 @@ namespace Barsix.BarsEntity
             this.btnLoad = new System.Windows.Forms.Button();
             this.openDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveDialog = new System.Windows.Forms.SaveFileDialog();
+            this.label32 = new System.Windows.Forms.Label();
+            this.tbSubfolder = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -175,7 +177,7 @@ namespace Barsix.BarsEntity
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 8);
+            this.label1.Location = new System.Drawing.Point(7, 8);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(68, 13);
             this.label1.TabIndex = 0;
@@ -183,9 +185,9 @@ namespace Barsix.BarsEntity
             // 
             // tbEntityName
             // 
-            this.tbEntityName.Location = new System.Drawing.Point(86, 5);
+            this.tbEntityName.Location = new System.Drawing.Point(79, 5);
             this.tbEntityName.Name = "tbEntityName";
-            this.tbEntityName.Size = new System.Drawing.Size(179, 20);
+            this.tbEntityName.Size = new System.Drawing.Size(147, 20);
             this.tbEntityName.TabIndex = 1;
             this.tbEntityName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbEntityName_KeyUp);
             // 
@@ -429,7 +431,7 @@ namespace Barsix.BarsEntity
             // 
             this.tabPage2.Controls.Add(this.label22);
             this.tabPage2.Controls.Add(this.tbmLength);
-            this.tabPage2.Controls.Add(this.tbMapTable);
+            this.tabPage2.Controls.Add(this.tbTableName);
             this.tabPage2.Controls.Add(this.label11);
             this.tabPage2.Controls.Add(this.tbmIndex);
             this.tabPage2.Controls.Add(this.tbmForeignTable);
@@ -467,12 +469,12 @@ namespace Barsix.BarsEntity
             this.tbmLength.Size = new System.Drawing.Size(166, 20);
             this.tbmLength.TabIndex = 24;
             // 
-            // tbMapTable
+            // tbTableName
             // 
-            this.tbMapTable.Location = new System.Drawing.Point(472, 13);
-            this.tbMapTable.Name = "tbMapTable";
-            this.tbMapTable.Size = new System.Drawing.Size(166, 20);
-            this.tbMapTable.TabIndex = 23;
+            this.tbTableName.Location = new System.Drawing.Point(472, 13);
+            this.tbTableName.Name = "tbTableName";
+            this.tbTableName.Size = new System.Drawing.Size(166, 20);
+            this.tbTableName.TabIndex = 23;
             // 
             // label11
             // 
@@ -640,7 +642,7 @@ namespace Barsix.BarsEntity
             this.tabPage4.Controls.Add(this.chvDynamicFilter);
             this.tabPage4.Controls.Add(this.cbvSelectionModel);
             this.tabPage4.Controls.Add(this.label31);
-            this.tabPage4.Controls.Add(this.chvEditing);
+            this.tabPage4.Controls.Add(this.chvEditingDisabled);
             this.tabPage4.Controls.Add(this.label24);
             this.tabPage4.Controls.Add(this.tbvEntityDisplayName);
             this.tabPage4.Controls.Add(this.tbvNamespace);
@@ -733,15 +735,15 @@ namespace Barsix.BarsEntity
             this.label31.TabIndex = 32;
             this.label31.Text = "Selection model";
             // 
-            // chvEditing
+            // chvEditingDisabled
             // 
-            this.chvEditing.AutoSize = true;
-            this.chvEditing.Location = new System.Drawing.Point(472, 37);
-            this.chvEditing.Name = "chvEditing";
-            this.chvEditing.Size = new System.Drawing.Size(156, 17);
-            this.chvEditing.TabIndex = 31;
-            this.chvEditing.Text = "нет окна редактирования";
-            this.chvEditing.UseVisualStyleBackColor = true;
+            this.chvEditingDisabled.AutoSize = true;
+            this.chvEditingDisabled.Location = new System.Drawing.Point(472, 37);
+            this.chvEditingDisabled.Name = "chvEditingDisabled";
+            this.chvEditingDisabled.Size = new System.Drawing.Size(156, 17);
+            this.chvEditingDisabled.TabIndex = 31;
+            this.chvEditingDisabled.Text = "нет окна редактирования";
+            this.chvEditingDisabled.UseVisualStyleBackColor = true;
             // 
             // label24
             // 
@@ -1237,17 +1239,18 @@ namespace Barsix.BarsEntity
             // chDictionary
             // 
             this.chDictionary.AutoSize = true;
-            this.chDictionary.Location = new System.Drawing.Point(313, 7);
+            this.chDictionary.Location = new System.Drawing.Point(383, 326);
             this.chDictionary.Name = "chDictionary";
             this.chDictionary.Size = new System.Drawing.Size(86, 17);
             this.chDictionary.TabIndex = 12;
             this.chDictionary.Text = "Справочник";
             this.chDictionary.UseVisualStyleBackColor = true;
+            this.chDictionary.CheckedChanged += new System.EventHandler(this.chDictionary_CheckedChanged);
             // 
             // chSignable
             // 
             this.chSignable.AutoSize = true;
-            this.chSignable.Location = new System.Drawing.Point(15, 326);
+            this.chSignable.Location = new System.Drawing.Point(7, 326);
             this.chSignable.Name = "chSignable";
             this.chSignable.Size = new System.Drawing.Size(49, 17);
             this.chSignable.TabIndex = 13;
@@ -1258,7 +1261,7 @@ namespace Barsix.BarsEntity
             // chStateful
             // 
             this.chStateful.AutoSize = true;
-            this.chStateful.Location = new System.Drawing.Point(76, 326);
+            this.chStateful.Location = new System.Drawing.Point(67, 326);
             this.chStateful.Name = "chStateful";
             this.chStateful.Size = new System.Drawing.Size(60, 17);
             this.chStateful.TabIndex = 14;
@@ -1269,7 +1272,7 @@ namespace Barsix.BarsEntity
             // chvTreeGrid
             // 
             this.chvTreeGrid.AutoSize = true;
-            this.chvTreeGrid.Location = new System.Drawing.Point(145, 326);
+            this.chvTreeGrid.Location = new System.Drawing.Point(136, 326);
             this.chvTreeGrid.Name = "chvTreeGrid";
             this.chvTreeGrid.Size = new System.Drawing.Size(104, 17);
             this.chvTreeGrid.TabIndex = 36;
@@ -1279,7 +1282,7 @@ namespace Barsix.BarsEntity
             // chmLogMap
             // 
             this.chmLogMap.AutoSize = true;
-            this.chmLogMap.Location = new System.Drawing.Point(288, 326);
+            this.chmLogMap.Location = new System.Drawing.Point(254, 326);
             this.chmLogMap.Name = "chmLogMap";
             this.chmLogMap.Size = new System.Drawing.Size(110, 17);
             this.chmLogMap.TabIndex = 37;
@@ -1444,11 +1447,29 @@ namespace Barsix.BarsEntity
             this.saveDialog.FileName = "entity.xml";
             this.saveDialog.Filter = "XML entity description|*.xml";
             // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(251, 9);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(57, 13);
+            this.label32.TabIndex = 43;
+            this.label32.Text = "Подпапка";
+            // 
+            // tbSubfolder
+            // 
+            this.tbSubfolder.Location = new System.Drawing.Point(314, 5);
+            this.tbSubfolder.Name = "tbSubfolder";
+            this.tbSubfolder.Size = new System.Drawing.Size(154, 20);
+            this.tbSubfolder.TabIndex = 44;
+            // 
             // EntityOptionsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(654, 731);
+            this.Controls.Add(this.tbSubfolder);
+            this.Controls.Add(this.label32);
             this.Controls.Add(this.btnLoad);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.tabGenerated);
@@ -1516,7 +1537,7 @@ namespace Barsix.BarsEntity
         private System.Windows.Forms.ColumnHeader colType;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.TextBox tbMapTable;
+        private System.Windows.Forms.TextBox tbTableName;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox tbmIndex;
         private System.Windows.Forms.TextBox tbmForeignTable;
@@ -1570,7 +1591,7 @@ namespace Barsix.BarsEntity
         private System.Windows.Forms.Label label27;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.Label label25;
-        private System.Windows.Forms.CheckBox chvEditing;
+        private System.Windows.Forms.CheckBox chvEditingDisabled;
         private System.Windows.Forms.CheckBox chnMapPermissions;
         private System.Windows.Forms.CheckBox cheList;
         private System.Windows.Forms.CheckBox chSignable;
@@ -1622,5 +1643,7 @@ namespace Barsix.BarsEntity
         private System.Windows.Forms.Button btnLoad;
         private System.Windows.Forms.OpenFileDialog openDialog;
         private System.Windows.Forms.SaveFileDialog saveDialog;
+        private System.Windows.Forms.Label label32;
+        private System.Windows.Forms.TextBox tbSubfolder;
     }
 }
