@@ -151,6 +151,7 @@
     <Compile Include="BarsGenerators\SignableEntitiesManifestGenerator.cs" />
     <Compile Include="BarsGenerators\StatefulEntitiesManifestGenerator.cs" />
     <Compile Include="BarsOptions\DomainServiceOptions.cs" />
+    <Compile Include="Helpers\EntityOptionsExt.cs" />
     <Compile Include="CodeGeneration\CSharp\BaseCodeFragment.cs" />
     <Compile Include="CodeGeneration\CSharp\ClassInfo.cs" />
     <Compile Include="BarsGenerators\ControllerGenerator.cs" />

@@ -68,7 +68,13 @@ namespace Barsix.BarsEntity.BarsGenerators
 
                 fragments.AddLines("Domain/StatefulEntitiesManifest.cs", this, new List<string> { field });
 
-                return null;
+                file.Body.Add("/**");
+                file.Body.Add(" *     Файл Domain/StatefulEntitiesManifest.cs уже есть в проекте");
+                file.Body.Add(" *     Вставьте в манифест строки ниже для регистрации новой сущности");
+                file.Body.Add(" */");
+                file.Body.Add("");
+                file.Body.AddRange(fragments.First(x => x.Key == "Domain/StatefulEntitiesManifest.cs").Value);
+                return file;
             }
         }
     }

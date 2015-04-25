@@ -66,14 +66,14 @@ namespace Barsix.BarsEntity
 
             Encoding encoding = Encoding.UTF8;
 
-            foreach (var file in _files.Where(x => generatorTypes.Contains(x.Key) && x.Value != null).Select(x => x.Value))
+            foreach (var file in _files.Where(x => generatorTypes.Contains(x.Key) && x.Value != null && x.Value.Name != null).Select(x => x.Value))
             {
-                if (!Directory.Exists(Path.Combine(_project.RootFolder(), file.Path)))
+                if (!Directory.Exists(Path.Combine(_project.RootFolder(), file.Path ?? string.Empty)))
                 {
-                    Directory.CreateDirectory(Path.Combine(_project.RootFolder(), file.Path));
+                    Directory.CreateDirectory(Path.Combine(_project.RootFolder(), file.Path ?? string.Empty));
                 }
 
-                string fullPath = Path.Combine(_project.RootFolder(), file.Path, file.Name);
+                string fullPath = Path.Combine(_project.RootFolder(), file.Path ?? string.Empty, file.Name);
                 File.WriteAllText(fullPath, string.Join(Environment.NewLine, file.Body), encoding);
                 var projectItem = _project.ProjectItems.AddFromFile(fullPath);
 

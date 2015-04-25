@@ -418,7 +418,7 @@ namespace Barsix.BarsEntity
                 MessageBox("Укажите тип и название свойства", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 return;
             }
-
+            
             if (lviEntity != null)
             {
                 FieldOptions fopt = (FieldOptions)lviEntity.Tag;
@@ -447,6 +447,15 @@ namespace Barsix.BarsEntity
             }
             else
             {
+                foreach (ListViewItem item in lvFields.Items)
+                {
+                    if (((FieldOptions)item.Tag).FieldName == tbeName.Text)
+                    {
+                        MessageBox("Свойство {0} уже существует".F(tbeName.Text), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                        return;
+                    }
+                }
+
                 FieldOptions fopt = new FieldOptions();
                 fopt.FieldName = tbeName.Text;
                 fopt.TypeName = tbeType.Text;
@@ -493,6 +502,7 @@ namespace Barsix.BarsEntity
 
                 lvi = lvView.Items.Add(fopt.FieldName);
                 lvi.SubItems.Add(fopt.ViewType + " / " + fopt.ViewColumnType);
+                lvi.SubItems.Add(fopt.DisplayName);
                 lvi.Tag = fopt;
 
 
@@ -506,7 +516,7 @@ namespace Barsix.BarsEntity
                 cheNullable.Enabled = true;
                 cheList.Checked = false;
             }
-            UpdateListViews();
+            UpdateListViews(); 
         }
 
         private void UpdateListViews()
@@ -516,6 +526,7 @@ namespace Barsix.BarsEntity
                 FieldOptions fopt = (FieldOptions)lvi.Tag;
                 lvi.Text = fopt.FieldName;
                 lvi.SubItems[1].Text = fopt.ViewType + " / " + (fopt.ViewType == "easselectfield" ? "renderer: " + fopt.TextProperty : fopt.ViewColumnType);
+                lvi.SubItems[2].Text = fopt.DisplayName;
             }
 
             foreach (ListViewItem lvi in lvFields.Items)
@@ -531,6 +542,7 @@ namespace Barsix.BarsEntity
                 lvi.Text = fopt.FieldName;
                 lvi.SubItems[1].Text = fopt.ColumnName;
             }
+            UpdateEditors();
         }
 
         private void UpdateEditors()

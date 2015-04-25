@@ -33,6 +33,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             ns.InnerUsing.Add("Entities");
 
             _knownTypes.Clear();
+            _knownTypes.Add(options.ClassName);
             _knownTypes.Add(cls.Name);
             _knownTypes.Add(cls.BaseClass);
             _knownTypes.Add("EntityAttribute");

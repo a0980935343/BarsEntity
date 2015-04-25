@@ -863,17 +863,17 @@ namespace Barsix.BarsEntity
             // columnHeader3
             // 
             this.columnHeader3.Text = "Поле";
-            this.columnHeader3.Width = 100;
+            this.columnHeader3.Width = 80;
             // 
             // columnHeader4
             // 
             this.columnHeader4.Text = "Тип";
-            this.columnHeader4.Width = 150;
+            this.columnHeader4.Width = 190;
             // 
             // columnHeader5
             // 
             this.columnHeader5.Text = "Описание";
-            this.columnHeader5.Width = 120;
+            this.columnHeader5.Width = 100;
             // 
             // label21
             // 

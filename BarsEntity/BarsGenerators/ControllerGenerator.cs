@@ -67,6 +67,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             _knownTypes.Add("InlineDataController");
             _knownTypes.Add("FileStorageDataController");
             _knownTypes.Add("ActionResult");
+            _knownTypes.Add("BaseParams");
             _knownTypes.Add("IDomainService");
 
             if (options.Fields.Any(x => x.OwnerReference) || options.View.TreeGrid || options.Signable)
@@ -89,13 +90,14 @@ namespace Barsix.BarsEntity.BarsGenerators
                     foreach (var field in options.Fields.Where(x => !x.Collection))
                     {
                         proxyClass.AddProperty(new PropertyInfo() { Name = field.FieldName, Type = field.FullTypeName });
-                        if (field.IsBasicType() && field.TypeName != field.FieldName)
+                        if (!field.IsBasicType() && field.TypeName != field.FieldName)
                             _knownTypes.Add(field.TypeName);
                     }
 
                     if (options.Signable)
                     {
                         proxyClass.AddProperty(new PropertyInfo() { Name = "Signed", Type = "bool" });
+                        _knownTypes.Add("DigSignature");
                     }
 
                     if (options.View.TreeGrid)

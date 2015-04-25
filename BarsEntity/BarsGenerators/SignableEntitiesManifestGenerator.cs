@@ -37,6 +37,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 .Public.Const;
 
                 _knownTypes.Clear();
+                _knownTypes.Add(options.ClassName);
                 _knownTypes.Add(cls.Name);
                 _knownTypes.AddRange(cls.Interfaces);
                 _knownTypes.Add("SignableEntityInfo");
@@ -75,7 +76,13 @@ namespace Barsix.BarsEntity.BarsGenerators
                     "", 
                     "    new SignableEntityInfo({0}Id, \"{1}\", typeof({0}))".F(options.ClassName, options.DisplayName) });
 
-                return null;
+                file.Body.Add("/**");
+                file.Body.Add(" *     Файл SignableEntitiesManifest.cs уже есть в проекте");
+                file.Body.Add(" *     Вставьте в манифест строки ниже для регистрации новой сущности");
+                file.Body.Add(" */");
+                file.Body.Add("");
+                file.Body.AddRange(fragments.First(x => x.Key == "SignableEntitiesManifest.cs").Value);
+                return file;
             }
         }
     }
