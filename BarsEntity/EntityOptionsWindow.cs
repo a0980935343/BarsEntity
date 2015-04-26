@@ -765,8 +765,8 @@ namespace Barsix.BarsEntity
                 if (cheOwnerReference.Checked)
                 {
                     cheNullable.Checked = false;
-                    cheNullable.Enabled = false;
                 }
+                cheNullable.Enabled = !cheOwnerReference.Checked;
             }
         }
 
