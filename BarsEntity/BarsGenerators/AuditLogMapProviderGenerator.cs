@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using EnvDTE;
 
 namespace Barsix.BarsEntity.BarsGenerators
 {
@@ -9,13 +8,13 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class AuditLogMapProviderGenerator : BaseBarsGenerator
     {
-        public override GeneratedFile Generate(Project project, EntityOptions options, GeneratedFragments fragments)
+        public override GeneratedFile Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
         {
             var file = base.Generate(project, options, fragments);
 
-            if (!File.Exists(Path.Combine(_projectFolder, "AuditLogMapProvider.cs")))
+            if (!File.Exists(Path.Combine(_project.RootFolder, "AuditLogMapProvider.cs")))
             {
-                var ns = new NamespaceInfo { Name = project.Name };
+                var ns = new NamespaceInfo { Name = _project.DefaultNamespace };
                 ns.InnerUsing.Add("B4.Modules.NHibernateChangeLog");
                 ns.InnerUsing.Add("Map");
 

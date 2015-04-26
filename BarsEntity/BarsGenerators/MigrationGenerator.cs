@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.IO;
 
 namespace Barsix.BarsEntity.BarsGenerators
@@ -11,7 +10,7 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class MigrationGenerator : BaseBarsGenerator
     {
-        public override GeneratedFile Generate(EnvDTE.Project project, EntityOptions options, GeneratedFragments fragments)
+        public override GeneratedFile Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
         {
             var file = base.Generate(project, options, fragments);
 
@@ -20,7 +19,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             var ns = new NamespaceInfo();
             var cls = new ClassInfo();
             ns.NestedValues.Add(cls);
-            ns.Name = "{0}.Migrations.{1}".F(project.Name, folderVersion);
+            ns.Name = "{0}.Migrations.{1}".F(_project.DefaultNamespace, folderVersion);
 
             ns.InnerUsing.Add("System.Data");
             ns.InnerUsing.Add("ECM7.Migrator.Framework");

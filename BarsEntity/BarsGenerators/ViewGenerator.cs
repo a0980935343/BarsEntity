@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using EnvDTE;
 
 namespace Barsix.BarsEntity.BarsGenerators
 {
@@ -13,7 +9,7 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class ViewGenerator : BaseBarsGenerator
     {
-        public override GeneratedFile Generate(Project project, EntityOptions options, GeneratedFragments fragments)
+        public override GeneratedFile Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
         {
             var file = base.Generate(project, options, fragments);
 
@@ -30,15 +26,15 @@ namespace Barsix.BarsEntity.BarsGenerators
 
                 aFunction.Add(ns);
                 aFunction.Add("");
-                aFunction.Add(nsGrid(options, project));
+                aFunction.Add(nsGrid(options));
 
                 if (!options.View.EditingDisabled)
                 {
                     aFunction.Add("");
-                    aFunction.Add(nsEditWindow(options, project, controllerOpts.Name));
+                    aFunction.Add(nsEditWindow(options, controllerOpts.Name));
                 }
                 aFunction.Add("");
-                aFunction.Add(nsPage(options, project, controllerOpts.Name));
+                aFunction.Add(nsPage(options, controllerOpts.Name));
                 aFunction.Add("");
                 aFunction.Add("return ns.Page;");
 
@@ -71,7 +67,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 file.Properties.Add("BuildAction", 3);
                 
                 fragments.AddLines("ResourceManifest.cs", this, new List<string> { 
-                    "container.Add(\"scripts/modules/{3}.js\", \"{0}.dll/{0}.Views.{2}{1}.js\");".F(project.Name, options.ClassName, options.IsDictionary ? "Dict." : "", options.View.Namespace)} );
+                    "container.Add(\"scripts/modules/{3}.js\", \"{0}.dll/{0}.Views.{2}{1}.js\");".F(_project.DefaultNamespace, options.ClassName, options.IsDictionary ? "Dict." : "", options.View.Namespace)} );
 
                 return file;
             }
@@ -80,11 +76,11 @@ namespace Barsix.BarsEntity.BarsGenerators
                 var ns = new NamespaceInfo();
                 var cls = new ClassInfo();
 
-                ns.Name = "{0}.ViewModels".F(project.Name);
+                ns.Name = "{0}.ViewModels".F(_project.DefaultNamespace);
 
                 ns.InnerUsing.Add("B4");
                 ns.InnerUsing.Add("B4.Modules.Templates");
-                ns.InnerUsing.Add("{0}.Entities".F(project.Name));
+                ns.InnerUsing.Add("{0}.Entities".F(_project.DefaultNamespace));
 
                 ns.NestedValues.Add(cls);
 
@@ -109,7 +105,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 cls.AddMethod(ctor);
                 
                 fragments.AddLines("ResourceManifest.cs", this, new List<string> { 
-                    "container.Add(\"scripts/modules/{0}.{1}.js\", new GridPageView<{1}ViewModel>());".F(project.Name, options.ClassName, options.IsDictionary ? "Dict." : "")});
+                    "container.Add(\"scripts/modules/{0}.{1}.js\", new GridPageView<{1}ViewModel>());".F(_project.DefaultNamespace, options.ClassName, options.IsDictionary ? "Dict." : "")});
 
                 file.Name = options.ClassName + "ViewModel.cs";
                 file.Path = "ViewModels\\" + (options.IsDictionary ? "Dict\\" : "");
@@ -118,7 +114,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             }
         }
 
-        private static JsFunctionCall nsGrid(EntityOptions options, Project project)
+        private static JsFunctionCall nsGrid(EntityOptions options)
         {
             var gridConfig = new JsFunctionCall { Function = "Ext3.apply", Name = "return" };
 
@@ -345,7 +341,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             return gridExtend;
         }
 
-        private static JsFunctionCall nsEditWindow(EntityOptions options, Project project, string controllerName)
+        private static JsFunctionCall nsEditWindow(EntityOptions options, string controllerName)
         {
             var extendParams = new JsObject();
 
@@ -448,7 +444,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             return editWindowExtend;
         }
 
-        private static JsFunctionCall nsPage(EntityOptions options, Project project, string controllerName)
+        private static JsFunctionCall nsPage(EntityOptions options, string controllerName)
         {
             var extendParams = new JsObject();
 

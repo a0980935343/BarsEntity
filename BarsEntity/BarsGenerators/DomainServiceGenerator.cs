@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.IO;
-
-using EnvDTE;
 
 namespace Barsix.BarsEntity.BarsGenerators
 {
@@ -13,11 +10,11 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class DomainServiceGenerator : BaseBarsGenerator
     {
-        public override GeneratedFile Generate(Project project, EntityOptions options, GeneratedFragments fragments)
+        public override GeneratedFile Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
         {
             var file = base.Generate(project, options, fragments);
-            
-            var ns = new NamespaceInfo() { Name = "{0}.DomainServices".F(project.Name) };
+
+            var ns = new NamespaceInfo() { Name = "{0}.DomainServices".F(_project.DefaultNamespace) };
             var cls = new ClassInfo
             {
                 Name = options.ClassName + "DomainService",
@@ -238,7 +235,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 "Container.RegisterDomain<{0}DomainService>();".F(options.ClassName)});
 
             file.Name = options.ClassName + "DomainService.cs";
-            file.Path = (Directory.Exists(Path.Combine(_projectFolder, "DomainService")) ? "DomainService" : "DomainServices") + (!string.IsNullOrWhiteSpace(options.Subfolder) ? "\\"+ options.Subfolder : "");
+            file.Path = (Directory.Exists(Path.Combine(_project.RootFolder, "DomainService")) ? "DomainService" : "DomainServices") + (!string.IsNullOrWhiteSpace(options.Subfolder) ? "\\"+ options.Subfolder : "");
             file.Body = ns.Generate();
             return file;
         }

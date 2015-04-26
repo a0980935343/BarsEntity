@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
-using EnvDTE;
 
 namespace Barsix.BarsEntity.BarsGenerators
 {
@@ -13,7 +10,7 @@ namespace Barsix.BarsEntity.BarsGenerators
     /// <summary>  </summary>
     public class EntityGenerator : BaseBarsGenerator
     {
-        public override GeneratedFile Generate(Project project, EntityOptions options, GeneratedFragments fragments)
+        public override GeneratedFile Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
         {
             var file = base.Generate(project, options, fragments);
             _knownTypes.Clear();
@@ -30,10 +27,10 @@ namespace Barsix.BarsEntity.BarsGenerators
             if (options.Fields.Any(x => x.Collection ))
                 ns.OuterUsing.Add("System.Collections.Generic");
             
-            if (options.Fields.Any(x => x.JsonIgnore || x.Collection))
+            if (options.Fields.Any(x => x.Collection))
                 ns.OuterUsing.Add("Newtonsoft.Json");
 
-            ns.Name = "{0}.Entities".F(project.Name);
+            ns.Name = "{0}.Entities".F(_project.DefaultNamespace);
 
             if (options.BaseClass == "NamedBaseEntity")
             {
@@ -80,7 +77,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 if (!string.IsNullOrEmpty(field.Comment))
                     pi.Summary = field.Comment;
 
-                if (field.JsonIgnore || field.Collection)
+                if (field.Collection)
                     pi.Attributes.Add("JsonIgnore");
 
                 pi.Name = field.FieldName;

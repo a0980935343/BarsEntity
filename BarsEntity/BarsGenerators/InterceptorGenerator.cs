@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 
-using EnvDTE;
-
 namespace Barsix.BarsEntity.BarsGenerators
 {
     using BarsOptions;
@@ -12,11 +10,11 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class InterceptorGenerator : BaseBarsGenerator
     {
-        public override GeneratedFile Generate(Project project, EntityOptions options, GeneratedFragments fragments)
+        public override GeneratedFile Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
         {
             var file = base.Generate(project, options, fragments);
 
-            var ns = new NamespaceInfo() { Name = project.Name + ".DomainServices" };
+            var ns = new NamespaceInfo() { Name = _project.DefaultNamespace + ".DomainServices" };
             var cls = new ClassInfo
             {
                 Name = options.ClassName + "DomainServiceInterceptor",
@@ -24,6 +22,12 @@ namespace Barsix.BarsEntity.BarsGenerators
             };
             ns.NestedValues.Add(cls);
             ns.InnerUsing.Add("B4");
+
+            if (options.Stateful && options.Interceptor.Actions.Contains("BeforeCreate"))
+            {
+                ns.InnerUsing.Add("B4.Modules.States");
+            }
+
             ns.InnerUsing.Add("Entities");
 
             _knownTypes.Clear();
@@ -33,8 +37,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             _knownTypes.Add(options.ClassName);
             _knownTypes.Add("IStateProvider");
 
-            InterceptorOptions dsOpts = options.Interceptor;
-            foreach (string methodName in dsOpts.Actions)
+            foreach (string methodName in options.Interceptor.Actions)
             {
                 var action = new MethodInfo 
                 { 
@@ -60,7 +63,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 "Container.Register(Component.For<IDomainServiceInterceptor<{0}>>().ImplementedBy<{0}DomainServiceInterceptor>().LifeStyle.Transient);".F(options.ClassName)});
                         
             file.Name = options.ClassName + "DomainServiceInterceptor.cs";
-            file.Path = (Directory.Exists(Path.Combine(_projectFolder, "DomainService")) ? "DomainService" : "DomainServices") + (!string.IsNullOrWhiteSpace(options.Subfolder) ? "\\" + options.Subfolder : "");
+            file.Path = (Directory.Exists(Path.Combine(_project.RootFolder, "DomainService")) ? "DomainService" : "DomainServices") + (!string.IsNullOrWhiteSpace(options.Subfolder) ? "\\" + options.Subfolder : "");
             file.Body = ns.Generate();
             return file;
         }

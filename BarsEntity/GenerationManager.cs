@@ -23,13 +23,13 @@ namespace Barsix.BarsEntity
 
         private GeneratedFragments _fragments;
 
-        private List<string> _classList = new List<string>();
+        private static List<string> _classList = new List<string>();
 
         public GenerationManager(Project project, bool classSearching = true)
         {
             _project = project;
 
-            if (classSearching)
+            if (classSearching && _classList.Count == 0)
             {
                 Task.Factory.StartNew(() =>
                 {
@@ -60,11 +60,12 @@ namespace Barsix.BarsEntity
         {
             var result = new GenerationResult();
             _fragments = new GeneratedFragments();
+            var projectInfo = new ProjectInfo{ RootFolder = _project.RootFolder(), DefaultNamespace = _project.DefaultNamespace()};
             foreach (var generator in _generators)
             {
                 try
                 {
-                    AddFile(generator, generator.Generate(_project, options, _fragments));
+                    AddFile(generator, generator.Generate(projectInfo, options, _fragments));
                 }
                 catch (Exception ex)
                 {

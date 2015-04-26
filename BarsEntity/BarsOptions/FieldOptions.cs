@@ -34,8 +34,6 @@ namespace Barsix.BarsEntity.BarsOptions
 
         public int Length = 100;
 
-        public bool JsonIgnore;
-
         public bool OwnerReference;
 
         public bool ParentReference;

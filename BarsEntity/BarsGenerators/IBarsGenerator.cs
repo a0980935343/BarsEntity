@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using EnvDTE;
 
 namespace Barsix.BarsEntity.BarsGenerators
 {
@@ -8,7 +7,7 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public interface IBarsGenerator
     {
-        GeneratedFile Generate(Project project, EntityOptions options, GeneratedFragments fragments);
+        GeneratedFile Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments);
 
         IEnumerable<string> KnownTypes { get; }
 

@@ -69,7 +69,6 @@ namespace Barsix.BarsEntity
             }
             
             EntityOptionsWindow dialog = new EntityOptionsWindow();
-            dialog.Text = "Создание Bars-объекта ({0})".F(project.Name);
             dialog.SetProject(project);
             dialog.Show();
         }

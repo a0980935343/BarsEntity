@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 
-using EnvDTE;
-
 namespace Barsix.BarsEntity.BarsGenerators
 {
     using BarsOptions;
@@ -12,13 +10,13 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class StatefulEntitiesManifestGenerator : BaseBarsGenerator
     {
-        public override GeneratedFile Generate(Project project, EntityOptions options, GeneratedFragments fragments)
+        public override GeneratedFile Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
         {
             var file = base.Generate(project, options, fragments);
 
-            if (!File.Exists(Path.Combine(_projectFolder, "Domain\\StatefulEntitiesManifest.cs")))
+            if (!File.Exists(Path.Combine(_project.RootFolder, "Domain\\StatefulEntitiesManifest.cs")))
             {
-                var ns = new NamespaceInfo { Name = "{0}.Domain".F(project.Name) };
+                var ns = new NamespaceInfo { Name = "{0}.Domain".F(_project.DefaultNamespace) };
                 ns.InnerUsing.Add("B4");
                 ns.InnerUsing.Add("B4.Modules.States");
                 ns.InnerUsing.Add("Entities");

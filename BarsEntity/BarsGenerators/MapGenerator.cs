@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.IO;
-
-using EnvDTE;
 
 namespace Barsix.BarsEntity.BarsGenerators
 {
@@ -13,14 +10,14 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class MapGenerator : BaseBarsGenerator
     {
-        public override GeneratedFile Generate(Project project, EntityOptions options, GeneratedFragments fragments)
+        public override GeneratedFile Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
         {
             var file = base.Generate(project, options, fragments);
 
             var ns = new NamespaceInfo();
             var cls = new ClassInfo();
             ns.NestedValues.Add(cls);
-            ns.Name = "{0}.Map".F(project.Name);
+            ns.Name = "{0}.Map".F(_project.DefaultNamespace);
             
             if (options.BaseClass == "BaseEntity")
             {
@@ -35,7 +32,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             ns.InnerUsing.Add("Entities");
             
             cls.Name = "{0}Map".F(options.ClassName);
-            cls.BaseClass = "{2}{0}Map<{1}>".F(options.BaseClass, options.ClassName, project.Name.StartsWith("Bars.B4.") ? "" : "Bars.MosKs.Core.Map.Base.");
+            cls.BaseClass = "{2}{0}Map<{1}>".F(options.BaseClass, options.ClassName, _project.DefaultNamespace.StartsWith("Bars.B4.") ? "" : "Bars.MosKs.Core.Map.Base.");
 
             _knownTypes.Clear();
             _knownTypes.Add(cls.Name);
@@ -95,7 +92,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             cls.AddMethod(ctor);
 
             file.Name = options.ClassName + "Map.cs";
-            file.Path = (Directory.Exists(Path.Combine(_projectFolder, "Map")) ? "Map\\" : "Maps\\") + (options.IsDictionary ? "Dict\\" : (!string.IsNullOrWhiteSpace(options.Subfolder) ? options.Subfolder : ""));
+            file.Path = (Directory.Exists(Path.Combine(_project.RootFolder, "Map")) ? "Map\\" : "Maps\\") + (options.IsDictionary ? "Dict\\" : (!string.IsNullOrWhiteSpace(options.Subfolder) ? options.Subfolder : ""));
             file.Body = ns.Generate();
             return file;
         }

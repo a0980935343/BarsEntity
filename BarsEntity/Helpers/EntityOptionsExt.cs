@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Xml.Serialization;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Barsix.BarsEntity
@@ -28,6 +28,23 @@ namespace Barsix.BarsEntity
                 if (tb.Items[i].ToString() == selector.Invoke(opts))
                     tb.SelectedIndex = i;
             }
+        }
+
+        public static EntityOptions Load(string fileName)
+        {
+            XmlSerializer xml = new XmlSerializer(typeof(EntityOptions));
+            StreamReader reader = new StreamReader(fileName);
+            EntityOptions options = (EntityOptions)xml.Deserialize(reader);
+            reader.Close();
+            return options;
+        }
+
+        public static void Save(this EntityOptions options, string fileName)
+        {
+            XmlSerializer xml = new XmlSerializer(typeof(EntityOptions));
+            StreamWriter writer = new StreamWriter(fileName);
+            xml.Serialize(writer, options);
+            writer.Close();
         }
     }
 }

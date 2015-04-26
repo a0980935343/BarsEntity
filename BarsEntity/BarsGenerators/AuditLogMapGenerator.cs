@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.IO;
-
-using EnvDTE;
 
 namespace Barsix.BarsEntity.BarsGenerators
 {
@@ -13,10 +10,10 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class AuditLogMapGenerator : BaseBarsGenerator
     {
-        public override GeneratedFile Generate(Project project, EntityOptions options, GeneratedFragments fragments)
+        public override GeneratedFile Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
         {
             var file = base.Generate(project, options, fragments);
-            var ns = new NamespaceInfo() { Name = "{0}.Map".F(project.Name) };
+            var ns = new NamespaceInfo() { Name = "{0}.Map".F(_project.DefaultNamespace) };
             var cls = new ClassInfo
             {
                 Name = "{0}LogMap".F(options.ClassName),
@@ -48,7 +45,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             cls.AddMethod(ctor);
 
             file.Name = options.ClassName + "LogMap.cs";
-            file.Path = (Directory.Exists(Path.Combine(_projectFolder, "Map")) ? "Map\\" : "Maps\\") + "Log\\";
+            file.Path = (Directory.Exists(Path.Combine(_project.RootFolder, "Map")) ? "Map\\" : "Maps\\") + "Log\\";
             file.Body = ns.Generate();
             return file;
         }

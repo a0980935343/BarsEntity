@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
-
-using EnvDTE;
 
 namespace Barsix.BarsEntity.BarsGenerators
 {
@@ -12,9 +9,7 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class BaseBarsGenerator : IBarsGenerator
     {
-        protected Project _project;
-        protected EntityOptions _options;
-        protected string _projectFolder;
+        protected ProjectInfo _project;
         protected List<string> _knownTypes = new List<string>();
 
         public BaseBarsGenerator()
@@ -22,11 +17,9 @@ namespace Barsix.BarsEntity.BarsGenerators
             ClassList = new List<string>();
         }
 
-        public virtual GeneratedFile Generate(Project project, EntityOptions options, GeneratedFragments fragments)
+        public virtual GeneratedFile Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
         {
             _project = project;
-            _options = options;
-            _projectFolder = project.RootFolder();
             return new GeneratedFile() { Generator = this };
         }
 
