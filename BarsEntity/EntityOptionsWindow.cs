@@ -122,6 +122,8 @@ namespace Barsix.BarsEntity
                 }
             };
 
+            editor.KeyUp += (s, e) => { if (e.KeyCode == Keys.F5) UpdateEditors(); };
+
             tab.Controls.Add(editor);
             return editor;
         }
@@ -149,10 +151,7 @@ namespace Barsix.BarsEntity
             _manager.AddGenerator(new StatefulEntitiesManifestGenerator());
             _manager.AddGenerator(new SignableEntitiesManifestGenerator());
         }
-
-        public ListViewItem lviEntity;
-        public ListViewItem lviMap;
-
+        
         private GenerationManager _manager;
         
         private EntityOptions ComposeOptions()
@@ -385,7 +384,6 @@ namespace Barsix.BarsEntity
         {
             if (e.IsSelected)
             {
-                lviEntity = e.Item;
                 FieldOptions fopt = (FieldOptions)e.Item.Tag;
                 tbeName.Text = fopt.FieldName;
                 tbeType.Text = fopt.TypeName;
@@ -400,7 +398,6 @@ namespace Barsix.BarsEntity
             }
             else
             {
-                lviEntity       = null;
                 tbeName.Text    = "";
                 tbeType.Text    = "";
                 tbeComment.Text = "";
@@ -421,9 +418,10 @@ namespace Barsix.BarsEntity
                 MessageBox("Укажите тип и название свойства", "Ошибка");
                 return;
             }
-            
-            if (lviEntity != null)
+
+            if (lvFields.SelectedItems.Count > 0)
             {
+                var lviEntity = lvFields.SelectedItems[0];
                 FieldOptions fopt = (FieldOptions)lviEntity.Tag;
                 fopt.FieldName = tbeName.Text;
 
@@ -507,9 +505,7 @@ namespace Barsix.BarsEntity
                 lvi.SubItems.Add(fopt.ViewType + " / " + fopt.ViewColumnType);
                 lvi.SubItems.Add(fopt.DisplayName);
                 lvi.Tag = fopt;
-
-
-                lviEntity = null;
+                
                 tbeName.Text = "";
                 tbeType.Text = "";
                 tbeComment.Text = "";
@@ -594,8 +590,7 @@ namespace Barsix.BarsEntity
         {
             if (e.IsSelected)
             {
-                lviMap = e.Item;
-                FieldOptions fopt = (FieldOptions)lviMap.Tag;
+                FieldOptions fopt = (FieldOptions)e.Item.Tag;
                 tbmColumn.Text = fopt.ColumnName;
 
                 if (fopt.TypeName == "string")
@@ -613,12 +608,19 @@ namespace Barsix.BarsEntity
 
                 cheNullable.Checked = fopt.Nullable;
             }
+            else
+            {
+                tbmColumn.Text = tbmIndex.Text = tbmLength.Text = tbmName.Text = tbmForeignTable.Text = "";
+            }
+            btnUpsertMapField.Enabled = e.IsSelected;
         }
 
         private void btnUpsertMapField_Click(object sender, EventArgs e)
         {
-            if (lviMap != null)
+            if (lvMap.SelectedItems.Count > 0)
             {
+                var lviMap = lvMap.SelectedItems[0];
+
                 FieldOptions fopt = (FieldOptions)lviMap.Tag;
                 fopt.ColumnName = tbmColumn.Text;
                 if (fopt.IsReference())
@@ -641,37 +643,13 @@ namespace Barsix.BarsEntity
             }
             UpdateListViews();
         }
-
-        private void tabPage6_Enter(object sender, EventArgs e)
-        {
-            if (tbpPrefix.Text == "")
-                tbpPrefix.Text = _project.DefaultNamespace().Substring(5) + "." + tbEntityName.Text;
-            UpdateEditors();
-        }
-
-        private void tabPage3_Enter(object sender, EventArgs e)
-        {
-            if (tbcName.Text == "")
-                tbcName.Text = tbEntityName.Text;
-            UpdateEditors();
-        }
-
-        private void tabPage4_Enter(object sender, EventArgs e)
-        {
-            if (tbvNamespace.Text == "")
-                tbvNamespace.Text = _project.DefaultNamespace().Substring(5) + "." + tbEntityName.Text;
-            UpdateEditors();
-        }
-
-        private void tabPage5_Enter(object sender, EventArgs e)
-        {
-           
-        }
-
+        
         private void button1_Click(object sender, EventArgs e)
         {
-            if (lviView != null)
+            if (lvView.SelectedItems.Count > 0)
             {
+                var lviView = lvView.SelectedItems[0];
+
                 FieldOptions fopt = (FieldOptions)lviView.Tag;
                 fopt.DisplayName = tbvDisplayName.Text;
                 fopt.ViewType = tbvType.Text;
@@ -689,14 +667,11 @@ namespace Barsix.BarsEntity
             UpdateListViews();
         }
 
-        public ListViewItem lviView;
-
         private void lvView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             if (e.IsSelected)
             {
-                lviView = e.Item;
-                FieldOptions fopt = (FieldOptions)lviView.Tag;
+                FieldOptions fopt = (FieldOptions)e.Item.Tag;
                 tbvViewName.Text = fopt.FieldName;
                 tbvType.Text = fopt.ViewType;
                 tbvDisplayName.Text = fopt.DisplayName;
@@ -706,6 +681,12 @@ namespace Barsix.BarsEntity
                 tbvTextProperty.Text = fopt.TextProperty;
                 tbvTextProperty.Visible = fopt.IsReference();
             }
+            else
+            {
+                tbvTextProperty.Text = tbvDisplayName.Text = tbvType.Text = tbvViewName.Text = "";
+                chvDynamicField.Checked = chvGroupField.Checked = false;
+            }
+            btnUpsertViewField.Enabled = e.IsSelected;
         }
 
         private void chSignable_CheckedChanged(object sender, EventArgs e)
@@ -1012,6 +993,17 @@ namespace Barsix.BarsEntity
         private void chDictionary_CheckedChanged(object sender, EventArgs e)
         {
             tbSubfolder.Enabled = !chDictionary.Checked;
+        }
+
+        private void tbEntityName_TextChanged(object sender, EventArgs e)
+        {
+            if (_project != null)
+            {
+                tbpPrefix.Text = _project.DefaultNamespace().Substring(5) + "." + tbEntityName.Text;
+                tbcName.Text = tbEntityName.Text;
+                tbvNamespace.Text = _project.DefaultNamespace().Substring(5) + "." + tbEntityName.Text;
+                UpdateEditors();
+            }
         }
     }
 }

@@ -30,6 +30,29 @@ namespace Barsix.BarsEntity
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.Label label16;
+            System.Windows.Forms.Label label12;
+            System.Windows.Forms.Label label4;
+            System.Windows.Forms.Label label3;
+            System.Windows.Forms.Label label2;
+            System.Windows.Forms.TabPage tabPage2;
+            System.Windows.Forms.Label label22;
+            System.Windows.Forms.Label label11;
+            System.Windows.Forms.Label label9;
+            System.Windows.Forms.Label label8;
+            System.Windows.Forms.Label label5;
+            System.Windows.Forms.Label label6;
+            System.Windows.Forms.Label label7;
+            System.Windows.Forms.Label label14;
+            System.Windows.Forms.Label label13;
+            System.Windows.Forms.Label label10;
+            System.Windows.Forms.Label label31;
+            System.Windows.Forms.Label label24;
+            System.Windows.Forms.Label label15;
+            System.Windows.Forms.Label label17;
+            System.Windows.Forms.Label label19;
+            System.Windows.Forms.Label label20;
+            System.Windows.Forms.Label label21;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntityOptionsWindow));
             this.label1 = new System.Windows.Forms.Label();
             this.tbEntityName = new System.Windows.Forms.TextBox();
@@ -41,67 +64,44 @@ namespace Barsix.BarsEntity
             this.cbeBaseClass = new System.Windows.Forms.ComboBox();
             this.cheList = new System.Windows.Forms.CheckBox();
             this.cheNullable = new System.Windows.Forms.CheckBox();
-            this.label16 = new System.Windows.Forms.Label();
             this.tbeComment = new System.Windows.Forms.TextBox();
             this.cheParentReference = new System.Windows.Forms.CheckBox();
-            this.label12 = new System.Windows.Forms.Label();
             this.btnUpsertEntityField = new System.Windows.Forms.Button();
             this.tbeType = new System.Windows.Forms.TextBox();
             this.tbeName = new System.Windows.Forms.TextBox();
             this.cheOwnerReference = new System.Windows.Forms.CheckBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.lvFields = new System.Windows.Forms.ListView();
             this.colName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.label2 = new System.Windows.Forms.Label();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.label22 = new System.Windows.Forms.Label();
             this.tbmLength = new System.Windows.Forms.TextBox();
             this.tbTableName = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
             this.tbmIndex = new System.Windows.Forms.TextBox();
             this.tbmForeignTable = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             this.btnUpsertMapField = new System.Windows.Forms.Button();
             this.tbmColumn = new System.Windows.Forms.TextBox();
             this.tbmName = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
             this.lvMap = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.label7 = new System.Windows.Forms.Label();
             this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.label14 = new System.Windows.Forms.Label();
             this.tbcName = new System.Windows.Forms.TextBox();
-            this.label13 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.chvGroupField = new System.Windows.Forms.CheckBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.tbvTextProperty = new System.Windows.Forms.TextBox();
             this.chvDynamicField = new System.Windows.Forms.CheckBox();
             this.cbvSelectionModel = new System.Windows.Forms.ComboBox();
-            this.label31 = new System.Windows.Forms.Label();
             this.chvEditingDisabled = new System.Windows.Forms.CheckBox();
-            this.label24 = new System.Windows.Forms.Label();
             this.tbvEntityDisplayName = new System.Windows.Forms.TextBox();
             this.tbvNamespace = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
             this.chvInline = new System.Windows.Forms.CheckBox();
-            this.label17 = new System.Windows.Forms.Label();
             this.tbvDisplayName = new System.Windows.Forms.TextBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.btnUpsertViewField = new System.Windows.Forms.Button();
             this.tbvType = new System.Windows.Forms.TextBox();
             this.tbvViewName = new System.Windows.Forms.TextBox();
-            this.label19 = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
             this.lvView = new System.Windows.Forms.ListView();
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.label21 = new System.Windows.Forms.Label();
             this.tabPage5 = new System.Windows.Forms.TabPage();
             this.tbMigrationVersion = new System.Windows.Forms.TextBox();
             this.label18 = new System.Windows.Forms.Label();
@@ -160,9 +160,32 @@ namespace Barsix.BarsEntity
             this.saveDialog = new System.Windows.Forms.SaveFileDialog();
             this.label32 = new System.Windows.Forms.Label();
             this.tbSubfolder = new System.Windows.Forms.TextBox();
+            label16 = new System.Windows.Forms.Label();
+            label12 = new System.Windows.Forms.Label();
+            label4 = new System.Windows.Forms.Label();
+            label3 = new System.Windows.Forms.Label();
+            label2 = new System.Windows.Forms.Label();
+            tabPage2 = new System.Windows.Forms.TabPage();
+            label22 = new System.Windows.Forms.Label();
+            label11 = new System.Windows.Forms.Label();
+            label9 = new System.Windows.Forms.Label();
+            label8 = new System.Windows.Forms.Label();
+            label5 = new System.Windows.Forms.Label();
+            label6 = new System.Windows.Forms.Label();
+            label7 = new System.Windows.Forms.Label();
+            label14 = new System.Windows.Forms.Label();
+            label13 = new System.Windows.Forms.Label();
+            label10 = new System.Windows.Forms.Label();
+            label31 = new System.Windows.Forms.Label();
+            label24 = new System.Windows.Forms.Label();
+            label15 = new System.Windows.Forms.Label();
+            label17 = new System.Windows.Forms.Label();
+            label19 = new System.Windows.Forms.Label();
+            label20 = new System.Windows.Forms.Label();
+            label21 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tabPage5.SuspendLayout();
@@ -189,6 +212,7 @@ namespace Barsix.BarsEntity
             this.tbEntityName.Name = "tbEntityName";
             this.tbEntityName.Size = new System.Drawing.Size(147, 20);
             this.tbEntityName.TabIndex = 1;
+            this.tbEntityName.TextChanged += new System.EventHandler(this.tbEntityName_TextChanged);
             this.tbEntityName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbEntityName_KeyUp);
             // 
             // btnOk
@@ -206,7 +230,7 @@ namespace Barsix.BarsEntity
             // tabControl1
             // 
             this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage5);
@@ -226,18 +250,18 @@ namespace Barsix.BarsEntity
             this.tabPage1.Controls.Add(this.cbeBaseClass);
             this.tabPage1.Controls.Add(this.cheList);
             this.tabPage1.Controls.Add(this.cheNullable);
-            this.tabPage1.Controls.Add(this.label16);
+            this.tabPage1.Controls.Add(label16);
             this.tabPage1.Controls.Add(this.tbeComment);
             this.tabPage1.Controls.Add(this.cheParentReference);
-            this.tabPage1.Controls.Add(this.label12);
+            this.tabPage1.Controls.Add(label12);
             this.tabPage1.Controls.Add(this.btnUpsertEntityField);
             this.tabPage1.Controls.Add(this.tbeType);
             this.tabPage1.Controls.Add(this.tbeName);
             this.tabPage1.Controls.Add(this.cheOwnerReference);
-            this.tabPage1.Controls.Add(this.label4);
-            this.tabPage1.Controls.Add(this.label3);
+            this.tabPage1.Controls.Add(label4);
+            this.tabPage1.Controls.Add(label3);
             this.tabPage1.Controls.Add(this.lvFields);
-            this.tabPage1.Controls.Add(this.label2);
+            this.tabPage1.Controls.Add(label2);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -248,7 +272,7 @@ namespace Barsix.BarsEntity
             // 
             // btnDown
             // 
-            this.btnDown.Location = new System.Drawing.Point(295, 6);
+            this.btnDown.Location = new System.Drawing.Point(304, 6);
             this.btnDown.Name = "btnDown";
             this.btnDown.Size = new System.Drawing.Size(75, 23);
             this.btnDown.TabIndex = 17;
@@ -258,7 +282,7 @@ namespace Barsix.BarsEntity
             // 
             // btnUp
             // 
-            this.btnUp.Location = new System.Drawing.Point(214, 6);
+            this.btnUp.Location = new System.Drawing.Point(223, 6);
             this.btnUp.Name = "btnUp";
             this.btnUp.Size = new System.Drawing.Size(75, 23);
             this.btnUp.TabIndex = 16;
@@ -301,12 +325,12 @@ namespace Barsix.BarsEntity
             // 
             // label16
             // 
-            this.label16.AutoSize = true;
-            this.label16.Location = new System.Drawing.Point(388, 126);
-            this.label16.Name = "label16";
-            this.label16.Size = new System.Drawing.Size(57, 13);
-            this.label16.TabIndex = 12;
-            this.label16.Text = "Описание";
+            label16.AutoSize = true;
+            label16.Location = new System.Drawing.Point(388, 126);
+            label16.Name = "label16";
+            label16.Size = new System.Drawing.Size(57, 13);
+            label16.TabIndex = 12;
+            label16.Text = "Описание";
             // 
             // tbeComment
             // 
@@ -328,12 +352,12 @@ namespace Barsix.BarsEntity
             // 
             // label12
             // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(388, 16);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(52, 13);
-            this.label12.TabIndex = 9;
-            this.label12.Text = "Базовый";
+            label12.AutoSize = true;
+            label12.Location = new System.Drawing.Point(388, 16);
+            label12.Name = "label12";
+            label12.Size = new System.Drawing.Size(52, 13);
+            label12.TabIndex = 9;
+            label12.Text = "Базовый";
             // 
             // btnUpsertEntityField
             // 
@@ -374,21 +398,21 @@ namespace Barsix.BarsEntity
             // 
             // label4
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(388, 99);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(26, 13);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Тип";
+            label4.AutoSize = true;
+            label4.Location = new System.Drawing.Point(388, 99);
+            label4.Name = "label4";
+            label4.Size = new System.Drawing.Size(26, 13);
+            label4.TabIndex = 3;
+            label4.Text = "Тип";
             // 
             // label3
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(388, 72);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(57, 13);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Название";
+            label3.AutoSize = true;
+            label3.Location = new System.Drawing.Point(388, 72);
+            label3.Name = "label3";
+            label3.Size = new System.Drawing.Size(57, 13);
+            label3.TabIndex = 2;
+            label3.Text = "Название";
             // 
             // lvFields
             // 
@@ -418,47 +442,47 @@ namespace Barsix.BarsEntity
             // 
             // label2
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(11, 16);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(55, 13);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Свойства";
+            label2.AutoSize = true;
+            label2.Location = new System.Drawing.Point(11, 16);
+            label2.Name = "label2";
+            label2.Size = new System.Drawing.Size(55, 13);
+            label2.TabIndex = 0;
+            label2.Text = "Свойства";
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.label22);
-            this.tabPage2.Controls.Add(this.tbmLength);
-            this.tabPage2.Controls.Add(this.tbTableName);
-            this.tabPage2.Controls.Add(this.label11);
-            this.tabPage2.Controls.Add(this.tbmIndex);
-            this.tabPage2.Controls.Add(this.tbmForeignTable);
-            this.tabPage2.Controls.Add(this.label9);
-            this.tabPage2.Controls.Add(this.label8);
-            this.tabPage2.Controls.Add(this.btnUpsertMapField);
-            this.tabPage2.Controls.Add(this.tbmColumn);
-            this.tabPage2.Controls.Add(this.tbmName);
-            this.tabPage2.Controls.Add(this.label5);
-            this.tabPage2.Controls.Add(this.label6);
-            this.tabPage2.Controls.Add(this.lvMap);
-            this.tabPage2.Controls.Add(this.label7);
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(622, 260);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Map";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            this.tabPage2.Enter += new System.EventHandler(this.tabPage2_Enter);
+            tabPage2.Controls.Add(label22);
+            tabPage2.Controls.Add(this.tbmLength);
+            tabPage2.Controls.Add(this.tbTableName);
+            tabPage2.Controls.Add(label11);
+            tabPage2.Controls.Add(this.tbmIndex);
+            tabPage2.Controls.Add(this.tbmForeignTable);
+            tabPage2.Controls.Add(label9);
+            tabPage2.Controls.Add(label8);
+            tabPage2.Controls.Add(this.btnUpsertMapField);
+            tabPage2.Controls.Add(this.tbmColumn);
+            tabPage2.Controls.Add(this.tbmName);
+            tabPage2.Controls.Add(label5);
+            tabPage2.Controls.Add(label6);
+            tabPage2.Controls.Add(this.lvMap);
+            tabPage2.Controls.Add(label7);
+            tabPage2.Location = new System.Drawing.Point(4, 22);
+            tabPage2.Name = "tabPage2";
+            tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            tabPage2.Size = new System.Drawing.Size(622, 260);
+            tabPage2.TabIndex = 1;
+            tabPage2.Text = "Map";
+            tabPage2.UseVisualStyleBackColor = true;
+            tabPage2.Enter += new System.EventHandler(this.tabPage2_Enter);
             // 
             // label22
             // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(385, 103);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(40, 13);
-            this.label22.TabIndex = 25;
-            this.label22.Text = "Длина";
+            label22.AutoSize = true;
+            label22.Location = new System.Drawing.Point(385, 103);
+            label22.Name = "label22";
+            label22.Size = new System.Drawing.Size(40, 13);
+            label22.TabIndex = 25;
+            label22.Text = "Длина";
             // 
             // tbmLength
             // 
@@ -476,12 +500,12 @@ namespace Barsix.BarsEntity
             // 
             // label11
             // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(385, 16);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(50, 13);
-            this.label11.TabIndex = 22;
-            this.label11.Text = "Таблица";
+            label11.AutoSize = true;
+            label11.Location = new System.Drawing.Point(385, 16);
+            label11.Name = "label11";
+            label11.Size = new System.Drawing.Size(50, 13);
+            label11.TabIndex = 22;
+            label11.Text = "Таблица";
             // 
             // tbmIndex
             // 
@@ -499,24 +523,25 @@ namespace Barsix.BarsEntity
             // 
             // label9
             // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(385, 167);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(45, 13);
-            this.label9.TabIndex = 17;
-            this.label9.Text = "Индекс";
+            label9.AutoSize = true;
+            label9.Location = new System.Drawing.Point(385, 167);
+            label9.Name = "label9";
+            label9.Size = new System.Drawing.Size(45, 13);
+            label9.TabIndex = 17;
+            label9.Text = "Индекс";
             // 
             // label8
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(385, 138);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(81, 13);
-            this.label8.TabIndex = 16;
-            this.label8.Text = "Внеш. таблица";
+            label8.AutoSize = true;
+            label8.Location = new System.Drawing.Point(385, 138);
+            label8.Name = "label8";
+            label8.Size = new System.Drawing.Size(81, 13);
+            label8.TabIndex = 16;
+            label8.Text = "Внеш. таблица";
             // 
             // btnUpsertMapField
             // 
+            this.btnUpsertMapField.Enabled = false;
             this.btnUpsertMapField.Location = new System.Drawing.Point(388, 218);
             this.btnUpsertMapField.Name = "btnUpsertMapField";
             this.btnUpsertMapField.Size = new System.Drawing.Size(228, 34);
@@ -542,21 +567,21 @@ namespace Barsix.BarsEntity
             // 
             // label5
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(385, 77);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(79, 13);
-            this.label5.TabIndex = 11;
-            this.label5.Text = "Поле таблицы";
+            label5.AutoSize = true;
+            label5.Location = new System.Drawing.Point(385, 77);
+            label5.Name = "label5";
+            label5.Size = new System.Drawing.Size(79, 13);
+            label5.TabIndex = 11;
+            label5.Text = "Поле таблицы";
             // 
             // label6
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(385, 50);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(57, 13);
-            this.label6.TabIndex = 10;
-            this.label6.Text = "Название";
+            label6.AutoSize = true;
+            label6.Location = new System.Drawing.Point(385, 50);
+            label6.Name = "label6";
+            label6.Size = new System.Drawing.Size(57, 13);
+            label6.TabIndex = 10;
+            label6.Text = "Название";
             // 
             // lvMap
             // 
@@ -584,18 +609,18 @@ namespace Barsix.BarsEntity
             // 
             // label7
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(11, 16);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(55, 13);
-            this.label7.TabIndex = 8;
-            this.label7.Text = "Свойства";
+            label7.AutoSize = true;
+            label7.Location = new System.Drawing.Point(11, 16);
+            label7.Name = "label7";
+            label7.Size = new System.Drawing.Size(55, 13);
+            label7.TabIndex = 8;
+            label7.Text = "Свойства";
             // 
             // tabPage3
             // 
-            this.tabPage3.Controls.Add(this.label14);
+            this.tabPage3.Controls.Add(label14);
             this.tabPage3.Controls.Add(this.tbcName);
-            this.tabPage3.Controls.Add(this.label13);
+            this.tabPage3.Controls.Add(label13);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
@@ -603,16 +628,15 @@ namespace Barsix.BarsEntity
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Controller";
             this.tabPage3.UseVisualStyleBackColor = true;
-            this.tabPage3.Enter += new System.EventHandler(this.tabPage3_Enter);
             // 
             // label14
             // 
-            this.label14.AutoSize = true;
-            this.label14.Location = new System.Drawing.Point(312, 16);
-            this.label14.Name = "label14";
-            this.label14.Size = new System.Drawing.Size(51, 13);
-            this.label14.TabIndex = 2;
-            this.label14.Text = "Controller";
+            label14.AutoSize = true;
+            label14.Location = new System.Drawing.Point(312, 16);
+            label14.Name = "label14";
+            label14.Size = new System.Drawing.Size(51, 13);
+            label14.TabIndex = 2;
+            label14.Text = "Controller";
             // 
             // tbcName
             // 
@@ -624,36 +648,36 @@ namespace Barsix.BarsEntity
             // 
             // label13
             // 
-            this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(11, 16);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(57, 13);
-            this.label13.TabIndex = 0;
-            this.label13.Text = "Название";
+            label13.AutoSize = true;
+            label13.Location = new System.Drawing.Point(11, 16);
+            label13.Name = "label13";
+            label13.Size = new System.Drawing.Size(57, 13);
+            label13.TabIndex = 0;
+            label13.Text = "Название";
             // 
             // tabPage4
             // 
             this.tabPage4.Controls.Add(this.chvGroupField);
-            this.tabPage4.Controls.Add(this.label10);
+            this.tabPage4.Controls.Add(label10);
             this.tabPage4.Controls.Add(this.tbvTextProperty);
             this.tabPage4.Controls.Add(this.chvDynamicField);
             this.tabPage4.Controls.Add(this.cbvSelectionModel);
-            this.tabPage4.Controls.Add(this.label31);
+            this.tabPage4.Controls.Add(label31);
             this.tabPage4.Controls.Add(this.chvEditingDisabled);
-            this.tabPage4.Controls.Add(this.label24);
+            this.tabPage4.Controls.Add(label24);
             this.tabPage4.Controls.Add(this.tbvEntityDisplayName);
             this.tabPage4.Controls.Add(this.tbvNamespace);
-            this.tabPage4.Controls.Add(this.label15);
+            this.tabPage4.Controls.Add(label15);
             this.tabPage4.Controls.Add(this.chvInline);
-            this.tabPage4.Controls.Add(this.label17);
+            this.tabPage4.Controls.Add(label17);
             this.tabPage4.Controls.Add(this.tbvDisplayName);
-            this.tabPage4.Controls.Add(this.button1);
+            this.tabPage4.Controls.Add(this.btnUpsertViewField);
             this.tabPage4.Controls.Add(this.tbvType);
             this.tabPage4.Controls.Add(this.tbvViewName);
-            this.tabPage4.Controls.Add(this.label19);
-            this.tabPage4.Controls.Add(this.label20);
+            this.tabPage4.Controls.Add(label19);
+            this.tabPage4.Controls.Add(label20);
             this.tabPage4.Controls.Add(this.lvView);
-            this.tabPage4.Controls.Add(this.label21);
+            this.tabPage4.Controls.Add(label21);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
@@ -661,7 +685,6 @@ namespace Barsix.BarsEntity
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "View";
             this.tabPage4.UseVisualStyleBackColor = true;
-            this.tabPage4.Enter += new System.EventHandler(this.tabPage4_Enter);
             // 
             // chvGroupField
             // 
@@ -676,12 +699,12 @@ namespace Barsix.BarsEntity
             // 
             // label10
             // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(401, 134);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(63, 13);
-            this.label10.TabIndex = 38;
-            this.label10.Text = "textProperty";
+            label10.AutoSize = true;
+            label10.Location = new System.Drawing.Point(401, 134);
+            label10.Name = "label10";
+            label10.Size = new System.Drawing.Size(63, 13);
+            label10.TabIndex = 38;
+            label10.Text = "textProperty";
             // 
             // tbvTextProperty
             // 
@@ -714,12 +737,12 @@ namespace Barsix.BarsEntity
             // 
             // label31
             // 
-            this.label31.AutoSize = true;
-            this.label31.Location = new System.Drawing.Point(11, 237);
-            this.label31.Name = "label31";
-            this.label31.Size = new System.Drawing.Size(82, 13);
-            this.label31.TabIndex = 32;
-            this.label31.Text = "Selection model";
+            label31.AutoSize = true;
+            label31.Location = new System.Drawing.Point(11, 237);
+            label31.Name = "label31";
+            label31.Size = new System.Drawing.Size(82, 13);
+            label31.TabIndex = 32;
+            label31.Text = "Selection model";
             // 
             // chvEditingDisabled
             // 
@@ -733,12 +756,12 @@ namespace Barsix.BarsEntity
             // 
             // label24
             // 
-            this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(161, 13);
-            this.label24.Name = "label24";
-            this.label24.Size = new System.Drawing.Size(55, 13);
-            this.label24.TabIndex = 30;
-            this.label24.Text = "название";
+            label24.AutoSize = true;
+            label24.Location = new System.Drawing.Point(161, 13);
+            label24.Name = "label24";
+            label24.Size = new System.Drawing.Size(55, 13);
+            label24.TabIndex = 30;
+            label24.Text = "название";
             // 
             // tbvEntityDisplayName
             // 
@@ -757,12 +780,12 @@ namespace Barsix.BarsEntity
             // 
             // label15
             // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(398, 13);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(62, 13);
-            this.label15.TabIndex = 27;
-            this.label15.Text = "namespace";
+            label15.AutoSize = true;
+            label15.Location = new System.Drawing.Point(398, 13);
+            label15.Name = "label15";
+            label15.Size = new System.Drawing.Size(62, 13);
+            label15.TabIndex = 27;
+            label15.Text = "namespace";
             // 
             // chvInline
             // 
@@ -776,12 +799,12 @@ namespace Barsix.BarsEntity
             // 
             // label17
             // 
-            this.label17.AutoSize = true;
-            this.label17.Location = new System.Drawing.Point(401, 109);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(57, 13);
-            this.label17.TabIndex = 25;
-            this.label17.Text = "Название";
+            label17.AutoSize = true;
+            label17.Location = new System.Drawing.Point(401, 109);
+            label17.Name = "label17";
+            label17.Size = new System.Drawing.Size(57, 13);
+            label17.TabIndex = 25;
+            label17.Text = "Название";
             // 
             // tbvDisplayName
             // 
@@ -790,15 +813,16 @@ namespace Barsix.BarsEntity
             this.tbvDisplayName.Size = new System.Drawing.Size(149, 20);
             this.tbvDisplayName.TabIndex = 24;
             // 
-            // button1
+            // btnUpsertViewField
             // 
-            this.button1.Location = new System.Drawing.Point(401, 199);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(212, 30);
-            this.button1.TabIndex = 20;
-            this.button1.Text = "Обновить";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.btnUpsertViewField.Enabled = false;
+            this.btnUpsertViewField.Location = new System.Drawing.Point(385, 199);
+            this.btnUpsertViewField.Name = "btnUpsertViewField";
+            this.btnUpsertViewField.Size = new System.Drawing.Size(228, 30);
+            this.btnUpsertViewField.TabIndex = 20;
+            this.btnUpsertViewField.Text = "Обновить";
+            this.btnUpsertViewField.UseVisualStyleBackColor = true;
+            this.btnUpsertViewField.Click += new System.EventHandler(this.button1_Click);
             // 
             // tbvType
             // 
@@ -817,21 +841,21 @@ namespace Barsix.BarsEntity
             // 
             // label19
             // 
-            this.label19.AutoSize = true;
-            this.label19.Location = new System.Drawing.Point(401, 86);
-            this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(26, 13);
-            this.label19.TabIndex = 16;
-            this.label19.Text = "Тип";
+            label19.AutoSize = true;
+            label19.Location = new System.Drawing.Point(401, 86);
+            label19.Name = "label19";
+            label19.Size = new System.Drawing.Size(26, 13);
+            label19.TabIndex = 16;
+            label19.Text = "Тип";
             // 
             // label20
             // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(401, 61);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(33, 13);
-            this.label20.TabIndex = 15;
-            this.label20.Text = "Поле";
+            label20.AutoSize = true;
+            label20.Location = new System.Drawing.Point(401, 61);
+            label20.Name = "label20";
+            label20.Size = new System.Drawing.Size(33, 13);
+            label20.TabIndex = 15;
+            label20.Text = "Поле";
             // 
             // lvView
             // 
@@ -840,9 +864,9 @@ namespace Barsix.BarsEntity
             this.columnHeader4,
             this.columnHeader5});
             this.lvView.FullRowSelect = true;
-            this.lvView.Location = new System.Drawing.Point(6, 33);
+            this.lvView.Location = new System.Drawing.Point(6, 32);
             this.lvView.Name = "lvView";
-            this.lvView.Size = new System.Drawing.Size(382, 196);
+            this.lvView.Size = new System.Drawing.Size(373, 196);
             this.lvView.TabIndex = 14;
             this.lvView.UseCompatibleStateImageBehavior = false;
             this.lvView.View = System.Windows.Forms.View.Details;
@@ -865,12 +889,12 @@ namespace Barsix.BarsEntity
             // 
             // label21
             // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(11, 17);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(55, 13);
-            this.label21.TabIndex = 13;
-            this.label21.Text = "Свойства";
+            label21.AutoSize = true;
+            label21.Location = new System.Drawing.Point(11, 16);
+            label21.Name = "label21";
+            label21.Size = new System.Drawing.Size(55, 13);
+            label21.TabIndex = 13;
+            label21.Text = "Свойства";
             // 
             // tabPage5
             // 
@@ -883,7 +907,6 @@ namespace Barsix.BarsEntity
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Migration";
             this.tabPage5.UseVisualStyleBackColor = true;
-            this.tabPage5.Enter += new System.EventHandler(this.tabPage5_Enter);
             // 
             // tbMigrationVersion
             // 
@@ -914,7 +937,6 @@ namespace Barsix.BarsEntity
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "Permission";
             this.tabPage6.UseVisualStyleBackColor = true;
-            this.tabPage6.Enter += new System.EventHandler(this.tabPage6_Enter);
             // 
             // chpSimpleCRUDMap
             // 
@@ -1489,8 +1511,8 @@ namespace Barsix.BarsEntity
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            this.tabPage2.ResumeLayout(false);
-            this.tabPage2.PerformLayout();
+            tabPage2.ResumeLayout(false);
+            tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.tabPage4.ResumeLayout(false);
@@ -1519,7 +1541,6 @@ namespace Barsix.BarsEntity
         private System.Windows.Forms.Button btnOk;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.TabPage tabPage3;
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.TabPage tabPage5;
@@ -1528,51 +1549,33 @@ namespace Barsix.BarsEntity
         private System.Windows.Forms.TextBox tbeType;
         private System.Windows.Forms.TextBox tbeName;
         private System.Windows.Forms.CheckBox cheOwnerReference;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ListView lvFields;
         private System.Windows.Forms.ColumnHeader colName;
         private System.Windows.Forms.ColumnHeader colType;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox tbTableName;
-        private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox tbmIndex;
         private System.Windows.Forms.TextBox tbmForeignTable;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btnUpsertMapField;
         private System.Windows.Forms.TextBox tbmColumn;
         private System.Windows.Forms.TextBox tbmName;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ListView lvMap;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.CheckBox cheParentReference;
-        private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox tbcName;
-        private System.Windows.Forms.Label label13;
         private System.Windows.Forms.TabPage tabPage7;
         private System.Windows.Forms.CheckBox chDictionary;
-        private System.Windows.Forms.Label label16;
         private System.Windows.Forms.TextBox tbeComment;
-        private System.Windows.Forms.Label label17;
         private System.Windows.Forms.TextBox tbvDisplayName;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button btnUpsertViewField;
         private System.Windows.Forms.TextBox tbvType;
         private System.Windows.Forms.TextBox tbvViewName;
-        private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label label20;
         private System.Windows.Forms.ListView lvView;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.ColumnHeader columnHeader4;
-        private System.Windows.Forms.Label label21;
         private System.Windows.Forms.TextBox tbMigrationVersion;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.CheckBox cheNullable;
-        private System.Windows.Forms.Label label22;
         private System.Windows.Forms.TextBox tbmLength;
         private System.Windows.Forms.CheckBox chvInline;
         private System.Windows.Forms.CheckBox chpSimpleCRUDMap;
@@ -1580,8 +1583,6 @@ namespace Barsix.BarsEntity
         private System.Windows.Forms.TextBox tbpPrefix;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.TextBox tbvNamespace;
-        private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label label24;
         private System.Windows.Forms.TextBox tbvEntityDisplayName;
         private System.Windows.Forms.TextBox tbnAnchor;
         private System.Windows.Forms.TextBox tbnName;
@@ -1596,7 +1597,6 @@ namespace Barsix.BarsEntity
         private System.Windows.Forms.CheckBox chStateful;
         private System.Windows.Forms.TabPage tabPage8;
         private System.Windows.Forms.ComboBox cbvSelectionModel;
-        private System.Windows.Forms.Label label31;
         private System.Windows.Forms.CheckBox chvDynamicFilter;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.CheckBox chdsDelete;
@@ -1619,7 +1619,6 @@ namespace Barsix.BarsEntity
         private System.Windows.Forms.CheckBox chvDynamicField;
         private System.Windows.Forms.CheckBox chvTreeGrid;
         private System.Windows.Forms.CheckBox chmLogMap;
-        private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox tbvTextProperty;
         private System.Windows.Forms.CheckBox chvGroupField;
         private System.Windows.Forms.ColumnHeader columnHeader5;
