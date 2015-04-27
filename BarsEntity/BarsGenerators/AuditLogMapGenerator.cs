@@ -6,7 +6,7 @@ using System.IO;
 namespace Barsix.BarsEntity.BarsGenerators
 {
     using BarsOptions;
-    using CodeGeneration;
+    using CodeGeneration.CSharp;
 
     public class AuditLogMapGenerator : BaseBarsGenerator
     {

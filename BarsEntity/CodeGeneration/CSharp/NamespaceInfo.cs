@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Barsix.BarsEntity.CodeGeneration
+namespace Barsix.BarsEntity.CodeGeneration.CSharp
 {
     public class NamespaceInfo : BaseCodeFragment
     {

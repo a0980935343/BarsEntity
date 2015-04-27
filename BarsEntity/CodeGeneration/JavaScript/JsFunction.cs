@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Barsix.BarsEntity.CodeGeneration
+namespace Barsix.BarsEntity.CodeGeneration.JavaScript
 {
     public class JsFunction : JsProperty
     {

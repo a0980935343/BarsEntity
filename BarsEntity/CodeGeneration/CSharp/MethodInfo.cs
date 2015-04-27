@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Barsix.BarsEntity.CodeGeneration
+namespace Barsix.BarsEntity.CodeGeneration.CSharp
 {
     public class MethodInfo : ClassCodeFragment
     {

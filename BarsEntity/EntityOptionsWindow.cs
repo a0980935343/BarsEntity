@@ -18,7 +18,7 @@ namespace Barsix.BarsEntity
 {
     using BarsOptions;
     using BarsGenerators;
-    using CodeGeneration;
+    using CodeGeneration.CSharp;
 
     public partial class EntityOptionsWindow : Form
     {

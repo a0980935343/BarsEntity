@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Barsix.BarsEntity.CodeGeneration
+namespace Barsix.BarsEntity.CodeGeneration.JavaScript
 {
     public abstract class JsProperty
     {

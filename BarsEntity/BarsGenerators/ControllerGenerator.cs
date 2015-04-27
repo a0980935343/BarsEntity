@@ -5,7 +5,7 @@ using System.Linq;
 namespace Barsix.BarsEntity.BarsGenerators
 {
     using BarsOptions;
-    using CodeGeneration;
+    using CodeGeneration.CSharp;
     
     public class ControllerGenerator : BaseBarsGenerator
     {

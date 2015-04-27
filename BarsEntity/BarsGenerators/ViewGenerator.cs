@@ -6,6 +6,8 @@ namespace Barsix.BarsEntity.BarsGenerators
 {
     using BarsOptions;
     using CodeGeneration;
+    using CodeGeneration.CSharp;
+    using CodeGeneration.JavaScript;
 
     public class ViewGenerator : BaseBarsGenerator
     {
@@ -38,27 +40,27 @@ namespace Barsix.BarsEntity.BarsGenerators
                 aFunction.Add("");
                 aFunction.Add("return ns.Page;");
 
-                var deps = new JsArray();
+                var deps = new List<object>();
 
                 if (options.Signable)
-                    deps.AddString("modules/MosKs/DigitalSignature/MosKs.SignatureEntity");
+                    deps.Add("modules/MosKs/DigitalSignature/MosKs.SignatureEntity");
                 
                 if (options.View.DynamicFilter)
-                    deps.AddString("modules/MosKs.Plugin.QueryBuilder");
+                    deps.Add("modules/MosKs.Plugin.QueryBuilder");
 
                 if (options.View.TreeGrid)
-                    deps.AddString("modules/MosKs.Controls.TreeGrid");
+                    deps.Add("modules/MosKs.Controls.TreeGrid");
 
                 if (options.Stateful)
                 {
-                    deps.AddString("modules/EAS.States.StateField");
-                    deps.AddString("modules/EAS.States.StateColumn");
-                    deps.AddString("modules/EAS.States.PageGridStatePlugin");
-                    deps.AddString("modules/EAS.States.StateFilterCombobox");
+                    deps.Add("modules/EAS.States.StateField");
+                    deps.Add("modules/EAS.States.StateColumn");
+                    deps.Add("modules/EAS.States.PageGridStatePlugin");
+                    deps.Add("modules/EAS.States.StateFilterCombobox");
                 }
 
                 var define = new JsFunctionCall { Function = "define" };
-                define.Params.Add(deps);
+                define.Params.Add(JsArray.FromArray(deps.ToArray()));
                 define.Params.Add(aFunction);
 
                 file.Name = options.ClassName + ".js";
@@ -118,10 +120,9 @@ namespace Barsix.BarsEntity.BarsGenerators
         {
             var gridConfig = new JsFunctionCall { Function = "Ext3.apply", Name = "return" };
 
-            gridConfig.Params.Add(new JsObject() { Inline = true });
-            gridConfig.Params.Add(new JsScalar() { Value = "config" });
-
-
+            gridConfig.AddParam(new { __inline = true });
+            gridConfig.AddParam(JsScalar.New("config"));
+            
             var gridApply = new JsObject();
 
             JsProperty sm = null;
@@ -159,43 +160,32 @@ namespace Barsix.BarsEntity.BarsGenerators
                 storeFields.AddString("_is_leaf");
                 storeFields.AddString("_is_loaded");
 
-                storeParams.Add(new JsInstance
+                storeParams.Add("reader", new JsInstance
                 {
-                    Name = "reader",
                     Function = "Ext3.data.JsonReader",
-                    Params = new List<JsProperty> { new JsObject{
-                        Properties = new List<JsProperty>{
-                            JsScalar.String("idProperty", "Id"),
-                            JsScalar.String("root", "data"),
-                            JsScalar.String("totalProperty", "totalCount"),
-                            storeFields
-                        }
-                    }
+                    Params = new List<JsProperty> {
+                        new { 
+                            idProperty = "Id", 
+                            root = "data", 
+                            totalProperty = "totalCount"
+                        }.ToJs() 
                     }
                 });
 
-                storeParams.Add(new JsInstance
+                storeParams.Add("proxy", new JsInstance
                 {
-                    Name = "proxy",
                     Function = "Ext3.data.HttpProxy",
-                    Params = new List<JsProperty>{new JsObject
-                    {
-                        Inline = true,
-                        Properties = new List<JsProperty>{
-                            JsScalar.String( "method", "POST"),
-                            JsScalar.New("url", "EAS.url.action('/' + config.controllerName + '/List/')"),
-                            JsScalar.Boolean("json", true)
-                        }
-                    }}
+                    Params = new List<JsProperty>{
+                        new { 
+                            __inline = true,
+                            method = "POST", 
+                            url = JsScalar.New("EAS.url.action('/' + config.controllerName + '/List/')"), 
+                            json = true
+                        }.ToJs()
+                    }
                 });
 
-                storeParams.Add(new JsObject
-                {
-                    Name = "baseParams",
-                    Properties = new List<JsProperty>{
-                        JsScalar.Number("start", 0),
-                        JsScalar.Number("limit", 20)}
-                });
+                storeParams.Add("baseParams", new { start = 0, limit = 20 }.ToJs());
             }
             else
             {
@@ -204,16 +194,11 @@ namespace Barsix.BarsEntity.BarsGenerators
                 {
                     storeParams.AddString("groupField", groupField.FieldName);
 
-                    gridApply.Add(new JsInstance
+                    gridApply.Add("view", new JsInstance
                     {
-                        Name = "view",
                         Function = "Ext3.grid.GroupingView",
-                        Inline = true,
-                        Params = new List<JsProperty>{ new JsObject{
-                            Inline = true,
-                            Properties = new List<JsProperty>{ JsScalar.Boolean("hideGroupedColumn", true) }
-                        }}
-                    });
+                        Inline = true
+                    }.AddParam(new { __inline = true, hideGroupedColumn = true }));
                 }
                 storeParams.Add(storeFields);
                 storeParams.AddScalar("controllerName", "config.controllerName");
@@ -232,13 +217,23 @@ namespace Barsix.BarsEntity.BarsGenerators
 
             if (options.Signable)
             {
-                var signColumn = new JsObject{ Inline = false };
-                signColumn.AddString("xtype", "easgridactionscolumn");
-                signColumn.AddString("id", "columnSign");
+                /*var signColumn = new JsObject{ Inline = false };
+                signColumn.AddString("xtype", );
+                signColumn.AddString();
                 signColumn.Add(new JsFunction { Name = "getRowActions", Params = "value, meta, record", Body = new List<object> { "return [{ name: 'SignData', iconCls: (record.data.Signed ? 'icon-signed' : '') }];" } });
-                signColumn.AddLocal("header", "ЭЦП");
+                signColumn.AddLocal();*/
 
-                columns.Values.Add(signColumn);
+                var signColumn = new {
+                    __inline = false,
+                    xtype = "easgridactionscolumn",
+                    id = "columnSign",
+                    getRowActions = new JsFunction { 
+                        Params = "value, meta, record", 
+                        Body = new List<object> { "return [{ name: 'SignData', iconCls: (record.data.Signed ? 'icon-signed' : '') }];" } },
+                    header = JsScalar.Local("ЭЦП")
+                };
+
+                columns.Values.Add(JsObject.FormObject(signColumn));
             }
 
             foreach (var field in options.Fields.Where(x => x.DisplayName != "" && !x.Collection && !x.ParentReference && !x.GroupField))
@@ -248,20 +243,15 @@ namespace Barsix.BarsEntity.BarsGenerators
                     var col = new JsInstance
                     {
                         Function = "EAS.States.StateColumn",
-                        Inline = true,
-                        Params = new List<JsProperty> {
-                            new JsObject
-                            {
-                                Inline = true,
-                                Properties = new List<JsProperty> { 
-                                    JsScalar.String("dataIndex", "State"),
-                                    JsScalar.Local("header", "Статус"),
-                                    JsScalar.Number("width", 100),
-                                    JsScalar.Boolean("fixed", true)
-                                }
-                            }
-                        }
-                    };
+                        Inline = true
+                    }.AddParam(new { 
+                        __inline = true, 
+                        dataIndex = "State", 
+                        header = "Статус", 
+                        width = 100, 
+                        @fixed = true 
+                    });
+
                     columns.Values.Add(col);
                 }
                 else
@@ -367,57 +357,68 @@ namespace Barsix.BarsEntity.BarsGenerators
                     new JsScalar{ Name = "scope", Value = "this"}
                 }}
             } });
+
             signButton.Params.Add(signParams);
             init.Add(signButton);
-
-            var formObject = new JsObject();
-            formObject.AddString("xtype", "form");
-            formObject.AddScalar("padding", "5");
-            if (options.AcceptFiles)
-                formObject.AddBoolean("fileUpload", true);
 
             var fields = new JsArray(){ Name = "items" };
             foreach (var field in options.Fields.Where(x => x.DisplayName != "" && !x.Collection))
             {
-                var fld = new JsObject() { Inline = true };
-                
-
-                fld.AddString("xtype", field.ViewType);
-                fld.AddLocal("fieldLabel", field.DisplayName);
-
                 if (options.Stateful && field.FieldName == "State")
                 {
-                    fld.AddString("ref", "../field_State");
-                    fld.AddString("controllerName", controllerName);
-                    fld.AddScalar("entityTypeId", "this.entityTypeId");
+                    fields.Values.Add(new {
+                        xtype = field.ViewType,
+                        fieldLabel = field.DisplayName,
+                        @ref = "../field_State",
+                        controllerName = controllerName,
+                        entityTypeId = JsScalar.New("this.entityTypeId")
+                    }.ToJs());
+                } else
+                if (field.ViewType == "easselectfield")
+                {
+                    fields.Values.Add(new {
+                        xtype = field.ViewType,
+                        fieldLabel = field.DisplayName,
+                        dataIndex = field.FieldName,
+                        idProperty = "Id",
+                        textProperty = field.TextProperty,
+                        selectWindowConfig = new {
+                            title = field.DisplayName,
+                            storeConfig = new { 
+                                fields = new object[]{ JsStyle.Inline, "Id", field.TextProperty },
+                                controllerName = field.TypeName 
+                            },
+                            gridConfig = new { 
+                                columns = new []{ new{ 
+                                    __inline = true,
+                                    dataIndex = field.TextProperty, 
+                                    header = JsScalar.Local(field.DisplayName), 
+                                    xtype = "easwraptextcolumn" 
+                                }}
+                            }
+                        },
+                        __inline = false
+                    }.ToJs());
                 }
                 else
                 {
-                    fld.AddString("dataIndex", field.FieldName);
-                    
-                    if (!field.Nullable)
-                        fld.AddBoolean("allowBlank", false);
+                    fields.Values.Add(new
+                    {
+                        xtype = field.ViewType,
+                        fieldLabel = field.DisplayName,
+                        dataIndex = field.FieldName,
+                        allowBlank = field.Nullable
+                    }.ToJs());
                 }
-                
-
-                if (field.ViewType == "easselectfield")
-                {
-                    fld.AddString("idProperty", "Id");
-                    fld.AddString("textProperty", field.TextProperty);
-                        var selectConfig = new JsObject() { Name = "selectWindowConfig" };
-                        selectConfig.AddString("title", field.DisplayName);
-                        selectConfig.AddScalar("storeConfig", "{{ fields: ['Id', '{1}'], controllerName: '{0}' }}".F(field.TypeName, field.TextProperty));
-                        selectConfig.AddScalar("gridConfig", "{{ columns: [{{ dataIndex: '{0}', header: lc('{1}'), xtype: 'easwraptextcolumn' }}] }}".F(field.TextProperty, field.DisplayName));
-                    fld.Add(selectConfig);
-                    fld.Inline = false;
-                }
-                fields.Values.Add(fld);
             }
-
-            formObject.Add(fields);
-
+            
             var add = new JsFunctionCall() { Function = "this.add" };
-            add.Params.Add(formObject);
+            add.Params.Add(new {
+                xtype = "form",
+                padding = 5,
+                fileUpload = options.AcceptFiles,
+                items = fields
+            }.ToJs());
 
             init.Add(add);
 
@@ -468,22 +469,18 @@ namespace Barsix.BarsEntity.BarsGenerators
             {
                 Inline = false,
                 Function = "ns.Grid",
-                Params = new List<JsProperty>{ 
-                    new JsObject{ 
-                        Properties = new List<JsProperty>{
-                            new JsScalar{ Name = "controllerName", Value = "this.controllerName"}}}}
+                Params = new List<JsProperty>{ new { controllerName = JsScalar.New("this.controllerName") }.ToJs() }
             });
             
             init.Add(addMain);
 
-            
 
             if (options.Signable)
             {
                 var addComp = new JsFunctionCall { Function = "this.addComponent" };
-                var signParams = new JsObject() { Inline = true };
-                signParams.AddString("controllerName", "DocumentDigSignature");
-                signParams.AddString("controllerAction", "SignList");
+                var signParams = new { __inline = true, 
+                    controllerName = "DocumentDigSignature", 
+                    controllerAction = "SignList" }.ToJs();
 
                 addComp.Params.Add(new JsScalar { Value = "'signatureWindow'" });
                 addComp.Params.Add(new JsInstance { Function = "MosKs.SignatureEntity.Page", Params = new List<JsProperty> { signParams } });
@@ -518,32 +515,31 @@ namespace Barsix.BarsEntity.BarsGenerators
             {
                 var pageGridStatePlugin = new JsFunctionCall { Function = "this.addPlugin" };
 
-                var pluginParams = new JsObject();
-                pluginParams.AddString("gridName", "grid");
-                pluginParams.AddScalar("controllerName", "this.controllerName");
-                pluginParams.AddScalar("entityTypeId", "this.entityTypeId");
-                
                 pageGridStatePlugin.Params = new List<JsProperty>{ new JsInstance{ 
                     Inline = false,
                     Function = "EAS.States.PageGridStatePlugin", 
-                    Params = new List<JsProperty>{ pluginParams } }
-                };
+                    Params = new List<JsProperty>{ new {
+                        gridName = "grid",
+                        controllerName = "this.controllerName",
+                        entityTypeId = "this.entityTypeId"
+                    }.ToJs() }
+                }};
                 init.Add(pageGridStatePlugin);
             }
 
             if (options.View.DynamicFilter)
             { 
                 var addPlugin = new JsFunctionCall { Function = "this.addPlugin" };
-                var pluginParams = new JsObject();
-                pluginParams.AddString("gridName", "grid");
-                pluginParams.AddString("queryBuilderName", "queryBuilder");
-                pluginParams.AddString("entityName", options.ClassName);
-
+                
                 addPlugin.Params.Add(new JsInstance()
                 {
                     Inline = false,
                     Function = "MosKs.Plugin.QueryBuilder",
-                    Params = new List<JsProperty>{ pluginParams }
+                    Params = new List<JsProperty>{ new {
+                        gridName = "grid",
+                        queryBuilderName = "queryBuilder",
+                        entityName = options.ClassName
+                    }.ToJs() }
                 });
                 init.Add(addPlugin);
             }
@@ -551,33 +547,32 @@ namespace Barsix.BarsEntity.BarsGenerators
             if (!options.View.EditingDisabled)
             {
                 var addPlugin = new JsFunctionCall { Function = "this.addPlugin" };
-                var pluginParams = new JsObject();
-                pluginParams.AddScalar("controllerName", "this.controllerName");
-                pluginParams.AddString("gridName", "grid");
-                pluginParams.AddString("windowName", "editWindow");
 
                 addPlugin.Params.Add(new JsInstance()
                 {
                     Inline = false,
                     Function = "EAS.PageGridEditWindowPlugin",
-                    Params = new List<JsProperty>{ pluginParams }
+                    Params = new List<JsProperty>{ new {
+                        controllerName = "this.controllerName",
+                        gridName = "grid",
+                        windowName = "editWindow"
+                    }.ToJs() }
                 });
-
                 init.Add(addPlugin);
             }
 
             if (options.Permission != null)
             {
                 var addPermission = new JsFunctionCall { Function = "this.addPlugin" };
-                var pluginParams = new JsObject();
-                pluginParams.AddScalar("permissionsNamespace", "this.permissionsNamespace");
-                pluginParams.AddString("gridName", "grid");
 
                 addPermission.Params.Add(new JsInstance()
                 {
                     Inline = false,
                     Function = "EAS.Permissions.GenericDictionaryPermissionsPlugin",
-                    Params = new List<JsProperty>{ pluginParams }
+                    Params = new List<JsProperty>{ new {
+                        permissionsNamespace = "this.permissionsNamespace",
+                        gridName = "grid"
+                    }.ToJs() }
                 });
 
                 if (!options.View.EditingDisabled)

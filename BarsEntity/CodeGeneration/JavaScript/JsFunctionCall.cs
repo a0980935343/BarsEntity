@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Barsix.BarsEntity.CodeGeneration
+namespace Barsix.BarsEntity.CodeGeneration.JavaScript
 {
     public class JsFunctionCall : JsProperty
     {
@@ -13,6 +13,17 @@ namespace Barsix.BarsEntity.CodeGeneration
         protected bool Instance;
 
         public List<JsProperty> Params = new List<JsProperty>();
+        
+        public JsFunctionCall AddParam(object prop)
+        {
+            if (prop is JsProperty)
+            {
+                Params.Add(prop as JsProperty);
+            }
+            else
+                Params.Add(prop.ToJs());
+            return this;
+        }
 
         public override List<string> Draw(int indent)
         {

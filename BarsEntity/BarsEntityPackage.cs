@@ -19,7 +19,7 @@ namespace Barsix.BarsEntity
 {
     using BarsGenerators;
     using BarsOptions;
-    using CodeGeneration;
+    using CodeGeneration.CSharp;
 
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [ProvideAutoLoad(UIContextGuids80.SolutionExists)]

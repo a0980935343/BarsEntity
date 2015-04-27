@@ -1,16 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Barsix.BarsEntity.CodeGeneration
+namespace Barsix.BarsEntity.CodeGeneration.JavaScript
 {
     public class JsArray : JsProperty
     {
         public JsArray()
         {
             Inline = false;
+        }
+
+        public static JsArray FromArray(object[] array)
+        {
+            var jsArray = new JsArray();
+
+            foreach (object item in array)
+            {
+                if (item is JsProperty)
+                {
+                    jsArray.Add((JsProperty)item);
+                }
+                if (item is JsStyle && (JsStyle)item == JsStyle.Inline)
+                {
+                    jsArray.Inline = true;
+                }
+                if (item is string) jsArray.AddString((string)item); else
+                if (item is bool) jsArray.AddBoolean((bool)item); else
+                if (item is int) jsArray.AddScalar(((int)item).ToString());
+                else
+                {
+                    if (item is Array)
+                        jsArray.Add(JsArray.FromArray((object[])item));
+                    if (item.GetType().GetCustomAttributes(typeof(CompilerGeneratedAttribute), false).Count() > 0 &&
+                        item.GetType().FullName.Contains("AnonymousType"))
+                        jsArray.Add(JsObject.FormObject(item));
+                }
+            }
+
+            return jsArray;
         }
 
         public List<JsProperty> Values = new List<JsProperty>();

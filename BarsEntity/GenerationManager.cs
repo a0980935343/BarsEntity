@@ -11,7 +11,7 @@ namespace Barsix.BarsEntity
 {
     using BarsGenerators;
     using BarsOptions;
-    using CodeGeneration;
+    using CodeGeneration.CSharp;
 
     public class GenerationManager 
     {
