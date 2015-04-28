@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Barsix.BarsEntity.CodeGeneration.CSharp
 {
     public class ClassInfo : CodeFragment
     {
         public string BaseClass;
+
+        public string Namespace;
         
         public List<string> Interfaces = new List<string>();
 

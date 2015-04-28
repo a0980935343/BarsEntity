@@ -16,6 +16,7 @@ using EnvDTE;
 
 namespace Barsix.BarsEntity
 {
+    using Windows;
     using BarsOptions;
     using BarsGenerators;
     using CodeGeneration.CSharp;
@@ -727,7 +728,28 @@ namespace Barsix.BarsEntity
 
         private void tbEntityName_KeyUp(object sender, KeyEventArgs e)
         {
-
+            if (_project != null)
+            {
+                if (e.KeyCode == Keys.Return)
+                {
+                    var match = _manager.ClassExists(tbEntityName.Text);
+                    if (match.Any())
+                    {
+                        ClassBrowserWindow classWindow = new ClassBrowserWindow(match.Values);
+                        if (classWindow.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                        {
+                            RestoreOptions(classWindow.Class);
+                        }
+                    }
+                }
+                else
+                {
+                    tbpPrefix.Text = _project.DefaultNamespace().Substring(5) + "." + tbEntityName.Text;
+                    tbcName.Text = tbEntityName.Text;
+                    tbvNamespace.Text = _project.DefaultNamespace().Substring(5) + "." + tbEntityName.Text;
+                    UpdateEditors();
+                }
+            }
         }
 
         private void cheOwnerReference_CheckedChanged(object sender, EventArgs e)
@@ -997,13 +1019,7 @@ namespace Barsix.BarsEntity
 
         private void tbEntityName_TextChanged(object sender, EventArgs e)
         {
-            if (_project != null)
-            {
-                tbpPrefix.Text = _project.DefaultNamespace().Substring(5) + "." + tbEntityName.Text;
-                tbcName.Text = tbEntityName.Text;
-                tbvNamespace.Text = _project.DefaultNamespace().Substring(5) + "." + tbEntityName.Text;
-                UpdateEditors();
-            }
+            
         }
     }
 }

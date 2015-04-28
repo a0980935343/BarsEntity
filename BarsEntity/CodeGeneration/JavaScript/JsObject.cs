@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Barsix.BarsEntity.CodeGeneration.JavaScript
 {
@@ -28,24 +25,24 @@ namespace Barsix.BarsEntity.CodeGeneration.JavaScript
             Properties.Add(prop);
         }
 
+        public void Add(string name, string str)
+        {
+            Properties.Add(new JsScalar { Name = name, Value = str.Q("'") });
+        }
+
+        public void Add(string name, long num)
+        {
+            Properties.Add(new JsScalar { Name = name, Value = num.ToString() });
+        }
+
+        public void Add(string name, bool flag)
+        {
+            Properties.Add(new JsScalar { Name = name, Value = flag.ToString().ToLower() });
+        }
+
         public void AddScalar(string name, string value)
         {
             Properties.Add(new JsScalar { Name = name, Value = value });
-        }
-
-        public void AddBoolean(string name, bool value)
-        {
-            Properties.Add(new JsScalar { Name = name, Value = value.ToString().ToLower() });
-        }
-
-        public void AddString(string name, string value)
-        {
-            Properties.Add(new JsScalar { Name = name, Value = value.Q("'") });
-        }
-
-        public void AddLocal(string name, string value)
-        {
-            Properties.Add(new JsScalar { Name = name, Value = "lc('{0}')".F(value) });
         }
 
         public override List<string> Draw(int indent)
@@ -108,9 +105,9 @@ namespace Barsix.BarsEntity.CodeGeneration.JavaScript
                     {
                         jsObject.Add(prop.Name, (JsProperty)val);
                     }
-                    if (val is string) jsObject.AddString(prop.Name, (string)val);
+                    if (val is string) jsObject.Add(prop.Name, (string)val);
                     else
-                    if (val is bool) jsObject.AddBoolean(prop.Name, (bool)val);
+                    if (val is bool) jsObject.Add(prop.Name, (bool)val);
                     else
                     if (val is int) jsObject.AddScalar(prop.Name, ((int)val).ToString());
                     else
@@ -121,8 +118,7 @@ namespace Barsix.BarsEntity.CodeGeneration.JavaScript
                             array.Name = prop.Name;
                             jsObject.Add(array);
                         }
-                        if (val.GetType().GetCustomAttributes(typeof(CompilerGeneratedAttribute), false).Count() > 0 &&
-                            val.GetType().FullName.Contains("AnonymousType"))
+                        if (val.GetType().IsAnonymous())
                         {
                             JsObject @object = JsObject.FormObject(val);
                             @object.Name = prop.Name;

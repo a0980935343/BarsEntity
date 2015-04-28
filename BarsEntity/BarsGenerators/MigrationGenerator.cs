@@ -39,6 +39,8 @@ namespace Barsix.BarsEntity.BarsGenerators
             _knownTypes.Add(cls.BaseClass);
             _knownTypes.Add("Column");
             _knownTypes.Add("RefColumn");
+            _knownTypes.Add("ColumnProperty");
+            _knownTypes.Add("DbType");
             
             var up = new MethodInfo() 
             { 
@@ -68,18 +70,10 @@ namespace Barsix.BarsEntity.BarsGenerators
                         else if (field.IsBasicType())
                         {
                             string col = "new Column(\"{0}\", ".F(field.ColumnName);
-                            string dbType = "DbType.";
-                            switch (field.TypeName)
-                            {
-                                case "string": dbType += "String, " + field.Length; break;
-                                case "DateTime": dbType += "DateTime"; break;
-                                case "int": dbType += "Int32"; break;
-                                case "long": dbType += "Int64"; break;
-                                case "bool": dbType += "Boolean"; break;
-                                case "decimal": dbType += "Decimal"; break;
-                                case "double": dbType += "Decimal"; break;
-                                default: dbType += field.TypeName; break;
-                            }
+                            string dbType = "DbType." + TypeHelper.BasicStrongName(field.TypeName);
+                            if (field.TypeName ==  "string" && field.Length > 0)
+                                dbType += ", " + field.Length;
+
                             col += dbType + ", ColumnProperty.{0}Null".F(field.Nullable ? "" : "Not");
                             if (field.DefaultValue != "")
                                 col += field.DefaultValue;

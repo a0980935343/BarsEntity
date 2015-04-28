@@ -23,8 +23,8 @@ namespace Barsix.BarsEntity
 
         private GeneratedFragments _fragments;
 
-        private static List<string> _classList = new List<string>();
-
+        private static Dictionary<string, CodeClass> _classList = new Dictionary<string, CodeClass>();
+        
         public GenerationManager(Project project, bool classSearching = true)
         {
             _project = project;
@@ -34,9 +34,14 @@ namespace Barsix.BarsEntity
                 Task.Factory.StartNew(() =>
                 {
                     _classList = _project.GetClassList("Bars");
-                    _generators.ForEach(g => g.ClassList = _classList);
+                    _generators.ForEach(g => g.ClassList = _classList.Keys.ToList());
                 });
             }
+        }
+
+        public Dictionary<string, EntityOptions> ClassExists(string className)
+        {
+            return _classList.Where(x => x.Key.EndsWith("." + className)).ToDictionary(x => x.Key, x => CodeClassExt.ToOptions(x.Value));
         }
 
         private void AddFile(IBarsGenerator generator, GeneratedFile file)
@@ -51,7 +56,7 @@ namespace Barsix.BarsEntity
         {
             if (!_generators.Any(x => x.GetType() == generator.GetType()))
             {
-                generator.ClassList = _classList;
+                generator.ClassList = _classList.Keys.ToList();
                 _generators.Add(generator);
             }
         }

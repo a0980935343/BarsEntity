@@ -17,6 +17,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             _knownTypes.Add(options.ClassName);
             _knownTypes.Add(options.BaseClass);
             _knownTypes.Add("IList");
+            _knownTypes.Add("DateTime");
 
             NamespaceInfo ns = new NamespaceInfo();
             ClassInfo cls = new ClassInfo();

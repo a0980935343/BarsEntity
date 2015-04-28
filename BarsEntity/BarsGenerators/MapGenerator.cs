@@ -35,8 +35,8 @@ namespace Barsix.BarsEntity.BarsGenerators
             cls.BaseClass = "{2}{0}Map<{1}>".F(options.BaseClass, options.ClassName, _project.DefaultNamespace.StartsWith("Bars.B4.") ? "" : "Bars.MosKs.Core.Map.Base.");
 
             _knownTypes.Clear();
-            _knownTypes.Add(cls.Name);
-            _knownTypes.Add(cls.BaseClass);
+            _knownTypes.Add(options.ClassName);
+            _knownTypes.Add(options.BaseClass);
             _knownTypes.Add("IList");
             _knownTypes.Add("ReferenceMapConfig");
 
@@ -65,7 +65,6 @@ namespace Barsix.BarsEntity.BarsGenerators
                 else
                 {
                     ctor.Body.Add("References(x => x.{0}, \"{1}\", ReferenceMapConfig.{2}Fetch);".F(field.FieldName, field.ColumnName, field.Nullable ? "" : "NotNullAnd"));
-                    _knownTypes.Add(field.TypeName);
                 }
             }
 
@@ -75,9 +74,6 @@ namespace Barsix.BarsEntity.BarsGenerators
             foreach (var field in options.Fields.Where(x => x.Collection))
             {
                 ctor.Body.Add("HasMany(x => x.{0}, \"{1}\", ReferenceMapConfig.CascadeDelete);".F(field.FieldName, field.ColumnName));
-
-                if (!field.IsBasicType())
-                    _knownTypes.Add(field.TypeName);
             }
             
 

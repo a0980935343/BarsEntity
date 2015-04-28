@@ -32,7 +32,7 @@ namespace Barsix.BarsEntity.BarsOptions
 
         public bool Nullable;
 
-        public int Length = 100;
+        public int Length;
 
         public bool OwnerReference;
 
@@ -77,6 +77,6 @@ namespace Barsix.BarsEntity.BarsOptions
             }
         }
 
-        public string FullTypeName { get { return Collection ? "IList<{0}>".F(TypeName) : TypeName + (Nullable && this.IsBasicType() && TypeName != "string" ? "?" : ""); } }
+        public string FullTypeName { get { return Collection ? "IList<{0}>".F(TypeName) : TypeName + (Nullable && (this.IsBasicType() || this.TypeName.EndsWith("Enum")) && TypeName != "string" ? "?" : ""); } }
     }
 }

@@ -70,29 +70,45 @@ namespace Barsix.BarsEntity
             return project.Properties.Item("DefaultNamespace").Value.ToString();
         }
 
-        public static List<string> GetClassList(this Project project, string filter = "")
+        public static Dictionary<string, CodeClass> GetClassList(this Project project, string filter = "")
         {
-            List<string> classes = new List<string>();
-            
-            Func<CodeNamespace, List<string>> enumClasses = null;
+            var classes = new Dictionary<string, CodeClass>();
+
+            Func<CodeNamespace, Dictionary<string, CodeClass>> enumClasses = null;
             enumClasses = ns =>
             {
-                List<string> list = new List<string>();
+                var list = new Dictionary<string, CodeClass>();
 
                 if (!ns.FullName.StartsWith(filter))
                     return list;
 
                 foreach (CodeNamespace ens in ns.Members.OfType<CodeNamespace>())
                 {
-                    list.AddRange(enumClasses(ens));
+                    var nsClasses = enumClasses(ens);
+                    foreach(var cls in nsClasses)
+                        list.Add(cls.Key, cls.Value);
                 }
 
                 foreach (CodeClass @class in ns.Members.OfType<CodeClass>())
                 {
                     if (@class.FullName.StartsWith(project.DefaultNamespace()))
-                        list.Add(@class.FullName.Substring(project.DefaultNamespace().Length + 1));
+                        try
+                        {
+                            list.Add(@class.FullName.Substring(project.DefaultNamespace().Length + 1), @class);
+                        }
+                        catch 
+                        {
+                            var x = 1;
+                        }
                     else
-                        list.Add(@class.FullName.Substring(filter.Length+1));
+                        try
+                        {
+                            list.Add(@class.FullName.Substring(filter.Length+1), @class);
+                        }
+                        catch 
+                        {
+                            var x = 1;
+                        }
                 }
 
                 return list;
@@ -100,7 +116,9 @@ namespace Barsix.BarsEntity
 
             foreach (CodeNamespace element in project.CodeModel.CodeElements.OfType<CodeNamespace>())
             {
-                classes.AddRange(enumClasses(element));
+                var nsClasses = enumClasses(element);
+                foreach (var cls in nsClasses)
+                    classes.Add(cls.Key, cls.Value);
             }
             return classes;
         }

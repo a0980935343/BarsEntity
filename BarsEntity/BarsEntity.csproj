@@ -152,6 +152,7 @@
     <Compile Include="BarsGenerators\StatefulEntitiesManifestGenerator.cs" />
     <Compile Include="BarsOptions\DomainServiceOptions.cs" />
     <Compile Include="CodeGeneration\JavaScript\JsHelper.cs" />
+    <Compile Include="Helpers\CodeClassExt.cs" />
     <Compile Include="Helpers\ControlExt.cs" />
     <Compile Include="Helpers\EntityOptionsExt.cs" />
     <Compile Include="CodeGeneration\CSharp\BaseCodeFragment.cs" />
@@ -214,6 +215,16 @@
     <Compile Include="ProjectInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\StringExt.cs" />
+    <Compile Include="Windows\ClassBrowserWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\ClassBrowserWindow.Designer.cs">
+      <DependentUpon>ClassBrowserWindow.cs</DependentUpon>
+    </Compile>
+    <Content Include="ReleaseNotes.md.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <IncludeInVSIX>true</IncludeInVSIX>
+    </Content>
     <Content Include="Resources\bars-icon.png">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
@@ -228,6 +239,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DontForgetThis.resx">
       <DependentUpon>DontForgetThis.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\ClassBrowserWindow.resx">
+      <DependentUpon>ClassBrowserWindow.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

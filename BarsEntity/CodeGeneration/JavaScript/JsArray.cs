@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Barsix.BarsEntity.CodeGeneration.JavaScript
 {
@@ -28,15 +25,14 @@ namespace Barsix.BarsEntity.CodeGeneration.JavaScript
                 {
                     jsArray.Inline = true;
                 }
-                if (item is string) jsArray.AddString((string)item); else
-                if (item is bool) jsArray.AddBoolean((bool)item); else
+                if (item is string) jsArray.Add((string)item); else
+                if (item is bool) jsArray.Add((bool)item); else
                 if (item is int) jsArray.AddScalar(((int)item).ToString());
                 else
                 {
                     if (item is Array)
                         jsArray.Add(JsArray.FromArray((object[])item));
-                    if (item.GetType().GetCustomAttributes(typeof(CompilerGeneratedAttribute), false).Count() > 0 &&
-                        item.GetType().FullName.Contains("AnonymousType"))
+                    if (item.GetType().IsAnonymous())
                         jsArray.Add(JsObject.FormObject(item));
                 }
             }
@@ -56,19 +52,19 @@ namespace Barsix.BarsEntity.CodeGeneration.JavaScript
             Values.Add(new JsScalar { Value = value });
         }
 
-        public void AddBoolean(bool value)
+        public void Add(long value)
+        {
+            Values.Add(new JsScalar { Value = value.ToString() });
+        }
+
+        public void Add(bool value)
         {
             Values.Add(new JsScalar { Value = value.ToString().ToLower() });
         }
 
-        public void AddString(string value)
+        public void Add(string value)
         {
             Values.Add(new JsScalar { Value = value.Q("'") });
-        }
-
-        public void AddLocal(string value)
-        {
-            Values.Add(new JsScalar { Value = "lc('{0}')".F(value) });
         }
 
         public override List<string> Draw(int indent)
