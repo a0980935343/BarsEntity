@@ -11,7 +11,7 @@ namespace Barsix.BarsEntity
 
     public static class CodeClassExt
     {
-        public static EntityOptions ToOptions(CodeClass cls)
+        public static EntityOptions ToOptions(CodeClass cls, IEnumerable<string> enums)
         {
             EntityOptions result = new EntityOptions();
 
@@ -56,6 +56,7 @@ namespace Barsix.BarsEntity
                     {
                         type = type.Split('.').ToList().Last();
                         type = type.Substring(0, type.Length - 1);
+                        field.Enum = enums.Any(x => x.EndsWith("." + type));
 
                         if (TypeHelper.IsBasicType(type))
                             type = TypeHelper.BasicAlias(type);
@@ -71,9 +72,12 @@ namespace Barsix.BarsEntity
                     else
                     {
                         type = type.Split('.').ToList().Last();
+
+                        field.Enum = enums.Any(x => x.EndsWith("." + type));
+
                         field.Index = cls.Name.CamelToSnake() + "__" + field.ColumnName;
                         field.ReferenceTable = ((CodeProperty)el).Type.AsFullName.Split('.')[1].ToUpper() + "_" + type.CamelToSnake();
-                        field.ColumnName = field.ColumnName + "_ID";
+                        field.ColumnName = field.ColumnName + (field.Enum ? "" : "_ID");
                     }
 
                     field.TypeName = type;

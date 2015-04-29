@@ -89,10 +89,10 @@ namespace Barsix.BarsEntity.BarsGenerators
 
                 cls.AddProperty(pi);
 
-                if (!field.IsBasicType())
+                if (!field.IsBasicType() || field.Enum)
                     ns.InnerUsing.AddDistinct(GetTypeNamespace(field.TypeName));
 
-                if (!field.IsBasicType() && field.TypeName != field.FieldName)
+                if ((!field.IsBasicType() || field.Enum) && field.TypeName != field.FieldName)
                     _knownTypes.Add(field.TypeName);
             }
 

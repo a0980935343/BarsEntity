@@ -22,7 +22,7 @@ namespace Barsix.BarsEntity
 
         public static bool IsBasicType(this FieldOptions field)
         {
-            return TypeHelper.IsBasicType(field.TypeName);
+            return TypeHelper.IsBasicType(field.TypeName) || field.Enum;
         }
 
         public static bool IsAnonymous(this Type type)

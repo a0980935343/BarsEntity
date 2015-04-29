@@ -24,6 +24,8 @@ namespace Barsix.BarsEntity
         private GeneratedFragments _fragments;
 
         private static Dictionary<string, CodeClass> _classList = new Dictionary<string, CodeClass>();
+
+        private static List<string> _enumList = new List<string>();
         
         public GenerationManager(Project project, bool classSearching = true)
         {
@@ -33,15 +35,20 @@ namespace Barsix.BarsEntity
             {
                 Task.Factory.StartNew(() =>
                 {
-                    _classList = _project.GetClassList("Bars");
-                    _generators.ForEach(g => g.ClassList = _classList.Keys.ToList());
+                    _project.GetClassList(_classList, _enumList, "Bars");
+                    _generators.ForEach(g => g.ClassList = _classList.Keys.ToList().Concat(_enumList).ToList());
                 });
             }
         }
 
         public Dictionary<string, EntityOptions> ClassExists(string className)
         {
-            return _classList.Where(x => x.Key.EndsWith("." + className)).ToDictionary(x => x.Key, x => CodeClassExt.ToOptions(x.Value));
+            return _classList.Where(x => x.Key.EndsWith("." + className)).ToDictionary(x => x.Key, x => CodeClassExt.ToOptions(x.Value, _enumList));
+        }
+        
+        public string EnumExists(string enumName)
+        {
+            return _enumList.FirstOrDefault(x => x.EndsWith("." + enumName));
         }
 
         private void AddFile(IBarsGenerator generator, GeneratedFile file)
@@ -56,7 +63,7 @@ namespace Barsix.BarsEntity
         {
             if (!_generators.Any(x => x.GetType() == generator.GetType()))
             {
-                generator.ClassList = _classList.Keys.ToList();
+                generator.ClassList = _classList.Keys.Concat(_enumList).ToList();
                 _generators.Add(generator);
             }
         }

@@ -32,6 +32,8 @@ namespace Barsix.BarsEntity.BarsOptions
 
         public bool Nullable;
 
+        public bool Enum;
+
         public int Length;
 
         public bool OwnerReference;

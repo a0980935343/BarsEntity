@@ -70,7 +70,7 @@
             // 
             // btnOk
             // 
-            this.btnOk.Location = new System.Drawing.Point(151, 349);
+            this.btnOk.Location = new System.Drawing.Point(241, 349);
             this.btnOk.Name = "btnOk";
             this.btnOk.Size = new System.Drawing.Size(112, 36);
             this.btnOk.TabIndex = 7;
@@ -84,7 +84,7 @@
             this.cbNamespace.FormattingEnabled = true;
             this.cbNamespace.Location = new System.Drawing.Point(12, 22);
             this.cbNamespace.Name = "cbNamespace";
-            this.cbNamespace.Size = new System.Drawing.Size(251, 21);
+            this.cbNamespace.Size = new System.Drawing.Size(341, 21);
             this.cbNamespace.TabIndex = 8;
             this.cbNamespace.SelectedIndexChanged += new System.EventHandler(this.cbNamespace_SelectedIndexChanged);
             // 
@@ -96,7 +96,7 @@
             this.lbMembers.FullRowSelect = true;
             this.lbMembers.Location = new System.Drawing.Point(12, 49);
             this.lbMembers.Name = "lbMembers";
-            this.lbMembers.Size = new System.Drawing.Size(251, 264);
+            this.lbMembers.Size = new System.Drawing.Size(341, 264);
             this.lbMembers.TabIndex = 9;
             this.lbMembers.UseCompatibleStateImageBehavior = false;
             this.lbMembers.View = System.Windows.Forms.View.Details;
@@ -104,18 +104,18 @@
             // Название
             // 
             this.Название.Text = "Название";
-            this.Название.Width = 120;
+            this.Название.Width = 150;
             // 
             // Тип
             // 
             this.Тип.Text = "Тип";
-            this.Тип.Width = 120;
+            this.Тип.Width = 180;
             // 
             // ClassBrowserWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(275, 397);
+            this.ClientSize = new System.Drawing.Size(365, 397);
             this.Controls.Add(this.lbMembers);
             this.Controls.Add(this.cbNamespace);
             this.Controls.Add(this.btnOk);

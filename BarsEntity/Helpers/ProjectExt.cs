@@ -70,57 +70,50 @@ namespace Barsix.BarsEntity
             return project.Properties.Item("DefaultNamespace").Value.ToString();
         }
 
-        public static Dictionary<string, CodeClass> GetClassList(this Project project, string filter = "")
+        public static void GetClassList(this Project project, IDictionary<string, CodeClass> classes, ICollection<string> enums, string filter = "")
         {
-            var classes = new Dictionary<string, CodeClass>();
+            //var classes = new Dictionary<string, CodeClass>();
+            //var enums = new List<string>();
 
-            Func<CodeNamespace, Dictionary<string, CodeClass>> enumClasses = null;
+            Action<CodeNamespace> enumClasses = null;
             enumClasses = ns =>
             {
-                var list = new Dictionary<string, CodeClass>();
-
-                if (!ns.FullName.StartsWith(filter))
-                    return list;
-
                 foreach (CodeNamespace ens in ns.Members.OfType<CodeNamespace>())
                 {
-                    var nsClasses = enumClasses(ens);
-                    foreach(var cls in nsClasses)
-                        list.Add(cls.Key, cls.Value);
+                    enumClasses(ens);
                 }
 
                 foreach (CodeClass @class in ns.Members.OfType<CodeClass>())
                 {
                     if (@class.FullName.StartsWith(project.DefaultNamespace()))
-                        try
-                        {
-                            list.Add(@class.FullName.Substring(project.DefaultNamespace().Length + 1), @class);
-                        }
-                        catch 
-                        {
-                            var x = 1;
-                        }
+                    {
+                        if (!classes.ContainsKey(@class.FullName.Substring(project.DefaultNamespace().Length + 1)))
+                            classes.Add(@class.FullName.Substring(project.DefaultNamespace().Length + 1), @class);
+                    }
                     else
-                        try
-                        {
-                            list.Add(@class.FullName.Substring(filter.Length+1), @class);
-                        }
-                        catch 
-                        {
-                            var x = 1;
-                        }
+                    {
+                        if (!classes.ContainsKey(@class.FullName.Substring(filter.Length + 1)))
+                            classes.Add(@class.FullName.Substring(filter.Length + 1), @class);
+                    }
                 }
 
-                return list;
+                foreach (CodeEnum @class in ns.Members.OfType<CodeEnum>())
+                {
+                    if (@class.FullName.StartsWith(project.DefaultNamespace()))
+                    {
+                        enums.Add(@class.FullName.Substring(project.DefaultNamespace().Length + 1));
+                    }
+                    else
+                    {
+                        enums.Add(@class.FullName.Substring(filter.Length + 1));
+                    }
+                }
             };
 
-            foreach (CodeNamespace element in project.CodeModel.CodeElements.OfType<CodeNamespace>())
+            foreach (CodeNamespace element in project.CodeModel.CodeElements.OfType<CodeNamespace>().Where(x => x.FullName.StartsWith(filter)))
             {
-                var nsClasses = enumClasses(element);
-                foreach (var cls in nsClasses)
-                    classes.Add(cls.Key, cls.Value);
+                enumClasses(element);
             }
-            return classes;
         }
     }
 }

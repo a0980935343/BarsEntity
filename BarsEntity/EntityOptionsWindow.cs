@@ -394,7 +394,7 @@ namespace Barsix.BarsEntity
                 cheNullable.Checked = fopt.Nullable;
                 cheNullable.Enabled = !(fopt.OwnerReference || fopt.ParentReference);
                 cheList.Checked = fopt.Collection;
-
+                cheEnum.Checked = fopt.Enum;
                 btnUpsertEntityField.Text = "Обновить";
             }
             else
@@ -407,7 +407,7 @@ namespace Barsix.BarsEntity
                 cheNullable.Enabled = true;
                 cheNullable.Checked = false;
                 cheList.Checked = false;
-
+                cheEnum.Checked = false;
                 btnUpsertEntityField.Text = "Создать";
             }
         }
@@ -442,6 +442,7 @@ namespace Barsix.BarsEntity
                 fopt.Collection = cheList.Checked;
                 fopt.ParentReference = cheParentReference.Checked;
                 fopt.Nullable = cheNullable.Checked;
+                fopt.Enum = cheEnum.Checked;
                 
                 lviEntity.Text = fopt.FieldName;
                 lviEntity.SubItems[1].Text = fopt.FullTypeName;
@@ -462,6 +463,7 @@ namespace Barsix.BarsEntity
                 fopt.FieldName = tbeName.Text;
                 fopt.TypeName = tbeType.Text;
                 fopt.Collection = cheList.Checked;
+                fopt.Enum = cheEnum.Checked;
                 fopt.SetRelatedTypes();
 
                 if (fopt.Collection)
@@ -808,12 +810,12 @@ namespace Barsix.BarsEntity
         {
             if (cheList.Checked)
             {
-                cheOwnerReference.Enabled = cheParentReference.Enabled = cheNullable.Enabled = 
-                cheOwnerReference.Checked = cheParentReference.Checked = cheNullable.Checked = false;
+                cheOwnerReference.Enabled = cheParentReference.Enabled = cheNullable.Enabled = cheEnum.Enabled = 
+                cheOwnerReference.Checked = cheParentReference.Checked = cheNullable.Checked = cheEnum.Checked = false;
             }
             else
             {
-                cheOwnerReference.Enabled = cheParentReference.Enabled = cheNullable.Enabled = true;
+                cheOwnerReference.Enabled = cheParentReference.Enabled = cheNullable.Enabled = cheEnum.Enabled = true;
             }
         }
 

@@ -70,7 +70,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                         else if (field.IsBasicType())
                         {
                             string col = "new Column(\"{0}\", ".F(field.ColumnName);
-                            string dbType = "DbType." + TypeHelper.BasicStrongName(field.TypeName);
+                            string dbType = "DbType." + (field.Enum ? "Int32" : TypeHelper.BasicStrongName(field.TypeName));
                             if (field.TypeName ==  "string" && field.Length > 0)
                                 dbType += ", " + field.Length;
 

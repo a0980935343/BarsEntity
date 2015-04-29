@@ -54,6 +54,16 @@ namespace Barsix.BarsEntity
             System.Windows.Forms.Label label20;
             System.Windows.Forms.Label label21;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntityOptionsWindow));
+            this.tbmLength = new System.Windows.Forms.TextBox();
+            this.tbTableName = new System.Windows.Forms.TextBox();
+            this.tbmIndex = new System.Windows.Forms.TextBox();
+            this.tbmForeignTable = new System.Windows.Forms.TextBox();
+            this.btnUpsertMapField = new System.Windows.Forms.Button();
+            this.tbmColumn = new System.Windows.Forms.TextBox();
+            this.tbmName = new System.Windows.Forms.TextBox();
+            this.lvMap = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label1 = new System.Windows.Forms.Label();
             this.tbEntityName = new System.Windows.Forms.TextBox();
             this.btnOk = new System.Windows.Forms.Button();
@@ -73,16 +83,6 @@ namespace Barsix.BarsEntity
             this.lvFields = new System.Windows.Forms.ListView();
             this.colName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.colType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.tbmLength = new System.Windows.Forms.TextBox();
-            this.tbTableName = new System.Windows.Forms.TextBox();
-            this.tbmIndex = new System.Windows.Forms.TextBox();
-            this.tbmForeignTable = new System.Windows.Forms.TextBox();
-            this.btnUpsertMapField = new System.Windows.Forms.Button();
-            this.tbmColumn = new System.Windows.Forms.TextBox();
-            this.tbmName = new System.Windows.Forms.TextBox();
-            this.lvMap = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tbcName = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
@@ -160,6 +160,7 @@ namespace Barsix.BarsEntity
             this.saveDialog = new System.Windows.Forms.SaveFileDialog();
             this.label32 = new System.Windows.Forms.Label();
             this.tbSubfolder = new System.Windows.Forms.TextBox();
+            this.cheEnum = new System.Windows.Forms.CheckBox();
             label16 = new System.Windows.Forms.Label();
             label12 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
@@ -183,9 +184,9 @@ namespace Barsix.BarsEntity
             label19 = new System.Windows.Forms.Label();
             label20 = new System.Windows.Forms.Label();
             label21 = new System.Windows.Forms.Label();
+            tabPage2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage4.SuspendLayout();
             this.tabPage5.SuspendLayout();
@@ -197,132 +198,6 @@ namespace Barsix.BarsEntity
             this.tabGenerated.SuspendLayout();
             this.SuspendLayout();
             // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(7, 8);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(68, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Имя класса";
-            // 
-            // tbEntityName
-            // 
-            this.tbEntityName.Location = new System.Drawing.Point(79, 5);
-            this.tbEntityName.Name = "tbEntityName";
-            this.tbEntityName.Size = new System.Drawing.Size(147, 20);
-            this.tbEntityName.TabIndex = 1;
-            this.tbEntityName.TextChanged += new System.EventHandler(this.tbEntityName_TextChanged);
-            this.tbEntityName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbEntityName_KeyUp);
-            // 
-            // btnOk
-            // 
-            this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOk.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.btnOk.Location = new System.Drawing.Point(636, 283);
-            this.btnOk.Name = "btnOk";
-            this.btnOk.Size = new System.Drawing.Size(148, 33);
-            this.btnOk.TabIndex = 3;
-            this.btnOk.Text = "Далее";
-            this.btnOk.UseVisualStyleBackColor = true;
-            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
-            // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
-            this.tabControl1.Controls.Add(this.tabPage4);
-            this.tabControl1.Controls.Add(this.tabPage5);
-            this.tabControl1.Controls.Add(this.tabPage6);
-            this.tabControl1.Controls.Add(this.tabPage7);
-            this.tabControl1.Controls.Add(this.tabPage8);
-            this.tabControl1.Location = new System.Drawing.Point(0, 30);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(630, 286);
-            this.tabControl1.TabIndex = 4;
-            // 
-            // tabPage1
-            // 
-            this.tabPage1.Controls.Add(this.btnDown);
-            this.tabPage1.Controls.Add(this.btnUp);
-            this.tabPage1.Controls.Add(this.cbeBaseClass);
-            this.tabPage1.Controls.Add(this.cheList);
-            this.tabPage1.Controls.Add(this.cheNullable);
-            this.tabPage1.Controls.Add(label16);
-            this.tabPage1.Controls.Add(this.tbeComment);
-            this.tabPage1.Controls.Add(this.cheParentReference);
-            this.tabPage1.Controls.Add(label12);
-            this.tabPage1.Controls.Add(this.btnUpsertEntityField);
-            this.tabPage1.Controls.Add(this.tbeType);
-            this.tabPage1.Controls.Add(this.tbeName);
-            this.tabPage1.Controls.Add(this.cheOwnerReference);
-            this.tabPage1.Controls.Add(label4);
-            this.tabPage1.Controls.Add(label3);
-            this.tabPage1.Controls.Add(this.lvFields);
-            this.tabPage1.Controls.Add(label2);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(622, 260);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Entity";
-            this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // btnDown
-            // 
-            this.btnDown.Location = new System.Drawing.Point(304, 6);
-            this.btnDown.Name = "btnDown";
-            this.btnDown.Size = new System.Drawing.Size(75, 23);
-            this.btnDown.TabIndex = 17;
-            this.btnDown.Text = "Вниз";
-            this.btnDown.UseVisualStyleBackColor = true;
-            this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
-            // 
-            // btnUp
-            // 
-            this.btnUp.Location = new System.Drawing.Point(223, 6);
-            this.btnUp.Name = "btnUp";
-            this.btnUp.Size = new System.Drawing.Size(75, 23);
-            this.btnUp.TabIndex = 16;
-            this.btnUp.Text = "Вверх";
-            this.btnUp.UseVisualStyleBackColor = true;
-            this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
-            // 
-            // cbeBaseClass
-            // 
-            this.cbeBaseClass.FormattingEnabled = true;
-            this.cbeBaseClass.Items.AddRange(new object[] {
-            "BaseEntity",
-            "NamedBaseEntity",
-            "PersistentObject"});
-            this.cbeBaseClass.Location = new System.Drawing.Point(451, 13);
-            this.cbeBaseClass.Name = "cbeBaseClass";
-            this.cbeBaseClass.Size = new System.Drawing.Size(162, 21);
-            this.cbeBaseClass.TabIndex = 15;
-            // 
-            // cheList
-            // 
-            this.cheList.AutoSize = true;
-            this.cheList.Location = new System.Drawing.Point(571, 98);
-            this.cheList.Name = "cheList";
-            this.cheList.Size = new System.Drawing.Size(45, 17);
-            this.cheList.TabIndex = 14;
-            this.cheList.Text = "IList";
-            this.cheList.UseVisualStyleBackColor = true;
-            this.cheList.CheckedChanged += new System.EventHandler(this.cheList_CheckedChanged);
-            // 
-            // cheNullable
-            // 
-            this.cheNullable.AutoSize = true;
-            this.cheNullable.Location = new System.Drawing.Point(451, 196);
-            this.cheNullable.Name = "cheNullable";
-            this.cheNullable.Size = new System.Drawing.Size(62, 17);
-            this.cheNullable.TabIndex = 13;
-            this.cheNullable.Text = "nullable";
-            this.cheNullable.UseVisualStyleBackColor = true;
-            // 
             // label16
             // 
             label16.AutoSize = true;
@@ -332,24 +207,6 @@ namespace Barsix.BarsEntity
             label16.TabIndex = 12;
             label16.Text = "Описание";
             // 
-            // tbeComment
-            // 
-            this.tbeComment.Location = new System.Drawing.Point(451, 123);
-            this.tbeComment.Name = "tbeComment";
-            this.tbeComment.Size = new System.Drawing.Size(162, 20);
-            this.tbeComment.TabIndex = 11;
-            // 
-            // cheParentReference
-            // 
-            this.cheParentReference.AutoSize = true;
-            this.cheParentReference.Location = new System.Drawing.Point(451, 173);
-            this.cheParentReference.Name = "cheParentReference";
-            this.cheParentReference.Size = new System.Drawing.Size(130, 17);
-            this.cheParentReference.TabIndex = 10;
-            this.cheParentReference.Text = "Ссылка на родителя";
-            this.cheParentReference.UseVisualStyleBackColor = true;
-            this.cheParentReference.CheckedChanged += new System.EventHandler(this.cheParentReference_CheckedChanged);
-            // 
             // label12
             // 
             label12.AutoSize = true;
@@ -358,43 +215,6 @@ namespace Barsix.BarsEntity
             label12.Size = new System.Drawing.Size(52, 13);
             label12.TabIndex = 9;
             label12.Text = "Базовый";
-            // 
-            // btnUpsertEntityField
-            // 
-            this.btnUpsertEntityField.Location = new System.Drawing.Point(385, 218);
-            this.btnUpsertEntityField.Name = "btnUpsertEntityField";
-            this.btnUpsertEntityField.Size = new System.Drawing.Size(228, 34);
-            this.btnUpsertEntityField.TabIndex = 7;
-            this.btnUpsertEntityField.Text = "Создать";
-            this.btnUpsertEntityField.UseVisualStyleBackColor = true;
-            this.btnUpsertEntityField.Click += new System.EventHandler(this.btnUpsertEntityField_Click);
-            // 
-            // tbeType
-            // 
-            this.tbeType.Location = new System.Drawing.Point(451, 96);
-            this.tbeType.Name = "tbeType";
-            this.tbeType.Size = new System.Drawing.Size(114, 20);
-            this.tbeType.TabIndex = 6;
-            this.tbeType.Text = "string";
-            // 
-            // tbeName
-            // 
-            this.tbeName.Location = new System.Drawing.Point(451, 69);
-            this.tbeName.Name = "tbeName";
-            this.tbeName.Size = new System.Drawing.Size(162, 20);
-            this.tbeName.TabIndex = 5;
-            this.tbeName.Text = "Name";
-            // 
-            // cheOwnerReference
-            // 
-            this.cheOwnerReference.AutoSize = true;
-            this.cheOwnerReference.Location = new System.Drawing.Point(451, 149);
-            this.cheOwnerReference.Name = "cheOwnerReference";
-            this.cheOwnerReference.Size = new System.Drawing.Size(137, 17);
-            this.cheOwnerReference.TabIndex = 4;
-            this.cheOwnerReference.Text = "Ссылка на владельца";
-            this.cheOwnerReference.UseVisualStyleBackColor = true;
-            this.cheOwnerReference.CheckedChanged += new System.EventHandler(this.cheOwnerReference_CheckedChanged);
             // 
             // label4
             // 
@@ -413,32 +233,6 @@ namespace Barsix.BarsEntity
             label3.Size = new System.Drawing.Size(57, 13);
             label3.TabIndex = 2;
             label3.Text = "Название";
-            // 
-            // lvFields
-            // 
-            this.lvFields.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.colName,
-            this.colType});
-            this.lvFields.FullRowSelect = true;
-            this.lvFields.Location = new System.Drawing.Point(6, 32);
-            this.lvFields.MultiSelect = false;
-            this.lvFields.Name = "lvFields";
-            this.lvFields.Size = new System.Drawing.Size(373, 220);
-            this.lvFields.TabIndex = 1;
-            this.lvFields.UseCompatibleStateImageBehavior = false;
-            this.lvFields.View = System.Windows.Forms.View.Details;
-            this.lvFields.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvFields_ItemSelectionChanged);
-            this.lvFields.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lvFields_KeyUp);
-            // 
-            // colName
-            // 
-            this.colName.Text = "Название";
-            this.colName.Width = 100;
-            // 
-            // colType
-            // 
-            this.colType.Text = "Тип";
-            this.colType.Width = 100;
             // 
             // label2
             // 
@@ -616,6 +410,304 @@ namespace Barsix.BarsEntity
             label7.TabIndex = 8;
             label7.Text = "Свойства";
             // 
+            // label14
+            // 
+            label14.AutoSize = true;
+            label14.Location = new System.Drawing.Point(312, 16);
+            label14.Name = "label14";
+            label14.Size = new System.Drawing.Size(51, 13);
+            label14.TabIndex = 2;
+            label14.Text = "Controller";
+            // 
+            // label13
+            // 
+            label13.AutoSize = true;
+            label13.Location = new System.Drawing.Point(11, 16);
+            label13.Name = "label13";
+            label13.Size = new System.Drawing.Size(57, 13);
+            label13.TabIndex = 0;
+            label13.Text = "Название";
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new System.Drawing.Point(401, 134);
+            label10.Name = "label10";
+            label10.Size = new System.Drawing.Size(63, 13);
+            label10.TabIndex = 38;
+            label10.Text = "textProperty";
+            // 
+            // label31
+            // 
+            label31.AutoSize = true;
+            label31.Location = new System.Drawing.Point(11, 237);
+            label31.Name = "label31";
+            label31.Size = new System.Drawing.Size(82, 13);
+            label31.TabIndex = 32;
+            label31.Text = "Selection model";
+            // 
+            // label24
+            // 
+            label24.AutoSize = true;
+            label24.Location = new System.Drawing.Point(161, 13);
+            label24.Name = "label24";
+            label24.Size = new System.Drawing.Size(55, 13);
+            label24.TabIndex = 30;
+            label24.Text = "название";
+            // 
+            // label15
+            // 
+            label15.AutoSize = true;
+            label15.Location = new System.Drawing.Point(398, 13);
+            label15.Name = "label15";
+            label15.Size = new System.Drawing.Size(62, 13);
+            label15.TabIndex = 27;
+            label15.Text = "namespace";
+            // 
+            // label17
+            // 
+            label17.AutoSize = true;
+            label17.Location = new System.Drawing.Point(401, 109);
+            label17.Name = "label17";
+            label17.Size = new System.Drawing.Size(57, 13);
+            label17.TabIndex = 25;
+            label17.Text = "Название";
+            // 
+            // label19
+            // 
+            label19.AutoSize = true;
+            label19.Location = new System.Drawing.Point(401, 86);
+            label19.Name = "label19";
+            label19.Size = new System.Drawing.Size(26, 13);
+            label19.TabIndex = 16;
+            label19.Text = "Тип";
+            // 
+            // label20
+            // 
+            label20.AutoSize = true;
+            label20.Location = new System.Drawing.Point(401, 61);
+            label20.Name = "label20";
+            label20.Size = new System.Drawing.Size(33, 13);
+            label20.TabIndex = 15;
+            label20.Text = "Поле";
+            // 
+            // label21
+            // 
+            label21.AutoSize = true;
+            label21.Location = new System.Drawing.Point(11, 16);
+            label21.Name = "label21";
+            label21.Size = new System.Drawing.Size(55, 13);
+            label21.TabIndex = 13;
+            label21.Text = "Свойства";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(7, 8);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(68, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Имя класса";
+            // 
+            // tbEntityName
+            // 
+            this.tbEntityName.Location = new System.Drawing.Point(79, 5);
+            this.tbEntityName.Name = "tbEntityName";
+            this.tbEntityName.Size = new System.Drawing.Size(147, 20);
+            this.tbEntityName.TabIndex = 1;
+            this.tbEntityName.TextChanged += new System.EventHandler(this.tbEntityName_TextChanged);
+            this.tbEntityName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbEntityName_KeyUp);
+            // 
+            // btnOk
+            // 
+            this.btnOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnOk.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.btnOk.Location = new System.Drawing.Point(636, 283);
+            this.btnOk.Name = "btnOk";
+            this.btnOk.Size = new System.Drawing.Size(148, 33);
+            this.btnOk.TabIndex = 3;
+            this.btnOk.Text = "Далее";
+            this.btnOk.UseVisualStyleBackColor = true;
+            this.btnOk.Click += new System.EventHandler(this.btnOk_Click);
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.Controls.Add(this.tabPage5);
+            this.tabControl1.Controls.Add(this.tabPage6);
+            this.tabControl1.Controls.Add(this.tabPage7);
+            this.tabControl1.Controls.Add(this.tabPage8);
+            this.tabControl1.Location = new System.Drawing.Point(0, 30);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(630, 286);
+            this.tabControl1.TabIndex = 4;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.cheEnum);
+            this.tabPage1.Controls.Add(this.btnDown);
+            this.tabPage1.Controls.Add(this.btnUp);
+            this.tabPage1.Controls.Add(this.cbeBaseClass);
+            this.tabPage1.Controls.Add(this.cheList);
+            this.tabPage1.Controls.Add(this.cheNullable);
+            this.tabPage1.Controls.Add(label16);
+            this.tabPage1.Controls.Add(this.tbeComment);
+            this.tabPage1.Controls.Add(this.cheParentReference);
+            this.tabPage1.Controls.Add(label12);
+            this.tabPage1.Controls.Add(this.btnUpsertEntityField);
+            this.tabPage1.Controls.Add(this.tbeType);
+            this.tabPage1.Controls.Add(this.tbeName);
+            this.tabPage1.Controls.Add(this.cheOwnerReference);
+            this.tabPage1.Controls.Add(label4);
+            this.tabPage1.Controls.Add(label3);
+            this.tabPage1.Controls.Add(this.lvFields);
+            this.tabPage1.Controls.Add(label2);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(622, 260);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Entity";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // btnDown
+            // 
+            this.btnDown.Location = new System.Drawing.Point(304, 6);
+            this.btnDown.Name = "btnDown";
+            this.btnDown.Size = new System.Drawing.Size(75, 23);
+            this.btnDown.TabIndex = 17;
+            this.btnDown.Text = "Вниз";
+            this.btnDown.UseVisualStyleBackColor = true;
+            this.btnDown.Click += new System.EventHandler(this.btnDown_Click);
+            // 
+            // btnUp
+            // 
+            this.btnUp.Location = new System.Drawing.Point(223, 6);
+            this.btnUp.Name = "btnUp";
+            this.btnUp.Size = new System.Drawing.Size(75, 23);
+            this.btnUp.TabIndex = 16;
+            this.btnUp.Text = "Вверх";
+            this.btnUp.UseVisualStyleBackColor = true;
+            this.btnUp.Click += new System.EventHandler(this.btnUp_Click);
+            // 
+            // cbeBaseClass
+            // 
+            this.cbeBaseClass.FormattingEnabled = true;
+            this.cbeBaseClass.Items.AddRange(new object[] {
+            "BaseEntity",
+            "NamedBaseEntity",
+            "PersistentObject"});
+            this.cbeBaseClass.Location = new System.Drawing.Point(451, 13);
+            this.cbeBaseClass.Name = "cbeBaseClass";
+            this.cbeBaseClass.Size = new System.Drawing.Size(162, 21);
+            this.cbeBaseClass.TabIndex = 15;
+            // 
+            // cheList
+            // 
+            this.cheList.AutoSize = true;
+            this.cheList.Location = new System.Drawing.Point(571, 98);
+            this.cheList.Name = "cheList";
+            this.cheList.Size = new System.Drawing.Size(45, 17);
+            this.cheList.TabIndex = 14;
+            this.cheList.Text = "IList";
+            this.cheList.UseVisualStyleBackColor = true;
+            this.cheList.CheckedChanged += new System.EventHandler(this.cheList_CheckedChanged);
+            // 
+            // cheNullable
+            // 
+            this.cheNullable.AutoSize = true;
+            this.cheNullable.Location = new System.Drawing.Point(451, 196);
+            this.cheNullable.Name = "cheNullable";
+            this.cheNullable.Size = new System.Drawing.Size(62, 17);
+            this.cheNullable.TabIndex = 13;
+            this.cheNullable.Text = "nullable";
+            this.cheNullable.UseVisualStyleBackColor = true;
+            // 
+            // tbeComment
+            // 
+            this.tbeComment.Location = new System.Drawing.Point(451, 123);
+            this.tbeComment.Name = "tbeComment";
+            this.tbeComment.Size = new System.Drawing.Size(162, 20);
+            this.tbeComment.TabIndex = 11;
+            // 
+            // cheParentReference
+            // 
+            this.cheParentReference.AutoSize = true;
+            this.cheParentReference.Location = new System.Drawing.Point(451, 173);
+            this.cheParentReference.Name = "cheParentReference";
+            this.cheParentReference.Size = new System.Drawing.Size(130, 17);
+            this.cheParentReference.TabIndex = 10;
+            this.cheParentReference.Text = "Ссылка на родителя";
+            this.cheParentReference.UseVisualStyleBackColor = true;
+            this.cheParentReference.CheckedChanged += new System.EventHandler(this.cheParentReference_CheckedChanged);
+            // 
+            // btnUpsertEntityField
+            // 
+            this.btnUpsertEntityField.Location = new System.Drawing.Point(385, 218);
+            this.btnUpsertEntityField.Name = "btnUpsertEntityField";
+            this.btnUpsertEntityField.Size = new System.Drawing.Size(228, 34);
+            this.btnUpsertEntityField.TabIndex = 7;
+            this.btnUpsertEntityField.Text = "Создать";
+            this.btnUpsertEntityField.UseVisualStyleBackColor = true;
+            this.btnUpsertEntityField.Click += new System.EventHandler(this.btnUpsertEntityField_Click);
+            // 
+            // tbeType
+            // 
+            this.tbeType.Location = new System.Drawing.Point(451, 96);
+            this.tbeType.Name = "tbeType";
+            this.tbeType.Size = new System.Drawing.Size(114, 20);
+            this.tbeType.TabIndex = 6;
+            this.tbeType.Text = "string";
+            // 
+            // tbeName
+            // 
+            this.tbeName.Location = new System.Drawing.Point(451, 69);
+            this.tbeName.Name = "tbeName";
+            this.tbeName.Size = new System.Drawing.Size(162, 20);
+            this.tbeName.TabIndex = 5;
+            this.tbeName.Text = "Name";
+            // 
+            // cheOwnerReference
+            // 
+            this.cheOwnerReference.AutoSize = true;
+            this.cheOwnerReference.Location = new System.Drawing.Point(451, 149);
+            this.cheOwnerReference.Name = "cheOwnerReference";
+            this.cheOwnerReference.Size = new System.Drawing.Size(137, 17);
+            this.cheOwnerReference.TabIndex = 4;
+            this.cheOwnerReference.Text = "Ссылка на владельца";
+            this.cheOwnerReference.UseVisualStyleBackColor = true;
+            this.cheOwnerReference.CheckedChanged += new System.EventHandler(this.cheOwnerReference_CheckedChanged);
+            // 
+            // lvFields
+            // 
+            this.lvFields.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.colName,
+            this.colType});
+            this.lvFields.FullRowSelect = true;
+            this.lvFields.Location = new System.Drawing.Point(6, 32);
+            this.lvFields.MultiSelect = false;
+            this.lvFields.Name = "lvFields";
+            this.lvFields.Size = new System.Drawing.Size(373, 220);
+            this.lvFields.TabIndex = 1;
+            this.lvFields.UseCompatibleStateImageBehavior = false;
+            this.lvFields.View = System.Windows.Forms.View.Details;
+            this.lvFields.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvFields_ItemSelectionChanged);
+            this.lvFields.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lvFields_KeyUp);
+            // 
+            // colName
+            // 
+            this.colName.Text = "Название";
+            this.colName.Width = 100;
+            // 
+            // colType
+            // 
+            this.colType.Text = "Тип";
+            this.colType.Width = 100;
+            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(label14);
@@ -629,15 +721,6 @@ namespace Barsix.BarsEntity
             this.tabPage3.Text = "Controller";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
-            // label14
-            // 
-            label14.AutoSize = true;
-            label14.Location = new System.Drawing.Point(312, 16);
-            label14.Name = "label14";
-            label14.Size = new System.Drawing.Size(51, 13);
-            label14.TabIndex = 2;
-            label14.Text = "Controller";
-            // 
             // tbcName
             // 
             this.tbcName.Location = new System.Drawing.Point(82, 13);
@@ -645,15 +728,6 @@ namespace Barsix.BarsEntity
             this.tbcName.Size = new System.Drawing.Size(228, 20);
             this.tbcName.TabIndex = 1;
             this.tbcName.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label13
-            // 
-            label13.AutoSize = true;
-            label13.Location = new System.Drawing.Point(11, 16);
-            label13.Name = "label13";
-            label13.Size = new System.Drawing.Size(57, 13);
-            label13.TabIndex = 0;
-            label13.Text = "Название";
             // 
             // tabPage4
             // 
@@ -697,15 +771,6 @@ namespace Barsix.BarsEntity
             this.chvGroupField.UseVisualStyleBackColor = true;
             this.chvGroupField.CheckedChanged += new System.EventHandler(this.chvGroupField_CheckedChanged);
             // 
-            // label10
-            // 
-            label10.AutoSize = true;
-            label10.Location = new System.Drawing.Point(401, 134);
-            label10.Name = "label10";
-            label10.Size = new System.Drawing.Size(63, 13);
-            label10.TabIndex = 38;
-            label10.Text = "textProperty";
-            // 
             // tbvTextProperty
             // 
             this.tbvTextProperty.Location = new System.Drawing.Point(464, 131);
@@ -735,15 +800,6 @@ namespace Barsix.BarsEntity
             this.cbvSelectionModel.Size = new System.Drawing.Size(165, 21);
             this.cbvSelectionModel.TabIndex = 33;
             // 
-            // label31
-            // 
-            label31.AutoSize = true;
-            label31.Location = new System.Drawing.Point(11, 237);
-            label31.Name = "label31";
-            label31.Size = new System.Drawing.Size(82, 13);
-            label31.TabIndex = 32;
-            label31.Text = "Selection model";
-            // 
             // chvEditingDisabled
             // 
             this.chvEditingDisabled.AutoSize = true;
@@ -753,15 +809,6 @@ namespace Barsix.BarsEntity
             this.chvEditingDisabled.TabIndex = 31;
             this.chvEditingDisabled.Text = "нет окна редактирования";
             this.chvEditingDisabled.UseVisualStyleBackColor = true;
-            // 
-            // label24
-            // 
-            label24.AutoSize = true;
-            label24.Location = new System.Drawing.Point(161, 13);
-            label24.Name = "label24";
-            label24.Size = new System.Drawing.Size(55, 13);
-            label24.TabIndex = 30;
-            label24.Text = "название";
             // 
             // tbvEntityDisplayName
             // 
@@ -778,15 +825,6 @@ namespace Barsix.BarsEntity
             this.tbvNamespace.Size = new System.Drawing.Size(149, 20);
             this.tbvNamespace.TabIndex = 28;
             // 
-            // label15
-            // 
-            label15.AutoSize = true;
-            label15.Location = new System.Drawing.Point(398, 13);
-            label15.Name = "label15";
-            label15.Size = new System.Drawing.Size(62, 13);
-            label15.TabIndex = 27;
-            label15.Text = "namespace";
-            // 
             // chvInline
             // 
             this.chvInline.AutoSize = true;
@@ -796,15 +834,6 @@ namespace Barsix.BarsEntity
             this.chvInline.TabIndex = 26;
             this.chvInline.Text = "inline GridPageView<*ViewModel>";
             this.chvInline.UseVisualStyleBackColor = true;
-            // 
-            // label17
-            // 
-            label17.AutoSize = true;
-            label17.Location = new System.Drawing.Point(401, 109);
-            label17.Name = "label17";
-            label17.Size = new System.Drawing.Size(57, 13);
-            label17.TabIndex = 25;
-            label17.Text = "Название";
             // 
             // tbvDisplayName
             // 
@@ -839,24 +868,6 @@ namespace Barsix.BarsEntity
             this.tbvViewName.Size = new System.Drawing.Size(149, 20);
             this.tbvViewName.TabIndex = 18;
             // 
-            // label19
-            // 
-            label19.AutoSize = true;
-            label19.Location = new System.Drawing.Point(401, 86);
-            label19.Name = "label19";
-            label19.Size = new System.Drawing.Size(26, 13);
-            label19.TabIndex = 16;
-            label19.Text = "Тип";
-            // 
-            // label20
-            // 
-            label20.AutoSize = true;
-            label20.Location = new System.Drawing.Point(401, 61);
-            label20.Name = "label20";
-            label20.Size = new System.Drawing.Size(33, 13);
-            label20.TabIndex = 15;
-            label20.Text = "Поле";
-            // 
             // lvView
             // 
             this.lvView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
@@ -886,15 +897,6 @@ namespace Barsix.BarsEntity
             // 
             this.columnHeader5.Text = "Описание";
             this.columnHeader5.Width = 100;
-            // 
-            // label21
-            // 
-            label21.AutoSize = true;
-            label21.Location = new System.Drawing.Point(11, 16);
-            label21.Name = "label21";
-            label21.Size = new System.Drawing.Size(55, 13);
-            label21.TabIndex = 13;
-            label21.Text = "Свойства";
             // 
             // tabPage5
             // 
@@ -1482,6 +1484,16 @@ namespace Barsix.BarsEntity
             this.tbSubfolder.Size = new System.Drawing.Size(154, 20);
             this.tbSubfolder.TabIndex = 44;
             // 
+            // cheEnum
+            // 
+            this.cheEnum.AutoSize = true;
+            this.cheEnum.Location = new System.Drawing.Point(560, 196);
+            this.cheEnum.Name = "cheEnum";
+            this.cheEnum.Size = new System.Drawing.Size(53, 17);
+            this.cheEnum.TabIndex = 18;
+            this.cheEnum.Text = "Enum";
+            this.cheEnum.UseVisualStyleBackColor = true;
+            // 
             // EntityOptionsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1508,11 +1520,11 @@ namespace Barsix.BarsEntity
             this.MinimumSize = new System.Drawing.Size(670, 400);
             this.Name = "EntityOptionsWindow";
             this.Text = "Создание Bars-объекта";
+            tabPage2.ResumeLayout(false);
+            tabPage2.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
-            tabPage2.ResumeLayout(false);
-            tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             this.tabPage4.ResumeLayout(false);
@@ -1642,5 +1654,6 @@ namespace Barsix.BarsEntity
         private System.Windows.Forms.SaveFileDialog saveDialog;
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.TextBox tbSubfolder;
+        private System.Windows.Forms.CheckBox cheEnum;
     }
 }
