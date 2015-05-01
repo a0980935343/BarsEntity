@@ -661,7 +661,7 @@ namespace Barsix.BarsEntity
 
                 if (fopt.IsReference())
                 {
-                    fopt.TextProperty = tbvTextProperty.Text;
+                    fopt.TextProperty = cbvTextProperty.Text;
                 }
 
                 lviView.SubItems[1].Text = fopt.ViewType + " / " + fopt.ViewColumnType;
@@ -681,12 +681,18 @@ namespace Barsix.BarsEntity
                 chvDynamicField.Checked = fopt.DynamicFilter;
                 chvGroupField.Checked = fopt.GroupField;
 
-                tbvTextProperty.Text = fopt.TextProperty;
-                tbvTextProperty.Visible = fopt.IsReference();
+                cbvTextProperty.Text = fopt.TextProperty;
+                cbvTextProperty.Visible = fopt.IsReference();
+
+                var classes = _manager.ClassExists(fopt.TypeName);
+                if (classes.Any())
+                {
+                    cbvTextProperty.Items.AddRange(classes.First().Value.Fields.Where(x => x.IsBasicType() && !x.Enum).Select(x => x.FieldName + "  :  " + x.FullTypeName).ToArray());
+                }
             }
             else
             {
-                tbvTextProperty.Text = tbvDisplayName.Text = tbvType.Text = tbvViewName.Text = "";
+                cbvTextProperty.Text = tbvDisplayName.Text = tbvType.Text = tbvViewName.Text = "";
                 chvDynamicField.Checked = chvGroupField.Checked = false;
             }
             btnUpsertViewField.Enabled = e.IsSelected;
@@ -1017,11 +1023,6 @@ namespace Barsix.BarsEntity
         private void chDictionary_CheckedChanged(object sender, EventArgs e)
         {
             tbSubfolder.Enabled = !chDictionary.Checked;
-        }
-
-        private void tbEntityName_TextChanged(object sender, EventArgs e)
-        {
-            
         }
     }
 }

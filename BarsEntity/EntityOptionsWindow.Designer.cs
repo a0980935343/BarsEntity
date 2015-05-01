@@ -69,6 +69,7 @@ namespace Barsix.BarsEntity
             this.btnOk = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.cheEnum = new System.Windows.Forms.CheckBox();
             this.btnDown = new System.Windows.Forms.Button();
             this.btnUp = new System.Windows.Forms.Button();
             this.cbeBaseClass = new System.Windows.Forms.ComboBox();
@@ -86,8 +87,8 @@ namespace Barsix.BarsEntity
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tbcName = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.cbvTextProperty = new System.Windows.Forms.ComboBox();
             this.chvGroupField = new System.Windows.Forms.CheckBox();
-            this.tbvTextProperty = new System.Windows.Forms.TextBox();
             this.chvDynamicField = new System.Windows.Forms.CheckBox();
             this.cbvSelectionModel = new System.Windows.Forms.ComboBox();
             this.chvEditingDisabled = new System.Windows.Forms.CheckBox();
@@ -160,7 +161,6 @@ namespace Barsix.BarsEntity
             this.saveDialog = new System.Windows.Forms.SaveFileDialog();
             this.label32 = new System.Windows.Forms.Label();
             this.tbSubfolder = new System.Windows.Forms.TextBox();
-            this.cheEnum = new System.Windows.Forms.CheckBox();
             label16 = new System.Windows.Forms.Label();
             label12 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
@@ -515,7 +515,6 @@ namespace Barsix.BarsEntity
             this.tbEntityName.Name = "tbEntityName";
             this.tbEntityName.Size = new System.Drawing.Size(147, 20);
             this.tbEntityName.TabIndex = 1;
-            this.tbEntityName.TextChanged += new System.EventHandler(this.tbEntityName_TextChanged);
             this.tbEntityName.KeyUp += new System.Windows.Forms.KeyEventHandler(this.tbEntityName_KeyUp);
             // 
             // btnOk
@@ -573,6 +572,16 @@ namespace Barsix.BarsEntity
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Entity";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // cheEnum
+            // 
+            this.cheEnum.AutoSize = true;
+            this.cheEnum.Location = new System.Drawing.Point(560, 196);
+            this.cheEnum.Name = "cheEnum";
+            this.cheEnum.Size = new System.Drawing.Size(53, 17);
+            this.cheEnum.TabIndex = 18;
+            this.cheEnum.Text = "Enum";
+            this.cheEnum.UseVisualStyleBackColor = true;
             // 
             // btnDown
             // 
@@ -731,9 +740,9 @@ namespace Barsix.BarsEntity
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.cbvTextProperty);
             this.tabPage4.Controls.Add(this.chvGroupField);
             this.tabPage4.Controls.Add(label10);
-            this.tabPage4.Controls.Add(this.tbvTextProperty);
             this.tabPage4.Controls.Add(this.chvDynamicField);
             this.tabPage4.Controls.Add(this.cbvSelectionModel);
             this.tabPage4.Controls.Add(label31);
@@ -760,6 +769,15 @@ namespace Barsix.BarsEntity
             this.tabPage4.Text = "View";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // cbvTextProperty
+            // 
+            this.cbvTextProperty.DropDownWidth = 250;
+            this.cbvTextProperty.FormattingEnabled = true;
+            this.cbvTextProperty.Location = new System.Drawing.Point(464, 130);
+            this.cbvTextProperty.Name = "cbvTextProperty";
+            this.cbvTextProperty.Size = new System.Drawing.Size(149, 21);
+            this.cbvTextProperty.TabIndex = 40;
+            // 
             // chvGroupField
             // 
             this.chvGroupField.AutoSize = true;
@@ -770,13 +788,6 @@ namespace Barsix.BarsEntity
             this.chvGroupField.Text = "Группировать по полю";
             this.chvGroupField.UseVisualStyleBackColor = true;
             this.chvGroupField.CheckedChanged += new System.EventHandler(this.chvGroupField_CheckedChanged);
-            // 
-            // tbvTextProperty
-            // 
-            this.tbvTextProperty.Location = new System.Drawing.Point(464, 131);
-            this.tbvTextProperty.Name = "tbvTextProperty";
-            this.tbvTextProperty.Size = new System.Drawing.Size(149, 20);
-            this.tbvTextProperty.TabIndex = 37;
             // 
             // chvDynamicField
             // 
@@ -1484,16 +1495,6 @@ namespace Barsix.BarsEntity
             this.tbSubfolder.Size = new System.Drawing.Size(154, 20);
             this.tbSubfolder.TabIndex = 44;
             // 
-            // cheEnum
-            // 
-            this.cheEnum.AutoSize = true;
-            this.cheEnum.Location = new System.Drawing.Point(560, 196);
-            this.cheEnum.Name = "cheEnum";
-            this.cheEnum.Size = new System.Drawing.Size(53, 17);
-            this.cheEnum.TabIndex = 18;
-            this.cheEnum.Text = "Enum";
-            this.cheEnum.UseVisualStyleBackColor = true;
-            // 
             // EntityOptionsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1631,7 +1632,6 @@ namespace Barsix.BarsEntity
         private System.Windows.Forms.CheckBox chvDynamicField;
         private System.Windows.Forms.CheckBox chvTreeGrid;
         private System.Windows.Forms.CheckBox chmLogMap;
-        private System.Windows.Forms.TextBox tbvTextProperty;
         private System.Windows.Forms.CheckBox chvGroupField;
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.TabControl tabGenerated;
@@ -1655,5 +1655,6 @@ namespace Barsix.BarsEntity
         private System.Windows.Forms.Label label32;
         private System.Windows.Forms.TextBox tbSubfolder;
         private System.Windows.Forms.CheckBox cheEnum;
+        private System.Windows.Forms.ComboBox cbvTextProperty;
     }
 }
