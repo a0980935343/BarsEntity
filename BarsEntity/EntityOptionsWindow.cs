@@ -661,13 +661,19 @@ namespace Barsix.BarsEntity
 
                 if (fopt.IsReference())
                 {
-                    fopt.TextProperty = cbvTextProperty.Text;
+                    fopt.TextProperty = ((StringComboItem)cbvTextProperty.SelectedItem).Value;
                 }
 
                 lviView.SubItems[1].Text = fopt.ViewType + " / " + fopt.ViewColumnType;
                 lviView.Tag = fopt;
             }
             UpdateListViews();
+        }
+
+        private class StringComboItem
+        {
+            public string Value { get; set; }
+            public string Display { get; set; }
         }
 
         private void lvView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
@@ -684,10 +690,18 @@ namespace Barsix.BarsEntity
                 cbvTextProperty.Text = fopt.TextProperty;
                 cbvTextProperty.Visible = fopt.IsReference();
 
-                var classes = _manager.ClassExists(fopt.TypeName);
-                if (classes.Any())
+                var classes = _manager.ClassExists(fopt.TypeName).Values.FirstOrDefault();
+                if (classes != null)
                 {
-                    cbvTextProperty.Items.AddRange(classes.First().Value.Fields.Where(x => x.IsBasicType() && !x.Enum).Select(x => x.FieldName + "  :  " + x.FullTypeName).ToArray());
+                    cbvTextProperty.DisplayMember = "Display";
+                    cbvTextProperty.ValueMember   = "Value";
+                    var propList = new List<StringComboItem>();
+                    if (classes.BaseClass == "NamedBaseEntity")
+                        propList.Add(new StringComboItem { Value = "Name", Display = "Name  :  string" });
+
+                    propList.AddRange(classes.Fields.Where(x => x.IsBasicType() && !x.Enum).Select(x => new StringComboItem { Value = x.FieldName, Display = x.FieldName + "  :  " + x.FullTypeName }));
+
+                    cbvTextProperty.DataSource = propList.ToArray();
                 }
             }
             else

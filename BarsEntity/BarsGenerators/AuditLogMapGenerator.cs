@@ -38,9 +38,16 @@ namespace Barsix.BarsEntity.BarsGenerators
             ctor.Body.Add("Description(x => string.Format(\"{0} №{{0}}\", x.Id));".F(options.DisplayName));
             ctor.Body.Add("");
 
-            foreach (var field in options.Fields)
+            foreach (var field in options.Fields.Where(x => !x.Collection && !x.TypeName.EndsWith("View")))
             {
-                ctor.Body.Add("MapProperty(x => x.{0}, \"{1}\", \"{2}\");".F(field.FieldName, field.ColumnName.EndsWith("_ID") ? field.ColumnName.Substring(0, field.ColumnName.Length-3) : field.ColumnName, field.DisplayName));
+                if (field.IsBasicType())
+                {
+                    ctor.Body.Add("MapProperty(x => x.{0}, \"{1}\", \"{2}\");".F(field.FieldName, field.ColumnName, field.DisplayName));
+                }
+                else
+                {
+                    ctor.Body.Add("MapProperty(x => x.{0}, \"{1}\", \"{2}\", x => x == null ? string.Empty : x.{3});".F(field.FieldName, field.ColumnName.Substring(0, field.ColumnName.Length - 3), field.DisplayName, field.TextProperty));
+                }
             }
             cls.AddMethod(ctor);
 
