@@ -10,5 +10,15 @@ namespace Barsix.BarsEntity.CodeGeneration.JavaScript
         {
             Instance = true;
         }
+
+        public JsInstance(string func, IEnumerable<object> @params)
+            : this()
+        {
+            Function = func;
+            foreach (var param in @params)
+            {
+                AddParam(param);
+            }
+        }
     }
 }

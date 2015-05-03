@@ -32,6 +32,7 @@ namespace Barsix.BarsEntity
 
             cbvSelectionModel.SelectedIndex = 0;
             cbeBaseClass.SelectedIndex = 0;
+            cbvViewType.SelectedIndex = 0;
 
             _codeEditors.Add("Entity",  CreateEditor(tgEntity, "Entity"));
             _codeEditors.Add("Map",        CreateEditor(tgMap, "Map"));
@@ -222,7 +223,12 @@ namespace Barsix.BarsEntity
             if (!string.IsNullOrEmpty(tbcName.Text))
                 options.Controller = new ControllerOptions()
                 {
-                    Name = tbcName.Text                    
+                    Name = tbcName.Text,
+                    List = chcList.Checked,
+                    Get  = chcGet.Checked,
+                    Update = chcUpdate.Checked,
+                    Delete = chcDelete.Checked,
+                    Create = chcCreate.Checked
                 };
 
             if (tbpPrefix.Text != "")
@@ -243,7 +249,7 @@ namespace Barsix.BarsEntity
                 SelectionModel = cbvSelectionModel.Text,
                 DynamicFilter = chvDynamicFilter.Checked,
                 TreeGrid = chvTreeGrid.Checked,
-                Inline = chvInline.Checked
+                Type = (ViewType)(cbvViewType.SelectedIndex + 1)
             };
             options.DisplayName = tbvEntityDisplayName.Text;
 
@@ -447,6 +453,16 @@ namespace Barsix.BarsEntity
                 lviEntity.Text = fopt.FieldName;
                 lviEntity.SubItems[1].Text = fopt.FullTypeName;
                 lviEntity.Tag = fopt;
+
+                if (fopt.ParentReference || fopt.OwnerReference || chvTreeGrid.Checked)
+                {
+                    chcList.Checked = true;
+                    chcList.Enabled = false;
+                }
+                else
+                {
+                    chcList.Enabled = true;
+                }
             }
             else
             {
@@ -551,29 +567,37 @@ namespace Barsix.BarsEntity
         {
             if (_project == null || _preventInterfaceActions)
                 return;
-            var options = ComposeOptions();
-
-            _manager.Generate(options);
-                        
-            _codeEditors["View"].Language = (options.Controller != null && options.View.Inline) ? FastColoredTextBoxNS.Language.Custom : FastColoredTextBoxNS.Language.JS;
-
-            List<string> types = new List<string> { "BaseEntity", options.ClassName };
-            
-
-            foreach (var gen in _manager.Generators)
+            try
             {
-                string name = gen.GetType().Name.Substring(0, gen.GetType().Name.Length - "Generator".Length);
-                if (!_codeEditors.ContainsKey(name))
-                    continue;
+                var options = ComposeOptions();
+                
+                _manager.Generate(options);
+
+                _codeEditors["View"].Language = (options.Controller != null && options.View.Type == ViewType.ViewModel) ? FastColoredTextBoxNS.Language.Custom : FastColoredTextBoxNS.Language.JS;
+
+                List<string> types = new List<string> { "BaseEntity", options.ClassName };
 
 
-                if (_manager.Files.Any(x => x.Key == gen.GetType() && x.Value != null))
+                foreach (var gen in _manager.Generators)
                 {
-                    _codeEditors[name].Tag = gen.KnownTypes;
-                    _codeEditors[name].Text = string.Join(Environment.NewLine, _manager.Files.First(x => x.Key == gen.GetType()).Value.Body);
+                    string name = gen.GetType().Name.Substring(0, gen.GetType().Name.Length - "Generator".Length);
+                    if (!_codeEditors.ContainsKey(name))
+                        continue;
+
+
+                    if (_manager.Files.Any(x => x.Key == gen.GetType() && x.Value != null))
+                    {
+                        _codeEditors[name].Tag = gen.KnownTypes;
+                        _codeEditors[name].Text = string.Join(Environment.NewLine, _manager.Files.First(x => x.Key == gen.GetType()).Value.Body);
+                    }
+                    else
+                        _codeEditors[name].Text = "";
                 }
-                else
-                    _codeEditors[name].Text = "";
+            }
+            catch (Exception ex)
+            {
+                MessageBox(ex.Message, "Ошибка");
+                return;
             }
         }
 
@@ -974,7 +998,7 @@ namespace Barsix.BarsEntity
                 options.Map(chvEditingDisabled, x => x.View.EditingDisabled);
                 options.Map(chvDynamicFilter, x => x.View.DynamicFilter);
                 options.Map(cbvSelectionModel, x => x.View.SelectionModel);
-                options.Map(chvInline, x => x.View.Inline);
+                cbvViewType.SelectedIndex = (int)options.View.Type - 1;
                 options.Map(chvTreeGrid, x => x.View.TreeGrid);
             }
 

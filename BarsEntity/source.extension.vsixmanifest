@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
   <Metadata>
-    <Identity Id="27dd9dea-6dd2-403e-929d-3ff20d896c5e" Version="1.1" Language="ru-RU" Publisher="Denis Malikov" />
+    <Identity Id="27dd9dea-6dd2-403e-929d-3ff20d896c5e" Version="1.2" Language="ru-RU" Publisher="Denis Malikov" />
     <DisplayName>Создание Bars-объекта</DisplayName>
     <Description xml:space="preserve">Создание нового Bars-объекта (включая Entity, Map, Controller, View и UpdateSchema, DomainService(Interceptor)) и многое, многое другое</Description>
     <MoreInfo>https://github.com/Getequ/BarsEntity</MoreInfo>

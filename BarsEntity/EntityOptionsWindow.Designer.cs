@@ -53,6 +53,7 @@ namespace Barsix.BarsEntity
             System.Windows.Forms.Label label19;
             System.Windows.Forms.Label label20;
             System.Windows.Forms.Label label21;
+            System.Windows.Forms.GroupBox groupBox3;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntityOptionsWindow));
             this.tbmLength = new System.Windows.Forms.TextBox();
             this.tbTableName = new System.Windows.Forms.TextBox();
@@ -161,6 +162,13 @@ namespace Barsix.BarsEntity
             this.saveDialog = new System.Windows.Forms.SaveFileDialog();
             this.label32 = new System.Windows.Forms.Label();
             this.tbSubfolder = new System.Windows.Forms.TextBox();
+            this.chcCreate = new System.Windows.Forms.CheckBox();
+            this.chcDelete = new System.Windows.Forms.CheckBox();
+            this.chcList = new System.Windows.Forms.CheckBox();
+            this.chcUpdate = new System.Windows.Forms.CheckBox();
+            this.chcGet = new System.Windows.Forms.CheckBox();
+            this.cbvViewType = new System.Windows.Forms.ComboBox();
+            this.label33 = new System.Windows.Forms.Label();
             label16 = new System.Windows.Forms.Label();
             label12 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
@@ -184,6 +192,7 @@ namespace Barsix.BarsEntity
             label19 = new System.Windows.Forms.Label();
             label20 = new System.Windows.Forms.Label();
             label21 = new System.Windows.Forms.Label();
+            groupBox3 = new System.Windows.Forms.GroupBox();
             tabPage2.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -196,6 +205,7 @@ namespace Barsix.BarsEntity
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabGenerated.SuspendLayout();
+            groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // label16
@@ -719,6 +729,7 @@ namespace Barsix.BarsEntity
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(groupBox3);
             this.tabPage3.Controls.Add(label14);
             this.tabPage3.Controls.Add(this.tbcName);
             this.tabPage3.Controls.Add(label13);
@@ -740,6 +751,8 @@ namespace Barsix.BarsEntity
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.label33);
+            this.tabPage4.Controls.Add(this.cbvViewType);
             this.tabPage4.Controls.Add(this.cbvTextProperty);
             this.tabPage4.Controls.Add(this.chvGroupField);
             this.tabPage4.Controls.Add(label10);
@@ -839,11 +852,11 @@ namespace Barsix.BarsEntity
             // chvInline
             // 
             this.chvInline.AutoSize = true;
-            this.chvInline.Location = new System.Drawing.Point(425, 237);
+            this.chvInline.Location = new System.Drawing.Point(270, 238);
             this.chvInline.Name = "chvInline";
-            this.chvInline.Size = new System.Drawing.Size(188, 17);
+            this.chvInline.Size = new System.Drawing.Size(50, 17);
             this.chvInline.TabIndex = 26;
-            this.chvInline.Text = "inline GridPageView<*ViewModel>";
+            this.chvInline.Text = "inline";
             this.chvInline.UseVisualStyleBackColor = true;
             // 
             // tbvDisplayName
@@ -1495,6 +1508,93 @@ namespace Barsix.BarsEntity
             this.tbSubfolder.Size = new System.Drawing.Size(154, 20);
             this.tbSubfolder.TabIndex = 44;
             // 
+            // groupBox3
+            // 
+            groupBox3.Controls.Add(this.chcCreate);
+            groupBox3.Controls.Add(this.chcDelete);
+            groupBox3.Controls.Add(this.chcList);
+            groupBox3.Controls.Add(this.chcUpdate);
+            groupBox3.Controls.Add(this.chcGet);
+            groupBox3.Location = new System.Drawing.Point(14, 50);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Size = new System.Drawing.Size(200, 195);
+            groupBox3.TabIndex = 8;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "override Actions";
+            // 
+            // chcCreate
+            // 
+            this.chcCreate.AutoSize = true;
+            this.chcCreate.Location = new System.Drawing.Point(23, 124);
+            this.chcCreate.Name = "chcCreate";
+            this.chcCreate.Size = new System.Drawing.Size(57, 17);
+            this.chcCreate.TabIndex = 12;
+            this.chcCreate.Text = "Create";
+            this.chcCreate.UseVisualStyleBackColor = true;
+            // 
+            // chcDelete
+            // 
+            this.chcDelete.AutoSize = true;
+            this.chcDelete.Location = new System.Drawing.Point(23, 101);
+            this.chcDelete.Name = "chcDelete";
+            this.chcDelete.Size = new System.Drawing.Size(57, 17);
+            this.chcDelete.TabIndex = 11;
+            this.chcDelete.Text = "Delete";
+            this.chcDelete.UseVisualStyleBackColor = true;
+            // 
+            // chcList
+            // 
+            this.chcList.AutoSize = true;
+            this.chcList.Location = new System.Drawing.Point(23, 32);
+            this.chcList.Name = "chcList";
+            this.chcList.Size = new System.Drawing.Size(42, 17);
+            this.chcList.TabIndex = 10;
+            this.chcList.Text = "List";
+            this.chcList.UseVisualStyleBackColor = true;
+            // 
+            // chcUpdate
+            // 
+            this.chcUpdate.AutoSize = true;
+            this.chcUpdate.Location = new System.Drawing.Point(23, 78);
+            this.chcUpdate.Name = "chcUpdate";
+            this.chcUpdate.Size = new System.Drawing.Size(61, 17);
+            this.chcUpdate.TabIndex = 9;
+            this.chcUpdate.Text = "Update";
+            this.chcUpdate.UseVisualStyleBackColor = true;
+            // 
+            // chcGet
+            // 
+            this.chcGet.AutoSize = true;
+            this.chcGet.Location = new System.Drawing.Point(23, 55);
+            this.chcGet.Name = "chcGet";
+            this.chcGet.Size = new System.Drawing.Size(43, 17);
+            this.chcGet.TabIndex = 8;
+            this.chcGet.Text = "Get";
+            this.chcGet.UseVisualStyleBackColor = true;
+            // 
+            // cbvViewType
+            // 
+            this.cbvViewType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbvViewType.DropDownWidth = 200;
+            this.cbvViewType.FormattingEnabled = true;
+            this.cbvViewType.Items.AddRange(new object[] {
+            "js - EAS",
+            "js - B4",
+            "C# - только таблица"});
+            this.cbvViewType.Location = new System.Drawing.Point(477, 233);
+            this.cbvViewType.Name = "cbvViewType";
+            this.cbvViewType.Size = new System.Drawing.Size(136, 21);
+            this.cbvViewType.TabIndex = 41;
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(385, 237);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(86, 13);
+            this.label33.TabIndex = 42;
+            this.label33.Text = "Представление";
+            // 
             // EntityOptionsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1542,6 +1642,8 @@ namespace Barsix.BarsEntity
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tabGenerated.ResumeLayout(false);
+            groupBox3.ResumeLayout(false);
+            groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1656,5 +1758,12 @@ namespace Barsix.BarsEntity
         private System.Windows.Forms.TextBox tbSubfolder;
         private System.Windows.Forms.CheckBox cheEnum;
         private System.Windows.Forms.ComboBox cbvTextProperty;
+        private System.Windows.Forms.CheckBox chcCreate;
+        private System.Windows.Forms.CheckBox chcDelete;
+        private System.Windows.Forms.CheckBox chcList;
+        private System.Windows.Forms.CheckBox chcUpdate;
+        private System.Windows.Forms.CheckBox chcGet;
+        private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.ComboBox cbvViewType;
     }
 }

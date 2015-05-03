@@ -11,12 +11,40 @@ namespace Barsix.BarsEntity.CodeGeneration.JavaScript
         protected bool Instance;
 
         public List<JsProperty> Params = new List<JsProperty>();
+
+        public JsFunctionCall()
+        { 
+        }
+
+        public JsFunctionCall(string func, IEnumerable<object> @params)
+        {
+            Function = func;
+            foreach (var param in @params)
+            {
+                AddParam(param);
+            }
+        }
         
         public JsFunctionCall AddParam(object prop)
         {
             if (prop is JsProperty)
             {
                 Params.Add(prop as JsProperty);
+            }
+            else
+            if (prop is string)
+            {
+                Params.Add(JsScalar.String((string)prop));
+            }
+            else
+            if (prop is int)
+            {
+                Params.Add(JsScalar.Number((int)prop));
+            }
+            else
+            if (prop is bool)
+            {
+                Params.Add(JsScalar.Boolean((bool)prop));
             }
             else
                 Params.Add(prop.ToJs());
@@ -56,7 +84,7 @@ namespace Barsix.BarsEntity.CodeGeneration.JavaScript
                     }
                     else
                     {
-                        bool shift = param is JsObject || param is JsArray || param is JsFunctionCall;
+                        bool shift = param is JsObject || param is JsArray || param is JsFunctionCall || param is JsFunction;
                         var pr = param.Draw(indent + (!shift ? 1 : 0));
 
                         row = row + pr.First().Substring(indent * 4 + (!shift ? 4 : 0) + 3);
