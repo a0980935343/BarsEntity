@@ -8,9 +8,10 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class AuditLogMapProviderGenerator : BaseBarsGenerator
     {
-        public override GeneratedFile Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
+        public override List<GeneratedFile> Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
         {
-            var file = base.Generate(project, options, fragments);
+            var files = base.Generate(project, options, fragments);
+            var file = files[0];
 
             if (!File.Exists(Path.Combine(_project.RootFolder, "AuditLogMapProvider.cs")))
             {
@@ -31,7 +32,7 @@ namespace Barsix.BarsEntity.BarsGenerators
 
                 file.Name = "AuditLogMapProvider.cs";
                 file.Body = ns.Generate();
-                return file;
+                return files;
             }
             else
             {

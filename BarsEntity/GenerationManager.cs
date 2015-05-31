@@ -19,7 +19,7 @@ namespace Barsix.BarsEntity
 
         private List<IBarsGenerator> _generators = new List<IBarsGenerator>();
 
-        private Dictionary<Type, GeneratedFile> _files = new Dictionary<Type, GeneratedFile>();
+        private Dictionary<Type, List<GeneratedFile>> _files = new Dictionary<Type, List<GeneratedFile>>();
 
         private GeneratedFragments _fragments;
 
@@ -51,12 +51,12 @@ namespace Barsix.BarsEntity
             return _enumList.FirstOrDefault(x => x.EndsWith("." + enumName));
         }
 
-        private void AddFile(IBarsGenerator generator, GeneratedFile file)
+        private void AddFiles(IBarsGenerator generator, IEnumerable<GeneratedFile> files)
         {
             if (_files.ContainsKey(generator.GetType()))
-                _files[generator.GetType()] = file;
+                _files[generator.GetType()].AddRange(files);
             else
-                _files.Add(generator.GetType(), file);
+                _files.Add(generator.GetType(), files.ToList());
         }
 
         public void AddGenerator(IBarsGenerator generator)
@@ -72,12 +72,15 @@ namespace Barsix.BarsEntity
         {
             var result = new GenerationResult();
             _fragments = new GeneratedFragments();
+            _files.Clear();
+
             var projectInfo = new ProjectInfo{ RootFolder = _project.RootFolder(), DefaultNamespace = _project.DefaultNamespace()};
             foreach (var generator in _generators)
             {
                 try
                 {
-                    AddFile(generator, generator.Generate(projectInfo, options, _fragments));
+                    var files = generator.Generate(projectInfo, options, _fragments);
+                    AddFiles(generator, files);
                 }
                 catch (Exception ex)
                 {
@@ -94,7 +97,9 @@ namespace Barsix.BarsEntity
 
             Encoding encoding = Encoding.UTF8;
 
-            foreach (var file in _files.Where(x => generatorTypes.Contains(x.Key) && x.Value != null && x.Value.Name != null).Select(x => x.Value))
+            foreach (var file in _files.Where(x => generatorTypes.Contains(x.Key) && x.Value != null && x.Value.Any())
+                .SelectMany(x => x.Value)
+                .Where(x => x.Name != null))
             {
                 if (!Directory.Exists(Path.Combine(_project.RootFolder(), file.Path ?? string.Empty)))
                 {
@@ -121,6 +126,6 @@ namespace Barsix.BarsEntity
 
         public IEnumerable<IBarsGenerator> Generators { get { return _generators; } }
 
-        public IEnumerable<KeyValuePair<Type, GeneratedFile>> Files { get { return _files.ToList(); } }
+        public IEnumerable<KeyValuePair<Type, List<GeneratedFile>>> Files { get { return _files.ToList(); } }
     }
 }

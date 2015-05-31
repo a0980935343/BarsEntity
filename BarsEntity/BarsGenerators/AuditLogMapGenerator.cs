@@ -10,9 +10,10 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class AuditLogMapGenerator : BaseBarsGenerator
     {
-        public override GeneratedFile Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
+        public override List<GeneratedFile> Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
         {
-            var file = base.Generate(project, options, fragments);
+            var files = base.Generate(project, options, fragments);
+            var file = files.First();
             var ns = new NamespaceInfo() { Name = "{0}.Map".F(_project.DefaultNamespace) };
             var cls = new ClassInfo
             {
@@ -42,7 +43,10 @@ namespace Barsix.BarsEntity.BarsGenerators
             {
                 if (field.IsBasicType())
                 {
-                    ctor.Body.Add("MapProperty(x => x.{0}, \"{1}\", \"{2}\");".F(field.FieldName, field.ColumnName, field.DisplayName));
+                    if (field.TypeName == "bool")
+                        ctor.Body.Add("MapProperty(x => x.{0}, \"{1}\", \"{2}\", x => x ? \"Да\" : \"Нет\");".F(field.FieldName, field.ColumnName, field.DisplayName));
+                    else
+                        ctor.Body.Add("MapProperty(x => x.{0}, \"{1}\", \"{2}\");".F(field.FieldName, field.ColumnName, field.DisplayName, field.TypeName));
                 }
                 else
                 {
@@ -54,7 +58,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             file.Name = options.ClassName + "LogMap.cs";
             file.Path = (Directory.Exists(Path.Combine(_project.RootFolder, "Map")) ? "Map\\" : "Maps\\") + "Log\\";
             file.Body = ns.Generate();
-            return file;
+            return files;
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Barsix.BarsEntity
     public sealed class BarsEntityPackage : ExtensionPointPackage
     {
         private static DTE2 _dte;
-        public const string Version = "1.2";
+        public const string Version = "1.3";
 
         protected override void Initialize()
         {
@@ -116,7 +116,7 @@ namespace Barsix.BarsEntity
                 MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            var file = manager.Files.First().Value;
+            var file = manager.Files.SelectMany(x => x.Value).First();
             
             Window window = _dte.ItemOperations.OpenFile(Path.Combine(project.RootFolder(), file.Path, file.Name));
             return;

@@ -12,6 +12,15 @@ namespace Barsix.BarsEntity.CodeGeneration.JavaScript
 
         public JsFunction() { Inline = false; }
 
+        public JsFunction(string @params, params object[] body) 
+        {
+            Params = @params;
+            foreach (object line in body)
+                Body.Add(line);
+
+            Inline = false; 
+        }
+
         public override List<string> Draw(int indent)
         {
             _result.Clear();
@@ -26,6 +35,10 @@ namespace Barsix.BarsEntity.CodeGeneration.JavaScript
 
             foreach (var instr in Body)
             {
+                if (instr == null)
+                {
+                    continue;
+                }
                 if (instr is string)
                 {
                     string line = instr.ToString();

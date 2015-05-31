@@ -9,9 +9,10 @@ namespace Barsix.BarsEntity.BarsGenerators
     
     public class ControllerGenerator : BaseBarsGenerator
     {
-        public override GeneratedFile Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
+        public override List<GeneratedFile> Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
         {
-            var file = base.Generate(project, options, fragments);
+            var files = base.Generate(project, options, fragments);
+            var file = files.First();
 
             var ns = new NamespaceInfo() { Name = "{0}.Controllers".F(_project.DefaultNamespace) };
             var cls = new ClassInfo()
@@ -75,92 +76,79 @@ namespace Barsix.BarsEntity.BarsGenerators
                     Params = "BaseParams baseParams",
                     IsOverride = true
                 };
+                var proxyClass = new ClassInfo { Name = "QueryResult" };
+                _knownTypes.Add("QueryResult");
 
-                //if (options.Fields.Any(x => x.OwnerReference) || options.View.TreeGrid || options.Signable)
+                proxyClass.AddProperty(new PropertyInfo() { Name = "Id", Type = "long" });
+
+                foreach (var field in options.Fields.Where(x => !x.Collection))
                 {
-                    var proxyClass = new ClassInfo { Name = "QueryResult" };
-                    _knownTypes.Add("QueryResult");
-
-                    //if (options.View.TreeGrid || options.Signable)
+                    proxyClass.AddProperty(new PropertyInfo() { Name = field.FieldName, Type = field.FullTypeName });
+                    if (!field.IsBasicType() && field.TypeName != field.FieldName)
                     {
-                        proxyClass.AddProperty(new PropertyInfo() { Name = "Id", Type = "long" });
-
-                        foreach (var field in options.Fields.Where(x => !x.Collection))
-                        {
-                            proxyClass.AddProperty(new PropertyInfo() { Name = field.FieldName, Type = field.FullTypeName });
-                            if (!field.IsBasicType() && field.TypeName != field.FieldName)
-                            {
-                                _knownTypes.Add(field.TypeName);
-                                ns.InnerUsing.AddDistinct(GetTypeNamespace(field.TypeName));
-                            }
-                        }
-
-                        if (options.Signable)
-                        {
-                            proxyClass.AddProperty(new PropertyInfo() { Name = "Signed", Type = "bool" });
-                            _knownTypes.Add("DigSignature");
-                        }
-
-                        if (options.View.TreeGrid)
-                        {
-                            proxyClass.AddProperty(new PropertyInfo() { Name = "_parent", Type = "long" });
-                            proxyClass.AddProperty(new PropertyInfo() { Name = "_is_leaf", Type = "bool" });
-                            proxyClass.AddProperty(new PropertyInfo() { Name = "_is_loaded", Type = "bool" });
-                        }
-
-                        proxyClass.Properties.ToList().ForEach(x => x.Public.Virtual.Auto.Get().Set());
-
-                        ns.NestedValues.Add(proxyClass);
+                        _knownTypes.Add(field.TypeName);
+                        ns.InnerUsing.AddDistinct(GetTypeNamespace(field.TypeName));
                     }
-
-                    list.Body.Add("var loadParam = baseParams.GetLoadParam();");
-
-                    var owner = options.Fields.FirstOrDefault(x => x.OwnerReference);
-                    var parent = options.Fields.FirstOrDefault(x => x.ParentReference);
-
-                    if (owner != null)
-                        list.Body.Add("var {0}Id = baseParams.Params[\"{0}Id\"].ToLong();".F(owner.FieldName.camelCase()));
-
-                    if (options.Signable)
-                        list.Body.Add("var qDigitalSignatures = Container.Resolve<IDomainService<DigSignature>>().GetAll();");
-
-                    list.Body.Add("var qList = DomainService.GetAll()");
-
-                    if (owner != null)
-                        list.Body.Add("    .Where(x => x.{0}.Id == {1}Id)".F(owner.FieldName, owner.FieldName.camelCase()));
-
-                    //if (options.View.TreeGrid || options.Signable)
-                    {
-                        list.Body.Add("    .Select(x => new QueryResult {");
-                        foreach (var prop in proxyClass.Properties)
-                        {
-                            if (options.Signable && prop.Name == "Signed")
-                                list.Body.Add("        Signed = qDigitalSignatures.Any(ds => ds.EntityTypeId == \"{0}\" && ds.EntityId == x.Id),".F(options.ClassFullName));
-                            else if (prop.Name == "_is_loaded")
-                                list.Body.Add("        _is_loaded = true,");
-                            else if (prop.Name == "_parent")
-                                list.Body.Add("        _parent = x.{0} != null ? x.{0}.Id : 0,".F(parent.FieldName));
-                            else if (prop.Name == "_is_leaf")
-                                list.Body.Add("        _is_leaf = !DomainService.GetAll().Any(y => y.{0} == x),".F(parent.FieldName));
-                            else
-                                list.Body.Add("        {0} = x.{0},".F(prop.Name));
-                        }
-                        var last = list.Body.Last();
-                        last = last.Substring(0, last.Length - 1);
-                        list.Body.RemoveAt(list.Body.Count - 1);
-                        list.Body.Add(last);
-
-                        list.Body.Add("    })");
-                    }
-                    list.Body.Add("    .Filter(loadParam, Container);");
-
-                    list.Body.Add("return new JsonListResult(qList.Order(loadParam).Paging(loadParam).ToList(), qList.Count());");
-
                 }
-                //else
-               // {
-                //    list.Body.Add("return base.List(baseParams);");
-                //}
+
+                if (options.Signable)
+                {
+                    proxyClass.AddProperty(new PropertyInfo() { Name = "Signed", Type = "bool" });
+                    _knownTypes.Add("DigSignature");
+                }
+
+                if (options.View.TreeGrid)
+                {
+                    proxyClass.AddProperty(new PropertyInfo() { Name = "_parent", Type = "long" });
+                    proxyClass.AddProperty(new PropertyInfo() { Name = "_is_leaf", Type = "bool" });
+                    proxyClass.AddProperty(new PropertyInfo() { Name = "_is_loaded", Type = "bool" });
+                }
+
+                proxyClass.Properties.ToList().ForEach(x => x.Public.Virtual.Auto.Get().Set());
+
+                ns.NestedValues.Add(proxyClass);
+
+                list.Body.Add("var loadParam = baseParams.GetLoadParam();");
+
+                var owner = options.Fields.FirstOrDefault(x => x.OwnerReference);
+                var parent = options.Fields.FirstOrDefault(x => x.ParentReference);
+
+                if (owner != null)
+                    list.Body.Add("var {0}Id = baseParams.Params[\"{0}Id\"].ToLong();".F(owner.FieldName.camelCase()));
+
+                if (options.Signable)
+                    list.Body.Add("var qDigitalSignatures = Container.Resolve<IDomainService<DigSignature>>().GetAll();");
+
+                list.Body.Add("var qList = DomainService.GetAll()");
+
+                if (owner != null)
+                    list.Body.Add("    .Where(x => x.{0}.Id == {1}Id)".F(owner.FieldName, owner.FieldName.camelCase()));
+
+                   
+                list.Body.Add("    .Select(x => new QueryResult {");
+                foreach (var prop in proxyClass.Properties)
+                {
+                    if (options.Signable && prop.Name == "Signed")
+                        list.Body.Add("        Signed = qDigitalSignatures.Any(ds => ds.EntityTypeId == \"{0}\" && ds.EntityId == x.Id),".F(options.ClassFullName));
+                    else if (prop.Name == "_is_loaded")
+                        list.Body.Add("        _is_loaded = true,");
+                    else if (prop.Name == "_parent")
+                        list.Body.Add("        _parent = x.{0} != null ? x.{0}.Id : 0,".F(parent.FieldName));
+                    else if (prop.Name == "_is_leaf")
+                        list.Body.Add("        _is_leaf = !DomainService.GetAll().Any(y => y.{0} == x),".F(parent.FieldName));
+                    else
+                        list.Body.Add("        {0} = x.{0},".F(prop.Name));
+                }
+                var last = list.Body.Last();
+                last = last.Substring(0, last.Length - 1);
+                list.Body.RemoveAt(list.Body.Count - 1);
+                list.Body.Add(last);
+
+                list.Body.Add("    })");
+                list.Body.Add("    .Filter(loadParam, Container);");
+
+                list.Body.Add("return new JsonListResult(qList.Order(loadParam).Paging(loadParam).ToList(), qList.Count());");
+
                 cls.AddMethod(list);
             }
 
@@ -306,7 +294,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             file.Name = options.Controller.Name + "Controller.cs";
             file.Path = "Controllers\\" + (options.IsDictionary ? "Dict\\" : (!string.IsNullOrWhiteSpace(options.Subfolder) ? options.Subfolder : ""));
             file.Body = ns.Generate();
-            return file;
+            return files;
         }
     }
 }

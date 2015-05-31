@@ -7,9 +7,9 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class PermissionGenerator : BaseBarsGenerator
     {
-        public override GeneratedFile Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
+        public override List<GeneratedFile> Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
         {
-            var file = base.Generate(project, options, fragments);
+            base.Generate(project, options, fragments);
             var map = options.Permission;
             List<string> lines = new List<string>();
 

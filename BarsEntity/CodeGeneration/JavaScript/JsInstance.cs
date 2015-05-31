@@ -11,7 +11,7 @@ namespace Barsix.BarsEntity.CodeGeneration.JavaScript
             Instance = true;
         }
 
-        public JsInstance(string func, IEnumerable<object> @params)
+        public JsInstance(string func, params object[] @params)
             : this()
         {
             Function = func;

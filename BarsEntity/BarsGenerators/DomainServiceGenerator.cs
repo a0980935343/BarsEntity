@@ -10,9 +10,10 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class DomainServiceGenerator : BaseBarsGenerator
     {
-        public override GeneratedFile Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
+        public override List<GeneratedFile> Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
         {
-            var file = base.Generate(project, options, fragments);
+            var files = base.Generate(project, options, fragments);
+            var file = files.First();
 
             var ns = new NamespaceInfo() { Name = "{0}.DomainServices".F(_project.DefaultNamespace) };
             var cls = new ClassInfo
@@ -237,7 +238,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             file.Name = options.ClassName + "DomainService.cs";
             file.Path = (Directory.Exists(Path.Combine(_project.RootFolder, "DomainService")) ? "DomainService" : "DomainServices") + (!string.IsNullOrWhiteSpace(options.Subfolder) ? "\\"+ options.Subfolder : "");
             file.Body = ns.Generate();
-            return file;
+            return files;
         }
     }
 }

@@ -10,9 +10,11 @@ namespace Barsix.BarsEntity.BarsGenerators
     /// <summary>  </summary>
     public class EntityGenerator : BaseBarsGenerator
     {
-        public override GeneratedFile Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
+        public override List<GeneratedFile> Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
         {
-            var file = base.Generate(project, options, fragments);
+            var files = base.Generate(project, options, fragments);
+            var file = files.First();
+
             _knownTypes.Clear();
             _knownTypes.Add(options.ClassName);
             _knownTypes.Add(options.BaseClass);
@@ -138,7 +140,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             file.Path = "Entities\\" + (options.IsDictionary ? "Dict\\" : (!string.IsNullOrWhiteSpace(options.Subfolder) ? options.Subfolder : ""));
             file.Body = ns.Generate(0).ToList();
 
-            return file;
+            return files;
         }
     }
 }

@@ -26,5 +26,9 @@ namespace Barsix.BarsEntity.CodeGeneration.JavaScript
         public static JsScalar Boolean(bool value) { return new JsScalar() { Value = value.ToString().ToLower() }; }
         //public static JsScalar Local(string value) { return new JsScalar() { Value = "lc('{0}')".F(value) }; }
         public static JsScalar Number(long value) { return new JsScalar() { Value = value.ToString() }; }
+
+        public static JsScalar This { get{ return new JsScalar() { Value = "this" };} }
+
+        public static JsScalar Null { get{ return new JsScalar() { Value = "null" };} }
     }
 }

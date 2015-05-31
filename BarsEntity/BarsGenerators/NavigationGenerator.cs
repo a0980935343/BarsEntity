@@ -8,9 +8,8 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class NavigationGenerator : BaseBarsGenerator
     {
-        public override GeneratedFile Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
+        public override List<GeneratedFile> Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
         {
-            var file = base.Generate(project, options, fragments);
             var nav = options.Navigation;
 
             fragments.AddLines("NavigationProvider.cs", this, new List<string> { 

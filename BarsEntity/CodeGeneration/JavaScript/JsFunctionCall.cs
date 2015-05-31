@@ -16,7 +16,7 @@ namespace Barsix.BarsEntity.CodeGeneration.JavaScript
         { 
         }
 
-        public JsFunctionCall(string func, IEnumerable<object> @params)
+        public JsFunctionCall(string func, params object[] @params)
         {
             Function = func;
             foreach (var param in @params)
@@ -24,7 +24,14 @@ namespace Barsix.BarsEntity.CodeGeneration.JavaScript
                 AddParam(param);
             }
         }
-        
+
+        public JsFunctionCall NotInline {
+            get {
+                Inline = false;
+                return this;
+            }
+        }
+
         public JsFunctionCall AddParam(object prop)
         {
             if (prop is JsProperty)

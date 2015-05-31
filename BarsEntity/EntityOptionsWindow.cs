@@ -588,7 +588,14 @@ namespace Barsix.BarsEntity
                     if (_manager.Files.Any(x => x.Key == gen.GetType() && x.Value != null))
                     {
                         _codeEditors[name].Tag = gen.KnownTypes;
-                        _codeEditors[name].Text = string.Join(Environment.NewLine, _manager.Files.First(x => x.Key == gen.GetType()).Value.Body);
+                        string filesBody = "";
+                        foreach (var file in _manager.Files.First(x => x.Key == gen.GetType()).Value)
+                        {
+                            filesBody = filesBody + string.Join(Environment.NewLine, file.Body);
+                            if (file != _manager.Files.First(x => x.Key == gen.GetType()).Value.Last())
+                                filesBody = filesBody + Environment.NewLine + "//------------------------------------------------------------------------------------" + Environment.NewLine;
+                        }
+                        _codeEditors[name].Text = filesBody;
                     }
                     else
                         _codeEditors[name].Text = "";
@@ -685,7 +692,7 @@ namespace Barsix.BarsEntity
 
                 if (fopt.IsReference())
                 {
-                    fopt.TextProperty = ((StringComboItem)cbvTextProperty.SelectedItem).Value;
+                    fopt.TextProperty = cbvTextProperty.SelectedItem != null ? ((StringComboItem)cbvTextProperty.SelectedItem).Value : cbvTextProperty.Text;
                 }
 
                 lviView.SubItems[1].Text = fopt.ViewType + " / " + fopt.ViewColumnType;

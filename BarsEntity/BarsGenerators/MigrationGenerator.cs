@@ -10,9 +10,10 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class MigrationGenerator : BaseBarsGenerator
     {
-        public override GeneratedFile Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
+        public override List<GeneratedFile> Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
         {
-            var file = base.Generate(project, options, fragments);
+            var files = base.Generate(project, options, fragments);
+            var file = files.First();
 
             string folderVersion = "Version_{0}".F(options.MigrationVersion);
             
@@ -119,7 +120,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             file.Name = "UpdateSchema.cs";
             file.Path = "Migrations\\" + folderVersion;
             file.Body = ns.Generate();
-            return file;
+            return files;
         }
 
     }

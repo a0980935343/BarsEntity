@@ -10,9 +10,10 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class SignableEntitiesManifestGenerator : BaseBarsGenerator
     {
-        public override GeneratedFile Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
+        public override List<GeneratedFile> Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
         {
-            var file = base.Generate(project, options, fragments);
+            var files = base.Generate(project, options, fragments);
+            var file = files.First();
 
             if (!File.Exists(Path.Combine(_project.RootFolder, "SignableEntitiesManifest.cs")))
             {
@@ -56,7 +57,7 @@ namespace Barsix.BarsEntity.BarsGenerators
 
                 file.Name = "SignableEntitiesManifest.cs";
                 file.Body = ns.Generate();
-                return file;
+                return files;
             }
             else
             {
@@ -79,7 +80,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 file.Body.Add(" */");
                 file.Body.Add("");
                 file.Body.AddRange(fragments.First(x => x.Key == "SignableEntitiesManifest.cs").Value);
-                return file;
+                return files;
             }
         }
     }

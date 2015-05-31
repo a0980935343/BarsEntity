@@ -10,9 +10,10 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class MapGenerator : BaseBarsGenerator
     {
-        public override GeneratedFile Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
+        public override List<GeneratedFile> Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
         {
-            var file = base.Generate(project, options, fragments);
+            var files = base.Generate(project, options, fragments);
+            var file = files.First();
 
             var ns = new NamespaceInfo();
             var cls = new ClassInfo();
@@ -90,7 +91,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             file.Name = options.ClassName + "Map.cs";
             file.Path = (Directory.Exists(Path.Combine(_project.RootFolder, "Map")) ? "Map\\" : "Maps\\") + (options.IsDictionary ? "Dict\\" : (!string.IsNullOrWhiteSpace(options.Subfolder) ? options.Subfolder : ""));
             file.Body = ns.Generate();
-            return file;
+            return files;
         }
     }
 }

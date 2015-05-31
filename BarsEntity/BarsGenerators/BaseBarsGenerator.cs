@@ -17,10 +17,10 @@ namespace Barsix.BarsEntity.BarsGenerators
             ClassList = new List<string>();
         }
 
-        public virtual GeneratedFile Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
+        public virtual List<GeneratedFile> Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
         {
             _project = project;
-            return new GeneratedFile() { Generator = this };
+            return new List<GeneratedFile> { new GeneratedFile() { Generator = this } };
         }
 
         public List<string> ClassList { get; set; }
