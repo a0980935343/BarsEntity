@@ -68,7 +68,7 @@ namespace Barsix.BarsEntity
             }
         }
 
-        public void Generate(EntityOptions options)
+        public void Generate(EntityOptions options, IEnumerable<Type> generatorTypes = null)
         {
             var result = new GenerationResult();
             _fragments = new GeneratedFragments();
@@ -77,6 +77,9 @@ namespace Barsix.BarsEntity
             var projectInfo = new ProjectInfo{ RootFolder = _project.RootFolder(), DefaultNamespace = _project.DefaultNamespace()};
             foreach (var generator in _generators)
             {
+                if (generatorTypes != null && !generatorTypes.Contains(generator.GetType()))
+                    continue;
+
                 try
                 {
                     var files = generator.Generate(projectInfo, options, _fragments);
@@ -93,7 +96,7 @@ namespace Barsix.BarsEntity
         {
             var result = new Dictionary<IBarsGenerator, ProjectItem>();
 
-            Generate(options);
+            Generate(options, generatorTypes);
 
             Encoding encoding = Encoding.UTF8;
 

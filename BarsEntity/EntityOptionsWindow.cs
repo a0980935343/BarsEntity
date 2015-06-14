@@ -26,8 +26,9 @@ namespace Barsix.BarsEntity
         public EntityOptionsWindow()
         {
             InitializeComponent();
-            
+
             tbEntityName.Text = "NewEntity";
+
             tbMigrationVersion.Text = DateTime.Now.ToString("yyyy_MM_dd_00");
 
             cbvSelectionModel.SelectedIndex = 0;
@@ -136,6 +137,9 @@ namespace Barsix.BarsEntity
             Text = "Создание Bars-объекта ({0})".F(project.Name);
 
             _project = project;
+
+            var parts = _project.DefaultNamespace().Split('.');
+            tbTableName.Text = parts[parts.Count() > 1 ? 1 : 0].ToUpper() + "_" + tbEntityName.Text.CamelToSnake();
 
             _manager = new GenerationManager(_project);
             _manager.AddGenerator(new EntityGenerator());
@@ -348,10 +352,10 @@ namespace Barsix.BarsEntity
                 if (confirmDialog.chMigration.Checked)
                     generatorTypes.Add(typeof(MigrationGenerator));
 
-                if (options.Navigation != null && !options.Fields.Any(x => x.OwnerReference))
+                if (options.Navigation != null && !options.Fields.Any(x => x.OwnerReference) && confirmDialog.chNavigation.Checked)
                     generatorTypes.Add(typeof(NavigationGenerator));
 
-                if (options.Permission != null)
+                if (options.Permission != null && confirmDialog.chPermission.Checked)
                     generatorTypes.Add(typeof(PermissionGenerator));
 
                 if (confirmDialog.chDomainServiceInterceptor.Checked)

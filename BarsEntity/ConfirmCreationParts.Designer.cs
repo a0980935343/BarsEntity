@@ -42,6 +42,8 @@
             this.chStatefulEntitiesManifest = new System.Windows.Forms.CheckBox();
             this.chSignableEntitiesManifest = new System.Windows.Forms.CheckBox();
             this.chAuditLogMapProvider = new System.Windows.Forms.CheckBox();
+            this.chPermission = new System.Windows.Forms.CheckBox();
+            this.chNavigation = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // chEntity
@@ -117,7 +119,7 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(213, 335);
+            this.button1.Location = new System.Drawing.Point(213, 373);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 7;
@@ -175,11 +177,33 @@
             this.chAuditLogMapProvider.Text = "AuditLogMapProvider";
             this.chAuditLogMapProvider.UseVisualStyleBackColor = true;
             // 
+            // chPermission
+            // 
+            this.chPermission.AutoSize = true;
+            this.chPermission.Location = new System.Drawing.Point(39, 315);
+            this.chPermission.Name = "chPermission";
+            this.chPermission.Size = new System.Drawing.Size(76, 17);
+            this.chPermission.TabIndex = 13;
+            this.chPermission.Text = "Permission";
+            this.chPermission.UseVisualStyleBackColor = true;
+            // 
+            // chNavigation
+            // 
+            this.chNavigation.AutoSize = true;
+            this.chNavigation.Location = new System.Drawing.Point(39, 338);
+            this.chNavigation.Name = "chNavigation";
+            this.chNavigation.Size = new System.Drawing.Size(77, 17);
+            this.chNavigation.TabIndex = 14;
+            this.chNavigation.Text = "Navigation";
+            this.chNavigation.UseVisualStyleBackColor = true;
+            // 
             // ConfirmCreationParts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(300, 370);
+            this.ClientSize = new System.Drawing.Size(300, 408);
+            this.Controls.Add(this.chNavigation);
+            this.Controls.Add(this.chPermission);
             this.Controls.Add(this.chAuditLogMapProvider);
             this.Controls.Add(this.chSignableEntitiesManifest);
             this.Controls.Add(this.chStatefulEntitiesManifest);
@@ -219,6 +243,8 @@
         public System.Windows.Forms.CheckBox chStatefulEntitiesManifest;
         public System.Windows.Forms.CheckBox chSignableEntitiesManifest;
         private System.Windows.Forms.CheckBox chAuditLogMapProvider;
+        public System.Windows.Forms.CheckBox chPermission;
+        public System.Windows.Forms.CheckBox chNavigation;
 
     }
 }
