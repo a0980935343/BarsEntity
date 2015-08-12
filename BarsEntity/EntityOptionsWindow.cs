@@ -27,7 +27,8 @@ namespace Barsix.BarsEntity
         {
             InitializeComponent();
 
-            tbEntityName.Text = "NewEntity";
+            tbEntityName.Text = tbcName.Text = "NewEntity";
+            tbTableName.Text = tbEntityName.Text.CamelToSnake();
 
             tbMigrationVersion.Text = DateTime.Now.ToString("yyyy_MM_dd_00");
 
@@ -35,17 +36,17 @@ namespace Barsix.BarsEntity
             cbeBaseClass.SelectedIndex = 0;
             cbvViewType.SelectedIndex = 0;
 
-            _codeEditors.Add("Entity",  CreateEditor(tgEntity, "Entity"));
-            _codeEditors.Add("Map",        CreateEditor(tgMap, "Map"));
-            _codeEditors.Add("Controller", CreateEditor(tgController, "Controller"));
-            _codeEditors.Add("View",       CreateEditor(tgView, "View"));
-            _codeEditors.Add("DomainService", CreateEditor(tgDomainService, "DomainService"));
-            _codeEditors.Add("Interceptor", CreateEditor(tgInterceptor, "Interceptor"));
-            _codeEditors.Add("Migration",   CreateEditor(tgMigration, "Migration"));
-            _codeEditors.Add("AuditLogMap", CreateEditor(tgLogMap, "AuditLogMap"));
-            _codeEditors.Add("Filterable",  CreateEditor(tgFilterable, "Filterable"));
-            _codeEditors.Add("SignableEntitiesManifest", CreateEditor(tgSignable, "SignableEntitiesManifest"));
-            _codeEditors.Add("StatefulEntitiesManifest", CreateEditor(tgStateful, "StatefulEntitiesManifest"));
+            CreateEditor(tgEntity, "Entity");
+            CreateEditor(tgMap, "Map");
+            CreateEditor(tgController, "Controller");
+            CreateEditor(tgView, "View");
+            CreateEditor(tgDomainService, "DomainService");
+            CreateEditor(tgInterceptor, "Interceptor");
+            CreateEditor(tgMigration, "Migration");
+            CreateEditor(tgLogMap, "AuditLogMap");
+            CreateEditor(tgFilterable, "Filterable");
+            CreateEditor(tgSignable, "SignableEntitiesManifest");
+            CreateEditor(tgStateful, "StatefulEntitiesManifest");
 
             foreach (var ctl in this.Controls.All().Where(x => x.GetType() == typeof(CheckBox) || x.GetType() == typeof(ComboBox)))
             {
@@ -63,7 +64,7 @@ namespace Barsix.BarsEntity
 
         private Dictionary<string, FastColoredTextBox> _codeEditors = new Dictionary<string, FastColoredTextBox>();
 
-        private FastColoredTextBox CreateEditor(TabPage tab, string name)
+        private void CreateEditor(TabPage tab, string name)
         {
             var editor = new FastColoredTextBox();
             editor.Name = "fctb" + name;
@@ -128,7 +129,7 @@ namespace Barsix.BarsEntity
             editor.KeyUp += (s, e) => { if (e.KeyCode == Keys.F5) UpdateEditors(); };
 
             tab.Controls.Add(editor);
-            return editor;
+            _codeEditors.Add(name, editor);
         }
 
         private Project _project;
@@ -749,37 +750,30 @@ namespace Barsix.BarsEntity
 
         private void chSignable_CheckedChanged(object sender, EventArgs e)
         {
-            if (chSignable.Checked && !_project.HasReference("Bars.B4.Modules.DigitalSignature"))
-            {
-                MessageBox("В проекте нет ссылки на B4.Modules.DigitalSignature!", "Зависимости");
-            }
+            CheckReference(chSignable, "Bars.B4.Modules.DigitalSignature");
         }
 
         private void chmLogMap_CheckedChanged(object sender, EventArgs e)
         {
-            if (chmLogMap.Checked && !_project.HasReference("Bars.B4.Modules.NHibernateChangeLog"))
-            {
-                MessageBox("В проекте нет ссылки на B4.Modules.NHibernateChangeLog!", "Зависимости");
-            }
+            CheckReference(chmLogMap, "Bars.B4.Modules.NHibernateChangeLog");
         }
 
         private void chvDynamicFilter_CheckedChanged(object sender, EventArgs e)
         {
-            if (chvDynamicFilter.Checked && !_project.HasReference("Bars.MosKs.DynamicFilters"))
-            {
-                MessageBox("В проекте нет ссылки на MosKs.DynamicFilters!", "Зависимости");
-            }
-            if (chvDynamicFilter.Checked && !_project.HasReference("Bars.B4.Modules.ReportPanel"))
-            {
-                MessageBox("В проекте нет ссылки на B4.Modules.ReportPanel!", "Зависимости");
-            }
+            CheckReference(chvDynamicFilter, "Bars.MosKs.DynamicFilters");
+            CheckReference(chvDynamicFilter, "Bars.B4.Modules.ReportPanel");
         }
 
         private void chStateful_CheckedChanged(object sender, EventArgs e)
         {
-            if (chStateful.Checked && !_project.HasReference("Bars.B4.Modules.States"))
+            CheckReference(chStateful, "Bars.B4.Modules.States");
+        }
+
+        private void CheckReference(CheckBox checkBox, string reference)
+        {
+            if (checkBox.Checked && !_project.HasReference(reference))
             {
-                MessageBox("В проекте нет ссылки на B4.Modules.States!", "Зависимости");
+                MessageBox("В проекте нет ссылки на {0}!".F(reference), "Зависимости");
             }
         }
 
@@ -803,6 +797,7 @@ namespace Barsix.BarsEntity
                 {
                     tbpPrefix.Text = _project.DefaultNamespace().Substring(5) + "." + tbEntityName.Text;
                     tbcName.Text = tbEntityName.Text;
+                    tbTableName.Text = tbEntityName.Text.CamelToSnake();
                     tbvNamespace.Text = _project.DefaultNamespace().Substring(5) + "." + tbEntityName.Text;
                     UpdateEditors();
                 }
