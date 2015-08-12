@@ -151,6 +151,7 @@
     <Compile Include="BarsGenerators\SignableEntitiesManifestGenerator.cs" />
     <Compile Include="BarsGenerators\StatefulEntitiesManifestGenerator.cs" />
     <Compile Include="BarsOptions\DomainServiceOptions.cs" />
+    <Compile Include="BarsGenerators\Generation\GeneratedFragment.cs" />
     <Compile Include="CodeGeneration\JavaScript\JsHelper.cs" />
     <Compile Include="Helpers\CodeClassExt.cs" />
     <Compile Include="Helpers\ControlExt.cs" />
@@ -163,8 +164,8 @@
     <Compile Include="CodeGeneration\CSharp\NamespaceInfo.cs" />
     <Compile Include="CodeGeneration\CSharp\PropertyInfo.cs" />
     <Compile Include="CodeGeneration\CSharp\FieldInfo.cs" />
-    <Compile Include="GeneratedFile.cs" />
-    <Compile Include="GeneratedFragments.cs" />
+    <Compile Include="BarsGenerators\Generation\GeneratedFile.cs" />
+    <Compile Include="BarsGenerators\Generation\GeneratedFragments.cs" />
     <Compile Include="CodeGeneration\JavaScript\JsProperty.cs" />
     <Compile Include="BarsGenerators\MigrationGenerator.cs" />
     <Compile Include="BarsGenerators\NavigationGenerator.cs" />
@@ -205,8 +206,8 @@
     <Compile Include="EntityOptionsWindow.Designer.cs">
       <DependentUpon>EntityOptionsWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="GenerationManager.cs" />
-    <Compile Include="GenerationResult.cs" />
+    <Compile Include="BarsGenerators\Generation\GenerationManager.cs" />
+    <Compile Include="BarsGenerators\Generation\GenerationResult.cs" />
     <Compile Include="Helpers\CollectionExt.cs" />
     <Compile Include="Helpers\ProjectExt.cs" />
     <Compile Include="Guids.cs" />

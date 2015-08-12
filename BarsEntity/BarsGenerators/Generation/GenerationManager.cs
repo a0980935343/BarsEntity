@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 using EnvDTE;
 
-namespace Barsix.BarsEntity
+namespace Barsix.BarsEntity.BarsGenerators
 {
-    using BarsGenerators;
     using BarsOptions;
     using CodeGeneration.CSharp;
 
@@ -97,9 +96,7 @@ namespace Barsix.BarsEntity
             var result = new Dictionary<IBarsGenerator, ProjectItem>();
 
             Generate(options, generatorTypes);
-
-            Encoding encoding = Encoding.UTF8;
-
+            
             foreach (var file in _files.Where(x => generatorTypes.Contains(x.Key) && x.Value != null && x.Value.Any())
                 .SelectMany(x => x.Value)
                 .Where(x => x.Name != null))
@@ -110,7 +107,9 @@ namespace Barsix.BarsEntity
                 }
 
                 string fullPath = Path.Combine(_project.RootFolder(), file.Path ?? string.Empty, file.Name);
-                File.WriteAllText(fullPath, string.Join(Environment.NewLine, file.Body), encoding);
+                
+                File.WriteAllText(fullPath, string.Join(Environment.NewLine, file.Body), Encoding.UTF8);
+                
                 var projectItem = _project.ProjectItems.AddFromFile(fullPath);
 
                 foreach (Property prop in projectItem.Properties)

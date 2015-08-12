@@ -4,22 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Barsix.BarsEntity
+namespace Barsix.BarsEntity.BarsGenerators
 {
-    using BarsGenerators;
-
-    public class GeneratedFragments : IEnumerable<KeyValuePair<string, List<string>>>
+    public class GeneratedFragments : IEnumerable<KeyValuePair<string, List<GeneratedFragment>>>
     {
-        private Dictionary<string, List<string>> _lines = new Dictionary<string,List<string>>();
+        private Dictionary<string, List<GeneratedFragment>> _lines = new Dictionary<string, List<GeneratedFragment>>();
         
         public void AddLines(string fileName, IBarsGenerator source, List<string> lines)
         {
             if (!_lines.ContainsKey(fileName))
-                _lines.Add(fileName, new List<string>());
+                _lines.Add(fileName, new List<GeneratedFragment>());
 
-            _lines[fileName].Add("///   " + source.GetType().Name);
-            _lines[fileName].AddRange(lines);
-            _lines[fileName].Add("");
+            _lines[fileName].Add(new GeneratedFragment { Generator = source, Lines = lines });
         }
 
         public List<string> ToList()
@@ -29,14 +25,17 @@ namespace Barsix.BarsEntity
             foreach (var file in _lines)
             {
                 result.Add("///             " + file.Key);
-                result.AddRange(file.Value);
+                foreach (var fragment in file.Value)
+                {
+                    result.AddRange(fragment.GetStringList());
+                }
                 result.Add("///---------------------------------------------------------------------------");
                 result.Add("");
             }
             return result;
         }
 
-        public IEnumerator<KeyValuePair<string, List<string>>> GetEnumerator()
+        public IEnumerator<KeyValuePair<string, List<GeneratedFragment>>> GetEnumerator()
         {
             return _lines.GetEnumerator();
         }

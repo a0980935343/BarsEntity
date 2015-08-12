@@ -79,7 +79,8 @@ namespace Barsix.BarsEntity.BarsGenerators
                 file.Body.Add(" *     Вставьте в манифест строки ниже для регистрации новой сущности");
                 file.Body.Add(" */");
                 file.Body.Add("");
-                file.Body.AddRange(fragments.First(x => x.Key == "SignableEntitiesManifest.cs").Value);
+
+                fragments.First(x => x.Key == "SignableEntitiesManifest.cs").Value.ForEach(f =>{ file.Body.AddRange(f.Lines); } );
                 return files;
             }
         }

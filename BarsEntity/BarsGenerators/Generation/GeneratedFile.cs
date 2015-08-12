@@ -4,10 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Barsix.BarsEntity
+namespace Barsix.BarsEntity.BarsGenerators
 {
-    using BarsGenerators;
-
     public class GeneratedFile
     {
         public string Name;
