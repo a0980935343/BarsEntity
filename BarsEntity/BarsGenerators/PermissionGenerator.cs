@@ -12,17 +12,9 @@ namespace Barsix.BarsEntity.BarsGenerators
             base.Generate(project, options, fragments);
             var map = options.Permission;
             List<string> lines = new List<string>();
-
-
-            if (map.NeedNamespace)
-            {
-                lines.Add("Namespace(\"{0}\", \"{1}\");".F(map.Prefix, options.DisplayName));
-            }
-            else if (!map.SimpleCRUDMap)
-            {
-                lines.Add("Permission(\"{0}\", \"{1}\");".F(map.Prefix, options.DisplayName));
-            }
-
+            
+            lines.Add("Namespace(\"{0}\", \"{1}\");".F(map.Prefix, options.DisplayName));
+            
             if (map.SimpleCRUDMap)
             {
                 lines.Add("CRUDandViewPermissions(\"{0}\");".F(map.Prefix));

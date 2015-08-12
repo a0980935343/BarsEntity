@@ -241,7 +241,6 @@ namespace Barsix.BarsEntity
                 options.Permission = new PermissionOptions()
                 {
                     Prefix = tbpPrefix.Text,
-                    NeedNamespace = chpNeedNamespace.Checked,
                     SimpleCRUDMap = chpSimpleCRUDMap.Checked
                 };
             }
@@ -1013,7 +1012,6 @@ namespace Barsix.BarsEntity
             if (options.Permission != null)
             {
                 options.Map(tbpPrefix,        x => x.Permission.Prefix);
-                options.Map(chpNeedNamespace, x => x.Permission.NeedNamespace);
                 options.Map(chpSimpleCRUDMap, x => x.Permission.SimpleCRUDMap);
             }
 

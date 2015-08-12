@@ -65,6 +65,11 @@ namespace Barsix.BarsEntity
             this.lvMap = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chcCreate = new System.Windows.Forms.CheckBox();
+            this.chcDelete = new System.Windows.Forms.CheckBox();
+            this.chcList = new System.Windows.Forms.CheckBox();
+            this.chcUpdate = new System.Windows.Forms.CheckBox();
+            this.chcGet = new System.Windows.Forms.CheckBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tbEntityName = new System.Windows.Forms.TextBox();
             this.btnOk = new System.Windows.Forms.Button();
@@ -88,6 +93,8 @@ namespace Barsix.BarsEntity
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tbcName = new System.Windows.Forms.TextBox();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.label33 = new System.Windows.Forms.Label();
+            this.cbvViewType = new System.Windows.Forms.ComboBox();
             this.cbvTextProperty = new System.Windows.Forms.ComboBox();
             this.chvGroupField = new System.Windows.Forms.CheckBox();
             this.chvDynamicField = new System.Windows.Forms.CheckBox();
@@ -109,7 +116,6 @@ namespace Barsix.BarsEntity
             this.label18 = new System.Windows.Forms.Label();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.chpSimpleCRUDMap = new System.Windows.Forms.CheckBox();
-            this.chpNeedNamespace = new System.Windows.Forms.CheckBox();
             this.tbpPrefix = new System.Windows.Forms.TextBox();
             this.label23 = new System.Windows.Forms.Label();
             this.tabPage7 = new System.Windows.Forms.TabPage();
@@ -162,13 +168,6 @@ namespace Barsix.BarsEntity
             this.saveDialog = new System.Windows.Forms.SaveFileDialog();
             this.label32 = new System.Windows.Forms.Label();
             this.tbSubfolder = new System.Windows.Forms.TextBox();
-            this.chcCreate = new System.Windows.Forms.CheckBox();
-            this.chcDelete = new System.Windows.Forms.CheckBox();
-            this.chcList = new System.Windows.Forms.CheckBox();
-            this.chcUpdate = new System.Windows.Forms.CheckBox();
-            this.chcGet = new System.Windows.Forms.CheckBox();
-            this.cbvViewType = new System.Windows.Forms.ComboBox();
-            this.label33 = new System.Windows.Forms.Label();
             label16 = new System.Windows.Forms.Label();
             label12 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
@@ -194,6 +193,7 @@ namespace Barsix.BarsEntity
             label21 = new System.Windows.Forms.Label();
             groupBox3 = new System.Windows.Forms.GroupBox();
             tabPage2.SuspendLayout();
+            groupBox3.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -205,7 +205,6 @@ namespace Barsix.BarsEntity
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabGenerated.SuspendLayout();
-            groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // label16
@@ -510,6 +509,70 @@ namespace Barsix.BarsEntity
             label21.TabIndex = 13;
             label21.Text = "Свойства";
             // 
+            // groupBox3
+            // 
+            groupBox3.Controls.Add(this.chcCreate);
+            groupBox3.Controls.Add(this.chcDelete);
+            groupBox3.Controls.Add(this.chcList);
+            groupBox3.Controls.Add(this.chcUpdate);
+            groupBox3.Controls.Add(this.chcGet);
+            groupBox3.Location = new System.Drawing.Point(14, 50);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Size = new System.Drawing.Size(200, 195);
+            groupBox3.TabIndex = 8;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "override Actions";
+            // 
+            // chcCreate
+            // 
+            this.chcCreate.AutoSize = true;
+            this.chcCreate.Location = new System.Drawing.Point(23, 124);
+            this.chcCreate.Name = "chcCreate";
+            this.chcCreate.Size = new System.Drawing.Size(57, 17);
+            this.chcCreate.TabIndex = 12;
+            this.chcCreate.Text = "Create";
+            this.chcCreate.UseVisualStyleBackColor = true;
+            // 
+            // chcDelete
+            // 
+            this.chcDelete.AutoSize = true;
+            this.chcDelete.Location = new System.Drawing.Point(23, 101);
+            this.chcDelete.Name = "chcDelete";
+            this.chcDelete.Size = new System.Drawing.Size(57, 17);
+            this.chcDelete.TabIndex = 11;
+            this.chcDelete.Text = "Delete";
+            this.chcDelete.UseVisualStyleBackColor = true;
+            // 
+            // chcList
+            // 
+            this.chcList.AutoSize = true;
+            this.chcList.Location = new System.Drawing.Point(23, 32);
+            this.chcList.Name = "chcList";
+            this.chcList.Size = new System.Drawing.Size(42, 17);
+            this.chcList.TabIndex = 10;
+            this.chcList.Text = "List";
+            this.chcList.UseVisualStyleBackColor = true;
+            // 
+            // chcUpdate
+            // 
+            this.chcUpdate.AutoSize = true;
+            this.chcUpdate.Location = new System.Drawing.Point(23, 78);
+            this.chcUpdate.Name = "chcUpdate";
+            this.chcUpdate.Size = new System.Drawing.Size(61, 17);
+            this.chcUpdate.TabIndex = 9;
+            this.chcUpdate.Text = "Update";
+            this.chcUpdate.UseVisualStyleBackColor = true;
+            // 
+            // chcGet
+            // 
+            this.chcGet.AutoSize = true;
+            this.chcGet.Location = new System.Drawing.Point(23, 55);
+            this.chcGet.Name = "chcGet";
+            this.chcGet.Size = new System.Drawing.Size(43, 17);
+            this.chcGet.TabIndex = 8;
+            this.chcGet.Text = "Get";
+            this.chcGet.UseVisualStyleBackColor = true;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -782,6 +845,29 @@ namespace Barsix.BarsEntity
             this.tabPage4.Text = "View";
             this.tabPage4.UseVisualStyleBackColor = true;
             // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(385, 237);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(86, 13);
+            this.label33.TabIndex = 42;
+            this.label33.Text = "Представление";
+            // 
+            // cbvViewType
+            // 
+            this.cbvViewType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbvViewType.DropDownWidth = 200;
+            this.cbvViewType.FormattingEnabled = true;
+            this.cbvViewType.Items.AddRange(new object[] {
+            "js - EAS",
+            "js - B4",
+            "C# - только таблица"});
+            this.cbvViewType.Location = new System.Drawing.Point(477, 233);
+            this.cbvViewType.Name = "cbvViewType";
+            this.cbvViewType.Size = new System.Drawing.Size(136, 21);
+            this.cbvViewType.TabIndex = 41;
+            // 
             // cbvTextProperty
             // 
             this.cbvTextProperty.DropDownWidth = 250;
@@ -953,7 +1039,6 @@ namespace Barsix.BarsEntity
             // tabPage6
             // 
             this.tabPage6.Controls.Add(this.chpSimpleCRUDMap);
-            this.tabPage6.Controls.Add(this.chpNeedNamespace);
             this.tabPage6.Controls.Add(this.tbpPrefix);
             this.tabPage6.Controls.Add(this.label23);
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
@@ -967,22 +1052,12 @@ namespace Barsix.BarsEntity
             // chpSimpleCRUDMap
             // 
             this.chpSimpleCRUDMap.AutoSize = true;
-            this.chpSimpleCRUDMap.Location = new System.Drawing.Point(99, 69);
+            this.chpSimpleCRUDMap.Location = new System.Drawing.Point(99, 50);
             this.chpSimpleCRUDMap.Name = "chpSimpleCRUDMap";
             this.chpSimpleCRUDMap.Size = new System.Drawing.Size(156, 17);
             this.chpSimpleCRUDMap.TabIndex = 3;
             this.chpSimpleCRUDMap.Text = "Простые CRUD-операции";
             this.chpSimpleCRUDMap.UseVisualStyleBackColor = true;
-            // 
-            // chpNeedNamespace
-            // 
-            this.chpNeedNamespace.AutoSize = true;
-            this.chpNeedNamespace.Location = new System.Drawing.Point(99, 45);
-            this.chpNeedNamespace.Name = "chpNeedNamespace";
-            this.chpNeedNamespace.Size = new System.Drawing.Size(126, 17);
-            this.chpNeedNamespace.TabIndex = 2;
-            this.chpNeedNamespace.Text = "Cоздать namespace";
-            this.chpNeedNamespace.UseVisualStyleBackColor = true;
             // 
             // tbpPrefix
             // 
@@ -1508,93 +1583,6 @@ namespace Barsix.BarsEntity
             this.tbSubfolder.Size = new System.Drawing.Size(154, 20);
             this.tbSubfolder.TabIndex = 44;
             // 
-            // groupBox3
-            // 
-            groupBox3.Controls.Add(this.chcCreate);
-            groupBox3.Controls.Add(this.chcDelete);
-            groupBox3.Controls.Add(this.chcList);
-            groupBox3.Controls.Add(this.chcUpdate);
-            groupBox3.Controls.Add(this.chcGet);
-            groupBox3.Location = new System.Drawing.Point(14, 50);
-            groupBox3.Name = "groupBox3";
-            groupBox3.Size = new System.Drawing.Size(200, 195);
-            groupBox3.TabIndex = 8;
-            groupBox3.TabStop = false;
-            groupBox3.Text = "override Actions";
-            // 
-            // chcCreate
-            // 
-            this.chcCreate.AutoSize = true;
-            this.chcCreate.Location = new System.Drawing.Point(23, 124);
-            this.chcCreate.Name = "chcCreate";
-            this.chcCreate.Size = new System.Drawing.Size(57, 17);
-            this.chcCreate.TabIndex = 12;
-            this.chcCreate.Text = "Create";
-            this.chcCreate.UseVisualStyleBackColor = true;
-            // 
-            // chcDelete
-            // 
-            this.chcDelete.AutoSize = true;
-            this.chcDelete.Location = new System.Drawing.Point(23, 101);
-            this.chcDelete.Name = "chcDelete";
-            this.chcDelete.Size = new System.Drawing.Size(57, 17);
-            this.chcDelete.TabIndex = 11;
-            this.chcDelete.Text = "Delete";
-            this.chcDelete.UseVisualStyleBackColor = true;
-            // 
-            // chcList
-            // 
-            this.chcList.AutoSize = true;
-            this.chcList.Location = new System.Drawing.Point(23, 32);
-            this.chcList.Name = "chcList";
-            this.chcList.Size = new System.Drawing.Size(42, 17);
-            this.chcList.TabIndex = 10;
-            this.chcList.Text = "List";
-            this.chcList.UseVisualStyleBackColor = true;
-            // 
-            // chcUpdate
-            // 
-            this.chcUpdate.AutoSize = true;
-            this.chcUpdate.Location = new System.Drawing.Point(23, 78);
-            this.chcUpdate.Name = "chcUpdate";
-            this.chcUpdate.Size = new System.Drawing.Size(61, 17);
-            this.chcUpdate.TabIndex = 9;
-            this.chcUpdate.Text = "Update";
-            this.chcUpdate.UseVisualStyleBackColor = true;
-            // 
-            // chcGet
-            // 
-            this.chcGet.AutoSize = true;
-            this.chcGet.Location = new System.Drawing.Point(23, 55);
-            this.chcGet.Name = "chcGet";
-            this.chcGet.Size = new System.Drawing.Size(43, 17);
-            this.chcGet.TabIndex = 8;
-            this.chcGet.Text = "Get";
-            this.chcGet.UseVisualStyleBackColor = true;
-            // 
-            // cbvViewType
-            // 
-            this.cbvViewType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbvViewType.DropDownWidth = 200;
-            this.cbvViewType.FormattingEnabled = true;
-            this.cbvViewType.Items.AddRange(new object[] {
-            "js - EAS",
-            "js - B4",
-            "C# - только таблица"});
-            this.cbvViewType.Location = new System.Drawing.Point(477, 233);
-            this.cbvViewType.Name = "cbvViewType";
-            this.cbvViewType.Size = new System.Drawing.Size(136, 21);
-            this.cbvViewType.TabIndex = 41;
-            // 
-            // label33
-            // 
-            this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(385, 237);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(86, 13);
-            this.label33.TabIndex = 42;
-            this.label33.Text = "Представление";
-            // 
             // EntityOptionsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1623,6 +1611,8 @@ namespace Barsix.BarsEntity
             this.Text = "Создание Bars-объекта";
             tabPage2.ResumeLayout(false);
             tabPage2.PerformLayout();
+            groupBox3.ResumeLayout(false);
+            groupBox3.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -1642,8 +1632,6 @@ namespace Barsix.BarsEntity
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tabGenerated.ResumeLayout(false);
-            groupBox3.ResumeLayout(false);
-            groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1694,7 +1682,6 @@ namespace Barsix.BarsEntity
         private System.Windows.Forms.TextBox tbmLength;
         private System.Windows.Forms.CheckBox chvInline;
         private System.Windows.Forms.CheckBox chpSimpleCRUDMap;
-        private System.Windows.Forms.CheckBox chpNeedNamespace;
         private System.Windows.Forms.TextBox tbpPrefix;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.TextBox tbvNamespace;

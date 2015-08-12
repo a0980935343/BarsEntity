@@ -4,8 +4,6 @@
     {
         public string Prefix;
 
-        public bool NeedNamespace;
-
         public bool SimpleCRUDMap;
     }
 }
