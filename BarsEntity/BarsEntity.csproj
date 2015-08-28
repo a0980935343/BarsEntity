@@ -155,6 +155,7 @@
     <Compile Include="CodeGeneration\JavaScript\JsHelper.cs" />
     <Compile Include="Helpers\CodeClassExt.cs" />
     <Compile Include="Helpers\ControlExt.cs" />
+    <Compile Include="Helpers\EntityHelper.cs" />
     <Compile Include="Helpers\EntityOptionsExt.cs" />
     <Compile Include="CodeGeneration\CSharp\BaseCodeFragment.cs" />
     <Compile Include="CodeGeneration\CSharp\ClassInfo.cs" />

@@ -139,8 +139,7 @@ namespace Barsix.BarsEntity
 
             _project = project;
 
-            var parts = _project.DefaultNamespace().Split('.');
-            tbTableName.Text = parts[parts.Count() > 1 ? 1 : 0].ToUpper() + "_" + tbEntityName.Text.CamelToSnake();
+            tbTableName.Text = EntityHelper.TableNameByEntityName(tbEntityName.Text, _project.DefaultNamespace());
 
             _manager = new GenerationManager(_project);
             _manager.AddGenerator(new EntityGenerator());
@@ -614,13 +613,7 @@ namespace Barsix.BarsEntity
 
         private void tabPage2_Enter(object sender, EventArgs e)
         {
-            string converted = tbEntityName.Text.CamelToSnake();
-
-            if (converted != "" && tbTableName.Text == "")
-            {
-                var parts = _project.DefaultNamespace().Split('.');
-                tbTableName.Text = parts[ parts.Count() > 1 ? 1 : 0].ToUpper() + "_" + converted;
-            }
+            tbTableName.Text = EntityHelper.TableNameByEntityName(tbEntityName.Text, _project.DefaultNamespace());
             UpdateEditors();
         }
 
@@ -794,10 +787,13 @@ namespace Barsix.BarsEntity
                 }
                 else
                 {
-                    tbpPrefix.Text = _project.DefaultNamespace().Substring(5) + "." + tbEntityName.Text;
-                    tbcName.Text = tbEntityName.Text;
-                    tbTableName.Text = tbEntityName.Text.CamelToSnake();
-                    tbvNamespace.Text = _project.DefaultNamespace().Substring(5) + "." + tbEntityName.Text;
+                    var ns = _project.DefaultNamespace();
+                    var entityName = tbEntityName.Text;
+
+                    tbpPrefix.Text = ns.Substring(5) + "." + entityName;
+                    tbcName.Text = entityName;
+                    tbTableName.Text = EntityHelper.TableNameByEntityName(entityName, ns);
+                    tbvNamespace.Text = ns.Substring(5) + "." + entityName;
                     UpdateEditors();
                 }
             }

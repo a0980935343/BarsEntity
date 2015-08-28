@@ -107,7 +107,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                         var field = options.Fields[i];
                         up.Body.Add("        {0}{1}".F(field.ColumnName.ToLower(), i != options.Fields.Count - 1 ? "," : ""));
                     }
-                    up.Body.Add("    from dual");
+                    up.Body.Add("    from mosks_" + options.ClassName.Substring(0, options.ClassName.Length - 4).CamelToSnake().ToLower());
                     up.Body.Add("\");");
 
                     down.Body.Add("Database.ExecuteNonQuery(\"drop view {0}\");".F(options.TableName.ToLower()));
