@@ -295,6 +295,57 @@ namespace Barsix.BarsEntity
             return options;
         }
 
+        /// <summary>
+        /// Проверить настройки сущности и предложить дополнить/устранить возможные нестыковки
+        /// </summary>
+        private bool AnalyzeOptions(EntityOptions options)
+        {
+            // для View нет ссылки на основную сущность
+            if (options.ClassName.EndsWith("View"))
+            {
+                var viewEntity = options.ClassName.Substring(0, options.ClassName.Length - 4);
+
+                if (options.Fields.FirstOrDefault(f => (f.FieldName == f.TypeName) && (f.FieldName == viewEntity)) == null &&
+                    System.Windows.Forms.MessageBox.Show("В представлении нет ссылки на основную сущность (" + viewEntity + "). Добавить?",
+                        "Настройка свойств", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                {
+                    FieldOptions fopt = new FieldOptions();
+                    fopt.FieldName = viewEntity;
+                    fopt.TypeName = viewEntity;
+                    fopt.Collection = false;
+                    fopt.Enum = false;
+                    fopt.SetRelatedTypes();
+
+                    fopt.ColumnName = viewEntity.CamelToSnake() + "_ID";
+
+                    var parts = _project.DefaultNamespace().Split('.');
+                    fopt.ReferenceTable = (parts.Count() > 1 ? parts[1].ToUpper() + "_" : "") + viewEntity.CamelToSnake();
+
+                    fopt.DisplayName = "";
+                    fopt.OwnerReference = false;
+                    fopt.ParentReference = false;
+                    fopt.Nullable = false;
+
+                    var lvi = lvFields.Items.Insert(0, fopt.FieldName);
+                    lvi.SubItems.Add(fopt.TypeName);
+                    lvi.Tag = fopt;
+
+                    lvi = lvMap.Items.Add(fopt.FieldName);
+                    lvi.SubItems.Add(fopt.ColumnName);
+                    lvi.Tag = fopt;
+
+                    lvi = lvView.Items.Add(fopt.FieldName);
+                    lvi.SubItems.Add(fopt.ViewType + " / " + fopt.ViewColumnType);
+                    lvi.SubItems.Add(fopt.DisplayName);
+                    lvi.Tag = fopt;
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         private void btnOk_Click(object sender, EventArgs e)
         {
             EntityOptions options = null;
@@ -308,6 +359,12 @@ namespace Barsix.BarsEntity
                 return;
             }
 
+            if (AnalyzeOptions(options))
+            {
+                options = ComposeOptions();
+                UpdateListViews();
+            }
+
             if (File.Exists(Path.Combine(_project.RootFolder(), "Migrations\\Version_{0}\\UpdateSchema.cs".F(options.MigrationVersion))))
             {
                 MessageBox("Миграция с номером версии 'Version_{0}' уже существует! Измените версию.".F(options.MigrationVersion), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -316,21 +373,23 @@ namespace Barsix.BarsEntity
 
             ConfirmCreationParts confirmDialog = new ConfirmCreationParts();
 
+            var isView = options.ClassName.EndsWith("View");
+
             confirmDialog.chEntity.Checked = true;
             confirmDialog.chMap.Checked = !string.IsNullOrEmpty(options.TableName);
-            confirmDialog.chController.Checked = options.Controller != null;
+            confirmDialog.chController.Checked = !isView && options.Controller != null;
             confirmDialog.chMigration.Checked = !string.IsNullOrEmpty(options.TableName);
-            confirmDialog.chView.Checked = !string.IsNullOrEmpty(options.View.Namespace);
+            confirmDialog.chView.Checked = !isView && !string.IsNullOrEmpty(options.View.Namespace);
 
-            confirmDialog.chDomainService.Checked = confirmDialog.chDomainService.Enabled = options.DomainService != null;
-            confirmDialog.chDomainServiceInterceptor.Checked = confirmDialog.chDomainServiceInterceptor.Enabled = options.Interceptor != null;
+            confirmDialog.chDomainService.Checked = confirmDialog.chDomainService.Enabled = !isView && options.DomainService != null;
+            confirmDialog.chDomainServiceInterceptor.Checked = confirmDialog.chDomainServiceInterceptor.Enabled = !isView && options.Interceptor != null;
 
-            confirmDialog.chDynamicFilter.Enabled = confirmDialog.chDynamicFilter.Checked = options.View.DynamicFilter && options.Fields.Any(x => x.DynamicFilter);
+            confirmDialog.chDynamicFilter.Enabled = confirmDialog.chDynamicFilter.Checked = !isView && options.View.DynamicFilter && options.Fields.Any(x => x.DynamicFilter);
 
-            confirmDialog.chSignableEntitiesManifest.Checked = confirmDialog.chSignableEntitiesManifest.Enabled = options.Signable;
-            confirmDialog.chStatefulEntitiesManifest.Checked = confirmDialog.chStatefulEntitiesManifest.Enabled = options.Stateful;
-            
-            confirmDialog.chAuditLogMap.Checked = options.AuditLogMap;
+            confirmDialog.chSignableEntitiesManifest.Checked = confirmDialog.chSignableEntitiesManifest.Enabled = !isView && options.Signable;
+            confirmDialog.chStatefulEntitiesManifest.Checked = confirmDialog.chStatefulEntitiesManifest.Enabled = !isView && options.Stateful;
+
+            confirmDialog.chAuditLogMap.Checked = !isView && options.AuditLogMap;
 
             if (confirmDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -794,6 +853,16 @@ namespace Barsix.BarsEntity
                     tbcName.Text = entityName;
                     tbTableName.Text = EntityHelper.TableNameByEntityName(entityName, ns);
                     tbvNamespace.Text = ns.Substring(5) + "." + entityName;
+
+                    if (entityName.EndsWith("View"))
+                    {
+                        cbeBaseClass.Text = "PersitentObject";
+                    }
+                    else if (!entityName.EndsWith("View") && cbeBaseClass.Text == "PersitentObject")
+                    {
+                        cbeBaseClass.Text = "BaseEntity";
+                    }
+
                     UpdateEditors();
                 }
             }

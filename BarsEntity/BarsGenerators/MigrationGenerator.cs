@@ -56,7 +56,7 @@ namespace Barsix.BarsEntity.BarsGenerators
 
             if (!string.IsNullOrEmpty(options.TableName))
             {
-                if (!options.TableName.ToLower().EndsWith("_view"))
+                if (!options.ClassName.EndsWith("View"))
                 {
                     up.Body.Add("Database.AddEntityTable(\"{0}\",".F(options.TableName));
 
@@ -72,7 +72,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                         {
                             string col = "new Column(\"{0}\", ".F(field.ColumnName);
                             string dbType = "DbType." + (field.Enum ? "Int32" : TypeHelper.BasicStrongName(field.TypeName));
-                            if (field.TypeName ==  "string" && field.Length > 0)
+                            if (field.TypeName == "string" && field.Length > 0)
                                 dbType += ", " + field.Length;
 
                             col += dbType + ", ColumnProperty.{0}Null".F(field.Nullable ? "" : "Not");
@@ -94,14 +94,16 @@ namespace Barsix.BarsEntity.BarsGenerators
                 {
                     up.Body.Add("Database.ExecuteNonQuery(@\"create or replace view {0}".F(options.TableName.ToLower()));
                     up.Body.Add("    (");
+                    up.Body.Add("        id,");
                     for (int i = 0; i < options.Fields.Count; i++)
                     {
                         var field = options.Fields[i];
-                        up.Body.Add("        {0}{1}".F(field.ColumnName.ToLower(), i != options.Fields.Count-1 ? "," : ""));
+                        up.Body.Add("        {0}{1}".F(field.ColumnName.ToLower(), i != options.Fields.Count - 1 ? "," : ""));
                     }
                     up.Body.Add("    )");
                     up.Body.Add("    as");
                     up.Body.Add("    select");
+                    up.Body.Add("        id,");
                     for (int i = 0; i < options.Fields.Count; i++)
                     {
                         var field = options.Fields[i];
