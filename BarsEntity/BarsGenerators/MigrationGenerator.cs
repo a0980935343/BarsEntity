@@ -15,12 +15,12 @@ namespace Barsix.BarsEntity.BarsGenerators
             var files = base.Generate(project, options, fragments);
             var file = files.First();
 
-            string folderVersion = "Version_{0}".F(options.MigrationVersion);
+            string folderVersion = "Version_{0}".R(options.MigrationVersion);
             
             var ns = new NamespaceInfo();
             var cls = new ClassInfo();
             ns.NestedValues.Add(cls);
-            ns.Name = "{0}.Migrations.{1}".F(_project.DefaultNamespace, folderVersion);
+            ns.Name = _project.DefaultNamespace + ".Migrations." + folderVersion;
 
             ns.InnerUsing.Add("System.Data");
             ns.InnerUsing.Add("ECM7.Migrator.Framework");
@@ -30,7 +30,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             if (!long.TryParse(options.MigrationVersion.Replace("_", ""), out outV))
                 throw new Exception("Версия должна состоять только из цифр и символа '_'");
 
-            cls.Attributes.Add("Migration({0})".F(options.MigrationVersion.Replace("_", "")));
+            cls.Attributes.Add("Migration({0})".R(options.MigrationVersion.Replace("_", "")));
 
             cls.Name = "UpdateSchema";
             cls.BaseClass = "Migration";
@@ -58,7 +58,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             {
                 if (!options.ClassName.EndsWith("View"))
                 {
-                    up.Body.Add("Database.AddEntityTable(\"{0}\",".F(options.TableName));
+                    up.Body.Add("Database.AddEntityTable(\"{0}\",".R(options.TableName));
 
                     for (int i = 0; i < options.Fields.Count; i++)
                     {
@@ -66,16 +66,16 @@ namespace Barsix.BarsEntity.BarsGenerators
                         string ind = "    ";
                         if (field.IsReference())
                         {
-                            up.Body.Add(ind + "new RefColumn(\"{0}\", \"{1}\", \"{2}\", \"ID\")".F(field.ColumnName, field.Index, field.ReferenceTable) + (i < options.Fields.Count - 1 ? "," : ""));
+                            up.Body.Add(ind + "new RefColumn(\"{0}\", \"{1}\", \"{2}\", \"ID\")".R(field.ColumnName, field.Index, field.ReferenceTable) + (i < options.Fields.Count - 1 ? "," : ""));
                         }
                         else if (field.IsBasicType())
                         {
-                            string col = "new Column(\"{0}\", ".F(field.ColumnName);
+                            string col = "new Column(\"{0}\", ".R(field.ColumnName);
                             string dbType = "DbType." + (field.Enum ? "Int32" : TypeHelper.BasicStrongName(field.TypeName));
                             if (field.TypeName == "string" && field.Length > 0)
                                 dbType += ", " + field.Length;
 
-                            col += dbType + ", ColumnProperty.{0}Null".F(field.Nullable ? "" : "Not");
+                            col += dbType + ", ColumnProperty.{0}Null".R(field.Nullable ? "" : "Not");
                             if (field.DefaultValue != "")
                                 col += field.DefaultValue;
 
@@ -88,17 +88,17 @@ namespace Barsix.BarsEntity.BarsGenerators
                     }
                     up.Body.Add(");");
 
-                    down.Body.Add("Database.RemoveEntityTable(\"{0}\");".F(options.TableName));
+                    down.Body.Add("Database.RemoveEntityTable(\"{0}\");".R(options.TableName));
                 }
                 else // view
                 {
-                    up.Body.Add("Database.ExecuteNonQuery(@\"create or replace view {0}".F(options.TableName.ToLower()));
+                    up.Body.Add("Database.ExecuteNonQuery(@\"create or replace view {0}".R(options.TableName.ToLower()));
                     up.Body.Add("    (");
                     up.Body.Add("        id,");
                     for (int i = 0; i < options.Fields.Count; i++)
                     {
                         var field = options.Fields[i];
-                        up.Body.Add("        {0}{1}".F(field.ColumnName.ToLower(), i != options.Fields.Count - 1 ? "," : ""));
+                        up.Body.Add("        {0}{1}".R(field.ColumnName.ToLower(), i != options.Fields.Count - 1 ? "," : ""));
                     }
                     up.Body.Add("    )");
                     up.Body.Add("    as");
@@ -107,12 +107,12 @@ namespace Barsix.BarsEntity.BarsGenerators
                     for (int i = 0; i < options.Fields.Count; i++)
                     {
                         var field = options.Fields[i];
-                        up.Body.Add("        {0}{1}".F(field.ColumnName.ToLower(), i != options.Fields.Count - 1 ? "," : ""));
+                        up.Body.Add("        {0}{1}".R(field.ColumnName.ToLower(), i != options.Fields.Count - 1 ? "," : ""));
                     }
                     up.Body.Add("    from mosks_" + options.ClassName.Substring(0, options.ClassName.Length - 4).CamelToSnake().ToLower());
                     up.Body.Add("\");");
 
-                    down.Body.Add("Database.ExecuteNonQuery(\"drop view {0}\");".F(options.TableName.ToLower()));
+                    down.Body.Add("Database.ExecuteNonQuery(\"drop view {0}\");".R(options.TableName.ToLower()));
                 }
             }
 

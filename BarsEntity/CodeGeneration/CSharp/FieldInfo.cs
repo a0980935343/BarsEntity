@@ -27,11 +27,11 @@ namespace Barsix.BarsEntity.CodeGeneration.CSharp
             List<string> list = new List<string>();
 
             if (!string.IsNullOrEmpty(Summary))
-                list.Add("///<summary> {0} </summary>".F(Summary).Ind(indent));
+                list.Add("///<summary> {0} </summary>".R(Summary).Ind(indent));
 
-            Attributes.ForEach(a => list.Add("[{0}]".F(a).Ind(indent)));
+            Attributes.ForEach(a => list.Add("[{0}]".R(a).Ind(indent)));
 
-            list.Add("{0} {1}{2}{3} {4}{5} {6};".F(
+            list.Add("{0} {1}{2}{3} {4}{5} {6};".R(
                 Access, 
                 IsStatic ? "static ": IsConst ? "const " : "", 
                 IsReadOnly ? "readonly " : "", 

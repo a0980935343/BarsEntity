@@ -17,7 +17,7 @@ namespace Barsix.BarsEntity.BarsGenerators
 
             if (!File.Exists(Path.Combine(_project.RootFolder, "SignableEntitiesManifest.cs")))
             {
-                var ns = new NamespaceInfo { Name = "{0}.Domain".F(_project.DefaultNamespace) };
+                var ns = new NamespaceInfo { Name = _project.DefaultNamespace + ".Domain" };
                 ns.InnerUsing.Add("B4.Modules.DigitalSignature");
                 ns.InnerUsing.Add("Entities");
 
@@ -30,7 +30,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 {
                     Name = options.ClassName + "Id",
                     Type = "string",
-                    Value = "\"{0}\"".F(options.ClassFullName)
+                    Value = "\"{0}\"".R(options.ClassFullName)
                 })
                 .Public.Const;
 
@@ -46,7 +46,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 var getAllInfo = new MethodInfo { Name = "GetAllInfo", Type = "IEnumerable<SignableEntityInfo>" };
                 getAllInfo.Body.Add("return new[]");
                 getAllInfo.Body.Add("{");
-                getAllInfo.Body.Add("    new SignableEntityInfo({0}Id, \"{1}\", typeof({0}))".F(options.ClassName, options.DisplayName));
+                getAllInfo.Body.Add("    new SignableEntityInfo({0}Id, \"{1}\", typeof({0}))".R(options.ClassName, options.DisplayName));
                 getAllInfo.Body.Add("};");
                 cls.AddMethod(getAllInfo);
 
@@ -65,14 +65,14 @@ namespace Barsix.BarsEntity.BarsGenerators
                 {
                     Name = options.ClassName + "Id",
                     Type = "string",
-                    Value = "\"{0}\"".F(options.ClassFullName) 
+                    Value = "\"{0}\"".R(options.ClassFullName) 
                 })
                 .Public.Const.Generate(0).First();
 
                 fragments.AddLines("SignableEntitiesManifest.cs", this, new List<string> { 
                     field, 
                     "", 
-                    "    new SignableEntityInfo({0}Id, \"{1}\", typeof({0}))".F(options.ClassName, options.DisplayName) });
+                    "    new SignableEntityInfo({0}Id, \"{1}\", typeof({0}))".R(options.ClassName, options.DisplayName) });
 
                 file.Body.Add("/**");
                 file.Body.Add(" *     Файл SignableEntitiesManifest.cs уже есть в проекте");

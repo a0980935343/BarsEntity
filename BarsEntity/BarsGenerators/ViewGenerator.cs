@@ -112,7 +112,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                     }
                     else if (field.IsReference())
                     {
-                        col.AddScalar("renderer", "function (value) {{ if (!value) return ''; return value.{0}; }}".F(field.TextProperty));
+                        col.AddScalar("renderer", "function (value) {{ if (!value) return ''; return value.{0}; }}".R(field.TextProperty));
                     }
                     else
                     {
@@ -162,7 +162,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                         "",
                         Return(Ext.apply(new { __inline = true }, new
                         {
-                            selModel = Ext.create("Ext.selection.{0}Model".F(options.View.SelectionModel.StartsWith("Checkbox") ? "Checkbox" : "Row")),
+                            selModel = Ext.create("Ext.selection.{0}Model".R(options.View.SelectionModel.StartsWith("Checkbox") ? "Checkbox" : "Row")),
                             pagingEnabled = true,
                             rootVisible = false,
                             cls = "eas4-tree-wrap eas4-tree-noicon",
@@ -203,7 +203,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                         "",
                         Return(Ext.apply(new { __inline = true }, new
                         {
-                            selModel = Ext.create("Ext.selection.{0}Model".F(options.View.SelectionModel.StartsWith("Checkbox") ? "Checkbox" : "Row")),
+                            selModel = Ext.create("Ext.selection.{0}Model".R(options.View.SelectionModel.StartsWith("Checkbox") ? "Checkbox" : "Row")),
                             columns = columns,
                             store = Ext.create("EAS4.data.Store", new
                             {
@@ -426,7 +426,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             file.Properties.Add("BuildAction", 3);
 
             fragments.AddLines("ResourceManifest.cs", this, new List<string> { 
-                    "container.Add(\"scripts/modules/{3}.js\", \"{0}.dll/{0}.Views.{2}{1}.js\");".F(_project.DefaultNamespace, options.ClassName, options.IsDictionary ? "Dict." : "", options.View.Namespace)});
+                    "container.Add(\"scripts/modules/{3}.js\", \"{0}.dll/{0}.Views.{2}{1}.js\");".R(_project.DefaultNamespace, options.ClassName, options.IsDictionary ? "Dict." : "", options.View.Namespace)});
         }
         
         private JsFunctionCall EASGrid(EntityOptions options)
@@ -575,7 +575,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                     }
                     else if (field.IsReference())
                     {
-                        col.AddScalar("renderer", "function (value) {{ if (!value) return ''; return value.{0}; }}".F(field.TextProperty));
+                        col.AddScalar("renderer", "function (value) {{ if (!value) return ''; return value.{0}; }}".R(field.TextProperty));
                     }
                     else
                     {
@@ -868,7 +868,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 var signHandler = function("",
                     "this.components.signatureWindow.grid = this.components.grid;",
                     "this.components.signatureWindow.editWnd = this.components.editWindow;",
-                    "this.components.signatureWindow.show(this.components.editWindow.objectId.value, this.entityTypeId, 'Подпись {0}');".F(options.DisplayName)
+                    "this.components.signatureWindow.show(this.components.editWindow.objectId.value, this.entityTypeId, 'Подпись {0}');".R(options.DisplayName)
                 );
                 extendParams.Add("onSignButtonClick", signHandler);
             }
@@ -885,20 +885,20 @@ namespace Barsix.BarsEntity.BarsGenerators
             var ns = new NamespaceInfo();
             var cls = new ClassInfo();
 
-            ns.Name = "{0}.ViewModels".F(_project.DefaultNamespace);
+            ns.Name = "{0}.ViewModels".R(_project.DefaultNamespace);
 
             ns.InnerUsing.Add("B4");
             ns.InnerUsing.Add("B4.Modules.Templates");
-            ns.InnerUsing.Add("{0}.Entities".F(_project.DefaultNamespace));
+            ns.InnerUsing.Add("{0}.Entities".R(_project.DefaultNamespace));
 
             ns.NestedValues.Add(cls);
 
-            cls.Name = "{0}ViewModel".F(options.ClassName);
-            cls.BaseClass = "ViewModel<{0}>".F(options.ClassName);
+            cls.Name = "{0}ViewModel".R(options.ClassName);
+            cls.BaseClass = "ViewModel<{0}>".R(options.ClassName);
 
             _knownTypes.Add("ViewModel");
             _knownTypes.Add(options.ClassName);
-            _knownTypes.Add("{0}ViewModel".F(options.ClassName));
+            _knownTypes.Add("{0}ViewModel".R(options.ClassName));
 
             var ctor = new MethodInfo()
             {
@@ -906,19 +906,19 @@ namespace Barsix.BarsEntity.BarsGenerators
                 Name = cls.Name
             };
 
-            ctor.Body.Add("View(\"{0}\".Localize());".F(options.DisplayName));
+            ctor.Body.Add("View(\"{0}\".Localize());".R(options.DisplayName));
 
             foreach (var field in options.Fields)
             {
-                ctor.Body.Add("Property(x => x.{0}, \"{1}\".Localize());".F(field.FieldName, field.DisplayName));
+                ctor.Body.Add("Property(x => x.{0}, \"{1}\".Localize());".R(field.FieldName, field.DisplayName));
             }
-            ctor.Body.Add("Controller(\"{0}\");".F(controllerOpts.Name));
+            ctor.Body.Add("Controller(\"{0}\");".R(controllerOpts.Name));
             ctor.Body.Add("InlineEdit();");
 
             cls.AddMethod(ctor);
 
             fragments.AddLines("ResourceManifest.cs", this, new List<string> { 
-                    "container.Add(\"scripts/modules/{0}.{1}.js\", new GridPageView<{1}ViewModel>());".F(_project.DefaultNamespace, options.ClassName, options.IsDictionary ? "Dict." : "")});
+                    "container.Add(\"scripts/modules/{0}.{1}.js\", new GridPageView<{1}ViewModel>());".R(_project.DefaultNamespace, options.ClassName, options.IsDictionary ? "Dict." : "")});
 
             file.Name = options.ClassName + "ViewModel.cs";
             file.Path = "ViewModels\\" + (options.IsDictionary ? "Dict\\" : "");
@@ -928,7 +928,7 @@ namespace Barsix.BarsEntity.BarsGenerators
         #region js/extJs/EAS helpers
         private JsScalar lc(string localString, string name = "")
         { 
-            return new JsScalar{ Name = name, Value = "lc('{0}')".F(localString) };
+            return new JsScalar{ Name = name, Value = "lc('{0}')".R(localString) };
         }
 
         private JsFunction function(string @params, params object[] body)

@@ -16,7 +16,7 @@ namespace Barsix.BarsEntity.BarsGenerators
 
             var ns = new NamespaceInfo() { Name = _project.DefaultNamespace + ".DynamicFilterableEntities" };
             var cls = new ClassInfo {
-                Name = "Filterable{0}".F(options.ClassName),
+                Name = "Filterable" + options.ClassName,
                 BaseClass = "BaseFilterableEntity"
             };
             ns.NestedValues.Add(cls);
@@ -45,7 +45,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 IsOverride = true,
                 IsVirtual = false,
                 AutoProperty = false,
-                Getter = new List<string> {  "return typeof({0}).Name;".F(options.ClassName) }
+                Getter = new List<string> {  "return typeof({0}).Name;".R(options.ClassName) }
             };
 
             var displayEntityName = new PropertyInfo
@@ -55,7 +55,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 IsOverride = true,
                 IsVirtual = false,
                 AutoProperty = false,
-                Getter = new List<string> { "return \"{0}\";".F(options.DisplayName) }
+                Getter = new List<string> { "return \"{0}\";".R(options.DisplayName) }
             };
 
             var entityAttributes = new MethodInfo
@@ -76,9 +76,9 @@ namespace Barsix.BarsEntity.BarsGenerators
 
                 entityAttributes.Body.Add("    new EntityAttribute");
                 entityAttributes.Body.Add("    {");
-                entityAttributes.Body.Add("        PropertyName = \"{0}\",".F(field.FieldName));
-                entityAttributes.Body.Add("        Name = \"{0}\",".F(field.DisplayName));
-                entityAttributes.Body.Add("        TypeId = {0}EntityAttributeType.UniqueId,".F(field.DynamicFilterType));
+                entityAttributes.Body.Add("        PropertyName = \"{0}\",".R(field.FieldName));
+                entityAttributes.Body.Add("        Name = \"{0}\",".R(field.DisplayName));
+                entityAttributes.Body.Add("        TypeId = {0}EntityAttributeType.UniqueId,".R(field.DynamicFilterType));
 
                 _knownTypes.Add(field.DynamicFilterType + "EntityAttributeType");
 
@@ -86,7 +86,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 { 
                     entityAttributes.Body.Add("        UserParameter = new PersistentObjectUserParameter");
                     entityAttributes.Body.Add("        {");
-                    entityAttributes.Body.Add("            SelectFieldConfig = new SimpleSelectFieldConfig(\"{0}\")".F(field.TypeName));
+                    entityAttributes.Body.Add("            SelectFieldConfig = new SimpleSelectFieldConfig(\"{0}\")".R(field.TypeName));
                     entityAttributes.Body.Add("            {");
                     entityAttributes.Body.Add("                selectWindowConfig = new");
                     entityAttributes.Body.Add("                {");
@@ -101,8 +101,8 @@ namespace Barsix.BarsEntity.BarsGenerators
                 }
 
 
-                entityAttributes.Body.Add("        InitExpression = ((Expression<Func<{0}, {1}>>) (x => x.{2}{3}))".F(options.ClassName, field.IsReference() ? "long" : field.FullTypeName, field.FieldName, field.IsReference() ? ".Id" : ""));
-                entityAttributes.Body.Add("    }}{0}".F(i < fields.Count-1 ? "," : "" ));
+                entityAttributes.Body.Add("        InitExpression = ((Expression<Func<{0}, {1}>>) (x => x.{2}{3}))".R(options.ClassName, field.IsReference() ? "long" : field.FullTypeName, field.FieldName, field.IsReference() ? ".Id" : ""));
+                entityAttributes.Body.Add("    }}{0}".R(i < fields.Count-1 ? "," : "" ));
             }
             entityAttributes.Body.Add("};");
             entityAttributes.Body.Add("return result;");
@@ -112,9 +112,9 @@ namespace Barsix.BarsEntity.BarsGenerators
             cls.AddMethod(entityAttributes);
 
             fragments.AddLines("Module.cs", this, new List<string>{ 
-                "Container.Register(Component.For<IDynamicFilterable>().ImplementedBy<Filterable{0}>().Named(\"{0}\"));".F(options.ClassName),
-                "Container.Register(Component.For<IDomainServiceReadInterceptor<{0}>>().ImplementedBy<DynamicFilterDomainServiceReadInterceptor<{0}>>().LifeStyle.Transient);".F(options.ClassName),
-                "Container.Register(Component.For<IDomainServiceReadInterceptor<{0}>>().ImplementedBy<RuleLimitingAccessDomainServiceReadInterceptor<{0}>>().LifeStyle.Transient);".F(options.ClassName)
+                "Container.Register(Component.For<IDynamicFilterable>().ImplementedBy<Filterable{0}>().Named(\"{0}\"));".R(options.ClassName),
+                "Container.Register(Component.For<IDomainServiceReadInterceptor<{0}>>().ImplementedBy<DynamicFilterDomainServiceReadInterceptor<{0}>>().LifeStyle.Transient);".R(options.ClassName),
+                "Container.Register(Component.For<IDomainServiceReadInterceptor<{0}>>().ImplementedBy<RuleLimitingAccessDomainServiceReadInterceptor<{0}>>().LifeStyle.Transient);".R(options.ClassName)
             });
             
             file.Name = "Filterable" + options.ClassName + "Map.cs";

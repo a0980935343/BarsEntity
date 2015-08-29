@@ -33,7 +33,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             if (options.Fields.Any(x => x.Collection))
                 ns.OuterUsing.Add("Newtonsoft.Json");
 
-            ns.Name = "{0}.Entities".F(_project.DefaultNamespace);
+            ns.Name = _project.DefaultNamespace + ".Entities";
 
             if (options.BaseClass == "NamedBaseEntity")
             {
@@ -87,7 +87,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 pi.Type = field.FullTypeName;
 
                 if (options.Signable && pi.Attributes.Count == 0)
-                    pi.Attributes.Add("DigitalSignature(\"{0}\")".F(pi.Name));
+                    pi.Attributes.Add("DigitalSignature(\"{0}\")".R(pi.Name));
 
                 cls.AddProperty(pi);
 

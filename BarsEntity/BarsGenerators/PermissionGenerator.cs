@@ -13,22 +13,22 @@ namespace Barsix.BarsEntity.BarsGenerators
             var map = options.Permission;
             List<string> lines = new List<string>();
             
-            lines.Add("Namespace(\"{0}\", \"{1}\");".F(map.Prefix, options.DisplayName));
+            lines.Add("Namespace(\"{0}\", \"{1}\");".R(map.Prefix, options.DisplayName));
             
             if (map.SimpleCRUDMap)
             {
-                lines.Add("CRUDandViewPermissions(\"{0}\");".F(map.Prefix));
+                lines.Add("CRUDandViewPermissions(\"{0}\");".R(map.Prefix));
             }
             else
             {
-                lines.Add("Permission(\"{0}.View\", \"Просмотр\");".F(map.Prefix));
-                lines.Add("Permission(\"{0}.Edit\", \"Изменение записей\");".F(map.Prefix));
-                lines.Add("Permission(\"{0}.Create\", \"Создание записей\");".F(map.Prefix));
-                lines.Add("Permission(\"{0}.Delete\", \"Удаление записей\");".F(map.Prefix));
+                lines.Add("Permission(\"{0}.View\", \"Просмотр\");".R(map.Prefix));
+                lines.Add("Permission(\"{0}.Edit\", \"Изменение записей\");".R(map.Prefix));
+                lines.Add("Permission(\"{0}.Create\", \"Создание записей\");".R(map.Prefix));
+                lines.Add("Permission(\"{0}.Delete\", \"Удаление записей\");".R(map.Prefix));
             }
 
             if (options.Signable)
-                lines.Add("Permission(\"{0}.Sign\", \"Подписание документа\");".F(map.Prefix));
+                lines.Add("Permission(\"{0}.Sign\", \"Подписание документа\");".R(map.Prefix));
 
             fragments.AddLines("PermissionMap/PermissionMap.cs", this, lines);
             return null;

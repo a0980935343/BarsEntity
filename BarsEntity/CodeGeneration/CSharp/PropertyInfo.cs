@@ -27,20 +27,20 @@ namespace Barsix.BarsEntity.CodeGeneration.CSharp
             List<string> list = new List<string>();
 
             if (!string.IsNullOrEmpty(Summary))
-                list.Add("///<summary> {0} </summary>".F(Summary).Ind(indent));
+                list.Add("///<summary> {0} </summary>".R(Summary).Ind(indent));
 
-            Attributes.ForEach(a => list.Add("[{0}]".F(a).Ind(indent)));
+            Attributes.ForEach(a => list.Add("[{0}]".R(a).Ind(indent)));
             if (AutoProperty)
-                list.Add("{5} {0}{3}{1} {2}{4}".F(IsVirtual ? "virtual " : IsOverride ? "override " : "", Type, Name, IsNullable ? "?" : "", AutoProperty ? " {{ {0} {1} }}".F(Getter != null ? Getter.First() + "get;" : "", Setter != null ? Setter.First() + "set;" : "") : ";", Access).Ind(indent));
+                list.Add("{5} {0}{3}{1} {2}{4}".R(IsVirtual ? "virtual " : IsOverride ? "override " : "", Type, Name, IsNullable ? "?" : "", AutoProperty ? " {{ {0} {1} }}".R(Getter != null ? Getter.First() + "get;" : "", Setter != null ? Setter.First() + "set;" : "") : ";", Access).Ind(indent));
             else
             {
-                list.Add("{4} {0}{3}{1} {2}".F(IsVirtual ? "virtual " : IsOverride ? "override " : "", Type, Name, IsNullable ? "?" : "", Access).Ind(indent));
+                list.Add("{4} {0}{3}{1} {2}".R(IsVirtual ? "virtual " : IsOverride ? "override " : "", Type, Name, IsNullable ? "?" : "", Access).Ind(indent));
                 list.Add("{".Ind(indent));
 
                 if (Getter != null)
                 {
                     if (Getter.Count == 1)
-                        list.Add("get {{ {0} }}".F(Getter.First()).Ind(indent + 1));
+                        list.Add("get {{ {0} }}".R(Getter.First()).Ind(indent + 1));
                     else
                     {
                         list.Add("get".Ind(indent + 1));
@@ -56,7 +56,7 @@ namespace Barsix.BarsEntity.CodeGeneration.CSharp
                 if (Setter != null)
                 {
                     if (Setter.Count == 1)
-                        list.Add("set {{ {0} }}".F(Setter.First()).Ind(indent + 1));
+                        list.Add("set {{ {0} }}".R(Setter.First()).Ind(indent + 1));
                     else
                     {
                         list.Add("set".Ind(indent + 1));

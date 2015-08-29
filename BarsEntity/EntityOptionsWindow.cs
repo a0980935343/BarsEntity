@@ -136,7 +136,7 @@ namespace Barsix.BarsEntity
         private Project _project;
         public void SetProject(Project project)
         {
-            Text = "Создание Bars-объекта ({0})".F(project.Name);
+            Text = "Создание Bars-объекта ({0})".R(project.Name);
 
             _project = project;
 
@@ -368,9 +368,9 @@ namespace Barsix.BarsEntity
                 UpdateListViews();
             }
 
-            if (File.Exists(Path.Combine(_project.RootFolder(), "Migrations\\Version_{0}\\UpdateSchema.cs".F(options.MigrationVersion))))
+            if (File.Exists(Path.Combine(_project.RootFolder(), "Migrations\\Version_{0}\\UpdateSchema.cs".R(options.MigrationVersion))))
             {
-                MessageBox("Миграция с номером версии 'Version_{0}' уже существует! Измените версию.".F(options.MigrationVersion), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox("Миграция с номером версии 'Version_{0}' уже существует! Измените версию.".R(options.MigrationVersion), "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -539,7 +539,7 @@ namespace Barsix.BarsEntity
                 {
                     if (((FieldOptions)item.Tag).FieldName == tbeName.Text)
                     {
-                        MessageBox("Свойство {0} уже существует".F(tbeName.Text), "Ошибка");
+                        MessageBox("Свойство {0} уже существует".R(tbeName.Text), "Ошибка");
                         return;
                     }
                 }
@@ -831,7 +831,7 @@ namespace Barsix.BarsEntity
         {
             if (checkBox.Checked && !_project.HasReference(reference))
             {
-                MessageBox("В проекте нет ссылки на {0}!".F(reference), "Зависимости");
+                MessageBox("В проекте нет ссылки на {0}!".R(reference), "Зависимости");
             }
         }
 
@@ -883,7 +883,7 @@ namespace Barsix.BarsEntity
                 {
                     if (((FieldOptions)lvi.Tag).OwnerReference && ((FieldOptions)lvi.Tag).FieldName != tbeName.Text) 
                     {
-                        MessageBox("Поле {0} уже назначено ссылкой на владельца!".F(((FieldOptions)lvi.Tag).FieldName), "Предупреждение");
+                        MessageBox("Поле {0} уже назначено ссылкой на владельца!".R(((FieldOptions)lvi.Tag).FieldName), "Предупреждение");
                         cheOwnerReference.Checked = false;
                         break;
                     }
@@ -910,7 +910,7 @@ namespace Barsix.BarsEntity
                 {
                     if (((FieldOptions)lvi.Tag).ParentReference && ((FieldOptions)lvi.Tag).FieldName != tbeName.Text)
                     {
-                        MessageBox("Поле {0} уже назначено ссылкой на родителя!".F(((FieldOptions)lvi.Tag).FieldName), "Предупреждение");
+                        MessageBox("Поле {0} уже назначено ссылкой на родителя!".R(((FieldOptions)lvi.Tag).FieldName), "Предупреждение");
                         cheParentReference.Checked = false;
                         break;
                     }
@@ -948,14 +948,14 @@ namespace Barsix.BarsEntity
                 {
                     if (((FieldOptions)lvi.Tag).GroupField && ((FieldOptions)lvi.Tag).FieldName != tbvViewName.Text)
                     {
-                        MessageBox("Поле {0} уже назначено группировкой таблицы!".F(((FieldOptions)lvi.Tag).FieldName), "Предупреждение");
+                        MessageBox("Поле {0} уже назначено группировкой таблицы!".R(((FieldOptions)lvi.Tag).FieldName), "Предупреждение");
                         chvGroupField.Checked = false;
                         break;
                     }
 
                     if (((FieldOptions)lvi.Tag).ParentReference)
                     {
-                        MessageBox("Группировка невозможна в иерархической таблице!".F(((FieldOptions)lvi.Tag).FieldName), "Предупреждение");
+                        MessageBox("Группировка невозможна в иерархической таблице!", "Предупреждение");
                         chvGroupField.Checked = false;
                         break;
                     }

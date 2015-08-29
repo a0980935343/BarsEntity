@@ -41,9 +41,9 @@ namespace Barsix.BarsEntity.CodeGeneration.CSharp
             
 
             if (!string.IsNullOrEmpty(Summary))
-                list.Add("///<summary> {0} </summary>".F(Summary).Ind(indent));
+                list.Add("///<summary> {0} </summary>".R(Summary).Ind(indent));
 
-            Attributes.ForEach(a => list.Add("[{0}]".F(a).Ind(indent)));
+            Attributes.ForEach(a => list.Add("[{0}]".R(a).Ind(indent)));
 
             List<string> baseTypes = new List<string>();
             if (!string.IsNullOrEmpty(BaseClass))
@@ -51,7 +51,7 @@ namespace Barsix.BarsEntity.CodeGeneration.CSharp
 
             baseTypes.AddRange(Interfaces);
 
-            list.Add("{2}{3} class {0}{1}".F(Name, (!baseTypes.Any() ? "" : " : " + string.Join(", ", baseTypes)), Access, IsStatic ? "static " : "").Ind(indent));
+            list.Add("{2}{3} class {0}{1}".R(Name, (!baseTypes.Any() ? "" : " : " + string.Join(", ", baseTypes)), Access, IsStatic ? "static " : "").Ind(indent));
             list.Add("{".Ind(indent));
 
             Fields.ToList().ForEach(x =>

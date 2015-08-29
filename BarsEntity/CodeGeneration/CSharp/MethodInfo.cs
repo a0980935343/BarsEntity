@@ -28,11 +28,11 @@ namespace Barsix.BarsEntity.CodeGeneration.CSharp
             List<string> list = new List<string>();
 
             if (!string.IsNullOrEmpty(Summary))
-                list.Add("///<summary> {0} </summary>".F(Summary).Ind(indent));
+                list.Add("///<summary> {0} </summary>".R(Summary).Ind(indent));
 
-            Attributes.ForEach(a => list.Add("[{0}]".F(a).Ind(indent)));
+            Attributes.ForEach(a => list.Add("[{0}]".R(a).Ind(indent)));
 
-            list.Add("{5} {0}{1}{2}({3}){4}".F(IsOverride ? "override " : "", IsConstructor ? "" : (Type + " "), Name, Params, !string.IsNullOrEmpty(SignatureParams) ? " : " + SignatureParams : "", Access).Ind(indent));
+            list.Add("{5} {0}{1}{2}({3}){4}".R(IsOverride ? "override " : "", IsConstructor ? "" : (Type + " "), Name, Params, !string.IsNullOrEmpty(SignatureParams) ? " : " + SignatureParams : "", Access).Ind(indent));
             list.Add("{".Ind(indent));
 
             Body.ForEach(b => list.Add(b.Ind(indent+1)));

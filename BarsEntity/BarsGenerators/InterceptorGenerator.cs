@@ -19,7 +19,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             var cls = new ClassInfo
             {
                 Name = options.ClassName + "DomainServiceInterceptor",
-                BaseClass = "EmptyDomainInterceptor<{0}>".F(options.ClassName)
+                BaseClass = "EmptyDomainInterceptor<{0}>".R(options.ClassName)
             };
             ns.NestedValues.Add(cls);
             ns.InnerUsing.Add("B4");
@@ -42,11 +42,11 @@ namespace Barsix.BarsEntity.BarsGenerators
             {
                 var action = new MethodInfo 
                 { 
-                    Name = "{0}Action".F(methodName), 
+                    Name = methodName + "Action", 
                     Type = "IDataResult", 
                     IsOverride = true,
-                    Params = "IDomainService<{0}> service, {0} entity".F(options.ClassName),
-                    Body = new List<string> { "return base.{0}Action(service, entity);".F(methodName) }
+                    Params = "IDomainService<{0}> service, {0} entity".R(options.ClassName),
+                    Body = new List<string> { "return base.{0}Action(service, entity);".R(methodName) }
                 };
 
                 if (options.Stateful && methodName == "BeforeCreate")
@@ -61,7 +61,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             }
 
             fragments.AddLines("Module.cs", this, new List<string> { 
-                "Container.Register(Component.For<IDomainServiceInterceptor<{0}>>().ImplementedBy<{0}DomainServiceInterceptor>().LifeStyle.Transient);".F(options.ClassName)});
+                "Container.Register(Component.For<IDomainServiceInterceptor<{0}>>().ImplementedBy<{0}DomainServiceInterceptor>().LifeStyle.Transient);".R(options.ClassName)});
                         
             file.Name = options.ClassName + "DomainServiceInterceptor.cs";
             file.Path = (Directory.Exists(Path.Combine(_project.RootFolder, "DomainService")) ? "DomainService" : "DomainServices") + (!string.IsNullOrWhiteSpace(options.Subfolder) ? "\\" + options.Subfolder : "");

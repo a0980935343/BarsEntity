@@ -15,11 +15,11 @@ namespace Barsix.BarsEntity.BarsGenerators
             var files = base.Generate(project, options, fragments);
             var file = files.First();
 
-            var ns = new NamespaceInfo() { Name = "{0}.DomainServices".F(_project.DefaultNamespace) };
+            var ns = new NamespaceInfo() { Name = _project.DefaultNamespace + ".DomainServices" };
             var cls = new ClassInfo
             {
                 Name = options.ClassName + "DomainService",
-                BaseClass = "{0}DomainService<{1}>".F((options.AcceptFiles ? "FileStorage" : "Base"), options.ClassName)
+                BaseClass = "{0}DomainService<{1}>".R((options.AcceptFiles ? "FileStorage" : "Base"), options.ClassName)
             };
             ns.NestedValues.Add(cls);
             ns.OuterUsing.Add("System");
@@ -52,7 +52,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                     Params = "BaseParams baseParams"
                 };
 
-                mi.Body.Add("var values = new List<{0}>();".F(options.ClassName));
+                mi.Body.Add("var values = new List<{0}>();".R(options.ClassName));
 
                 mi.Body.Add("InTransaction(() =>");
                 mi.Body.Add("{");
@@ -79,11 +79,11 @@ namespace Barsix.BarsEntity.BarsGenerators
                     Access = "protected",
                     Name = "SaveInternal",
                     Type = "void",
-                    Params = "{0} value".F(options.ClassName)
+                    Params = "{0} value".R(options.ClassName)
                 };
 
                 mi.Body.Add("IDataResult result;");
-                mi.Body.Add("var interceptors = Container.ResolveAll<IDomainServiceInterceptor<{0}>>();".F(options.ClassName));
+                mi.Body.Add("var interceptors = Container.ResolveAll<IDomainServiceInterceptor<{0}>>();".R(options.ClassName));
                 mi.Body.Add("foreach (var interceptor in interceptors)");
                 mi.Body.Add("{");
                 mi.Body.Add("    result = interceptor.BeforeCreateAction(this, value);");
@@ -117,7 +117,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                     Params = "BaseParams baseParams"
                 };
 
-                mi.Body.Add("var values = new List<{0}>();".F(options.ClassName));
+                mi.Body.Add("var values = new List<{0}>();".R(options.ClassName));
 
                 mi.Body.Add("InTransaction(() =>");
                 mi.Body.Add("{");
@@ -144,11 +144,11 @@ namespace Barsix.BarsEntity.BarsGenerators
                     Access = "protected",
                     Name = "UpdateInternal",
                     Type = "void",
-                    Params = "{0} value".F(options.ClassName)
+                    Params = "{0} value".R(options.ClassName)
                 };
 
                 mi.Body.Add("IDataResult result;");
-                mi.Body.Add("var interceptors = Container.ResolveAll<IDomainServiceInterceptor<{0}>>();".F(options.ClassName));
+                mi.Body.Add("var interceptors = Container.ResolveAll<IDomainServiceInterceptor<{0}>>();".R(options.ClassName));
                 mi.Body.Add("foreach (var interceptor in interceptors)");
                 mi.Body.Add("{");
                 mi.Body.Add("    result = interceptor.BeforeUpdateAction(this, value);");
@@ -207,8 +207,8 @@ namespace Barsix.BarsEntity.BarsGenerators
                 }).Protected.Override;
 
                 mi.Body.Add("IDataResult result;");
-                mi.Body.Add("var value = Container.Resolve<IDomainService<{0}>>().Get((long)id);".F(options.ClassName));
-                mi.Body.Add("var interceptors = Container.ResolveAll<IDomainServiceInterceptor<{0}>>();".F(options.ClassName));
+                mi.Body.Add("var value = Container.Resolve<IDomainService<{0}>>().Get((long)id);".R(options.ClassName));
+                mi.Body.Add("var interceptors = Container.ResolveAll<IDomainServiceInterceptor<{0}>>();".R(options.ClassName));
                 mi.Body.Add("foreach (var interceptor in interceptors)");
                 mi.Body.Add("{");
                 mi.Body.Add("    result = interceptor.BeforeDeleteAction(this, value);");
@@ -233,7 +233,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             }
 
             fragments.AddLines("Module.cs", this, new List<string> { 
-                "Container.RegisterDomain<{0}DomainService>();".F(options.ClassName)});
+                "Container.RegisterDomain<{0}DomainService>();".R(options.ClassName)});
 
             file.Name = options.ClassName + "DomainService.cs";
             file.Path = (Directory.Exists(Path.Combine(_project.RootFolder, "DomainService")) ? "DomainService" : "DomainServices") + (!string.IsNullOrWhiteSpace(options.Subfolder) ? "\\"+ options.Subfolder : "");
