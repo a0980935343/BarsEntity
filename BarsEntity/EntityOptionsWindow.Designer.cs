@@ -76,6 +76,7 @@ namespace Barsix.BarsEntity
             this.btnOk = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tbeType = new System.Windows.Forms.ComboBox();
             this.cheEnum = new System.Windows.Forms.CheckBox();
             this.btnDown = new System.Windows.Forms.Button();
             this.btnUp = new System.Windows.Forms.Button();
@@ -85,7 +86,6 @@ namespace Barsix.BarsEntity
             this.tbeComment = new System.Windows.Forms.TextBox();
             this.cheParentReference = new System.Windows.Forms.CheckBox();
             this.btnUpsertEntityField = new System.Windows.Forms.Button();
-            this.tbeType = new System.Windows.Forms.TextBox();
             this.tbeName = new System.Windows.Forms.TextBox();
             this.cheOwnerReference = new System.Windows.Forms.CheckBox();
             this.lvFields = new System.Windows.Forms.ListView();
@@ -634,6 +634,7 @@ namespace Barsix.BarsEntity
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.tbeType);
             this.tabPage1.Controls.Add(this.cheEnum);
             this.tabPage1.Controls.Add(this.btnDown);
             this.tabPage1.Controls.Add(this.btnUp);
@@ -645,7 +646,6 @@ namespace Barsix.BarsEntity
             this.tabPage1.Controls.Add(this.cheParentReference);
             this.tabPage1.Controls.Add(label12);
             this.tabPage1.Controls.Add(this.btnUpsertEntityField);
-            this.tabPage1.Controls.Add(this.tbeType);
             this.tabPage1.Controls.Add(this.tbeName);
             this.tabPage1.Controls.Add(this.cheOwnerReference);
             this.tabPage1.Controls.Add(label4);
@@ -660,10 +660,26 @@ namespace Barsix.BarsEntity
             this.tabPage1.Text = "Entity";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // tbeType
+            // 
+            this.tbeType.FormattingEnabled = true;
+            this.tbeType.Items.AddRange(new object[] {
+            "string",
+            "long",
+            "int",
+            "DateTime",
+            "decimal",
+            "bool"});
+            this.tbeType.Location = new System.Drawing.Point(451, 96);
+            this.tbeType.Name = "tbeType";
+            this.tbeType.Size = new System.Drawing.Size(162, 21);
+            this.tbeType.TabIndex = 19;
+            this.tbeType.Text = "string";
+            // 
             // cheEnum
             // 
             this.cheEnum.AutoSize = true;
-            this.cheEnum.Location = new System.Drawing.Point(560, 196);
+            this.cheEnum.Location = new System.Drawing.Point(520, 174);
             this.cheEnum.Name = "cheEnum";
             this.cheEnum.Size = new System.Drawing.Size(53, 17);
             this.cheEnum.TabIndex = 18;
@@ -705,7 +721,7 @@ namespace Barsix.BarsEntity
             // cheList
             // 
             this.cheList.AutoSize = true;
-            this.cheList.Location = new System.Drawing.Point(571, 98);
+            this.cheList.Location = new System.Drawing.Point(520, 150);
             this.cheList.Name = "cheList";
             this.cheList.Size = new System.Drawing.Size(45, 17);
             this.cheList.TabIndex = 14;
@@ -716,7 +732,7 @@ namespace Barsix.BarsEntity
             // cheNullable
             // 
             this.cheNullable.AutoSize = true;
-            this.cheNullable.Location = new System.Drawing.Point(451, 196);
+            this.cheNullable.Location = new System.Drawing.Point(391, 197);
             this.cheNullable.Name = "cheNullable";
             this.cheNullable.Size = new System.Drawing.Size(62, 17);
             this.cheNullable.TabIndex = 13;
@@ -734,11 +750,11 @@ namespace Barsix.BarsEntity
             // cheParentReference
             // 
             this.cheParentReference.AutoSize = true;
-            this.cheParentReference.Location = new System.Drawing.Point(451, 173);
+            this.cheParentReference.Location = new System.Drawing.Point(391, 174);
             this.cheParentReference.Name = "cheParentReference";
-            this.cheParentReference.Size = new System.Drawing.Size(130, 17);
+            this.cheParentReference.Size = new System.Drawing.Size(102, 17);
             this.cheParentReference.TabIndex = 10;
-            this.cheParentReference.Text = "Ссылка на родителя";
+            this.cheParentReference.Text = "Поле-родитель";
             this.cheParentReference.UseVisualStyleBackColor = true;
             this.cheParentReference.CheckedChanged += new System.EventHandler(this.cheParentReference_CheckedChanged);
             // 
@@ -752,14 +768,6 @@ namespace Barsix.BarsEntity
             this.btnUpsertEntityField.UseVisualStyleBackColor = true;
             this.btnUpsertEntityField.Click += new System.EventHandler(this.btnUpsertEntityField_Click);
             // 
-            // tbeType
-            // 
-            this.tbeType.Location = new System.Drawing.Point(451, 96);
-            this.tbeType.Name = "tbeType";
-            this.tbeType.Size = new System.Drawing.Size(114, 20);
-            this.tbeType.TabIndex = 6;
-            this.tbeType.Text = "string";
-            // 
             // tbeName
             // 
             this.tbeName.Location = new System.Drawing.Point(451, 69);
@@ -771,11 +779,11 @@ namespace Barsix.BarsEntity
             // cheOwnerReference
             // 
             this.cheOwnerReference.AutoSize = true;
-            this.cheOwnerReference.Location = new System.Drawing.Point(451, 149);
+            this.cheOwnerReference.Location = new System.Drawing.Point(391, 150);
             this.cheOwnerReference.Name = "cheOwnerReference";
-            this.cheOwnerReference.Size = new System.Drawing.Size(137, 17);
+            this.cheOwnerReference.Size = new System.Drawing.Size(103, 17);
             this.cheOwnerReference.TabIndex = 4;
-            this.cheOwnerReference.Text = "Ссылка на владельца";
+            this.cheOwnerReference.Text = "Поле-владелец";
             this.cheOwnerReference.UseVisualStyleBackColor = true;
             this.cheOwnerReference.CheckedChanged += new System.EventHandler(this.cheOwnerReference_CheckedChanged);
             // 
@@ -1675,7 +1683,6 @@ namespace Barsix.BarsEntity
         private System.Windows.Forms.TabPage tabPage5;
         private System.Windows.Forms.TabPage tabPage6;
         private System.Windows.Forms.Button btnUpsertEntityField;
-        private System.Windows.Forms.TextBox tbeType;
         private System.Windows.Forms.TextBox tbeName;
         private System.Windows.Forms.CheckBox cheOwnerReference;
         private System.Windows.Forms.ListView lvFields;
@@ -1780,5 +1787,6 @@ namespace Barsix.BarsEntity
         private System.Windows.Forms.ComboBox cbvViewType;
         private System.Windows.Forms.CheckBox chcViewModel;
         private System.Windows.Forms.TabPage tgViewModel;
+        private System.Windows.Forms.ComboBox tbeType;
     }
 }
