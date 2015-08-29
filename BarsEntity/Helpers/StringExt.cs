@@ -15,7 +15,13 @@ namespace Barsix.BarsEntity
 
             for (int i = 1; i < source.Length; i++)
             {
-                if (source.Substring(i, 1) == source.Substring(i, 1).ToUpper())
+                if (source.Substring(i, 1) == source.Substring(i, 1).ToUpper() && source.Substring(i-1, 1) == source.Substring(i-1, 1).ToLower())
+                {
+                    words.Add(source.Substring(prev, i - prev).ToUpper());
+
+                    prev = i;
+                } else
+                if (source.Substring(i, 1) == source.Substring(i, 1).ToUpper() && source.Length >= i+2 && source.Substring(i + 1, 1) == source.Substring(i + 1, 1).ToLower())
                 {
                     words.Add(source.Substring(prev, i - prev).ToUpper());
 
