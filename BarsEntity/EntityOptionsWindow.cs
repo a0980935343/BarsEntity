@@ -39,6 +39,7 @@ namespace Barsix.BarsEntity
             CreateEditor(tgEntity, "Entity");
             CreateEditor(tgMap, "Map");
             CreateEditor(tgController, "Controller");
+            CreateEditor(tgViewModel, "ViewModel");
             CreateEditor(tgView, "View");
             CreateEditor(tgDomainService, "DomainService");
             CreateEditor(tgInterceptor, "Interceptor");
@@ -145,6 +146,7 @@ namespace Barsix.BarsEntity
             _manager.AddGenerator(new EntityGenerator());
             _manager.AddGenerator(new MapGenerator());
             _manager.AddGenerator(new ControllerGenerator());
+            _manager.AddGenerator(new ViewModelGenerator());
             _manager.AddGenerator(new ViewGenerator());
             _manager.AddGenerator(new MigrationGenerator());
             _manager.AddGenerator(new NavigationGenerator());
@@ -228,6 +230,7 @@ namespace Barsix.BarsEntity
                 options.Controller = new ControllerOptions()
                 {
                     Name = tbcName.Text,
+                    ViewModel = chcViewModel.Checked,
                     List = chcList.Checked,
                     Get  = chcGet.Checked,
                     Update = chcUpdate.Checked,
@@ -319,6 +322,7 @@ namespace Barsix.BarsEntity
             confirmDialog.chEntity.Checked = true;
             confirmDialog.chMap.Checked = !string.IsNullOrEmpty(options.TableName);
             confirmDialog.chController.Checked = options.Controller != null;
+            confirmDialog.chViewModel.Checked = options.Controller != null && options.Controller.ViewModel && (options.Controller.List || options.Controller.Get);
             confirmDialog.chMigration.Checked = !string.IsNullOrEmpty(options.TableName);
             confirmDialog.chView.Checked = !string.IsNullOrEmpty(options.View.Namespace);
 
@@ -329,7 +333,7 @@ namespace Barsix.BarsEntity
 
             confirmDialog.chSignableEntitiesManifest.Checked = confirmDialog.chSignableEntitiesManifest.Enabled = options.Signable;
             confirmDialog.chStatefulEntitiesManifest.Checked = confirmDialog.chStatefulEntitiesManifest.Enabled = options.Stateful;
-            
+
             confirmDialog.chAuditLogMap.Checked = options.AuditLogMap;
 
             if (confirmDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -344,6 +348,9 @@ namespace Barsix.BarsEntity
 
                 if (confirmDialog.chController.Checked)
                     generatorTypes.Add(typeof(ControllerGenerator));
+
+                if (confirmDialog.chViewModel.Checked)
+                    generatorTypes.Add(typeof(ViewModelGenerator));
 
                 if (confirmDialog.chView.Checked)
                     generatorTypes.Add(typeof(ViewGenerator));
@@ -990,7 +997,16 @@ namespace Barsix.BarsEntity
             options.Map(tbSubfolder, x => x.Subfolder);
 
             if (options.Controller != null)
+            {
                 options.Map(tbcName, x => x.Controller.Name);
+                options.Map(chcViewModel, x => x.Controller.ViewModel);
+                options.Map(chcList, x => x.Controller.List);
+                options.Map(chcGet, x => x.Controller.Get);
+
+                options.Map(chcCreate, x => x.Controller.Create);
+                options.Map(chcUpdate, x => x.Controller.Update);
+                options.Map(chcDelete, x => x.Controller.Delete);
+            }
 
             if (options.View != null)
             {
@@ -1061,6 +1077,21 @@ namespace Barsix.BarsEntity
         private void chDictionary_CheckedChanged(object sender, EventArgs e)
         {
             tbSubfolder.Enabled = !chDictionary.Checked;
+        }
+
+        private void chcViewModel_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chcViewModel.Checked)
+            {
+                if (!chcList.Checked && !chcGet.Checked)
+                {
+                    chcList.Checked = true;
+                }
+            }
+            else
+            {
+                chcList.Checked = chcGet.Checked = false;
+            }
         }
     }
 }

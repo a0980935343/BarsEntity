@@ -10,6 +10,8 @@ namespace Barsix.BarsEntity.BarsOptions
     {
         public string Name;
 
+        public bool ViewModel;
+
         public bool List;
         public bool Get;
         public bool Update;

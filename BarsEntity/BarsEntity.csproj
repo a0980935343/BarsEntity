@@ -150,6 +150,7 @@
     <Compile Include="BarsGenerators\FilterableGenerator.cs" />
     <Compile Include="BarsGenerators\SignableEntitiesManifestGenerator.cs" />
     <Compile Include="BarsGenerators\StatefulEntitiesManifestGenerator.cs" />
+    <Compile Include="BarsGenerators\ViewModelGenerator.cs" />
     <Compile Include="BarsOptions\DomainServiceOptions.cs" />
     <Compile Include="BarsGenerators\Generation\GeneratedFragment.cs" />
     <Compile Include="CodeGeneration\JavaScript\JsHelper.cs" />

@@ -44,6 +44,7 @@
             this.chAuditLogMapProvider = new System.Windows.Forms.CheckBox();
             this.chPermission = new System.Windows.Forms.CheckBox();
             this.chNavigation = new System.Windows.Forms.CheckBox();
+            this.chViewModel = new System.Windows.Forms.CheckBox();
             this.SuspendLayout();
             // 
             // chEntity
@@ -89,7 +90,7 @@
             // chMigration
             // 
             this.chMigration.AutoSize = true;
-            this.chMigration.Location = new System.Drawing.Point(39, 126);
+            this.chMigration.Location = new System.Drawing.Point(39, 148);
             this.chMigration.Name = "chMigration";
             this.chMigration.Size = new System.Drawing.Size(100, 17);
             this.chMigration.TabIndex = 4;
@@ -99,7 +100,7 @@
             // chDomainServiceInterceptor
             // 
             this.chDomainServiceInterceptor.AutoSize = true;
-            this.chDomainServiceInterceptor.Location = new System.Drawing.Point(39, 150);
+            this.chDomainServiceInterceptor.Location = new System.Drawing.Point(39, 172);
             this.chDomainServiceInterceptor.Name = "chDomainServiceInterceptor";
             this.chDomainServiceInterceptor.Size = new System.Drawing.Size(149, 17);
             this.chDomainServiceInterceptor.TabIndex = 5;
@@ -109,7 +110,7 @@
             // chDomainService
             // 
             this.chDomainService.AutoSize = true;
-            this.chDomainService.Location = new System.Drawing.Point(39, 174);
+            this.chDomainService.Location = new System.Drawing.Point(39, 196);
             this.chDomainService.Name = "chDomainService";
             this.chDomainService.Size = new System.Drawing.Size(98, 17);
             this.chDomainService.TabIndex = 6;
@@ -119,7 +120,7 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(213, 373);
+            this.button1.Location = new System.Drawing.Point(213, 399);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 7;
@@ -130,7 +131,7 @@
             // chDynamicFilter
             // 
             this.chDynamicFilter.AutoSize = true;
-            this.chDynamicFilter.Location = new System.Drawing.Point(39, 198);
+            this.chDynamicFilter.Location = new System.Drawing.Point(39, 220);
             this.chDynamicFilter.Name = "chDynamicFilter";
             this.chDynamicFilter.Size = new System.Drawing.Size(109, 17);
             this.chDynamicFilter.TabIndex = 8;
@@ -140,7 +141,7 @@
             // chAuditLogMap
             // 
             this.chAuditLogMap.AutoSize = true;
-            this.chAuditLogMap.Location = new System.Drawing.Point(39, 221);
+            this.chAuditLogMap.Location = new System.Drawing.Point(39, 243);
             this.chAuditLogMap.Name = "chAuditLogMap";
             this.chAuditLogMap.Size = new System.Drawing.Size(89, 17);
             this.chAuditLogMap.TabIndex = 9;
@@ -150,7 +151,7 @@
             // chStatefulEntitiesManifest
             // 
             this.chStatefulEntitiesManifest.AutoSize = true;
-            this.chStatefulEntitiesManifest.Location = new System.Drawing.Point(39, 268);
+            this.chStatefulEntitiesManifest.Location = new System.Drawing.Point(39, 290);
             this.chStatefulEntitiesManifest.Name = "chStatefulEntitiesManifest";
             this.chStatefulEntitiesManifest.Size = new System.Drawing.Size(136, 17);
             this.chStatefulEntitiesManifest.TabIndex = 10;
@@ -160,7 +161,7 @@
             // chSignableEntitiesManifest
             // 
             this.chSignableEntitiesManifest.AutoSize = true;
-            this.chSignableEntitiesManifest.Location = new System.Drawing.Point(39, 291);
+            this.chSignableEntitiesManifest.Location = new System.Drawing.Point(39, 313);
             this.chSignableEntitiesManifest.Name = "chSignableEntitiesManifest";
             this.chSignableEntitiesManifest.Size = new System.Drawing.Size(141, 17);
             this.chSignableEntitiesManifest.TabIndex = 11;
@@ -170,7 +171,7 @@
             // chAuditLogMapProvider
             // 
             this.chAuditLogMapProvider.AutoSize = true;
-            this.chAuditLogMapProvider.Location = new System.Drawing.Point(59, 245);
+            this.chAuditLogMapProvider.Location = new System.Drawing.Point(59, 267);
             this.chAuditLogMapProvider.Name = "chAuditLogMapProvider";
             this.chAuditLogMapProvider.Size = new System.Drawing.Size(128, 17);
             this.chAuditLogMapProvider.TabIndex = 12;
@@ -180,7 +181,7 @@
             // chPermission
             // 
             this.chPermission.AutoSize = true;
-            this.chPermission.Location = new System.Drawing.Point(39, 315);
+            this.chPermission.Location = new System.Drawing.Point(39, 337);
             this.chPermission.Name = "chPermission";
             this.chPermission.Size = new System.Drawing.Size(76, 17);
             this.chPermission.TabIndex = 13;
@@ -190,18 +191,29 @@
             // chNavigation
             // 
             this.chNavigation.AutoSize = true;
-            this.chNavigation.Location = new System.Drawing.Point(39, 338);
+            this.chNavigation.Location = new System.Drawing.Point(39, 360);
             this.chNavigation.Name = "chNavigation";
             this.chNavigation.Size = new System.Drawing.Size(77, 17);
             this.chNavigation.TabIndex = 14;
             this.chNavigation.Text = "Navigation";
             this.chNavigation.UseVisualStyleBackColor = true;
             // 
+            // chViewModel
+            // 
+            this.chViewModel.AutoSize = true;
+            this.chViewModel.Location = new System.Drawing.Point(39, 125);
+            this.chViewModel.Name = "chViewModel";
+            this.chViewModel.Size = new System.Drawing.Size(78, 17);
+            this.chViewModel.TabIndex = 15;
+            this.chViewModel.Text = "ViewModel";
+            this.chViewModel.UseVisualStyleBackColor = true;
+            // 
             // ConfirmCreationParts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(300, 408);
+            this.ClientSize = new System.Drawing.Size(300, 434);
+            this.Controls.Add(this.chViewModel);
             this.Controls.Add(this.chNavigation);
             this.Controls.Add(this.chPermission);
             this.Controls.Add(this.chAuditLogMapProvider);
@@ -245,6 +257,7 @@
         private System.Windows.Forms.CheckBox chAuditLogMapProvider;
         public System.Windows.Forms.CheckBox chPermission;
         public System.Windows.Forms.CheckBox chNavigation;
+        public System.Windows.Forms.CheckBox chViewModel;
 
     }
 }
