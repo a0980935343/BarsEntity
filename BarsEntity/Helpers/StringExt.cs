@@ -49,6 +49,11 @@ namespace Barsix.BarsEntity
             return result.Replace("{{", "{").Replace("}}", "}");
         }
 
+        public static string F(this string template, params object[] phList)
+        {
+            return string.Format(template, phList);
+        }
+
         public static string camelCase(this string source)
         {
             return source.Substring(0, 1).ToLower() + source.Substring(1);

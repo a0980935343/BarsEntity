@@ -36,7 +36,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             _knownTypes.Add(options.ClassName);
 
             ctor.Body.Add("Name(\"{0}\");".R(options.DisplayName));
-            ctor.Body.Add("Description(x => string.Format(\"{0} №{{0}}\", x.Id));".R(options.DisplayName));
+            ctor.Body.Add("Description(x => string.Format(\"{0} №{{0}}\", x.Id));".F(options.DisplayName));
             ctor.Body.Add("");
 
             foreach (var field in options.Fields.Where(x => !x.Collection && !x.TypeName.EndsWith("View")))

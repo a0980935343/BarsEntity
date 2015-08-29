@@ -11,6 +11,9 @@ namespace Barsix.BarsEntity.BarsGenerators
     {
         public override List<GeneratedFile> Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
         {
+            if (options.Controller == null || !options.Controller.ViewModel)
+                return null;
+
             var files = base.Generate(project, options, fragments);
             var file = files.First();
 
