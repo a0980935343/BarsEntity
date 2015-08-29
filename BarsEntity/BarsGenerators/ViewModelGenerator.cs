@@ -6,18 +6,18 @@ namespace Barsix.BarsEntity.BarsGenerators
 {
     using BarsOptions;
     using CodeGeneration.CSharp;
-    
-    public class ControllerGenerator : BaseBarsGenerator
+
+    public class ViewModelGenerator : BaseBarsGenerator
     {
         public override List<GeneratedFile> Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
         {
             var files = base.Generate(project, options, fragments);
             var file = files.First();
 
-            var ns = new NamespaceInfo() { Name = "{0}.Controllers".F(_project.DefaultNamespace) };
+            var ns = new NamespaceInfo() { Name = _project.DefaultNamespace + ".ViewModel" };
             var cls = new ClassInfo()
             {
-                Name = "{0}Controller".F(options.Controller.Name)
+                Name = options.ClassName + "ViewModel"
             };
             ns.NestedValues.Add(cls);
 
@@ -25,8 +25,8 @@ namespace Barsix.BarsEntity.BarsGenerators
                 ns.OuterUsing.Add("System");
             ns.OuterUsing.Add("System.Linq");
             ns.OuterUsing.Add("System.Web.Mvc");
-            
-            
+
+
             ns.InnerUsing.Add("B4");
             ns.InnerUsing.Add("B4.Utils");
 
@@ -41,40 +41,25 @@ namespace Barsix.BarsEntity.BarsGenerators
 
             ns.InnerUsing.Add("Entities");
 
-            if (options.Permission != null && options.Permission.Prefix != "")
-            {
-                cls.Attributes.Add("ActionPermission(\"Update\", \"{0}.Edit\")".F(options.Permission.Prefix));
-                cls.Attributes.Add("ActionPermission(\"Save\",   \"{0}.Edit\")".F(options.Permission.Prefix));
-                cls.Attributes.Add("ActionPermission(\"Create\", \"{0}.Create\")".F(options.Permission.Prefix));
-                cls.Attributes.Add("ActionPermission(\"Delete\", \"{0}.Delete\")".F(options.Permission.Prefix));
-            }
-
-            var basePrefix = "B4.Alt.";
-            if (options.View.Type == ViewType.ViewModel)
-                basePrefix = "B4.Alt.Inline";
-            else if (options.AcceptFiles)
-                basePrefix = "FileStorage";
-
-            cls.BaseClass = "{0}DataController<{1}>".F(basePrefix, options.ClassName);
+            cls.BaseClass = "BaseViewModel<" + options.ClassName + ">";
 
             _knownTypes.Clear();
             _knownTypes.Add(cls.Name);
             _knownTypes.Add(options.ClassName);
-            _knownTypes.Add("DataController");
-            _knownTypes.Add("InlineDataController");
-            _knownTypes.Add("FileStorageDataController");
-            _knownTypes.Add("ActionResult");
+            _knownTypes.Add("BaseViewModel");
+            _knownTypes.Add("BaseDataResult");
+            _knownTypes.Add("ListDataResult");
+            _knownTypes.Add("IDataResult");
             _knownTypes.Add("BaseParams");
             _knownTypes.Add("IDomainService");
 
-            #region ViewModel actions
-            if (options.Controller.List && !options.Controller.ViewModel)
+            if (options.Controller.List && options.Controller.ViewModel)
             {
                 var list = new MethodInfo()
                 {
                     Name = "List",
-                    Type = "ActionResult",
-                    Params = "BaseParams baseParams",
+                    Type = "IDataResult",
+                    Params = "IDomainService<" +options.ClassName+ "> domainService, BaseParams baseParams",
                     IsOverride = true
                 };
                 var proxyClass = new ClassInfo { Name = "QueryResult" };
@@ -120,12 +105,12 @@ namespace Barsix.BarsEntity.BarsGenerators
                 if (options.Signable)
                     list.Body.Add("var qDigitalSignatures = Container.Resolve<IDomainService<DigSignature>>().GetAll();");
 
-                list.Body.Add("var qList = DomainService.GetAll()");
+                list.Body.Add("var qList = domainService.GetAll()");
 
                 if (owner != null)
                     list.Body.Add("    .Where(x => x.{0}.Id == {1}Id)".F(owner.FieldName, owner.FieldName.camelCase()));
 
-                   
+
                 list.Body.Add("    .Select(x => new QueryResult {");
                 foreach (var prop in proxyClass.Properties)
                 {
@@ -136,7 +121,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                     else if (prop.Name == "_parent")
                         list.Body.Add("        _parent = x.{0} != null ? x.{0}.Id : 0,".F(parent.FieldName));
                     else if (prop.Name == "_is_leaf")
-                        list.Body.Add("        _is_leaf = !DomainService.GetAll().Any(y => y.{0} == x),".F(parent.FieldName));
+                        list.Body.Add("        _is_leaf = !domainService.GetAll().Any(y => y.{0} == x),".F(parent.FieldName));
                     else
                         list.Body.Add("        {0} = x.{0},".F(prop.Name));
                 }
@@ -148,24 +133,24 @@ namespace Barsix.BarsEntity.BarsGenerators
                 list.Body.Add("    })");
                 list.Body.Add("    .Filter(loadParam, Container);");
 
-                list.Body.Add("return new JsonListResult(qList.Order(loadParam).Paging(loadParam).ToList(), qList.Count());");
+                list.Body.Add("return new ListDataResult(qList.Order(loadParam).Paging(loadParam), qList.Count());");
 
                 cls.AddMethod(list);
             }
 
-            if (options.Controller.Get && !options.Controller.ViewModel)
+            if (options.Controller.Get && options.Controller.ViewModel)
             {
                 var get = new MethodInfo()
                 {
                     Name = "Get",
-                    Type = "ActionResult",
-                    Params = "BaseParams baseParams",
+                    Type = "IDataResult",
+                    Params = "IDomainService<" + options.ClassName + "> domainService, BaseParams baseParams",
                     IsOverride = true
                 };
                 var body = get.Body;
 
                 body.Add("var id = baseParams.Params[\"id\"].ToLong();");
-                body.Add("var entity = DomainService.Get(id);");
+                body.Add("var entity = domainService.Get(id);");
 
                 if (options.Signable)
                 {
@@ -189,114 +174,19 @@ namespace Barsix.BarsEntity.BarsGenerators
                 }
 
                 body[body.Count - 1] = body.Last().Substring(0, body.Last().Length - 1);
-                
+
                 body.Add("};");
 
-                body.Add("return new JsonGetResult(data);");
+                body.Add("return new BaseDataResult(data);");
 
                 cls.AddMethod(get);
             }
-            #endregion
-
-            #region DomainService actions
-            if (options.Controller.Update)
-            {
-                var update = new MethodInfo()
-                {
-                    Name = "Update",
-                    Type = "ActionResult",
-                    Params = "BaseParams baseParams",
-                    IsOverride = true
-                };
-                var body = update.Body;
-
-                body.Add("try");
-                body.Add("{");
-                body.Add("    var values = new List<{0}>();".F(options.ClassName));
-                body.Add("    var saveParam = baseParams.Params.Read<SaveParam<{0}>>().Execute(container => Converter.ToSaveParam<{0}>(container, false));".F(options.ClassName));
-                body.Add("    foreach (var record in saveParam.Records)");
-                body.Add("    {");
-                body.Add("        var value = record.AsObject();");
-                body.Add("        DomainService.Update(value);");
-                body.Add("        values.Add(value);");
-                body.Add("    }");
-                body.Add("    return new JsonNetResult(new { success = true, message = string.Empty, data = values });");
-                body.Add("}");
-                body.Add("catch (ValidationException exc)");
-                body.Add("{");
-                body.Add("    return JsonNetResult.Failure(exc.Message);");
-                body.Add("}");
-
-                cls.AddMethod(update);
-            }
-
-            if (options.Controller.Delete)
-            {
-                var delete = new MethodInfo()
-                {
-                    Name = "Delete",
-                    Type = "ActionResult",
-                    Params = "BaseParams baseParams",
-                    IsOverride = true
-                };
-                var body = delete.Body;
-
-                body.Add("var ids = Converter.ToLongArray(baseParams.Params, \"records\");");
-                body.Add("using (var tr = Container.Resolve<IDataTransaction>())");
-                body.Add("{");
-                body.Add("    try");
-                body.Add("    {");
-                body.Add("        foreach (var id in ids)");
-                body.Add("        {");
-                body.Add("            DomainService.Delete((long)id);");
-                body.Add("        }");
-                body.Add("");
-                body.Add("        tr.Commit();");
-                body.Add("    }");
-                body.Add("    catch (Exception)");
-                body.Add("    {");
-                body.Add("        tr.Rollback();");
-                body.Add("        throw;");
-                body.Add("    }");
-                body.Add("}");
-                body.Add("");
-                body.Add("return JsonNetResult.Success;");
-
-                cls.AddMethod(delete);
-            }
-
-            if (options.Controller.Create)
-            {
-                var create = new MethodInfo()
-                {
-                    Name = "Create",
-                    Type = "ActionResult",
-                    Params = "BaseParams baseParams",
-                    IsOverride = true
-                };
-                var body = create.Body;
-
-                body.Add("try");
-                body.Add("{");
-                body.Add("    var entity = baseParams.Params.Read<SaveParam<{0}>>().Execute(container => Converter.ToSaveParam<{0}>(container, false)).First().AsObject();".F(options.ClassName));
-                body.Add("    DomainService.Save(entity);");
-                body.Add("");
-                body.Add("    return new JsonNetResult(new { success = true, message = string.Empty, data = new object[] { entity } });");
-                body.Add("}");
-                body.Add("catch (ValidationException exc)");
-                body.Add("{");
-                body.Add("    return JsonNetResult.Failure(exc.Message);");
-                body.Add("}");
-
-                cls.AddMethod(create);
-            }
-            #endregion
 
             fragments.AddLines("Module.cs", this, new List<string> { 
-                "Container.RegisterController<{0}Controller>();".F(options.Controller.Name)});
+                "Container.Register(Component.For<IViewModel<{0}>>().ImplementedBy<{0}ViewModel>());".F(options.ClassName)});
 
-            file.Name = options.Controller.Name + "Controller.cs";
-            file.Path = "Controllers\\" + (options.IsDictionary ? "Dict\\" : (!string.IsNullOrWhiteSpace(options.Subfolder) ? options.Subfolder : ""));
+            file.Name = options.ClassName + "ViewModel.cs";
+            file.Path = "ViewModel\\" + (options.IsDictionary ? "Dict\\" : (!string.IsNullOrWhiteSpace(options.Subfolder) ? options.Subfolder : ""));
             file.Body = ns.Generate();
             return files;
         }

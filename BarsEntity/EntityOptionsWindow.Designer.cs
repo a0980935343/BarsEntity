@@ -65,6 +65,7 @@ namespace Barsix.BarsEntity
             this.lvMap = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chcViewModel = new System.Windows.Forms.CheckBox();
             this.chcCreate = new System.Windows.Forms.CheckBox();
             this.chcDelete = new System.Windows.Forms.CheckBox();
             this.chcList = new System.Windows.Forms.CheckBox();
@@ -154,6 +155,7 @@ namespace Barsix.BarsEntity
             this.tgEntity = new System.Windows.Forms.TabPage();
             this.tgMap = new System.Windows.Forms.TabPage();
             this.tgController = new System.Windows.Forms.TabPage();
+            this.tgViewModel = new System.Windows.Forms.TabPage();
             this.tgView = new System.Windows.Forms.TabPage();
             this.tgMigration = new System.Windows.Forms.TabPage();
             this.tgDomainService = new System.Windows.Forms.TabPage();
@@ -511,6 +513,7 @@ namespace Barsix.BarsEntity
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(this.chcViewModel);
             groupBox3.Controls.Add(this.chcCreate);
             groupBox3.Controls.Add(this.chcDelete);
             groupBox3.Controls.Add(this.chcList);
@@ -518,15 +521,26 @@ namespace Barsix.BarsEntity
             groupBox3.Controls.Add(this.chcGet);
             groupBox3.Location = new System.Drawing.Point(14, 50);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new System.Drawing.Size(200, 195);
+            groupBox3.Size = new System.Drawing.Size(296, 195);
             groupBox3.TabIndex = 8;
             groupBox3.TabStop = false;
             groupBox3.Text = "override Actions";
             // 
+            // chcViewModel
+            // 
+            this.chcViewModel.AutoSize = true;
+            this.chcViewModel.Location = new System.Drawing.Point(114, 45);
+            this.chcViewModel.Name = "chcViewModel";
+            this.chcViewModel.Size = new System.Drawing.Size(111, 17);
+            this.chcViewModel.TabIndex = 13;
+            this.chcViewModel.Text = "create ViewModel";
+            this.chcViewModel.UseVisualStyleBackColor = true;
+            this.chcViewModel.CheckedChanged += new System.EventHandler(this.chcViewModel_CheckedChanged);
+            // 
             // chcCreate
             // 
             this.chcCreate.AutoSize = true;
-            this.chcCreate.Location = new System.Drawing.Point(23, 124);
+            this.chcCreate.Location = new System.Drawing.Point(23, 153);
             this.chcCreate.Name = "chcCreate";
             this.chcCreate.Size = new System.Drawing.Size(57, 17);
             this.chcCreate.TabIndex = 12;
@@ -536,7 +550,7 @@ namespace Barsix.BarsEntity
             // chcDelete
             // 
             this.chcDelete.AutoSize = true;
-            this.chcDelete.Location = new System.Drawing.Point(23, 101);
+            this.chcDelete.Location = new System.Drawing.Point(23, 130);
             this.chcDelete.Name = "chcDelete";
             this.chcDelete.Size = new System.Drawing.Size(57, 17);
             this.chcDelete.TabIndex = 11;
@@ -556,7 +570,7 @@ namespace Barsix.BarsEntity
             // chcUpdate
             // 
             this.chcUpdate.AutoSize = true;
-            this.chcUpdate.Location = new System.Drawing.Point(23, 78);
+            this.chcUpdate.Location = new System.Drawing.Point(23, 107);
             this.chcUpdate.Name = "chcUpdate";
             this.chcUpdate.Size = new System.Drawing.Size(61, 17);
             this.chcUpdate.TabIndex = 9;
@@ -1419,6 +1433,7 @@ namespace Barsix.BarsEntity
             this.tabGenerated.Controls.Add(this.tgEntity);
             this.tabGenerated.Controls.Add(this.tgMap);
             this.tabGenerated.Controls.Add(this.tgController);
+            this.tabGenerated.Controls.Add(this.tgViewModel);
             this.tabGenerated.Controls.Add(this.tgView);
             this.tabGenerated.Controls.Add(this.tgMigration);
             this.tabGenerated.Controls.Add(this.tgDomainService);
@@ -1462,6 +1477,16 @@ namespace Barsix.BarsEntity
             this.tgController.TabIndex = 3;
             this.tgController.Text = "Controller";
             this.tgController.UseVisualStyleBackColor = true;
+            // 
+            // tgViewModel
+            // 
+            this.tgViewModel.Location = new System.Drawing.Point(4, 22);
+            this.tgViewModel.Name = "tgViewModel";
+            this.tgViewModel.Padding = new System.Windows.Forms.Padding(3);
+            this.tgViewModel.Size = new System.Drawing.Size(780, 381);
+            this.tgViewModel.TabIndex = 11;
+            this.tgViewModel.Text = "ViewModel";
+            this.tgViewModel.UseVisualStyleBackColor = true;
             // 
             // tgView
             // 
@@ -1753,5 +1778,7 @@ namespace Barsix.BarsEntity
         private System.Windows.Forms.CheckBox chcGet;
         private System.Windows.Forms.Label label33;
         private System.Windows.Forms.ComboBox cbvViewType;
+        private System.Windows.Forms.CheckBox chcViewModel;
+        private System.Windows.Forms.TabPage tgViewModel;
     }
 }
