@@ -56,7 +56,7 @@ namespace Barsix.BarsEntity.CodeGeneration.JavaScript
                     prop.Inline = true;
                     props.Add(prop.Draw(0).First());
                 }
-                _result.Add("{0}: {{{2}{1}{2}}}".F(Name, string.Join(", ", props), props.Any() ? " " : "").Ind(indent));
+                _result.Add("{0}: {{{2}{1}{2}}}".R(Name, string.Join(", ", props), props.Any() ? " " : "").Ind(indent));
             }
             else
             {

@@ -23,7 +23,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 cls.Interfaces.Add("IAuditLogMapProvider");
 
                 var init = new MethodInfo { Name = "Init", Type = "void", Params = "IAuditLogMapContainer container" };
-                init.Body.Add("container.Add<{0}LogMap>();".F(options.ClassName));
+                init.Body.Add("container.Add<{0}LogMap>();".R(options.ClassName));
                 cls.AddMethod(init);
 
                 ns.NestedValues.Add(cls);
@@ -36,7 +36,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             }
             else
             {
-                fragments.AddLines("AuditLogMapProvider.cs", this, new List<string>{ "container.Add<{0}LogMap>();".F(options.ClassName)});
+                fragments.AddLines("AuditLogMapProvider.cs", this, new List<string>{ "container.Add<{0}LogMap>();".R(options.ClassName)});
                 return null;
             }
         }

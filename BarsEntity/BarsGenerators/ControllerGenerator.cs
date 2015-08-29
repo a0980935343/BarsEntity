@@ -14,10 +14,10 @@ namespace Barsix.BarsEntity.BarsGenerators
             var files = base.Generate(project, options, fragments);
             var file = files.First();
 
-            var ns = new NamespaceInfo() { Name = "{0}.Controllers".F(_project.DefaultNamespace) };
+            var ns = new NamespaceInfo() { Name = _project.DefaultNamespace + ".Controllers" };
             var cls = new ClassInfo()
             {
-                Name = "{0}Controller".F(options.Controller.Name)
+                Name = options.Controller.Name + "Controller"
             };
             ns.NestedValues.Add(cls);
 
@@ -43,10 +43,10 @@ namespace Barsix.BarsEntity.BarsGenerators
 
             if (options.Permission != null && options.Permission.Prefix != "")
             {
-                cls.Attributes.Add("ActionPermission(\"Update\", \"{0}.Edit\")".F(options.Permission.Prefix));
-                cls.Attributes.Add("ActionPermission(\"Save\",   \"{0}.Edit\")".F(options.Permission.Prefix));
-                cls.Attributes.Add("ActionPermission(\"Create\", \"{0}.Create\")".F(options.Permission.Prefix));
-                cls.Attributes.Add("ActionPermission(\"Delete\", \"{0}.Delete\")".F(options.Permission.Prefix));
+                cls.Attributes.Add("ActionPermission(\"Update\", \"{0}.Edit\")".R(options.Permission.Prefix));
+                cls.Attributes.Add("ActionPermission(\"Save\",   \"{0}.Edit\")".R(options.Permission.Prefix));
+                cls.Attributes.Add("ActionPermission(\"Create\", \"{0}.Create\")".R(options.Permission.Prefix));
+                cls.Attributes.Add("ActionPermission(\"Delete\", \"{0}.Delete\")".R(options.Permission.Prefix));
             }
 
             var basePrefix = "B4.Alt.";
@@ -55,7 +55,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             else if (options.AcceptFiles)
                 basePrefix = "FileStorage";
 
-            cls.BaseClass = "{0}DataController<{1}>".F(basePrefix, options.ClassName);
+            cls.BaseClass = "{0}DataController<{1}>".R(basePrefix, options.ClassName);
 
             _knownTypes.Clear();
             _knownTypes.Add(cls.Name);
@@ -115,7 +115,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 var parent = options.Fields.FirstOrDefault(x => x.ParentReference);
 
                 if (owner != null)
-                    list.Body.Add("var {0}Id = baseParams.Params[\"{0}Id\"].ToLong();".F(owner.FieldName.camelCase()));
+                    list.Body.Add("var {0}Id = baseParams.Params[\"{0}Id\"].ToLong();".R(owner.FieldName.camelCase()));
 
                 if (options.Signable)
                     list.Body.Add("var qDigitalSignatures = Container.Resolve<IDomainService<DigSignature>>().GetAll();");
@@ -123,22 +123,22 @@ namespace Barsix.BarsEntity.BarsGenerators
                 list.Body.Add("var qList = DomainService.GetAll()");
 
                 if (owner != null)
-                    list.Body.Add("    .Where(x => x.{0}.Id == {1}Id)".F(owner.FieldName, owner.FieldName.camelCase()));
+                    list.Body.Add("    .Where(x => x.{0}.Id == {1}Id)".R(owner.FieldName, owner.FieldName.camelCase()));
 
                    
                 list.Body.Add("    .Select(x => new QueryResult {");
                 foreach (var prop in proxyClass.Properties)
                 {
                     if (options.Signable && prop.Name == "Signed")
-                        list.Body.Add("        Signed = qDigitalSignatures.Any(ds => ds.EntityTypeId == \"{0}\" && ds.EntityId == x.Id),".F(options.ClassFullName));
+                        list.Body.Add("        Signed = qDigitalSignatures.Any(ds => ds.EntityTypeId == \"{0}\" && ds.EntityId == x.Id),".R(options.ClassFullName));
                     else if (prop.Name == "_is_loaded")
                         list.Body.Add("        _is_loaded = true,");
                     else if (prop.Name == "_parent")
-                        list.Body.Add("        _parent = x.{0} != null ? x.{0}.Id : 0,".F(parent.FieldName));
+                        list.Body.Add("        _parent = x.{0} != null ? x.{0}.Id : 0,".R(parent.FieldName));
                     else if (prop.Name == "_is_leaf")
-                        list.Body.Add("        _is_leaf = !DomainService.GetAll().Any(y => y.{0} == x),".F(parent.FieldName));
+                        list.Body.Add("        _is_leaf = !DomainService.GetAll().Any(y => y.{0} == x),".R(parent.FieldName));
                     else
-                        list.Body.Add("        {0} = x.{0},".F(prop.Name));
+                        list.Body.Add("        {0} = x.{0},".R(prop.Name));
                 }
                 var last = list.Body.Last();
                 last = last.Substring(0, last.Length - 1);
@@ -148,7 +148,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 list.Body.Add("    })");
                 list.Body.Add("    .Filter(loadParam, Container);");
 
-                list.Body.Add("return new JsonListResult(qList.Order(loadParam).Paging(loadParam).ToList(), qList.Count());");
+                list.Body.Add("return new JsonListResult(qList.Order(loadParam).Paging(loadParam), qList.Count());");
 
                 cls.AddMethod(list);
             }
@@ -180,12 +180,12 @@ namespace Barsix.BarsEntity.BarsGenerators
 
                 foreach (var field in options.Fields.Where(x => !x.Collection && !x.TypeName.EndsWith("View")))
                 {
-                    body.Add("    entity.{0},".F(field.FieldName));
+                    body.Add("    entity.{0},".R(field.FieldName));
                 }
 
                 if (options.Signable)
                 {
-                    body.Add("    Signed = qDigitalSignatures.Any(y => y.EntityTypeId == \"{0}\" && y.EntityId == entity.Id),".F(options.ClassFullName));
+                    body.Add("    Signed = qDigitalSignatures.Any(y => y.EntityTypeId == \"{0}\" && y.EntityId == entity.Id),".R(options.ClassFullName));
                 }
 
                 body[body.Count - 1] = body.Last().Substring(0, body.Last().Length - 1);
@@ -212,8 +212,8 @@ namespace Barsix.BarsEntity.BarsGenerators
 
                 body.Add("try");
                 body.Add("{");
-                body.Add("    var values = new List<{0}>();".F(options.ClassName));
-                body.Add("    var saveParam = baseParams.Params.Read<SaveParam<{0}>>().Execute(container => Converter.ToSaveParam<{0}>(container, false));".F(options.ClassName));
+                body.Add("    var values = new List<{0}>();".R(options.ClassName));
+                body.Add("    var saveParam = baseParams.Params.Read<SaveParam<{0}>>().Execute(container => Converter.ToSaveParam<{0}>(container, false));".R(options.ClassName));
                 body.Add("    foreach (var record in saveParam.Records)");
                 body.Add("    {");
                 body.Add("        var value = record.AsObject();");
@@ -278,7 +278,7 @@ namespace Barsix.BarsEntity.BarsGenerators
 
                 body.Add("try");
                 body.Add("{");
-                body.Add("    var entity = baseParams.Params.Read<SaveParam<{0}>>().Execute(container => Converter.ToSaveParam<{0}>(container, false)).First().AsObject();".F(options.ClassName));
+                body.Add("    var entity = baseParams.Params.Read<SaveParam<{0}>>().Execute(container => Converter.ToSaveParam<{0}>(container, false)).First().AsObject();".R(options.ClassName));
                 body.Add("    DomainService.Save(entity);");
                 body.Add("");
                 body.Add("    return new JsonNetResult(new { success = true, message = string.Empty, data = new object[] { entity } });");
@@ -293,7 +293,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             #endregion
 
             fragments.AddLines("Module.cs", this, new List<string> { 
-                "Container.RegisterController<{0}Controller>();".F(options.Controller.Name)});
+                "Container.RegisterController<{0}Controller>();".R(options.Controller.Name)});
 
             file.Name = options.Controller.Name + "Controller.cs";
             file.Path = "Controllers\\" + (options.IsDictionary ? "Dict\\" : (!string.IsNullOrWhiteSpace(options.Subfolder) ? options.Subfolder : ""));

@@ -79,7 +79,7 @@ namespace Barsix.BarsEntity.CodeGeneration.JavaScript
                     props.Add(prop.Draw(0).First().Substring(3));
                 }
 
-                _result.Add("{0}: [{1}]".F(Name, string.Join(", ", props)).Ind(indent));
+                _result.Add("{0}: [{1}]".R(Name, string.Join(", ", props)).Ind(indent));
             }
             else
             {

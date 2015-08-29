@@ -18,7 +18,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             var ns = new NamespaceInfo();
             var cls = new ClassInfo();
             ns.NestedValues.Add(cls);
-            ns.Name = "{0}.Map".F(_project.DefaultNamespace);
+            ns.Name = _project.DefaultNamespace + ".Map";
 
             if (options.BaseClass == "NamedBaseEntity")
             {
@@ -30,14 +30,15 @@ namespace Barsix.BarsEntity.BarsGenerators
             }
             ns.InnerUsing.Add("Entities");
             
-            cls.Name = "{0}Map".F(options.ClassName);
-            cls.BaseClass = "{0}Map<{1}>".F(options.BaseClass, options.ClassName);
+            cls.Name = options.ClassName + "Map";
+            cls.BaseClass = "{0}Map<{1}>".R(options.BaseClass, options.ClassName);
 
             _knownTypes.Clear();
             _knownTypes.Add(options.ClassName);
             _knownTypes.Add(options.BaseClass);
             _knownTypes.Add("IList");
             _knownTypes.Add("ReferenceMapConfig");
+            _knownTypes.Add(options.BaseClass + "Map");
 
             var ctor = new MethodInfo() 
             { 
@@ -48,10 +49,10 @@ namespace Barsix.BarsEntity.BarsGenerators
             if (options.BaseClass == "NamedBaseEntity")
             {
                 var field = options.Fields.Single(x => x.FieldName == "Name");
-                ctor.SignatureParams = "base(\"{0}\", {1}, {2})".F(options.TableName, field.Nullable.ToString().ToLower(), field.Length == 0 ? 100 : field.Length);
+                ctor.SignatureParams = "base(\"{0}\", {1}, {2})".R(options.TableName, field.Nullable.ToString().ToLower(), field.Length == 0 ? 100 : field.Length);
             }
             else
-                ctor.SignatureParams = "base(\"{0}\")".F(options.TableName);
+                ctor.SignatureParams = "base(\"{0}\")".R(options.TableName);
             
 
             foreach (var field in options.Fields.Where(x => !x.Collection && !x.TypeName.EndsWith("View")))
@@ -60,10 +61,10 @@ namespace Barsix.BarsEntity.BarsGenerators
                     continue;
 
                 if (field.IsBasicType())
-                    ctor.Body.Add("Map(x => x.{0}, \"{1}\", {2}{3});".F(field.FieldName, field.ColumnName, (!field.Nullable).ToString().ToLower(), field.TypeName == "string" && field.Length >0 ? ", " + field.Length.ToString() : ""));
+                    ctor.Body.Add("Map(x => x.{0}, \"{1}\", {2}{3});".R(field.FieldName, field.ColumnName, (!field.Nullable).ToString().ToLower(), field.TypeName == "string" && field.Length >0 ? ", " + field.Length.ToString() : ""));
                 else
                 {
-                    ctor.Body.Add("References(x => x.{0}, \"{1}\", ReferenceMapConfig.{2}Fetch);".F(field.FieldName, field.ColumnName, field.Nullable ? "" : "NotNullAnd"));
+                    ctor.Body.Add("References(x => x.{0}, \"{1}\", ReferenceMapConfig.{2}Fetch);".R(field.FieldName, field.ColumnName, field.Nullable ? "" : "NotNullAnd"));
                 }
             }
 
@@ -72,7 +73,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 ctor.Body.Add("");
             foreach (var field in options.Fields.Where(x => x.Collection))
             {
-                ctor.Body.Add("HasMany(x => x.{0}, \"{1}\", ReferenceMapConfig.CascadeDelete);".F(field.FieldName, field.ColumnName));
+                ctor.Body.Add("HasMany(x => x.{0}, \"{1}\", ReferenceMapConfig.CascadeDelete);".R(field.FieldName, field.ColumnName));
             }
             
 
@@ -80,7 +81,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 ctor.Body.Add("");
             foreach (var field in options.Fields.Where(x => x.TypeName.EndsWith("View")))
             {
-                ctor.Body.Add("OneToOne(x => x.{0}, map => {{ map.PropertyReference(typeof({1}).GetProperty(\"{2}\")); }});".F(field.FieldName, field.TypeName, options.ClassName));
+                ctor.Body.Add("OneToOne(x => x.{0}, map => {{ map.PropertyReference(typeof({1}).GetProperty(\"{2}\")); }});".R(field.FieldName, field.TypeName, options.ClassName));
                 _knownTypes.Add(field.TypeName);
             }
 

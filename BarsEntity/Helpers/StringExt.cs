@@ -37,9 +37,16 @@ namespace Barsix.BarsEntity
             return string.Join("_", words);
         }
 
-        public static string F(this string template, params object[] phList)
+        public static string R(this string template, params object[] phList)
         {
-            return string.Format(template, phList);
+            string result = template;
+
+            for (int i = 0; i < phList.Length; i++)
+            {
+                result = result.Replace("{" + i + "}", phList[i].ToString());
+            }
+
+            return result.Replace("{{", "{").Replace("}}", "}");
         }
 
         public static string camelCase(this string source)

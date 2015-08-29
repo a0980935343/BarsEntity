@@ -17,7 +17,7 @@ namespace Barsix.BarsEntity.BarsGenerators
 
             if (!File.Exists(Path.Combine(_project.RootFolder, "Domain\\StatefulEntitiesManifest.cs")))
             {
-                var ns = new NamespaceInfo { Name = "{0}.Domain".F(_project.DefaultNamespace) };
+                var ns = new NamespaceInfo { Name = "{0}.Domain".R(_project.DefaultNamespace) };
                 ns.InnerUsing.Add("B4");
                 ns.InnerUsing.Add("B4.Modules.States");
                 ns.InnerUsing.Add("Entities");
@@ -31,7 +31,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 {
                     Name = options.ClassName,
                     Type = "StatefulEntityInfo",
-                    Value = "new StatefulEntityInfo(\"{0}\", \"{1}\".Localize(), typeof({2}))".F(options.ClassFullName, options.DisplayName, options.ClassName)
+                    Value = "new StatefulEntityInfo(\"{0}\", \"{1}\".Localize(), typeof({2}))".R(options.ClassFullName, options.DisplayName, options.ClassName)
                 }
                 ).Public.Static.ReadOnly;
 
@@ -44,7 +44,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 cls.AddField(classInfo);
 
                 var getAllInfo = new MethodInfo { Name = "GetAllInfo", Type = "IEnumerable<StatefulEntityInfo>" };
-                getAllInfo.Body.Add("return new[]{{ {0} }};".F(options.ClassName));
+                getAllInfo.Body.Add("return new[]{{ {0} }};".R(options.ClassName));
                 cls.AddMethod(getAllInfo);
 
                 ns.NestedValues.Add(cls);
@@ -62,7 +62,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 var field = (new FieldInfo {
                     Name = options.ClassName,
                     Type = "StatefulEntityInfo",
-                    Value = "new StatefulEntityInfo(\"{0}\", \"{1}\".Localize(), typeof({2}))".F(options.ClassFullName, options.DisplayName, options.ClassName)
+                    Value = "new StatefulEntityInfo(\"{0}\", \"{1}\".Localize(), typeof({2}))".R(options.ClassFullName, options.DisplayName, options.ClassName)
                 }).Public.Static.ReadOnly.Generate(0).First();
 
                 fragments.AddLines("Domain/StatefulEntitiesManifest.cs", this, new List<string> { field });

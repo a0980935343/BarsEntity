@@ -100,7 +100,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 var parent = options.Fields.FirstOrDefault(x => x.ParentReference);
 
                 if (owner != null)
-                    list.Body.Add("var {0}Id = baseParams.Params[\"{0}Id\"].ToLong();".F(owner.FieldName.camelCase()));
+                    list.Body.Add("var {0}Id = baseParams.Params[\"{0}Id\"].ToLong();".R(owner.FieldName.camelCase()));
 
                 if (options.Signable)
                     list.Body.Add("var qDigitalSignatures = Container.Resolve<IDomainService<DigSignature>>().GetAll();");
@@ -108,22 +108,22 @@ namespace Barsix.BarsEntity.BarsGenerators
                 list.Body.Add("var qList = domainService.GetAll()");
 
                 if (owner != null)
-                    list.Body.Add("    .Where(x => x.{0}.Id == {1}Id)".F(owner.FieldName, owner.FieldName.camelCase()));
+                    list.Body.Add("    .Where(x => x.{0}.Id == {1}Id)".R(owner.FieldName, owner.FieldName.camelCase()));
 
 
                 list.Body.Add("    .Select(x => new QueryResult {");
                 foreach (var prop in proxyClass.Properties)
                 {
                     if (options.Signable && prop.Name == "Signed")
-                        list.Body.Add("        Signed = qDigitalSignatures.Any(ds => ds.EntityTypeId == \"{0}\" && ds.EntityId == x.Id),".F(options.ClassFullName));
+                        list.Body.Add("        Signed = qDigitalSignatures.Any(ds => ds.EntityTypeId == \"{0}\" && ds.EntityId == x.Id),".R(options.ClassFullName));
                     else if (prop.Name == "_is_loaded")
                         list.Body.Add("        _is_loaded = true,");
                     else if (prop.Name == "_parent")
-                        list.Body.Add("        _parent = x.{0} != null ? x.{0}.Id : 0,".F(parent.FieldName));
+                        list.Body.Add("        _parent = x.{0} != null ? x.{0}.Id : 0,".R(parent.FieldName));
                     else if (prop.Name == "_is_leaf")
-                        list.Body.Add("        _is_leaf = !domainService.GetAll().Any(y => y.{0} == x),".F(parent.FieldName));
+                        list.Body.Add("        _is_leaf = !domainService.GetAll().Any(y => y.{0} == x),".R(parent.FieldName));
                     else
-                        list.Body.Add("        {0} = x.{0},".F(prop.Name));
+                        list.Body.Add("        {0} = x.{0},".R(prop.Name));
                 }
                 var last = list.Body.Last();
                 last = last.Substring(0, last.Length - 1);
@@ -165,12 +165,12 @@ namespace Barsix.BarsEntity.BarsGenerators
 
                 foreach (var field in options.Fields.Where(x => !x.Collection && !x.TypeName.EndsWith("View")))
                 {
-                    body.Add("    entity.{0},".F(field.FieldName));
+                    body.Add("    entity.{0},".R(field.FieldName));
                 }
 
                 if (options.Signable)
                 {
-                    body.Add("    Signed = qDigitalSignatures.Any(y => y.EntityTypeId == \"{0}\" && y.EntityId == entity.Id),".F(options.ClassFullName));
+                    body.Add("    Signed = qDigitalSignatures.Any(y => y.EntityTypeId == \"{0}\" && y.EntityId == entity.Id),".R(options.ClassFullName));
                 }
 
                 body[body.Count - 1] = body.Last().Substring(0, body.Last().Length - 1);
@@ -183,7 +183,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             }
 
             fragments.AddLines("Module.cs", this, new List<string> { 
-                "Container.Register(Component.For<IViewModel<{0}>>().ImplementedBy<{0}ViewModel>());".F(options.ClassName)});
+                "Container.Register(Component.For<IViewModel<{0}>>().ImplementedBy<{0}ViewModel>());".R(options.ClassName)});
 
             file.Name = options.ClassName + "ViewModel.cs";
             file.Path = "ViewModel\\" + (options.IsDictionary ? "Dict\\" : (!string.IsNullOrWhiteSpace(options.Subfolder) ? options.Subfolder : ""));

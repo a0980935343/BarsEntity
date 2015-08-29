@@ -29,7 +29,7 @@ namespace Barsix.BarsEntity.CodeGeneration.JavaScript
             {
                 row = Name + ": ";
             }
-            row = row + "function({0}){{".F(Params);
+            row = row + "function({0}){{".R(Params);
 
             _result.Add(row.Ind(indent));
 

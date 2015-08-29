@@ -101,7 +101,7 @@ namespace Barsix.BarsEntity
             if (Options.MigrationVersion == "")
                 return;
 
-            if (File.Exists( Path.Combine( project.RootFolder(), "Migrations\\{0}\\UpdateSchema.cs".F(Options.MigrationVersion))))
+            if (File.Exists( Path.Combine( project.RootFolder(), "Migrations\\{0}\\UpdateSchema.cs".R(Options.MigrationVersion))))
             {
                 MessageBox.Show("Миграция с этим номером версии уже существует! Измените версию", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;

@@ -79,6 +79,6 @@ namespace Barsix.BarsEntity.BarsOptions
             }
         }
 
-        public string FullTypeName { get { return Collection ? "IList<{0}>".F(TypeName) : TypeName + (Nullable && (this.IsBasicType() || this.TypeName.EndsWith("Enum")) && TypeName != "string" ? "?" : ""); } }
+        public string FullTypeName { get { return Collection ? "IList<{0}>".R(TypeName) : TypeName + (Nullable && (this.IsBasicType() || this.TypeName.EndsWith("Enum")) && TypeName != "string" ? "?" : ""); } }
     }
 }

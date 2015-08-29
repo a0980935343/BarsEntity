@@ -14,11 +14,11 @@ namespace Barsix.BarsEntity.BarsGenerators
         {
             var files = base.Generate(project, options, fragments);
             var file = files.First();
-            var ns = new NamespaceInfo() { Name = "{0}.Map".F(_project.DefaultNamespace) };
+            var ns = new NamespaceInfo() { Name = _project.DefaultNamespace + ".Map" };
             var cls = new ClassInfo
             {
-                Name = "{0}LogMap".F(options.ClassName),
-                BaseClass = "AuditLogMap<{0}>".F(options.ClassName)
+                Name = options.ClassName + "LogMap",
+                BaseClass = "AuditLogMap<{0}>".R(options.ClassName)
             };
             ns.NestedValues.Add(cls);
             ns.InnerUsing.Add("B4.Modules.NHibernateChangeLog");
@@ -35,8 +35,8 @@ namespace Barsix.BarsEntity.BarsGenerators
             _knownTypes.Add("AuditLogMap");
             _knownTypes.Add(options.ClassName);
 
-            ctor.Body.Add("Name(\"{0}\");".F(options.DisplayName));
-            ctor.Body.Add("Description(x => string.Format(\"{0} №{{0}}\", x.Id));".F(options.DisplayName));
+            ctor.Body.Add("Name(\"{0}\");".R(options.DisplayName));
+            ctor.Body.Add("Description(x => string.Format(\"{0} №{{0}}\", x.Id));".R(options.DisplayName));
             ctor.Body.Add("");
 
             foreach (var field in options.Fields.Where(x => !x.Collection && !x.TypeName.EndsWith("View")))
@@ -44,13 +44,13 @@ namespace Barsix.BarsEntity.BarsGenerators
                 if (field.IsBasicType())
                 {
                     if (field.TypeName == "bool")
-                        ctor.Body.Add("MapProperty(x => x.{0}, \"{1}\", \"{2}\", x => x ? \"Да\" : \"Нет\");".F(field.FieldName, field.ColumnName, field.DisplayName));
+                        ctor.Body.Add("MapProperty(x => x.{0}, \"{1}\", \"{2}\", x => x ? \"Да\" : \"Нет\");".R(field.FieldName, field.ColumnName, field.DisplayName));
                     else
-                        ctor.Body.Add("MapProperty(x => x.{0}, \"{1}\", \"{2}\");".F(field.FieldName, field.ColumnName, field.DisplayName, field.TypeName));
+                        ctor.Body.Add("MapProperty(x => x.{0}, \"{1}\", \"{2}\");".R(field.FieldName, field.ColumnName, field.DisplayName, field.TypeName));
                 }
                 else
                 {
-                    ctor.Body.Add("MapProperty(x => x.{0}, \"{1}\", \"{2}\", x => x == null ? string.Empty : x.{3});".F(field.FieldName, field.ColumnName.Substring(0, field.ColumnName.Length - 3), field.DisplayName, field.TextProperty));
+                    ctor.Body.Add("MapProperty(x => x.{0}, \"{1}\", \"{2}\", x => x == null ? string.Empty : x.{3});".R(field.FieldName, field.ColumnName.Substring(0, field.ColumnName.Length - 3), field.DisplayName, field.TextProperty));
                 }
             }
             cls.AddMethod(ctor);
