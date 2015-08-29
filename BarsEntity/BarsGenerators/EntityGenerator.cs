@@ -92,7 +92,19 @@ namespace Barsix.BarsEntity.BarsGenerators
                 cls.AddProperty(pi);
 
                 if (!field.IsBasicType() || field.Enum)
-                    ns.InnerUsing.AddDistinct(GetTypeNamespace(field.TypeName));
+                {
+                    var fieldSpace = GetTypeNamespace(field.TypeName);
+                    if (field.Enum && fieldSpace == "" && !ns.NestedValues.Any(x => x is EnumInfo && x.Name == field.TypeName))
+                    {
+                        var enumType = new EnumInfo() { Name = field.TypeName, BaseType = "byte" };
+                        enumType.Values.Add(new EnumValue { Name = "First", Value = 10 });
+                        enumType.Values.Add(new EnumValue { Name = "Second", Value = 20 });
+
+                        ns.NestedValues.Insert(0, enumType);
+                    }
+                    else
+                        ns.InnerUsing.AddDistinct(fieldSpace);
+                }
 
                 if ((!field.IsBasicType() || field.Enum) && field.TypeName != field.FieldName)
                     _knownTypes.Add(field.TypeName);

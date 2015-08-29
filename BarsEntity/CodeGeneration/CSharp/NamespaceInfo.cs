@@ -20,10 +20,14 @@ namespace Barsix.BarsEntity.CodeGeneration.CSharp
             result.Add(("namespace " + Name).Ind(indent) + Environment.NewLine + "{".Ind(indent));
 
             InnerUsing.ForEach(x => result.Add(("using " + x + ";").Ind(indent+1)));
+            
             if (InnerUsing.Any())
                 result.Add("".Ind(indent));
 
-            NestedValues.ForEach(x => result.AddRange(x.Generate(indent + 1)));
+            NestedValues.ForEach(x => { 
+                result.AddRange(x.Generate(indent + 1)); 
+                result.Add(""); 
+            });
 
             result.Add("}".Ind(indent));
 

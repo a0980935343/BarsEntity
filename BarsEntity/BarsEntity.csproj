@@ -153,6 +153,7 @@
     <Compile Include="BarsGenerators\ViewModelGenerator.cs" />
     <Compile Include="BarsOptions\DomainServiceOptions.cs" />
     <Compile Include="BarsGenerators\Generation\GeneratedFragment.cs" />
+    <Compile Include="CodeGeneration\CSharp\EnumInfo.cs" />
     <Compile Include="CodeGeneration\JavaScript\JsHelper.cs" />
     <Compile Include="Helpers\CodeClassExt.cs" />
     <Compile Include="Helpers\ControlExt.cs" />
