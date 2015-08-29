@@ -19,21 +19,19 @@ namespace Barsix.BarsEntity.BarsGenerators
             var cls = new ClassInfo();
             ns.NestedValues.Add(cls);
             ns.Name = "{0}.Map".F(_project.DefaultNamespace);
-            
-            if (options.BaseClass == "BaseEntity")
-            {
-                ns.InnerUsing.Add("B4.DataAccess");
-            }
-            else if (options.BaseClass == "NamedBaseEntity")
+
+            if (options.BaseClass == "NamedBaseEntity")
             {
                 ns.InnerUsing.Add("MosKs.Core.Map.Base");
             }
-
-            ns.InnerUsing.Add("B4.DataAccess.ByCode");
+            else
+            {
+                ns.InnerUsing.Add("B4.DataAccess.ByCode");
+            }
             ns.InnerUsing.Add("Entities");
             
             cls.Name = "{0}Map".F(options.ClassName);
-            cls.BaseClass = "{2}{0}Map<{1}>".F(options.BaseClass, options.ClassName, _project.DefaultNamespace.StartsWith("Bars.B4.") ? "" : "Bars.MosKs.Core.Map.Base.");
+            cls.BaseClass = "{0}Map<{1}>".F(options.BaseClass, options.ClassName);
 
             _knownTypes.Clear();
             _knownTypes.Add(options.ClassName);

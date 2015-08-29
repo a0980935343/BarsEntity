@@ -715,6 +715,7 @@ namespace Barsix.BarsEntity
             this.tbeComment.Name = "tbeComment";
             this.tbeComment.Size = new System.Drawing.Size(162, 20);
             this.tbeComment.TabIndex = 11;
+            this.tbeComment.Text = "Наименование";
             // 
             // cheParentReference
             // 
