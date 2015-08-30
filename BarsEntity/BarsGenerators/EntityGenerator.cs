@@ -148,6 +148,17 @@ namespace Barsix.BarsEntity.BarsGenerators
                 _knownTypes.Add(field.TypeName);
             }
             
+            // Добавить ссылку на View в базовую сущность
+            var baseEntity = options.ClassName.Substring(0, options.ClassName.Length - 4);
+            if (options.ClassName.EndsWith("View") && options.Fields.Any(f => f.FieldName == baseEntity && f.TypeName == baseEntity))
+            {
+                fragments.AddLines(baseEntity + ".cs", this, new List<string> { 
+                "    [JsonIgnore]\n    public virtual {0} AggregatedInfo { get; set; }".R(options.ClassName)});
+
+                fragments.AddLines(baseEntity + "Map.cs", this, new List<string> { 
+                "    OneToOne(x => x.AggregatedInfo, map => {{ map.PropertyReference(typeof({0}).GetProperty(\"{0}\")); }});".R(baseEntity)});
+            }
+
             file.Name = options.ClassName + ".cs";
             file.Path = "Entities\\" + (options.IsDictionary ? "Dict\\" : (!string.IsNullOrWhiteSpace(options.Subfolder) ? options.Subfolder : ""));
             file.Body = ns.Generate(0).ToList();
