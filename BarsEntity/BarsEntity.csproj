@@ -191,22 +191,22 @@
     <Compile Include="CodeGeneration\JavaScript\JsInstance.cs" />
     <Compile Include="CodeGeneration\JavaScript\JsObject.cs" />
     <Compile Include="CodeGeneration\JavaScript\JsScalar.cs" />
-    <Compile Include="ConfirmCreationParts.cs">
+    <Compile Include="Windows\ConfirmCreationParts.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ConfirmCreationParts.Designer.cs">
+    <Compile Include="Windows\ConfirmCreationParts.Designer.cs">
       <DependentUpon>ConfirmCreationParts.cs</DependentUpon>
     </Compile>
-    <Compile Include="DontForgetThis.cs">
+    <Compile Include="Windows\DontForgetThis.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DontForgetThis.Designer.cs">
+    <Compile Include="Windows\DontForgetThis.Designer.cs">
       <DependentUpon>DontForgetThis.cs</DependentUpon>
     </Compile>
-    <Compile Include="EntityOptionsWindow.cs">
+    <Compile Include="Windows\EntityOptionsWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="EntityOptionsWindow.Designer.cs">
+    <Compile Include="Windows\EntityOptionsWindow.Designer.cs">
       <DependentUpon>EntityOptionsWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="BarsGenerators\Generation\GenerationManager.cs" />
@@ -216,10 +216,10 @@
     <Compile Include="Guids.cs" />
     <Compile Include="BarsEntityPackage.cs" />
     <Compile Include="Helpers\TypeHelper.cs" />
-    <Compile Include="ProjectInfo.cs" />
+    <Compile Include="Types\ProjectInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\StringExt.cs" />
-    <Compile Include="ViewType.cs" />
+    <Compile Include="Types\ViewType.cs" />
     <Compile Include="Windows\ClassBrowserWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -239,10 +239,10 @@
     <Content Include="Resources\favicon.ico">
       <IncludeInVSIX>true</IncludeInVSIX>
     </Content>
-    <EmbeddedResource Include="ConfirmCreationParts.resx">
+    <EmbeddedResource Include="Windows\ConfirmCreationParts.resx">
       <DependentUpon>ConfirmCreationParts.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DontForgetThis.resx">
+    <EmbeddedResource Include="Windows\DontForgetThis.resx">
       <DependentUpon>DontForgetThis.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Windows\ClassBrowserWindow.resx">
@@ -250,7 +250,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="EntityOptionsWindow.resx">
+    <EmbeddedResource Include="Windows\EntityOptionsWindow.resx">
       <DependentUpon>EntityOptionsWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VSPackage.resx">

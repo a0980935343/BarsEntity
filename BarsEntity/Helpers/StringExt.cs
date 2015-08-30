@@ -43,7 +43,7 @@ namespace Barsix.BarsEntity
 
             for (int i = 0; i < phList.Length; i++)
             {
-                result = result.Replace("{" + i + "}", phList[i].ToString());
+                result = result.Replace("{" + i + "}", phList[i] == null ? string.Empty : phList[i].ToString());
             }
 
             return result.Replace("{{", "{").Replace("}}", "}");
