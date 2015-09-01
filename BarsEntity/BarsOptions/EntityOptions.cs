@@ -16,6 +16,10 @@ namespace Barsix.BarsEntity.BarsOptions
 
         public string TableName;
 
+        public InheritanceType InheritanceType;
+
+        public string DiscriminatorValue;
+
         public string MigrationVersion;
 
         public string DisplayName;

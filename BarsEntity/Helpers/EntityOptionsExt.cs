@@ -11,22 +11,29 @@ namespace Barsix.BarsEntity
 
     public static class EntityOptionsExt
     {
-        public static void Map(this EntityOptions opts, TextBox tb, Func<EntityOptions, string> selector)
+        public static void Map(this EntityOptions opts, TextBox text, Func<EntityOptions, string> selector)
         {
-            tb.Text = selector.Invoke(opts);
+            text.Text = selector.Invoke(opts);
         }
 
-        public static void Map(this EntityOptions opts, CheckBox tb, Func<EntityOptions, bool> selector)
+        public static void Map(this EntityOptions opts, CheckBox check, Func<EntityOptions, bool> selector)
         {
-            tb.Checked = selector.Invoke(opts);
+            check.Checked = selector.Invoke(opts);
         }
 
-        public static void Map(this EntityOptions opts, ComboBox tb, Func<EntityOptions, string> selector)
+        public static void Map(this EntityOptions opts, ComboBox combo, Func<EntityOptions, string> selector)
         {
-            for(int i=0; i<tb.Items.Count; i++)
+            if (combo.DropDownStyle == ComboBoxStyle.DropDownList)
             {
-                if (tb.Items[i].ToString() == selector.Invoke(opts))
-                    tb.SelectedIndex = i;
+                for (int i = 0; i < combo.Items.Count; i++)
+                {
+                    if (combo.Items[i].ToString() == selector.Invoke(opts))
+                        combo.SelectedIndex = i;
+                }
+            }
+            else
+            {
+                combo.Text = selector.Invoke(opts);
             }
         }
 
@@ -45,6 +52,23 @@ namespace Barsix.BarsEntity
             StreamWriter writer = new StreamWriter(fileName);
             xml.Serialize(writer, options);
             writer.Close();
+        }
+
+        public static bool IsStandartBaseClass(this EntityOptions options, string className)
+        {
+            return className == "BaseEntity" || className == "NamedBaseEntity" || className == "PersistentObject";
+        }
+
+        public static string MapBaseClass(this EntityOptions options)
+        {
+            if (!options.IsStandartBaseClass(options.BaseClass))
+            {
+                return options.InheritanceType == InheritanceType.BaseJoinedClass ? "BaseJoinedSubclassMap" : "SubclassMap";
+            }
+            else
+            {
+                return options.BaseClass + "Map";
+            }
         }
     }
 }

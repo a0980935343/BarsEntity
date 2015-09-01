@@ -29,7 +29,7 @@ namespace Barsix.BarsEntity
     public sealed class BarsEntityPackage : ExtensionPointPackage
     {
         private static DTE2 _dte;
-        public const string Version = "1.4.1";
+        public const string Version = "1.4.2";
 
         protected override void Initialize()
         {

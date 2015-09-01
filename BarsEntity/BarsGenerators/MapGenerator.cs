@@ -31,7 +31,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             ns.InnerUsing.Add("Entities");
             
             cls.Name = options.ClassName + "Map";
-            cls.BaseClass = "{0}Map<{1}>".R(options.BaseClass, options.ClassName);
+            cls.BaseClass = "{0}<{1}>".R(options.MapBaseClass(), options.ClassName);
 
             _knownTypes.Clear();
             _knownTypes.Add(options.ClassName);
@@ -39,6 +39,8 @@ namespace Barsix.BarsEntity.BarsGenerators
             _knownTypes.Add("IList");
             _knownTypes.Add("ReferenceMapConfig");
             _knownTypes.Add(options.BaseClass + "Map");
+            _knownTypes.Add("SubclassMap");
+            _knownTypes.Add("BaseJoinedSubclassMap");
 
             var ctor = new MethodInfo() 
             { 
@@ -52,8 +54,13 @@ namespace Barsix.BarsEntity.BarsGenerators
                 ctor.SignatureParams = "base(\"{0}\", {1}, {2})".R(options.TableName, field.Nullable.ToString().ToLower(), field.Length == 0 ? 100 : field.Length);
             }
             else
-                ctor.SignatureParams = "base(\"{0}\")".R(options.TableName);
-            
+                ctor.SignatureParams = "base(\"{0}\"{1})".R(options.TableName, options.MapBaseClass() == "BaseJoinedSubclassMap" ? ", \"ID\"" : string.Empty);
+
+
+            if (options.MapBaseClass() == "SubclassMap")
+            {
+                ctor.Body.Add("DiscriminatorValue(\"{0}\");\n".R(options.DiscriminatorValue));
+            }
 
             foreach (var field in options.Fields.Where(x => !x.Collection && !x.TypeName.EndsWith("View")))
             {

@@ -35,6 +35,7 @@ namespace Barsix.BarsEntity
             cbvSelectionModel.SelectedIndex = 0;
             cbeBaseClass.SelectedIndex = 0;
             cbvViewType.SelectedIndex = 0;
+            cbmInheritanceType.SelectedIndex = 0;
 
             CreateEditor(tgEntity, "Entity");
             CreateEditor(tgMap, "Map");
@@ -59,6 +60,9 @@ namespace Barsix.BarsEntity
                     if (ctl is ComboBox)
                     {
                         ((ComboBox)ctl).SelectedIndexChanged += (s, ea) => UpdateEditors();
+                        
+                        if (((ComboBox)ctl).DropDownStyle == ComboBoxStyle.DropDown)
+                            ((ComboBox)ctl).TextChanged += (s, ea) => UpdateEditors();
                     }
             }
         }
@@ -169,6 +173,8 @@ namespace Barsix.BarsEntity
             options.ClassFullName = _project.DefaultNamespace() + ".Entities." + tbEntityName.Text;
             options.TableName = tbTableName.Text;
             options.BaseClass = cbeBaseClass.Text;
+            options.InheritanceType = (InheritanceType)Enum.Parse(typeof(InheritanceType), cbmInheritanceType.Text);
+            options.DiscriminatorValue = tbDiscriminator.Text;
             options.IsDictionary = chDictionary.Checked;
             options.Stateful = chStateful.Checked;
             options.Signable = chSignable.Checked;
@@ -1061,9 +1067,12 @@ namespace Barsix.BarsEntity
             }
 
             options.Map(tbEntityName, x => x.ClassName);
+            options.Map(cbeBaseClass, x => x.BaseClass);
             options.Map(chDictionary, x => x.IsDictionary);
             options.Map(tbTableName, x => x.TableName);
             options.Map(tbSubfolder, x => x.Subfolder);
+            options.Map(tbDiscriminator, x => x.DiscriminatorValue);
+            options.Map(cbmInheritanceType, x => x.InheritanceType.ToString());
 
             if (options.Controller != null)
             {
@@ -1161,6 +1170,25 @@ namespace Barsix.BarsEntity
             {
                 chcList.Checked = chcGet.Checked = false;
             }
+        }
+
+        private void cbeBaseClass_TextChanged(object sender, EventArgs e)
+        {
+            if (!EntityOptionsExt.IsStandartBaseClass(null, cbeBaseClass.Text))
+            {
+                cbmInheritanceType.Visible = lbInheritanceType.Visible = true;
+            }
+        }
+
+        private void cbmInheritanceType_VisibleChanged(object sender, EventArgs e)
+        {
+            tbDiscriminator.Visible = lbDiscriminator.Visible = 
+                cbmInheritanceType.Visible && cbmInheritanceType.Text == "Discriminator";
+        }
+
+        private void cbmInheritanceType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            tbDiscriminator.Visible = lbDiscriminator.Visible = cbmInheritanceType.Text == "Discriminator";
         }
     }
 }

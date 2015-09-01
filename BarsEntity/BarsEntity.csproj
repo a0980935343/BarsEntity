@@ -191,6 +191,7 @@
     <Compile Include="CodeGeneration\JavaScript\JsInstance.cs" />
     <Compile Include="CodeGeneration\JavaScript\JsObject.cs" />
     <Compile Include="CodeGeneration\JavaScript\JsScalar.cs" />
+    <Compile Include="Types\InheritanceType.cs" />
     <Compile Include="Windows\ConfirmCreationParts.cs">
       <SubType>Form</SubType>
     </Compile>
