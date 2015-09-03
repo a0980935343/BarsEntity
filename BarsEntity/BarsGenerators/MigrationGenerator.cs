@@ -58,7 +58,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             {
                 if (!options.ClassName.EndsWith("View"))
                 {
-                    up.Body.Add("Database.AddEntityTable(\"{0}\",".R(options.TableName));
+                    up.Body.Add("Database.Add{1}Table(\"{0}\",".R(options.TableName, options.BaseClass.EndsWith("BaseEntity") ? "Entity" : ""));
 
                     for (int i = 0; i < options.Fields.Count; i++)
                     {
@@ -88,7 +88,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                     }
                     up.Body.Add(");");
 
-                    down.Body.Add("Database.RemoveEntityTable(\"{0}\");".R(options.TableName));
+                    down.Body.Add("Database.Remove{1}Table(\"{0}\");".R(options.TableName, options.BaseClass.EndsWith("BaseEntity") ? "Entity" : ""));
                 }
                 else // view
                 {
