@@ -72,9 +72,6 @@ namespace Barsix.BarsEntity
 
         public static void GetClassList(this Project project, IDictionary<string, CodeClass> classes, ICollection<string> enums, string filter = "")
         {
-            //var classes = new Dictionary<string, CodeClass>();
-            //var enums = new List<string>();
-
             Action<CodeNamespace> enumClasses = null;
             enumClasses = ns =>
             {

@@ -75,6 +75,10 @@ namespace Barsix.BarsEntity
             System.Windows.Forms.Label label28;
             System.Windows.Forms.Label label32;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntityOptionsWindow));
+            this.tbDiscriminator = new System.Windows.Forms.TextBox();
+            this.lbDiscriminator = new System.Windows.Forms.Label();
+            this.lbInheritanceType = new System.Windows.Forms.Label();
+            this.cbmInheritanceType = new System.Windows.Forms.ComboBox();
             this.tbmLength = new System.Windows.Forms.TextBox();
             this.tbTableName = new System.Windows.Forms.TextBox();
             this.tbmIndex = new System.Windows.Forms.TextBox();
@@ -89,6 +93,18 @@ namespace Barsix.BarsEntity
             this.chcList = new System.Windows.Forms.CheckBox();
             this.chcUpdate = new System.Windows.Forms.CheckBox();
             this.chcGet = new System.Windows.Forms.CheckBox();
+            this.chdsDeleteInternal = new System.Windows.Forms.CheckBox();
+            this.chdsUpdateInternal = new System.Windows.Forms.CheckBox();
+            this.chdsSaveInternal = new System.Windows.Forms.CheckBox();
+            this.chdsDelete = new System.Windows.Forms.CheckBox();
+            this.chdsUpdate = new System.Windows.Forms.CheckBox();
+            this.chdsSave = new System.Windows.Forms.CheckBox();
+            this.chdDeleteAfter = new System.Windows.Forms.CheckBox();
+            this.chdDeleteBefore = new System.Windows.Forms.CheckBox();
+            this.chdUpdateAfter = new System.Windows.Forms.CheckBox();
+            this.chdUpdateBefore = new System.Windows.Forms.CheckBox();
+            this.chdCreateAfter = new System.Windows.Forms.CheckBox();
+            this.chdCreateBefore = new System.Windows.Forms.CheckBox();
             this.tbEntityName = new System.Windows.Forms.TextBox();
             this.btnOk = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -134,18 +150,6 @@ namespace Barsix.BarsEntity
             this.tbnName = new System.Windows.Forms.TextBox();
             this.tbnRoot = new System.Windows.Forms.TextBox();
             this.tabPage8 = new System.Windows.Forms.TabPage();
-            this.chdsDeleteInternal = new System.Windows.Forms.CheckBox();
-            this.chdsUpdateInternal = new System.Windows.Forms.CheckBox();
-            this.chdsSaveInternal = new System.Windows.Forms.CheckBox();
-            this.chdsDelete = new System.Windows.Forms.CheckBox();
-            this.chdsUpdate = new System.Windows.Forms.CheckBox();
-            this.chdsSave = new System.Windows.Forms.CheckBox();
-            this.chdDeleteAfter = new System.Windows.Forms.CheckBox();
-            this.chdDeleteBefore = new System.Windows.Forms.CheckBox();
-            this.chdUpdateAfter = new System.Windows.Forms.CheckBox();
-            this.chdUpdateBefore = new System.Windows.Forms.CheckBox();
-            this.chdCreateAfter = new System.Windows.Forms.CheckBox();
-            this.chdCreateBefore = new System.Windows.Forms.CheckBox();
             this.chvDynamicFilter = new System.Windows.Forms.CheckBox();
             this.chDictionary = new System.Windows.Forms.CheckBox();
             this.chSignable = new System.Windows.Forms.CheckBox();
@@ -170,10 +174,7 @@ namespace Barsix.BarsEntity
             this.openDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveDialog = new System.Windows.Forms.SaveFileDialog();
             this.tbSubfolder = new System.Windows.Forms.TextBox();
-            this.cbmInheritanceType = new System.Windows.Forms.ComboBox();
-            this.lbInheritanceType = new System.Windows.Forms.Label();
-            this.lbDiscriminator = new System.Windows.Forms.Label();
-            this.tbDiscriminator = new System.Windows.Forms.TextBox();
+            this.chcListSummary = new System.Windows.Forms.CheckBox();
             label16 = new System.Windows.Forms.Label();
             label12 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
@@ -220,6 +221,8 @@ namespace Barsix.BarsEntity
             label32 = new System.Windows.Forms.Label();
             tabPage2.SuspendLayout();
             groupBox3.SuspendLayout();
+            groupBox2.SuspendLayout();
+            groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -228,8 +231,6 @@ namespace Barsix.BarsEntity
             this.tabPage6.SuspendLayout();
             this.tabPage7.SuspendLayout();
             this.tabPage8.SuspendLayout();
-            groupBox2.SuspendLayout();
-            groupBox1.SuspendLayout();
             this.tabGenerated.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -307,6 +308,49 @@ namespace Barsix.BarsEntity
             tabPage2.Text = "Map";
             tabPage2.UseVisualStyleBackColor = true;
             tabPage2.Enter += new System.EventHandler(this.tabPage2_Enter);
+            // 
+            // tbDiscriminator
+            // 
+            this.tbDiscriminator.Location = new System.Drawing.Point(277, 232);
+            this.tbDiscriminator.Name = "tbDiscriminator";
+            this.tbDiscriminator.Size = new System.Drawing.Size(102, 20);
+            this.tbDiscriminator.TabIndex = 29;
+            this.tbDiscriminator.Visible = false;
+            // 
+            // lbDiscriminator
+            // 
+            this.lbDiscriminator.AutoSize = true;
+            this.lbDiscriminator.Location = new System.Drawing.Point(228, 237);
+            this.lbDiscriminator.Name = "lbDiscriminator";
+            this.lbDiscriminator.Size = new System.Drawing.Size(43, 13);
+            this.lbDiscriminator.TabIndex = 28;
+            this.lbDiscriminator.Text = "Дискр.";
+            this.lbDiscriminator.Visible = false;
+            // 
+            // lbInheritanceType
+            // 
+            this.lbInheritanceType.AutoSize = true;
+            this.lbInheritanceType.Location = new System.Drawing.Point(3, 235);
+            this.lbInheritanceType.Name = "lbInheritanceType";
+            this.lbInheritanceType.Size = new System.Drawing.Size(81, 13);
+            this.lbInheritanceType.TabIndex = 27;
+            this.lbInheritanceType.Text = "Наследование";
+            this.lbInheritanceType.Visible = false;
+            // 
+            // cbmInheritanceType
+            // 
+            this.cbmInheritanceType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbmInheritanceType.FormattingEnabled = true;
+            this.cbmInheritanceType.Items.AddRange(new object[] {
+            "BaseJoinedClass",
+            "Discriminator"});
+            this.cbmInheritanceType.Location = new System.Drawing.Point(90, 232);
+            this.cbmInheritanceType.Name = "cbmInheritanceType";
+            this.cbmInheritanceType.Size = new System.Drawing.Size(132, 21);
+            this.cbmInheritanceType.TabIndex = 26;
+            this.cbmInheritanceType.Visible = false;
+            this.cbmInheritanceType.SelectedIndexChanged += new System.EventHandler(this.cbmInheritanceType_SelectedIndexChanged);
+            this.cbmInheritanceType.VisibleChanged += new System.EventHandler(this.cbmInheritanceType_VisibleChanged);
             // 
             // label22
             // 
@@ -541,6 +585,7 @@ namespace Barsix.BarsEntity
             // 
             // groupBox3
             // 
+            groupBox3.Controls.Add(this.chcListSummary);
             groupBox3.Controls.Add(this.chcViewModel);
             groupBox3.Controls.Add(this.chcCreate);
             groupBox3.Controls.Add(this.chcDelete);
@@ -557,7 +602,7 @@ namespace Barsix.BarsEntity
             // chcViewModel
             // 
             this.chcViewModel.AutoSize = true;
-            this.chcViewModel.Location = new System.Drawing.Point(114, 45);
+            this.chcViewModel.Location = new System.Drawing.Point(157, 46);
             this.chcViewModel.Name = "chcViewModel";
             this.chcViewModel.Size = new System.Drawing.Size(111, 17);
             this.chcViewModel.TabIndex = 13;
@@ -588,7 +633,7 @@ namespace Barsix.BarsEntity
             // chcList
             // 
             this.chcList.AutoSize = true;
-            this.chcList.Location = new System.Drawing.Point(23, 32);
+            this.chcList.Location = new System.Drawing.Point(23, 26);
             this.chcList.Name = "chcList";
             this.chcList.Size = new System.Drawing.Size(42, 17);
             this.chcList.TabIndex = 10;
@@ -608,7 +653,7 @@ namespace Barsix.BarsEntity
             // chcGet
             // 
             this.chcGet.AutoSize = true;
-            this.chcGet.Location = new System.Drawing.Point(23, 55);
+            this.chcGet.Location = new System.Drawing.Point(23, 72);
             this.chcGet.Name = "chcGet";
             this.chcGet.Size = new System.Drawing.Size(43, 17);
             this.chcGet.TabIndex = 8;
@@ -623,6 +668,277 @@ namespace Barsix.BarsEntity
             label1.Size = new System.Drawing.Size(68, 13);
             label1.TabIndex = 0;
             label1.Text = "Имя класса";
+            // 
+            // colName
+            // 
+            colName.Text = "Название";
+            colName.Width = 100;
+            // 
+            // colType
+            // 
+            colType.Text = "Тип";
+            colType.Width = 100;
+            // 
+            // label33
+            // 
+            label33.AutoSize = true;
+            label33.Location = new System.Drawing.Point(385, 237);
+            label33.Name = "label33";
+            label33.Size = new System.Drawing.Size(86, 13);
+            label33.TabIndex = 42;
+            label33.Text = "Представление";
+            // 
+            // columnHeader3
+            // 
+            columnHeader3.Text = "Поле";
+            columnHeader3.Width = 80;
+            // 
+            // columnHeader4
+            // 
+            columnHeader4.Text = "Тип";
+            columnHeader4.Width = 170;
+            // 
+            // columnHeader5
+            // 
+            columnHeader5.Text = "Описание";
+            columnHeader5.Width = 100;
+            // 
+            // label18
+            // 
+            label18.AutoSize = true;
+            label18.Location = new System.Drawing.Point(11, 20);
+            label18.Name = "label18";
+            label18.Size = new System.Drawing.Size(44, 13);
+            label18.TabIndex = 0;
+            label18.Text = "Версия";
+            // 
+            // label23
+            // 
+            label23.AutoSize = true;
+            label23.Location = new System.Drawing.Point(21, 21);
+            label23.Name = "label23";
+            label23.Size = new System.Drawing.Size(53, 13);
+            label23.TabIndex = 0;
+            label23.Text = "Префикс";
+            // 
+            // label27
+            // 
+            label27.AutoSize = true;
+            label27.Location = new System.Drawing.Point(14, 77);
+            label27.Name = "label27";
+            label27.Size = new System.Drawing.Size(44, 13);
+            label27.TabIndex = 2;
+            label27.Text = "#якорь";
+            // 
+            // label26
+            // 
+            label26.AutoSize = true;
+            label26.Location = new System.Drawing.Point(14, 51);
+            label26.Name = "label26";
+            label26.Size = new System.Drawing.Size(57, 13);
+            label26.TabIndex = 1;
+            label26.Text = "Название";
+            // 
+            // label25
+            // 
+            label25.AutoSize = true;
+            label25.Location = new System.Drawing.Point(14, 24);
+            label25.Name = "label25";
+            label25.Size = new System.Drawing.Size(81, 13);
+            label25.TabIndex = 0;
+            label25.Text = "Вкладка меню";
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(this.chdsDeleteInternal);
+            groupBox2.Controls.Add(this.chdsUpdateInternal);
+            groupBox2.Controls.Add(this.chdsSaveInternal);
+            groupBox2.Controls.Add(this.chdsDelete);
+            groupBox2.Controls.Add(this.chdsUpdate);
+            groupBox2.Controls.Add(this.chdsSave);
+            groupBox2.Location = new System.Drawing.Point(298, 7);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new System.Drawing.Size(318, 243);
+            groupBox2.TabIndex = 10;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "DomainService";
+            // 
+            // chdsDeleteInternal
+            // 
+            this.chdsDeleteInternal.AutoSize = true;
+            this.chdsDeleteInternal.Location = new System.Drawing.Point(182, 131);
+            this.chdsDeleteInternal.Name = "chdsDeleteInternal";
+            this.chdsDeleteInternal.Size = new System.Drawing.Size(92, 17);
+            this.chdsDeleteInternal.TabIndex = 6;
+            this.chdsDeleteInternal.Text = "DeleteInternal";
+            this.chdsDeleteInternal.UseVisualStyleBackColor = true;
+            // 
+            // chdsUpdateInternal
+            // 
+            this.chdsUpdateInternal.AutoSize = true;
+            this.chdsUpdateInternal.Location = new System.Drawing.Point(182, 90);
+            this.chdsUpdateInternal.Name = "chdsUpdateInternal";
+            this.chdsUpdateInternal.Size = new System.Drawing.Size(96, 17);
+            this.chdsUpdateInternal.TabIndex = 5;
+            this.chdsUpdateInternal.Text = "UpdateInternal";
+            this.chdsUpdateInternal.UseVisualStyleBackColor = true;
+            // 
+            // chdsSaveInternal
+            // 
+            this.chdsSaveInternal.AutoSize = true;
+            this.chdsSaveInternal.Location = new System.Drawing.Point(182, 51);
+            this.chdsSaveInternal.Name = "chdsSaveInternal";
+            this.chdsSaveInternal.Size = new System.Drawing.Size(86, 17);
+            this.chdsSaveInternal.TabIndex = 4;
+            this.chdsSaveInternal.Text = "SaveInternal";
+            this.chdsSaveInternal.UseVisualStyleBackColor = true;
+            // 
+            // chdsDelete
+            // 
+            this.chdsDelete.AutoSize = true;
+            this.chdsDelete.Location = new System.Drawing.Point(38, 131);
+            this.chdsDelete.Name = "chdsDelete";
+            this.chdsDelete.Size = new System.Drawing.Size(57, 17);
+            this.chdsDelete.TabIndex = 3;
+            this.chdsDelete.Text = "Delete";
+            this.chdsDelete.UseVisualStyleBackColor = true;
+            // 
+            // chdsUpdate
+            // 
+            this.chdsUpdate.AutoSize = true;
+            this.chdsUpdate.Location = new System.Drawing.Point(38, 90);
+            this.chdsUpdate.Name = "chdsUpdate";
+            this.chdsUpdate.Size = new System.Drawing.Size(61, 17);
+            this.chdsUpdate.TabIndex = 1;
+            this.chdsUpdate.Text = "Update";
+            this.chdsUpdate.UseVisualStyleBackColor = true;
+            // 
+            // chdsSave
+            // 
+            this.chdsSave.AutoSize = true;
+            this.chdsSave.Location = new System.Drawing.Point(38, 51);
+            this.chdsSave.Name = "chdsSave";
+            this.chdsSave.Size = new System.Drawing.Size(51, 17);
+            this.chdsSave.TabIndex = 0;
+            this.chdsSave.Text = "Save";
+            this.chdsSave.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            groupBox1.Controls.Add(this.chdDeleteAfter);
+            groupBox1.Controls.Add(this.chdDeleteBefore);
+            groupBox1.Controls.Add(this.chdUpdateAfter);
+            groupBox1.Controls.Add(this.chdUpdateBefore);
+            groupBox1.Controls.Add(this.chdCreateAfter);
+            groupBox1.Controls.Add(this.chdCreateBefore);
+            groupBox1.Controls.Add(label30);
+            groupBox1.Controls.Add(label29);
+            groupBox1.Controls.Add(label28);
+            groupBox1.Location = new System.Drawing.Point(6, 7);
+            groupBox1.Name = "groupBox1";
+            groupBox1.Size = new System.Drawing.Size(281, 243);
+            groupBox1.TabIndex = 9;
+            groupBox1.TabStop = false;
+            groupBox1.Text = "Interceptor";
+            // 
+            // chdDeleteAfter
+            // 
+            this.chdDeleteAfter.AutoSize = true;
+            this.chdDeleteAfter.Location = new System.Drawing.Point(95, 213);
+            this.chdDeleteAfter.Name = "chdDeleteAfter";
+            this.chdDeleteAfter.Size = new System.Drawing.Size(48, 17);
+            this.chdDeleteAfter.TabIndex = 17;
+            this.chdDeleteAfter.Text = "After";
+            this.chdDeleteAfter.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chdDeleteAfter.UseVisualStyleBackColor = true;
+            // 
+            // chdDeleteBefore
+            // 
+            this.chdDeleteBefore.AutoSize = true;
+            this.chdDeleteBefore.Location = new System.Drawing.Point(95, 178);
+            this.chdDeleteBefore.Name = "chdDeleteBefore";
+            this.chdDeleteBefore.Size = new System.Drawing.Size(57, 17);
+            this.chdDeleteBefore.TabIndex = 16;
+            this.chdDeleteBefore.Text = "Before";
+            this.chdDeleteBefore.UseVisualStyleBackColor = true;
+            // 
+            // chdUpdateAfter
+            // 
+            this.chdUpdateAfter.AutoSize = true;
+            this.chdUpdateAfter.Location = new System.Drawing.Point(95, 137);
+            this.chdUpdateAfter.Name = "chdUpdateAfter";
+            this.chdUpdateAfter.Size = new System.Drawing.Size(48, 17);
+            this.chdUpdateAfter.TabIndex = 15;
+            this.chdUpdateAfter.Text = "After";
+            this.chdUpdateAfter.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chdUpdateAfter.UseVisualStyleBackColor = true;
+            // 
+            // chdUpdateBefore
+            // 
+            this.chdUpdateBefore.AutoSize = true;
+            this.chdUpdateBefore.Location = new System.Drawing.Point(95, 102);
+            this.chdUpdateBefore.Name = "chdUpdateBefore";
+            this.chdUpdateBefore.Size = new System.Drawing.Size(57, 17);
+            this.chdUpdateBefore.TabIndex = 14;
+            this.chdUpdateBefore.Text = "Before";
+            this.chdUpdateBefore.UseVisualStyleBackColor = true;
+            // 
+            // chdCreateAfter
+            // 
+            this.chdCreateAfter.AutoSize = true;
+            this.chdCreateAfter.Location = new System.Drawing.Point(95, 63);
+            this.chdCreateAfter.Name = "chdCreateAfter";
+            this.chdCreateAfter.Size = new System.Drawing.Size(48, 17);
+            this.chdCreateAfter.TabIndex = 13;
+            this.chdCreateAfter.Text = "After";
+            this.chdCreateAfter.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chdCreateAfter.UseVisualStyleBackColor = true;
+            // 
+            // chdCreateBefore
+            // 
+            this.chdCreateBefore.AutoSize = true;
+            this.chdCreateBefore.Location = new System.Drawing.Point(95, 28);
+            this.chdCreateBefore.Name = "chdCreateBefore";
+            this.chdCreateBefore.Size = new System.Drawing.Size(57, 17);
+            this.chdCreateBefore.TabIndex = 12;
+            this.chdCreateBefore.Text = "Before";
+            this.chdCreateBefore.UseVisualStyleBackColor = true;
+            // 
+            // label30
+            // 
+            label30.AutoSize = true;
+            label30.Location = new System.Drawing.Point(23, 197);
+            label30.Name = "label30";
+            label30.Size = new System.Drawing.Size(38, 13);
+            label30.TabIndex = 11;
+            label30.Text = "Delete";
+            // 
+            // label29
+            // 
+            label29.AutoSize = true;
+            label29.Location = new System.Drawing.Point(23, 119);
+            label29.Name = "label29";
+            label29.Size = new System.Drawing.Size(42, 13);
+            label29.TabIndex = 10;
+            label29.Text = "Update";
+            // 
+            // label28
+            // 
+            label28.AutoSize = true;
+            label28.Location = new System.Drawing.Point(23, 48);
+            label28.Name = "label28";
+            label28.Size = new System.Drawing.Size(38, 13);
+            label28.TabIndex = 9;
+            label28.Text = "Create";
+            // 
+            // label32
+            // 
+            label32.AutoSize = true;
+            label32.Location = new System.Drawing.Point(251, 9);
+            label32.Name = "label32";
+            label32.Size = new System.Drawing.Size(57, 13);
+            label32.TabIndex = 43;
+            label32.Text = "Подпапка";
             // 
             // tbEntityName
             // 
@@ -832,16 +1148,6 @@ namespace Barsix.BarsEntity
             this.lvFields.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvFields_ItemSelectionChanged);
             this.lvFields.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lvFields_KeyUp);
             // 
-            // colName
-            // 
-            colName.Text = "Название";
-            colName.Width = 100;
-            // 
-            // colType
-            // 
-            colType.Text = "Тип";
-            colType.Width = 100;
-            // 
             // tabPage3
             // 
             this.tabPage3.Controls.Add(groupBox3);
@@ -896,15 +1202,6 @@ namespace Barsix.BarsEntity
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "View";
             this.tabPage4.UseVisualStyleBackColor = true;
-            // 
-            // label33
-            // 
-            label33.AutoSize = true;
-            label33.Location = new System.Drawing.Point(385, 237);
-            label33.Name = "label33";
-            label33.Size = new System.Drawing.Size(86, 13);
-            label33.TabIndex = 42;
-            label33.Text = "Представление";
             // 
             // cbvViewType
             // 
@@ -1045,21 +1342,6 @@ namespace Barsix.BarsEntity
             this.lvView.View = System.Windows.Forms.View.Details;
             this.lvView.ItemSelectionChanged += new System.Windows.Forms.ListViewItemSelectionChangedEventHandler(this.lvView_ItemSelectionChanged);
             // 
-            // columnHeader3
-            // 
-            columnHeader3.Text = "Поле";
-            columnHeader3.Width = 80;
-            // 
-            // columnHeader4
-            // 
-            columnHeader4.Text = "Тип";
-            columnHeader4.Width = 170;
-            // 
-            // columnHeader5
-            // 
-            columnHeader5.Text = "Описание";
-            columnHeader5.Width = 100;
-            // 
             // tabPage5
             // 
             this.tabPage5.Controls.Add(this.tbMigrationVersion);
@@ -1078,15 +1360,6 @@ namespace Barsix.BarsEntity
             this.tbMigrationVersion.Name = "tbMigrationVersion";
             this.tbMigrationVersion.Size = new System.Drawing.Size(179, 20);
             this.tbMigrationVersion.TabIndex = 1;
-            // 
-            // label18
-            // 
-            label18.AutoSize = true;
-            label18.Location = new System.Drawing.Point(11, 20);
-            label18.Name = "label18";
-            label18.Size = new System.Drawing.Size(44, 13);
-            label18.TabIndex = 0;
-            label18.Text = "Версия";
             // 
             // tabPage6
             // 
@@ -1117,15 +1390,6 @@ namespace Barsix.BarsEntity
             this.tbpPrefix.Name = "tbpPrefix";
             this.tbpPrefix.Size = new System.Drawing.Size(175, 20);
             this.tbpPrefix.TabIndex = 1;
-            // 
-            // label23
-            // 
-            label23.AutoSize = true;
-            label23.Location = new System.Drawing.Point(21, 21);
-            label23.Name = "label23";
-            label23.Size = new System.Drawing.Size(53, 13);
-            label23.TabIndex = 0;
-            label23.Text = "Префикс";
             // 
             // tabPage7
             // 
@@ -1175,33 +1439,6 @@ namespace Barsix.BarsEntity
             this.tbnRoot.Size = new System.Drawing.Size(160, 20);
             this.tbnRoot.TabIndex = 3;
             // 
-            // label27
-            // 
-            label27.AutoSize = true;
-            label27.Location = new System.Drawing.Point(14, 77);
-            label27.Name = "label27";
-            label27.Size = new System.Drawing.Size(44, 13);
-            label27.TabIndex = 2;
-            label27.Text = "#якорь";
-            // 
-            // label26
-            // 
-            label26.AutoSize = true;
-            label26.Location = new System.Drawing.Point(14, 51);
-            label26.Name = "label26";
-            label26.Size = new System.Drawing.Size(57, 13);
-            label26.TabIndex = 1;
-            label26.Text = "Название";
-            // 
-            // label25
-            // 
-            label25.AutoSize = true;
-            label25.Location = new System.Drawing.Point(14, 24);
-            label25.Name = "label25";
-            label25.Size = new System.Drawing.Size(81, 13);
-            label25.TabIndex = 0;
-            label25.Text = "Вкладка меню";
-            // 
             // tabPage8
             // 
             this.tabPage8.Controls.Add(groupBox2);
@@ -1213,189 +1450,6 @@ namespace Barsix.BarsEntity
             this.tabPage8.TabIndex = 7;
             this.tabPage8.Text = "DomainService";
             this.tabPage8.UseVisualStyleBackColor = true;
-            // 
-            // groupBox2
-            // 
-            groupBox2.Controls.Add(this.chdsDeleteInternal);
-            groupBox2.Controls.Add(this.chdsUpdateInternal);
-            groupBox2.Controls.Add(this.chdsSaveInternal);
-            groupBox2.Controls.Add(this.chdsDelete);
-            groupBox2.Controls.Add(this.chdsUpdate);
-            groupBox2.Controls.Add(this.chdsSave);
-            groupBox2.Location = new System.Drawing.Point(298, 7);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new System.Drawing.Size(318, 243);
-            groupBox2.TabIndex = 10;
-            groupBox2.TabStop = false;
-            groupBox2.Text = "DomainService";
-            // 
-            // chdsDeleteInternal
-            // 
-            this.chdsDeleteInternal.AutoSize = true;
-            this.chdsDeleteInternal.Location = new System.Drawing.Point(182, 131);
-            this.chdsDeleteInternal.Name = "chdsDeleteInternal";
-            this.chdsDeleteInternal.Size = new System.Drawing.Size(92, 17);
-            this.chdsDeleteInternal.TabIndex = 6;
-            this.chdsDeleteInternal.Text = "DeleteInternal";
-            this.chdsDeleteInternal.UseVisualStyleBackColor = true;
-            // 
-            // chdsUpdateInternal
-            // 
-            this.chdsUpdateInternal.AutoSize = true;
-            this.chdsUpdateInternal.Location = new System.Drawing.Point(182, 90);
-            this.chdsUpdateInternal.Name = "chdsUpdateInternal";
-            this.chdsUpdateInternal.Size = new System.Drawing.Size(96, 17);
-            this.chdsUpdateInternal.TabIndex = 5;
-            this.chdsUpdateInternal.Text = "UpdateInternal";
-            this.chdsUpdateInternal.UseVisualStyleBackColor = true;
-            // 
-            // chdsSaveInternal
-            // 
-            this.chdsSaveInternal.AutoSize = true;
-            this.chdsSaveInternal.Location = new System.Drawing.Point(182, 51);
-            this.chdsSaveInternal.Name = "chdsSaveInternal";
-            this.chdsSaveInternal.Size = new System.Drawing.Size(86, 17);
-            this.chdsSaveInternal.TabIndex = 4;
-            this.chdsSaveInternal.Text = "SaveInternal";
-            this.chdsSaveInternal.UseVisualStyleBackColor = true;
-            // 
-            // chdsDelete
-            // 
-            this.chdsDelete.AutoSize = true;
-            this.chdsDelete.Location = new System.Drawing.Point(38, 131);
-            this.chdsDelete.Name = "chdsDelete";
-            this.chdsDelete.Size = new System.Drawing.Size(57, 17);
-            this.chdsDelete.TabIndex = 3;
-            this.chdsDelete.Text = "Delete";
-            this.chdsDelete.UseVisualStyleBackColor = true;
-            // 
-            // chdsUpdate
-            // 
-            this.chdsUpdate.AutoSize = true;
-            this.chdsUpdate.Location = new System.Drawing.Point(38, 90);
-            this.chdsUpdate.Name = "chdsUpdate";
-            this.chdsUpdate.Size = new System.Drawing.Size(61, 17);
-            this.chdsUpdate.TabIndex = 1;
-            this.chdsUpdate.Text = "Update";
-            this.chdsUpdate.UseVisualStyleBackColor = true;
-            // 
-            // chdsSave
-            // 
-            this.chdsSave.AutoSize = true;
-            this.chdsSave.Location = new System.Drawing.Point(38, 51);
-            this.chdsSave.Name = "chdsSave";
-            this.chdsSave.Size = new System.Drawing.Size(51, 17);
-            this.chdsSave.TabIndex = 0;
-            this.chdsSave.Text = "Save";
-            this.chdsSave.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            groupBox1.Controls.Add(this.chdDeleteAfter);
-            groupBox1.Controls.Add(this.chdDeleteBefore);
-            groupBox1.Controls.Add(this.chdUpdateAfter);
-            groupBox1.Controls.Add(this.chdUpdateBefore);
-            groupBox1.Controls.Add(this.chdCreateAfter);
-            groupBox1.Controls.Add(this.chdCreateBefore);
-            groupBox1.Controls.Add(label30);
-            groupBox1.Controls.Add(label29);
-            groupBox1.Controls.Add(label28);
-            groupBox1.Location = new System.Drawing.Point(6, 7);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new System.Drawing.Size(281, 243);
-            groupBox1.TabIndex = 9;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Interceptor";
-            // 
-            // chdDeleteAfter
-            // 
-            this.chdDeleteAfter.AutoSize = true;
-            this.chdDeleteAfter.Location = new System.Drawing.Point(95, 213);
-            this.chdDeleteAfter.Name = "chdDeleteAfter";
-            this.chdDeleteAfter.Size = new System.Drawing.Size(48, 17);
-            this.chdDeleteAfter.TabIndex = 17;
-            this.chdDeleteAfter.Text = "After";
-            this.chdDeleteAfter.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.chdDeleteAfter.UseVisualStyleBackColor = true;
-            // 
-            // chdDeleteBefore
-            // 
-            this.chdDeleteBefore.AutoSize = true;
-            this.chdDeleteBefore.Location = new System.Drawing.Point(95, 178);
-            this.chdDeleteBefore.Name = "chdDeleteBefore";
-            this.chdDeleteBefore.Size = new System.Drawing.Size(57, 17);
-            this.chdDeleteBefore.TabIndex = 16;
-            this.chdDeleteBefore.Text = "Before";
-            this.chdDeleteBefore.UseVisualStyleBackColor = true;
-            // 
-            // chdUpdateAfter
-            // 
-            this.chdUpdateAfter.AutoSize = true;
-            this.chdUpdateAfter.Location = new System.Drawing.Point(95, 137);
-            this.chdUpdateAfter.Name = "chdUpdateAfter";
-            this.chdUpdateAfter.Size = new System.Drawing.Size(48, 17);
-            this.chdUpdateAfter.TabIndex = 15;
-            this.chdUpdateAfter.Text = "After";
-            this.chdUpdateAfter.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.chdUpdateAfter.UseVisualStyleBackColor = true;
-            // 
-            // chdUpdateBefore
-            // 
-            this.chdUpdateBefore.AutoSize = true;
-            this.chdUpdateBefore.Location = new System.Drawing.Point(95, 102);
-            this.chdUpdateBefore.Name = "chdUpdateBefore";
-            this.chdUpdateBefore.Size = new System.Drawing.Size(57, 17);
-            this.chdUpdateBefore.TabIndex = 14;
-            this.chdUpdateBefore.Text = "Before";
-            this.chdUpdateBefore.UseVisualStyleBackColor = true;
-            // 
-            // chdCreateAfter
-            // 
-            this.chdCreateAfter.AutoSize = true;
-            this.chdCreateAfter.Location = new System.Drawing.Point(95, 63);
-            this.chdCreateAfter.Name = "chdCreateAfter";
-            this.chdCreateAfter.Size = new System.Drawing.Size(48, 17);
-            this.chdCreateAfter.TabIndex = 13;
-            this.chdCreateAfter.Text = "After";
-            this.chdCreateAfter.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.chdCreateAfter.UseVisualStyleBackColor = true;
-            // 
-            // chdCreateBefore
-            // 
-            this.chdCreateBefore.AutoSize = true;
-            this.chdCreateBefore.Location = new System.Drawing.Point(95, 28);
-            this.chdCreateBefore.Name = "chdCreateBefore";
-            this.chdCreateBefore.Size = new System.Drawing.Size(57, 17);
-            this.chdCreateBefore.TabIndex = 12;
-            this.chdCreateBefore.Text = "Before";
-            this.chdCreateBefore.UseVisualStyleBackColor = true;
-            // 
-            // label30
-            // 
-            label30.AutoSize = true;
-            label30.Location = new System.Drawing.Point(23, 197);
-            label30.Name = "label30";
-            label30.Size = new System.Drawing.Size(38, 13);
-            label30.TabIndex = 11;
-            label30.Text = "Delete";
-            // 
-            // label29
-            // 
-            label29.AutoSize = true;
-            label29.Location = new System.Drawing.Point(23, 119);
-            label29.Name = "label29";
-            label29.Size = new System.Drawing.Size(42, 13);
-            label29.TabIndex = 10;
-            label29.Text = "Update";
-            // 
-            // label28
-            // 
-            label28.AutoSize = true;
-            label28.Location = new System.Drawing.Point(23, 48);
-            label28.Name = "label28";
-            label28.Size = new System.Drawing.Size(38, 13);
-            label28.TabIndex = 9;
-            label28.Text = "Create";
             // 
             // chvDynamicFilter
             // 
@@ -1630,15 +1684,6 @@ namespace Barsix.BarsEntity
             this.saveDialog.FileName = "entity.xml";
             this.saveDialog.Filter = "XML entity description|*.xml";
             // 
-            // label32
-            // 
-            label32.AutoSize = true;
-            label32.Location = new System.Drawing.Point(251, 9);
-            label32.Name = "label32";
-            label32.Size = new System.Drawing.Size(57, 13);
-            label32.TabIndex = 43;
-            label32.Text = "Подпапка";
-            // 
             // tbSubfolder
             // 
             this.tbSubfolder.Location = new System.Drawing.Point(314, 5);
@@ -1646,48 +1691,15 @@ namespace Barsix.BarsEntity
             this.tbSubfolder.Size = new System.Drawing.Size(154, 20);
             this.tbSubfolder.TabIndex = 44;
             // 
-            // cbmInheritanceType
+            // chcListSummary
             // 
-            this.cbmInheritanceType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbmInheritanceType.FormattingEnabled = true;
-            this.cbmInheritanceType.Items.AddRange(new object[] {
-            "BaseJoinedClass",
-            "Discriminator"});
-            this.cbmInheritanceType.Location = new System.Drawing.Point(90, 232);
-            this.cbmInheritanceType.Name = "cbmInheritanceType";
-            this.cbmInheritanceType.Size = new System.Drawing.Size(132, 21);
-            this.cbmInheritanceType.TabIndex = 26;
-            this.cbmInheritanceType.Visible = false;
-            this.cbmInheritanceType.SelectedIndexChanged += new System.EventHandler(this.cbmInheritanceType_SelectedIndexChanged);
-            this.cbmInheritanceType.VisibleChanged += new System.EventHandler(this.cbmInheritanceType_VisibleChanged);
-            // 
-            // lbInheritanceType
-            // 
-            this.lbInheritanceType.AutoSize = true;
-            this.lbInheritanceType.Location = new System.Drawing.Point(3, 235);
-            this.lbInheritanceType.Name = "lbInheritanceType";
-            this.lbInheritanceType.Size = new System.Drawing.Size(81, 13);
-            this.lbInheritanceType.TabIndex = 27;
-            this.lbInheritanceType.Text = "Наследование";
-            this.lbInheritanceType.Visible = false;
-            // 
-            // lbDiscriminator
-            // 
-            this.lbDiscriminator.AutoSize = true;
-            this.lbDiscriminator.Location = new System.Drawing.Point(228, 237);
-            this.lbDiscriminator.Name = "lbDiscriminator";
-            this.lbDiscriminator.Size = new System.Drawing.Size(43, 13);
-            this.lbDiscriminator.TabIndex = 28;
-            this.lbDiscriminator.Text = "Дискр.";
-            this.lbDiscriminator.Visible = false;
-            // 
-            // tbDiscriminator
-            // 
-            this.tbDiscriminator.Location = new System.Drawing.Point(277, 232);
-            this.tbDiscriminator.Name = "tbDiscriminator";
-            this.tbDiscriminator.Size = new System.Drawing.Size(102, 20);
-            this.tbDiscriminator.TabIndex = 29;
-            this.tbDiscriminator.Visible = false;
+            this.chcListSummary.AutoSize = true;
+            this.chcListSummary.Location = new System.Drawing.Point(23, 49);
+            this.chcListSummary.Name = "chcListSummary";
+            this.chcListSummary.Size = new System.Drawing.Size(85, 17);
+            this.chcListSummary.TabIndex = 14;
+            this.chcListSummary.Text = "ListSummary";
+            this.chcListSummary.UseVisualStyleBackColor = true;
             // 
             // EntityOptionsWindow
             // 
@@ -1719,6 +1731,10 @@ namespace Barsix.BarsEntity
             tabPage2.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
+            groupBox1.ResumeLayout(false);
+            groupBox1.PerformLayout();
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -1733,10 +1749,6 @@ namespace Barsix.BarsEntity
             this.tabPage7.ResumeLayout(false);
             this.tabPage7.PerformLayout();
             this.tabPage8.ResumeLayout(false);
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
             this.tabGenerated.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -1844,5 +1856,6 @@ namespace Barsix.BarsEntity
         private System.Windows.Forms.ComboBox cbmInheritanceType;
         private System.Windows.Forms.TextBox tbDiscriminator;
         private System.Windows.Forms.Label lbDiscriminator;
+        private System.Windows.Forms.CheckBox chcListSummary;
     }
 }

@@ -29,6 +29,9 @@ namespace Barsix.BarsEntity.CodeGeneration.CSharp
                 result.Add(""); 
             });
 
+            if (string.IsNullOrWhiteSpace(result.Last()))
+                result.RemoveAt(result.Count - 1);
+
             result.Add("}".Ind(indent));
 
             return result;

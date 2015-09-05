@@ -238,6 +238,7 @@ namespace Barsix.BarsEntity
                     Name = tbcName.Text,
                     ViewModel = chcViewModel.Checked,
                     List = chcList.Checked,
+                    ListSummary = chcListSummary.Checked,
                     Get  = chcGet.Checked,
                     Update = chcUpdate.Checked,
                     Delete = chcDelete.Checked,
@@ -1079,6 +1080,7 @@ namespace Barsix.BarsEntity
                 options.Map(tbcName, x => x.Controller.Name);
                 options.Map(chcViewModel, x => x.Controller.ViewModel);
                 options.Map(chcList, x => x.Controller.List);
+                options.Map(chcListSummary, x => x.Controller.ListSummary);
                 options.Map(chcGet, x => x.Controller.Get);
 
                 options.Map(chcCreate, x => x.Controller.Create);

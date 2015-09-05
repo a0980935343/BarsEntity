@@ -67,7 +67,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             _knownTypes.Add("BaseParams");
             _knownTypes.Add("IDomainService");
 
-            #region ViewModel actions
+            #region ViewModel & ListSummary actions
             if (options.Controller.List && !options.Controller.ViewModel)
             {
                 var list = new MethodInfo()
@@ -118,8 +118,9 @@ namespace Barsix.BarsEntity.BarsGenerators
                     list.Body.Add("var {0}Id = baseParams.Params[\"{0}Id\"].ToLong();".R(owner.FieldName.camelCase()));
 
                 if (options.Signable)
-                    list.Body.Add("var qDigitalSignatures = Container.Resolve<IDomainService<DigSignature>>().GetAll();");
+                    cls.AddProperty(new PropertyInfo { Name = "DsDigSignature", Type = "IDomainService<DigSignature>", IsVirtual = false }.Auto.Get().Set());
 
+                list.Body.Add("");
                 list.Body.Add("var qList = DomainService.GetAll()");
 
                 if (owner != null)
@@ -130,7 +131,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 foreach (var prop in proxyClass.Properties)
                 {
                     if (options.Signable && prop.Name == "Signed")
-                        list.Body.Add("        Signed = qDigitalSignatures.Any(ds => ds.EntityTypeId == \"{0}\" && ds.EntityId == x.Id),".R(options.ClassFullName));
+                        list.Body.Add("        Signed = DsDigSignature.GetAll().Any(ds => ds.EntityTypeId == \"{0}\" && ds.EntityId == x.Id),".R(options.ClassFullName));
                     else if (prop.Name == "_is_loaded")
                         list.Body.Add("        _is_loaded = true,");
                     else if (prop.Name == "_parent")
@@ -147,10 +148,72 @@ namespace Barsix.BarsEntity.BarsGenerators
 
                 list.Body.Add("    })");
                 list.Body.Add("    .Filter(loadParam, Container);");
-
-                list.Body.Add("return new JsonListResult(qList.Order(loadParam).Paging(loadParam), qList.Count());");
+                list.Body.Add("");
+                list.Body.Add("return new JsonListResult(qList.Order(loadParam).Paging(loadParam).ToList(), qList.Count());");
 
                 cls.AddMethod(list);
+            }
+
+            if (options.Controller.ListSummary)
+            {
+                var listSummary = new MethodInfo()
+                {
+                    Name = "ListSummary",
+                    Type = "ActionResult",
+                    Params = "BaseParams baseParams",
+                    IsOverride = false
+                };
+
+                listSummary.Body.Add("var loadParam = baseParams.GetLoadParam();");
+
+                var owner = options.Fields.FirstOrDefault(x => x.OwnerReference);
+                var parent = options.Fields.FirstOrDefault(x => x.ParentReference);
+
+                if (owner != null)
+                    listSummary.Body.Add("var {0}Id = baseParams.Params[\"{0}Id\"].ToLong();".R(owner.FieldName.camelCase()));
+
+                listSummary.Body.Add("");
+                listSummary.Body.Add("var qList = DomainService.GetAll()");
+
+                if (owner != null)
+                    listSummary.Body.Add("    .Where(x => x.{0}.Id == {1}Id)".R(owner.FieldName, owner.FieldName.camelCase()));
+
+                listSummary.Body.Add("    .Filter(loadParam, Container);");
+                listSummary.Body.Add("");
+                listSummary.Body.Add("return new JsonNetResult(new {");
+
+                var sumFields = new List<string>();
+                foreach (var field in options.Fields.Where(x => !x.Collection))
+                {
+                    if ((options.Signable && field.FieldName == "Signed") ||
+                        field.FieldName == "_is_loaded" || field.FieldName == "_parent" || field.FieldName == "_is_leaf" ||
+                        (field.TypeName != "decimal" && field.TypeName != "long" && field.TypeName != "int"))
+                        continue;
+                    else
+                        sumFields.Add(field.FieldName);
+                        
+                }
+
+                if (sumFields.Any())
+                {
+                    foreach (var field in sumFields)
+                    {
+                        listSummary.Body.Add("                     {0} = qList.Sum(x => x.{0}),".R(field));
+                    }
+                    var last = listSummary.Body.Last();
+                    last = last.Substring(0, last.Length - 1);
+                    listSummary.Body.RemoveAt(listSummary.Body.Count - 1);
+                    listSummary.Body.Add(last);
+                }
+                else
+                {
+                    listSummary.Body.Add("                // нет полей типа decimal, long или int!");
+                }
+
+                listSummary.Body.Add("                 });");
+
+
+                cls.AddMethod(listSummary);
             }
 
             if (options.Controller.Get && !options.Controller.ViewModel)

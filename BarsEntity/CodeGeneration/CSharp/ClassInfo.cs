@@ -74,6 +74,9 @@ namespace Barsix.BarsEntity.CodeGeneration.CSharp
                 list.AddRange(cls.Generate(indent + 1));
             }
 
+            if (string.IsNullOrWhiteSpace(list.Last()))
+                list.RemoveAt(list.Count - 1);
+
             list.Add("}".Ind(indent));
 
             return list;

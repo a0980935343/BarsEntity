@@ -13,6 +13,7 @@ namespace Barsix.BarsEntity.BarsOptions
         public bool ViewModel;
 
         public bool List;
+        public bool ListSummary;
         public bool Get;
         public bool Update;
         public bool Delete;
