@@ -10,23 +10,31 @@
       </Bitmaps>
 
       <Buttons>
-            <Button guid="guidAddEntityCmdSet" id="cmdidAddEntity" priority="0x0200" type="Button">
-                <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_PROJECT_ADD_ITEMS"/>
-              <Icon guid="guidImages" id="icon1"/>
-                <Strings>
-                    <CommandName>AddEmptyFile</CommandName>
-                    <ButtonText>Новый Bars объект...</ButtonText>
-                </Strings>
-            </Button>
-            <Button guid="guidAddMigrationCmdSet" id="cmdidAddMigration" priority="0x0205" type="Button">
-              <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_PROJECT_ADD_ITEMS"/>
-              <Icon guid="guidImages" id="icon1"/>
-              <Strings>
-                <CommandName>AddMigration</CommandName>
-                <ButtonText>Пустая миграция...</ButtonText>
-              </Strings>
-            </Button>
-        </Buttons>
+        <Button guid="guidAddEntityCmdSet" id="cmdidAddEntity" priority="0x0200" type="Button">
+          <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_PROJECT_ADD_ITEMS"/>
+          <Icon guid="guidImages" id="icon1"/>
+          <Strings>
+            <CommandName>AddEmptyFile</CommandName>
+            <ButtonText>Новый Bars объект...</ButtonText>
+          </Strings>
+        </Button>
+        <Button guid="guidAddMigrationCmdSet" id="cmdidAddMigration" priority="0x0203" type="Button">
+          <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_PROJECT_ADD_ITEMS"/>
+          <Icon guid="guidImages" id="icon1"/>
+          <Strings>
+            <CommandName>AddMigration</CommandName>
+            <ButtonText>Пустая миграция...</ButtonText>
+          </Strings>
+        </Button>
+        <Button guid="guidAddQuartzTaskCmdSet" id="cmdidAddQuartzTask" priority="0x0205" type="Button">
+          <Parent guid="guidSHLMainMenu" id="IDG_VS_CTXT_PROJECT_ADD_ITEMS"/>
+          <Icon guid="guidImages" id="icon1"/>
+          <Strings>
+            <CommandName>AddQuartzTask</CommandName>
+            <ButtonText>Quartz task...</ButtonText>
+          </Strings>
+        </Button>
+      </Buttons>
       
     </Commands>
 
@@ -35,16 +43,20 @@
     </KeyBindings>
 
     <Symbols>
-        <!-- This is the package guid. -->
-        <GuidSymbol name="guidAddEntityPkg" value="{27dd9dea-6dd2-403e-929d-3ff20d896c5e}" />
+      <!-- This is the package guid. -->
+      <GuidSymbol name="guidAddEntityPkg" value="{27dd9dea-6dd2-403e-929d-3ff20d896c5e}" />
 
-        <!-- This is the guid used to group the menu commands together -->
-        <GuidSymbol name="guidAddEntityCmdSet" value="{32af8a17-bbbc-4c56-877e-fc6c6575a8cf}">
-            <IDSymbol name="cmdidAddEntity" value="0x0100" />
-        </GuidSymbol>
+      <!-- This is the guid used to group the menu commands together -->
+      <GuidSymbol name="guidAddEntityCmdSet" value="{32af8a17-bbbc-4c56-877e-fc6c6575a8cf}">
+        <IDSymbol name="cmdidAddEntity" value="0x0100" />
+      </GuidSymbol>
 
       <GuidSymbol name="guidAddMigrationCmdSet" value="{32af8a17-bbbc-4c56-877e-fc6c6575a8ce}">
         <IDSymbol name="cmdidAddMigration" value="0x0104" />
+      </GuidSymbol>
+
+      <GuidSymbol name="guidAddQuartzTaskCmdSet" value="{32af8a17-bbbc-4c56-877e-fc6c6575a8cd}">
+        <IDSymbol name="cmdidAddQuartzTask" value="0x0105" />
       </GuidSymbol>
 
       <GuidSymbol name="guidImages" value="{32af8a17-bbbc-4c56-877e-fc6c6575a8cd}" >

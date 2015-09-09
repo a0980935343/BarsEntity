@@ -29,7 +29,7 @@ namespace Barsix.BarsEntity
     public sealed class BarsEntityPackage : ExtensionPointPackage
     {
         private static DTE2 _dte;
-        public const string Version = "1.4.3";
+        public const string Version = "1.5";
 
         protected override void Initialize()
         {
@@ -46,27 +46,16 @@ namespace Barsix.BarsEntity
                 CommandID addMMenuCommandID = new CommandID(GuidList.guidAddMigrationCmdSet, (int)PkgCmdIDList.cmdidAddMigration);
                 MenuCommand addMMenuItem = new MenuCommand(MigrationMenuItemCallback, addMMenuCommandID);
                 mcs.AddCommand(addMMenuItem);
+
+                CommandID addTMenuCommandID = new CommandID(GuidList.guidAddQuartzTaskCmdSet, (int)PkgCmdIDList.cmdidAddQuartzTask);
+                MenuCommand addTMenuItem = new MenuCommand(QuartzTaskMenuItemCallback, addTMenuCommandID);
+                mcs.AddCommand(addTMenuItem);
             }
         }
 
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            UIHierarchyItem item = GetSelectedItem();
-
-            if (item == null)
-                return;
-
-            ProjectItem projectItem = item.Object as ProjectItem;
-            Project project = item.Object as Project;
-
-            if (project == null)
-            {
-                project = projectItem.ContainingProject;
-            }
-            if (project == null)
-            {
-                throw new ArgumentException("Project not found!");
-            }
+            Project project = GetSelectedProject();
             
             EntityOptionsWindow dialog = new EntityOptionsWindow();
             dialog.SetProject(project);
@@ -75,22 +64,7 @@ namespace Barsix.BarsEntity
 
         private void MigrationMenuItemCallback(object sender, EventArgs e)
         {
-            UIHierarchyItem item = GetSelectedItem();
-
-            if (item == null)
-                return;
-
-            ProjectItem projectItem = item.Object as ProjectItem;
-            Project project = item.Object as Project;
-
-            if (project == null)
-            {
-                project = projectItem.ContainingProject;
-            }
-            if (project == null)
-            {
-                throw new ArgumentException("Project not found!");
-            }
+            Project project = GetSelectedProject();
 
             GenerationManager manager = new GenerationManager(project, false);
             manager.AddGenerator(new MigrationGenerator());
@@ -122,16 +96,79 @@ namespace Barsix.BarsEntity
             return;
         }
 
-        private static UIHierarchyItem GetSelectedItem()
+        private void QuartzTaskMenuItemCallback(object sender, EventArgs e)
+        {
+            Project project = GetSelectedProject();
+
+            GenerationManager manager = new GenerationManager(project, false);
+            manager.AddGenerator(new QuartzTaskGenerator());
+
+            EntityOptions Options = new EntityOptions();
+            Options.ClassName = Interaction.InputBox("Укажите название задача", "Quartz-задача", "NewTask");
+
+            if (Options.ClassName == "")
+                return;
+
+            if (File.Exists(Path.Combine(project.RootFolder(), "Tasks\\{0}.cs".R(Options.MigrationVersion))))
+            {
+                MessageBox.Show("Такая задача уже существует!", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!project.HasReference("Bars.B4.Modules.Quartz"))
+            {
+                if (MessageBox.Show("В проекте {0} нет ссылки на Bars.B4.Modules.Quartz!\nПродолжить?".R(project.Name), "Помни!", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.No)
+                    return;
+            };
+
+            try
+            {
+                manager.AddToProject(Options, new List<Type> { typeof(QuartzTaskGenerator) });
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            var file = manager.Files.SelectMany(x => x.Value).First();
+
+            if (manager.Fragments.Any())
+            {
+                DontForgetThis form = new DontForgetThis();
+                form.richTextBox1.Text = string.Join(Environment.NewLine, manager.Fragments.ToList());
+                form.ShowDialog();
+            }
+
+            Window window = _dte.ItemOperations.OpenFile(Path.Combine(project.RootFolder(), file.Path, file.Name));
+            return;
+        }
+
+        private static Project GetSelectedProject()
         {
             var items = (Array)_dte.ToolWindows.SolutionExplorer.SelectedItems;
+            UIHierarchyItem item = null;
 
             foreach (UIHierarchyItem selItem in items)
             {
-                return selItem;
+                item = selItem;
+                break;
             }
+            
+            if (item == null)
+                return null;
 
-            return null;
+            ProjectItem projectItem = item.Object as ProjectItem;
+            Project project = item.Object as Project;
+
+            if (project == null)
+            {
+                project = projectItem.ContainingProject;
+            }
+            if (project == null)
+            {
+                throw new ArgumentException("Project not found!");
+            }
+            return project;
         }
     }
 }

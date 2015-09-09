@@ -9,7 +9,15 @@ namespace Barsix.BarsEntity.BarsGenerators
     public class GeneratedFragments : IEnumerable<KeyValuePair<string, List<GeneratedFragment>>>
     {
         private Dictionary<string, List<GeneratedFragment>> _lines = new Dictionary<string, List<GeneratedFragment>>();
-        
+
+        public void Add(string fileName, GeneratedFragment fragment)
+        {
+            if (!_lines.ContainsKey(fileName))
+                _lines.Add(fileName, new List<GeneratedFragment>());
+
+            _lines[fileName].Add(fragment);
+        }
+
         public void AddLines(string fileName, IBarsGenerator source, List<string> lines)
         {
             if (!_lines.ContainsKey(fileName))

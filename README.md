@@ -2,6 +2,11 @@
 Создание нового Bars-объекта (включая Entity, Map, Controller, View и UpdateSchema, DomainService(Interceptor)) и многое, многое другое
 
 
+Версия 1.5
+----------
+
+Создание каркаса Quartz-задачи
+
 
 Версия 1.4.3
 ----------

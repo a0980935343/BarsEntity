@@ -37,6 +37,26 @@ namespace Barsix.BarsEntity
             return string.Join("_", words);
         }
 
+        public static string CutFirst(this string str, int length)
+        {
+            return str.Substring(length);
+        }
+
+        public static string CutLast(this string str, int length)
+        {
+            return str.Substring(0, str.Length - length);
+        }
+
+        public static string GetFirst(this string str, int length)
+        {
+            return str.Substring(0, length);
+        }
+
+        public static string GetLast(this string str, int length)
+        {
+            return str.Substring(str.Length - length, length);
+        }
+
         public static string R(this string template, params object[] phList)
         {
             string result = template;
