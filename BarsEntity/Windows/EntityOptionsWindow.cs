@@ -450,11 +450,13 @@ namespace Barsix.BarsEntity
 
                 if (confirmDialog.chSignableEntitiesManifest.Checked)
                     generatorTypes.Add(typeof(SignableEntitiesManifestGenerator));
-                
-                _manager.AddToProject(options, generatorTypes);
+
+                _manager.UsedGenerators = generatorTypes;
+                _manager.AddToProject(options);
                 if (_manager.Fragments.Any())
                 {
                     DontForgetThis form = new DontForgetThis();
+                    form.GenerationManager = _manager;
                     form.richTextBox1.Text = string.Join(Environment.NewLine, _manager.Fragments.ToList());
                     form.ShowDialog();
                 }

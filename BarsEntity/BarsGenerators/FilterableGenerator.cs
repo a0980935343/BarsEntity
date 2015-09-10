@@ -111,12 +111,20 @@ namespace Barsix.BarsEntity.BarsGenerators
             cls.AddProperty(displayEntityName);
             cls.AddMethod(entityAttributes);
 
-            fragments.AddLines("Module.cs", this, new List<string>{ 
-                "Container.Register(Component.For<IDynamicFilterable>().ImplementedBy<Filterable{0}>().Named(\"{0}\"));".R(options.ClassName),
-                "Container.Register(Component.For<IDomainServiceReadInterceptor<{0}>>().ImplementedBy<DynamicFilterDomainServiceReadInterceptor<{0}>>().LifeStyle.Transient);".R(options.ClassName),
-                "Container.Register(Component.For<IDomainServiceReadInterceptor<{0}>>().ImplementedBy<RuleLimitingAccessDomainServiceReadInterceptor<{0}>>().LifeStyle.Transient);".R(options.ClassName)
-            });
-            
+            var module = new GeneratedFragment
+            {
+                FileName = "Module.cs",
+                InsertToFile = true,
+                InsertClass = "public class Module",
+                InsertMethod = "public override void Install()",
+                Generator = this
+            };
+            module.Lines.Add("Container.Register(Component.For<IDynamicFilterable>().ImplementedBy<Filterable{0}>().Named(\"{0}\"));".R(options.Controller.Name));
+            module.Lines.Add("Container.Register(Component.For<IDomainServiceReadInterceptor<{0}>>().ImplementedBy<DynamicFilterDomainServiceReadInterceptor<{0}>>().LifeStyle.Transient);".R(options.Controller.Name));
+            module.Lines.Add("Container.Register(Component.For<IDomainServiceReadInterceptor<{0}>>().ImplementedBy<RuleLimitingAccessDomainServiceReadInterceptor<{0}>>().LifeStyle.Transient);".R(options.Controller.Name));
+
+            fragments.Add("Module.cs", module);
+
             file.Name = "Filterable" + options.ClassName + "Map.cs";
             file.Path = "Domain\\DynamicFilterableEntities";
             file.Body = ns.Generate();

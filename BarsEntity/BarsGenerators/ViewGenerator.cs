@@ -425,8 +425,17 @@ namespace Barsix.BarsEntity.BarsGenerators
             file.Body = define.Draw(0);
             file.Properties.Add("BuildAction", 3);
 
-            fragments.AddLines("ResourceManifest.cs", this, new List<string> { 
-                    "container.Add(\"scripts/modules/{3}.js\", \"{0}.dll/{0}.Views.{2}{1}.js\");".R(project.DefaultNamespace, options.ClassName, options.IsDictionary ? "Dict." : "", options.View.Namespace)});
+            var resources = new GeneratedFragment
+            {
+                FileName = "ResourceManifest.cs",
+                InsertToFile = true,
+                InsertClass = "public class ResourceManifest",
+                InsertMethod = "public void InitManifests(IResourceManifestContainer container)",
+                Generator = this
+            };
+            resources.Lines.Add("container.Add(\"scripts/modules/{3}.js\", \"{0}.dll/{0}.Views.{2}{1}.js\");".R(project.DefaultNamespace, options.ClassName, options.IsDictionary ? "Dict." : "", options.View.Namespace));
+
+            fragments.Add("ResourceManifest.cs", resources);
         }
         
         private JsFunctionCall EASGrid(EntityOptions options)
@@ -917,8 +926,17 @@ namespace Barsix.BarsEntity.BarsGenerators
 
             cls.AddMethod(ctor);
 
-            fragments.AddLines("ResourceManifest.cs", this, new List<string> { 
-                    "container.Add(\"scripts/modules/{0}.{1}.js\", new GridPageView<{1}ViewModel>());".R(project.DefaultNamespace, options.ClassName, options.IsDictionary ? "Dict." : "")});
+            var resources = new GeneratedFragment
+            {
+                FileName = "ResourceManifest.cs",
+                InsertToFile = true,
+                InsertClass = "public class ResourceManifest",
+                InsertMethod = "public void InitManifests(IResourceManifestContainer container)",
+                Generator = this
+            };
+            resources.Lines.Add("container.Add(\"scripts/modules/{0}.{1}.js\", new GridPageView<{1}ViewModel>());".R(project.DefaultNamespace, options.ClassName, options.IsDictionary ? "Dict." : ""));
+
+            fragments.Add("ResourceManifest.cs", resources);
 
             file.Name = options.ClassName + "ViewModel.cs";
             file.Path = "ViewModels\\" + (options.IsDictionary ? "Dict\\" : "");

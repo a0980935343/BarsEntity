@@ -235,8 +235,17 @@ namespace Barsix.BarsEntity.BarsGenerators
                 cls.AddMethod(mi);
             }
 
-            fragments.AddLines("Module.cs", this, new List<string> { 
-                "Container.RegisterDomain<{0}DomainService>();".R(options.ClassName)});
+            var module = new GeneratedFragment
+            {
+                FileName = "Module.cs",
+                InsertToFile = true,
+                InsertClass = "public class Module",
+                InsertMethod = "public override void Install()",
+                Generator = this
+            };
+            module.Lines.Add("Container.RegisterDomain<{0}DomainService>();".R(options.Controller.Name));
+
+            fragments.Add("Module.cs", module);
 
             file.Name = options.ClassName + "DomainService.cs";
             file.Path = (Directory.Exists(Path.Combine(project.RootFolder, "DomainService")) ? "DomainService" : "DomainServices") + (!string.IsNullOrWhiteSpace(options.Subfolder) ? "\\"+ options.Subfolder : "");

@@ -25,7 +25,9 @@ namespace Barsix.BarsEntity.BarsGenerators
         private static Dictionary<string, CodeClass> _classList = new Dictionary<string, CodeClass>();
 
         private static List<string> _enumList = new List<string>();
-        
+
+        public List<Type> UsedGenerators = new List<Type>();
+
         public GenerationManager(Project project, bool classSearching = true)
         {
             _project = project;
@@ -91,13 +93,13 @@ namespace Barsix.BarsEntity.BarsGenerators
             }
         }
 
-        public Dictionary<IBarsGenerator, ProjectItem> AddToProject(EntityOptions options, List<Type> generatorTypes)
+        public Dictionary<IBarsGenerator, ProjectItem> AddToProject(EntityOptions options)
         {
             var result = new Dictionary<IBarsGenerator, ProjectItem>();
 
-            Generate(options, generatorTypes);
-            
-            foreach (var file in _files.Where(x => generatorTypes.Contains(x.Key) && x.Value != null && x.Value.Any())
+            Generate(options, UsedGenerators);
+
+            foreach (var file in _files.Where(x => UsedGenerators.Contains(x.Key) && x.Value != null && x.Value.Any())
                 .SelectMany(x => x.Value)
                 .Where(x => x.Name != null))
             {
@@ -122,6 +124,30 @@ namespace Barsix.BarsEntity.BarsGenerators
             }
 
             return result;
+        }
+
+        public void InsertFragments()
+        {
+            var projectInfo = new ProjectInfo { RootFolder = _project.RootFolder(), DefaultNamespace = _project.DefaultNamespace() };
+            foreach (var generator in _generators)
+            {
+                if (UsedGenerators != null && !UsedGenerators.Contains(generator.GetType()))
+                    continue;
+
+                var fragments = _fragments.SelectMany(x => x.Value.Where(f => f.InsertToFile && f.Generator == generator));
+
+                try
+                {
+                    foreach (var fragment in fragments)
+                    {
+                        fragment.Insert(projectInfo);
+                    }
+                }
+                catch 
+                {
+                    
+                }
+            }
         }
 
         public GeneratedFragments Fragments { get { return _fragments ?? new GeneratedFragments(); } }

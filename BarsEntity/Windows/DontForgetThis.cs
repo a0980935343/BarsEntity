@@ -12,6 +12,8 @@ namespace Barsix.BarsEntity
 {
     public partial class DontForgetThis : Form
     {
+        public BarsGenerators.GenerationManager GenerationManager;
+
         public DontForgetThis()
         {
             InitializeComponent();
@@ -25,6 +27,11 @@ namespace Barsix.BarsEntity
         private void btnCopyClipboard_Click(object sender, EventArgs e)
         {
             Clipboard.SetText(richTextBox1.Text);
+        }
+
+        private void btnInsertFragments_Click(object sender, EventArgs e)
+        {
+            GenerationManager.InsertFragments();
         }
     }
 }

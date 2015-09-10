@@ -48,9 +48,16 @@ namespace Barsix.BarsEntity.BarsGenerators
                 cls.AddMethod(getAllInfo);
 
                 ns.NestedValues.Add(cls);
-                
-                fragments.AddLines("Module.cs", this, new List<string> { 
-                    "Container.Register(Component.For<IStatefulEntitiesManifest>().ImplementedBy<StatefulEntitiesManifest>().LifestyleTransient());"});
+
+                var module = new GeneratedFragment
+                {
+                    FileName = "Module.cs",
+                    InsertToFile = true,
+                    InsertClass = "public class Module",
+                    InsertMethod = "public override void Install()",
+                    Generator = this
+                };
+                module.Lines.Add("Container.Register(Component.For<IStatefulEntitiesManifest>().ImplementedBy<StatefulEntitiesManifest>().LifestyleTransient());");
 
                 file.Name = "StatefulEntitiesManifest.cs";
                 file.Path = "Domain";
