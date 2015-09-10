@@ -31,7 +31,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             @interface.Interfaces.Add("ITask");
             ns.NestedValues.Add(@interface);
 
-            ClassInfo cls = new ClassInfo { Name = options.ClassName, BaseClass = "BaseTask", Interfaces = new List<string> { @interface.Name } };
+            ClassInfo cls = new ClassInfo { Name = options.ClassName + "Task", BaseClass = "BaseTask", Interfaces = new List<string> { @interface.Name } };
             ns.NestedValues.Add(cls);
 
             var exec = new MethodInfo { Name = "Execute", IsOverride = true, Params = "DynamicDictionary @params" };
