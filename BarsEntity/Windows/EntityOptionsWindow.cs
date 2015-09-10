@@ -525,7 +525,32 @@ namespace Barsix.BarsEntity
                 fopt.ParentReference = cheParentReference.Checked;
                 fopt.Nullable = cheNullable.Checked;
                 fopt.Enum = cheEnum.Checked;
-                
+
+                if (fopt.Collection)
+                {
+                    fopt.ColumnName = tbEntityName.Text.CamelToSnake() + "_ID";
+                }
+                else
+                {
+                    fopt.ColumnName = tbeName.Text.CamelToSnake() + (!fopt.IsBasicType() ? "_ID" : "");
+                }
+
+                if (fopt.IsReference())
+                {
+                    if (fopt.TypeName == "FileInfo")
+                        fopt.ReferenceTable = "B4_FILE_INFO";
+                    else
+                    if (fopt.TypeName == "State")
+                        fopt.ReferenceTable = "EAS_STATE";
+                    else
+                    {
+                        var parts = _project.DefaultNamespace().Split('.');
+
+                        fopt.ReferenceTable = parts[parts.Count() > 1 ? 1 : 0].ToUpper() + "_" + tbeType.Text.CamelToSnake();
+                    }
+                    fopt.Index = tbEntityName.Text.CamelToSnake() + "__" + tbeName.Text.CamelToSnake();
+                }
+
                 lviEntity.Text = fopt.FieldName;
                 lviEntity.SubItems[1].Text = fopt.FullTypeName;
                 lviEntity.Tag = fopt;
