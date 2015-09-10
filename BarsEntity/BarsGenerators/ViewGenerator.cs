@@ -22,10 +22,10 @@ namespace Barsix.BarsEntity.BarsGenerators
             switch (options.View.Type)
             {
                 case ViewType.EAS: 
-                    EASViewType(options, fragments, files.First(), controllerOpts);
+                    EASViewType(options, fragments, files.First(), controllerOpts, project);
                     return files;
                 case ViewType.ViewModel: 
-                    ViewModelViewType(options, fragments, files.First(), controllerOpts);
+                    ViewModelViewType(options, fragments, files.First(), controllerOpts, project);
                     return files;
                 case ViewType.B4:
                     B4ViewType(options, fragments, files, controllerOpts);
@@ -377,7 +377,7 @@ namespace Barsix.BarsEntity.BarsGenerators
         #endregion
 
         #region EAS
-        private void EASViewType(EntityOptions options, GeneratedFragments fragments, GeneratedFile file, ControllerOptions controllerOpts)
+        private void EASViewType(EntityOptions options, GeneratedFragments fragments, GeneratedFile file, ControllerOptions controllerOpts, ProjectInfo project)
         {
             var aFunction = new JsFunction() { Inline = false };
 
@@ -426,7 +426,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             file.Properties.Add("BuildAction", 3);
 
             fragments.AddLines("ResourceManifest.cs", this, new List<string> { 
-                    "container.Add(\"scripts/modules/{3}.js\", \"{0}.dll/{0}.Views.{2}{1}.js\");".R(_project.DefaultNamespace, options.ClassName, options.IsDictionary ? "Dict." : "", options.View.Namespace)});
+                    "container.Add(\"scripts/modules/{3}.js\", \"{0}.dll/{0}.Views.{2}{1}.js\");".R(project.DefaultNamespace, options.ClassName, options.IsDictionary ? "Dict." : "", options.View.Namespace)});
         }
         
         private JsFunctionCall EASGrid(EntityOptions options)
@@ -880,16 +880,16 @@ namespace Barsix.BarsEntity.BarsGenerators
         }
         #endregion
 
-        private void ViewModelViewType(EntityOptions options, GeneratedFragments fragments, GeneratedFile file, ControllerOptions controllerOpts)
+        private void ViewModelViewType(EntityOptions options, GeneratedFragments fragments, GeneratedFile file, ControllerOptions controllerOpts, ProjectInfo project)
         {
             var ns = new NamespaceInfo();
             var cls = new ClassInfo();
 
-            ns.Name = "{0}.ViewModels".R(_project.DefaultNamespace);
+            ns.Name = "{0}.ViewModels".R(project.DefaultNamespace);
 
             ns.InnerUsing.Add("B4");
             ns.InnerUsing.Add("B4.Modules.Templates");
-            ns.InnerUsing.Add("{0}.Entities".R(_project.DefaultNamespace));
+            ns.InnerUsing.Add("{0}.Entities".R(project.DefaultNamespace));
 
             ns.NestedValues.Add(cls);
 
@@ -918,7 +918,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             cls.AddMethod(ctor);
 
             fragments.AddLines("ResourceManifest.cs", this, new List<string> { 
-                    "container.Add(\"scripts/modules/{0}.{1}.js\", new GridPageView<{1}ViewModel>());".R(_project.DefaultNamespace, options.ClassName, options.IsDictionary ? "Dict." : "")});
+                    "container.Add(\"scripts/modules/{0}.{1}.js\", new GridPageView<{1}ViewModel>());".R(project.DefaultNamespace, options.ClassName, options.IsDictionary ? "Dict." : "")});
 
             file.Name = options.ClassName + "ViewModel.cs";
             file.Path = "ViewModels\\" + (options.IsDictionary ? "Dict\\" : "");

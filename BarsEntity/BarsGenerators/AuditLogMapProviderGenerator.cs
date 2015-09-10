@@ -13,9 +13,9 @@ namespace Barsix.BarsEntity.BarsGenerators
             var files = base.Generate(project, options, fragments);
             var file = files[0];
 
-            if (!File.Exists(Path.Combine(_project.RootFolder, "AuditLogMapProvider.cs")))
+            if (!File.Exists(Path.Combine(project.RootFolder, "AuditLogMapProvider.cs")))
             {
-                var ns = new NamespaceInfo { Name = _project.DefaultNamespace };
+                var ns = new NamespaceInfo { Name = project.DefaultNamespace };
                 ns.InnerUsing.Add("B4.Modules.NHibernateChangeLog");
                 ns.InnerUsing.Add("Map");
 

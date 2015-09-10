@@ -15,9 +15,9 @@ namespace Barsix.BarsEntity.BarsGenerators
             var files = base.Generate(project, options, fragments);
             var file = files.First();
 
-            if (!File.Exists(Path.Combine(_project.RootFolder, "SignableEntitiesManifest.cs")))
+            if (!File.Exists(Path.Combine(project.RootFolder, "SignableEntitiesManifest.cs")))
             {
-                var ns = new NamespaceInfo { Name = _project.DefaultNamespace + ".Domain" };
+                var ns = new NamespaceInfo { Name = project.DefaultNamespace + ".Domain" };
                 ns.InnerUsing.Add("B4.Modules.DigitalSignature");
                 ns.InnerUsing.Add("Entities");
 

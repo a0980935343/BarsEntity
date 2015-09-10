@@ -18,7 +18,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             var files = base.Generate(project, options, fragments);
             var file = files.First();
 
-            var ns = new NamespaceInfo() { Name = _project.DefaultNamespace + ".DomainServices" };
+            var ns = new NamespaceInfo() { Name = project.DefaultNamespace + ".DomainServices" };
             var cls = new ClassInfo
             {
                 Name = options.ClassName + "DomainServiceInterceptor",
@@ -67,7 +67,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 "Container.Register(Component.For<IDomainServiceInterceptor<{0}>>().ImplementedBy<{0}DomainServiceInterceptor>().LifeStyle.Transient);".R(options.ClassName)});
                         
             file.Name = options.ClassName + "DomainServiceInterceptor.cs";
-            file.Path = (Directory.Exists(Path.Combine(_project.RootFolder, "DomainService")) ? "DomainService" : "DomainServices") + (!string.IsNullOrWhiteSpace(options.Subfolder) ? "\\" + options.Subfolder : "");
+            file.Path = (Directory.Exists(Path.Combine(project.RootFolder, "DomainService")) ? "DomainService" : "DomainServices") + (!string.IsNullOrWhiteSpace(options.Subfolder) ? "\\" + options.Subfolder : "");
             file.Body = ns.Generate();
             return files;
         }

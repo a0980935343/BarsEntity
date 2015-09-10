@@ -33,7 +33,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             if (options.Fields.Any(x => x.Collection))
                 ns.OuterUsing.Add("Newtonsoft.Json");
 
-            ns.Name = _project.DefaultNamespace + ".Entities";
+            ns.Name = project.DefaultNamespace + ".Entities";
 
             if (options.BaseClass == "NamedBaseEntity")
             {

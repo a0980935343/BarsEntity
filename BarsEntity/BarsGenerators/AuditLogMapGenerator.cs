@@ -14,7 +14,7 @@ namespace Barsix.BarsEntity.BarsGenerators
         {
             var files = base.Generate(project, options, fragments);
             var file = files.First();
-            var ns = new NamespaceInfo() { Name = _project.DefaultNamespace + ".Map" };
+            var ns = new NamespaceInfo() { Name = project.DefaultNamespace + ".Map" };
             var cls = new ClassInfo
             {
                 Name = options.ClassName + "LogMap",
@@ -56,7 +56,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             cls.AddMethod(ctor);
 
             file.Name = options.ClassName + "LogMap.cs";
-            file.Path = (Directory.Exists(Path.Combine(_project.RootFolder, "Map")) ? "Map\\" : "Maps\\") + "Log\\";
+            file.Path = (Directory.Exists(Path.Combine(project.RootFolder, "Map")) ? "Map\\" : "Maps\\") + "Log\\";
             file.Body = ns.Generate();
             return files;
         }

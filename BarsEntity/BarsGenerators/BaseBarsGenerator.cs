@@ -9,7 +9,6 @@ namespace Barsix.BarsEntity.BarsGenerators
 
     public class BaseBarsGenerator : IBarsGenerator
     {
-        protected ProjectInfo _project;
         protected List<string> _knownTypes = new List<string>();
 
         public BaseBarsGenerator()
@@ -19,7 +18,6 @@ namespace Barsix.BarsEntity.BarsGenerators
 
         public virtual List<GeneratedFile> Generate(ProjectInfo project, EntityOptions options, GeneratedFragments fragments)
         {
-            _project = project;
             return new List<GeneratedFile> { new GeneratedFile() { Generator = this } };
         }
 

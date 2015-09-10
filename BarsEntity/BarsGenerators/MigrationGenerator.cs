@@ -20,7 +20,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             var ns = new NamespaceInfo();
             var cls = new ClassInfo();
             ns.NestedValues.Add(cls);
-            ns.Name = _project.DefaultNamespace + ".Migrations." + folderVersion;
+            ns.Name = project.DefaultNamespace + ".Migrations." + folderVersion;
 
             ns.InnerUsing.Add("System.Data");
             ns.InnerUsing.Add("ECM7.Migrator.Framework");

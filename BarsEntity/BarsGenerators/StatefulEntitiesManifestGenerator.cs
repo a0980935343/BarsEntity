@@ -15,9 +15,9 @@ namespace Barsix.BarsEntity.BarsGenerators
             var files = base.Generate(project, options, fragments);
             var file = files.First();
 
-            if (!File.Exists(Path.Combine(_project.RootFolder, "Domain\\StatefulEntitiesManifest.cs")))
+            if (!File.Exists(Path.Combine(project.RootFolder, "Domain\\StatefulEntitiesManifest.cs")))
             {
-                var ns = new NamespaceInfo { Name = "{0}.Domain".R(_project.DefaultNamespace) };
+                var ns = new NamespaceInfo { Name = "{0}.Domain".R(project.DefaultNamespace) };
                 ns.InnerUsing.Add("B4");
                 ns.InnerUsing.Add("B4.Modules.States");
                 ns.InnerUsing.Add("Entities");

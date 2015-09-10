@@ -17,7 +17,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             var files = base.Generate(project, options, fragments);
             var file = files.First();
 
-            var ns = new NamespaceInfo() { Name = _project.DefaultNamespace + ".ViewModel" };
+            var ns = new NamespaceInfo() { Name = project.DefaultNamespace + ".ViewModel" };
             var cls = new ClassInfo()
             {
                 Name = options.ClassName + "ViewModel"

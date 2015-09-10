@@ -18,7 +18,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             var ns = new NamespaceInfo();
             var cls = new ClassInfo();
             ns.NestedValues.Add(cls);
-            ns.Name = _project.DefaultNamespace + ".Map";
+            ns.Name = project.DefaultNamespace + ".Map";
 
             if (options.BaseClass == "NamedBaseEntity")
             {
@@ -95,7 +95,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             cls.AddMethod(ctor);
 
             file.Name = options.ClassName + "Map.cs";
-            file.Path = (Directory.Exists(Path.Combine(_project.RootFolder, "Map")) ? "Map\\" : "Maps\\") + (options.IsDictionary ? "Dict\\" : (!string.IsNullOrWhiteSpace(options.Subfolder) ? options.Subfolder : ""));
+            file.Path = (Directory.Exists(Path.Combine(project.RootFolder, "Map")) ? "Map\\" : "Maps\\") + (options.IsDictionary ? "Dict\\" : (!string.IsNullOrWhiteSpace(options.Subfolder) ? options.Subfolder : ""));
             file.Body = ns.Generate();
             return files;
         }
