@@ -355,8 +355,17 @@ namespace Barsix.BarsEntity.BarsGenerators
             }
             #endregion
 
-            fragments.AddLines("Module.cs", this, new List<string> { 
-                "Container.RegisterController<{0}Controller>();".R(options.Controller.Name)});
+            var module = new GeneratedFragment
+            {
+                FileName = "Module.cs",
+                InsertToFile = true,
+                InsertClass = "public class Module",
+                InsertMethod = "public override void Install()",
+                Generator = this
+            };
+            module.Lines.Add("Container.RegisterController<{0}Controller>();".R(options.Controller.Name));
+
+            fragments.Add("Module.cs", module);
 
             file.Name = options.Controller.Name + "Controller.cs";
             file.Path = "Controllers\\" + (options.IsDictionary ? "Dict\\" : (!string.IsNullOrWhiteSpace(options.Subfolder) ? options.Subfolder : ""));

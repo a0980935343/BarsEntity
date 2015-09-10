@@ -83,7 +83,9 @@ namespace Barsix.BarsEntity
 
             try
             {
-                manager.AddToProject(Options, new List<Type> { typeof(MigrationGenerator) });
+                manager.UsedGenerators = new List<Type> { typeof(MigrationGenerator) };
+                manager.AddToProject(Options);
+                manager.InsertFragments();
             }
             catch (Exception ex)
             {
@@ -123,7 +125,9 @@ namespace Barsix.BarsEntity
 
             try
             {
-                manager.AddToProject(Options, new List<Type> { typeof(QuartzTaskGenerator) });
+                manager.UsedGenerators = new List<Type> { typeof(QuartzTaskGenerator) };
+                manager.AddToProject(Options);
+                manager.InsertFragments();
             }
             catch (Exception ex)
             {

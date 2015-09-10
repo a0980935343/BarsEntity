@@ -52,6 +52,10 @@ namespace Barsix.BarsEntity.BarsGenerators
             module.Lines.Add("    .ImplementedBy<" + options.ClassName + "Task>()");
             module.Lines.Add("    .LifestyleTransient()");
             module.Lines.Add("    .RegisterIn(Container);");
+            module.InsertToFile = true;
+            module.InsertClass = "public class Module";
+            module.InsertMethod = "public override void Install()";
+            module.FileName = "Module.cs";
             fragments.Add("Module.cs", module);
 
             GeneratedFragment dataAccessInstaller = new GeneratedFragment();
@@ -59,7 +63,11 @@ namespace Barsix.BarsEntity.BarsGenerators
             dataAccessInstaller.Lines.Add("TriggerBuilder.Create()");
             dataAccessInstaller.Lines.Add("    .StartNow()");
             dataAccessInstaller.Lines.Add("    .WithCronSchedule(\"0 00 4 * * ?\")");
-            dataAccessInstaller.Lines.Add("    .ScheduleTask<I" + options.ClassName + "Task>()");
+            dataAccessInstaller.Lines.Add("    .ScheduleTask<I" + options.ClassName + "Task>();");
+            dataAccessInstaller.InsertToFile = true;
+            dataAccessInstaller.InsertClass = "public class DataAccessInstaller";
+            dataAccessInstaller.InsertMethod = "public void Instal()";
+            dataAccessInstaller.FileName = "DataAccessInstaller.cs";
             fragments.Add("DataAccessInstaller.cs", dataAccessInstaller);
 
             file.Name = options.ClassName + "Task.cs";
