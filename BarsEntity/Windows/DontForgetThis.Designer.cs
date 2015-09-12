@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DontForgetThis));
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.btnCopyClipboard = new System.Windows.Forms.Button();
+            this.btnInsertFragments = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // richTextBox1
@@ -54,11 +55,22 @@
             this.btnCopyClipboard.UseVisualStyleBackColor = true;
             this.btnCopyClipboard.Click += new System.EventHandler(this.btnCopyClipboard_Click);
             // 
+            // btnInsertFragments
+            // 
+            this.btnInsertFragments.Location = new System.Drawing.Point(377, 12);
+            this.btnInsertFragments.Name = "btnInsertFragments";
+            this.btnInsertFragments.Size = new System.Drawing.Size(196, 26);
+            this.btnInsertFragments.TabIndex = 2;
+            this.btnInsertFragments.Text = "Вставить в файлы";
+            this.btnInsertFragments.UseVisualStyleBackColor = true;
+            this.btnInsertFragments.Click += new System.EventHandler(this.btnInsertFragments_Click);
+            // 
             // DontForgetThis
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(585, 376);
+            this.Controls.Add(this.btnInsertFragments);
             this.Controls.Add(this.btnCopyClipboard);
             this.Controls.Add(this.richTextBox1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -74,6 +86,7 @@
 
         internal System.Windows.Forms.RichTextBox richTextBox1;
         private System.Windows.Forms.Button btnCopyClipboard;
+        private System.Windows.Forms.Button btnInsertFragments;
 
     }
 }

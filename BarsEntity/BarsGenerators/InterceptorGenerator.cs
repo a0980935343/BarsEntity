@@ -63,9 +63,18 @@ namespace Barsix.BarsEntity.BarsGenerators
                 cls.AddMethod(action);
             }
 
-            fragments.AddLines("Module.cs", this, new List<string> { 
-                "Container.Register(Component.For<IDomainServiceInterceptor<{0}>>().ImplementedBy<{0}DomainServiceInterceptor>().LifeStyle.Transient);".R(options.ClassName)});
-                        
+            var module = new GeneratedFragment
+            {
+                FileName = "Module.cs",
+                InsertToFile = true,
+                InsertClass = "public class Module",
+                InsertMethod = "public override void Install()",
+                Generator = this
+            };
+            module.Lines.Add("Container.Register(Component.For<IDomainServiceInterceptor<{0}>>().ImplementedBy<{0}DomainServiceInterceptor>().LifeStyle.Transient);".R(options.ClassName));
+
+            fragments.Add("Module.cs", module);
+
             file.Name = options.ClassName + "DomainServiceInterceptor.cs";
             file.Path = (Directory.Exists(Path.Combine(project.RootFolder, "DomainService")) ? "DomainService" : "DomainServices") + (!string.IsNullOrWhiteSpace(options.Subfolder) ? "\\" + options.Subfolder : "");
             file.Body = ns.Generate();

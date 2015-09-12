@@ -12,9 +12,18 @@ namespace Barsix.BarsEntity.BarsGenerators
         {
             var nav = options.Navigation;
 
-            fragments.AddLines("NavigationProvider.cs", this, new List<string> { 
-                "root.Add(\"{0}\").Add(\"{1}\", \"#{2}\", \"modules/{3}\").WithIcon(\"content/modules/MosKs/icons64/meterUnit.png\"){4};"
-                .R(nav.Root, nav.Name, nav.Anchor, project.DefaultNamespace.Substring(5) + "." + options.ClassName, nav.MapPermission ? ".AddRequiredPermission(\"{0}\")".R(options.Permission.Prefix) : "")});
+            var navigation = new GeneratedFragment
+            {
+                FileName = "NavigationProvider.cs",
+                InsertToFile = true,
+                InsertClass = "public class NavigationProvider",
+                InsertMethod = "public void Init(MenuItem root)",
+                Generator = this
+            };
+            navigation.Lines.Add("root.Add(\"{0}\").Add(\"{1}\", \"#{2}\", \"modules/{3}\").WithIcon(\"content/modules/MosKs/icons64/meterUnit.png\"){4};"
+                .R(nav.Root, nav.Name, nav.Anchor, project.DefaultNamespace.Substring(5) + "." + options.ClassName, nav.MapPermission ? ".AddRequiredPermission(\"{0}\")".R(options.Permission.Prefix) : ""));
+
+            fragments.Add("Module.cs", navigation);
 
             return null;
         }

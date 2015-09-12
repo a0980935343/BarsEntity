@@ -12,7 +12,18 @@ namespace Barsix.BarsEntity.BarsGenerators
             base.Generate(project, options, fragments);
             var map = options.Permission;
             List<string> lines = new List<string>();
-            
+
+
+            var permission = new GeneratedFragment
+            {
+                FileName = "PermissionMap.cs",
+                FilePath = "PermissionMap",
+                InsertToFile = true,
+                InsertClass = "public class PermissionMap",
+                InsertMethod = "public PermissionMap()",
+                Generator = this
+            };
+
             lines.Add("Namespace(\"{0}\", \"{1}\");".R(map.Prefix, options.DisplayName));
             
             if (map.SimpleCRUDMap)
@@ -30,7 +41,9 @@ namespace Barsix.BarsEntity.BarsGenerators
             if (options.Signable)
                 lines.Add("Permission(\"{0}.Sign\", \"Подписание документа\");".R(map.Prefix));
 
-            fragments.AddLines("PermissionMap/PermissionMap.cs", this, lines);
+            permission.Lines = lines;
+
+            fragments.Add("PermissionMap/PermissionMap.cs", permission);
             return null;
         }
     }

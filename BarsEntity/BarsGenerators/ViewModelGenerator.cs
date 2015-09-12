@@ -185,8 +185,15 @@ namespace Barsix.BarsEntity.BarsGenerators
                 cls.AddMethod(get);
             }
 
-            fragments.AddLines("Module.cs", this, new List<string> { 
-                "Container.Register(Component.For<IViewModel<{0}>>().ImplementedBy<{0}ViewModel>());".R(options.ClassName)});
+            var module = new GeneratedFragment
+            {
+                FileName = "Module.cs",
+                InsertToFile = true,
+                InsertClass = "public class Module",
+                InsertMethod = "public override void Install()",
+                Generator = this
+            };
+            module.Lines.Add("Container.Register(Component.For<IViewModel<{0}>>().ImplementedBy<{0}ViewModel>());".R(options.Controller.Name));
 
             file.Name = options.ClassName + "ViewModel.cs";
             file.Path = "ViewModel\\" + (options.IsDictionary ? "Dict\\" : (!string.IsNullOrWhiteSpace(options.Subfolder) ? options.Subfolder : ""));
