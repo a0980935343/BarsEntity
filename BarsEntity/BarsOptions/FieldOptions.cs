@@ -56,20 +56,34 @@ namespace Barsix.BarsEntity.BarsOptions
             {
                 switch (TypeName)
                 {
-                    case "string": 
-                        ViewType = "textfield"; 
-                        ViewColumnType = "easwraptextcolumn";
-                        DynamicFilterType = "String";
+                    case "string":
+                        ViewType            = "textfield";
+                        ViewColumnType      = "easwraptextcolumn";
+                        DynamicFilterType   = "String";
                         break;
-                    case "long": 
-                        ViewType = "numberfield"; 
-                        ViewColumnType = "easwraptextcolumn";
-                        DynamicFilterType = "Long";
+                    case "long":
+                        ViewType            = "numberfield"; 
+                        ViewColumnType      = "easwraptextcolumn";
+                        DynamicFilterType   = "Long";
                         break;
-                    case "bool": ViewType = "checkbox"; ViewColumnType = "checkcolumn"; DynamicFilterType = "Boolean"; break;
-                    case "int": ViewType = "numberfield"; ViewColumnType = "easwraptextcolumn"; DynamicFilterType = "Integer"; break;
-                    case "DateTime": ViewType = "datefield"; ViewColumnType = "easgriddatecolumn"; DynamicFilterType = "DateTime"; break;
-                    case "decimal": ViewType = "eascurrencyfield"; ViewColumnType = "eascurrencycolumn"; DynamicFilterType = "Decimal"; break;
+                    case "bool":
+                        ViewType            = "checkbox";
+                        ViewColumnType      = "checkcolumn";
+                        DynamicFilterType   = "Boolean";
+                        break;
+                    case "int":
+                        ViewType            = "numberfield";
+                        ViewColumnType      = "easwraptextcolumn";
+                        DynamicFilterType   = "Integer"; 
+                        break;
+                    case "DateTime":
+                        ViewType            = "datefield";
+                        ViewColumnType      = "easgriddatecolumn";
+                        DynamicFilterType   = "DateTime"; break;
+                    case "decimal":
+                        ViewType            = "eascurrencyfield";
+                        ViewColumnType      = "eascurrencycolumn";
+                        DynamicFilterType   = "Decimal"; break;
                 }
             }
             else if (this.IsReference())
