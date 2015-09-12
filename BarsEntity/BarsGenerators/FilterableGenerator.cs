@@ -37,6 +37,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             _knownTypes.Add("SimpleSelectFieldConfig");
             _knownTypes.Add("Expression");
             _knownTypes.Add("Func");
+            _knownTypes.Add("IList");
 
             var entityName = new PropertyInfo
             {

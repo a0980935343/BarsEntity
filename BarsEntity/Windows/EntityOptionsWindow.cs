@@ -879,6 +879,10 @@ namespace Barsix.BarsEntity
                         ClassBrowserWindow classWindow = new ClassBrowserWindow(match.Values);
                         if (classWindow.ShowDialog() == System.Windows.Forms.DialogResult.OK)
                         {
+                            foreach (var field in classWindow.Class.Fields)
+                            {
+                                field.SetRelatedTypes();
+                            }
                             RestoreOptions(classWindow.Class);
                         }
                     }
