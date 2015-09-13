@@ -158,6 +158,7 @@
     <Compile Include="CodeGeneration\CSharp\InterfaceInfo.cs" />
     <Compile Include="CodeGeneration\JavaScript\JsHelper.cs" />
     <Compile Include="Helpers\CodeClassExt.cs" />
+    <Compile Include="Helpers\CodeObjectExt.cs" />
     <Compile Include="Helpers\ControlExt.cs" />
     <Compile Include="Helpers\EntityHelper.cs" />
     <Compile Include="Helpers\EntityOptionsExt.cs" />

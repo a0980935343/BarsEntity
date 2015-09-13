@@ -97,5 +97,31 @@ namespace Barsix.BarsEntity
 
             return source;
         }
+
+        public static string Untag(this string source, string tag)
+        {
+            var open = "<" + tag + ">";
+            var close = "</" + tag + ">";
+            var str = source.Trim();
+            if (str.IndexOf(open) >= 0 && str.IndexOf(close) > 0 && (str.IndexOf(open) < str.IndexOf(close)))
+                return str.Substring(str.IndexOf(open) + tag.Length + 2, str.IndexOf(close) - (str.IndexOf(open) + tag.Length + 2));
+            else
+                return source;
+        }
+
+        public static string Tag(this string source, string tag)
+        {
+            return "<" + tag + ">" + source + "</" + tag + ">";
+        }
+
+        public static string Left(this string source, string seporator)
+        {
+            return source.Substring(0, source.IndexOf(seporator));
+        }
+
+        public static string Right(this string source, string seporator)
+        {
+            return source.Substring(source.IndexOf(seporator) + seporator.Length);
+        }
     }
 }

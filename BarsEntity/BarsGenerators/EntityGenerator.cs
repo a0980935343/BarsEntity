@@ -149,14 +149,17 @@ namespace Barsix.BarsEntity.BarsGenerators
             }
             
             // Добавить ссылку на View в базовую сущность
-            var baseEntity = options.ClassName.Substring(0, options.ClassName.Length - 4);
-            if (options.ClassName.EndsWith("View") && options.Fields.Any(f => f.FieldName == baseEntity && f.TypeName == baseEntity))
+            if (options.ClassName.EndsWith("View"))
             {
-                fragments.AddLines(baseEntity + ".cs", this, new List<string> { 
-                "    [JsonIgnore]\n    public virtual {0} AggregatedInfo { get; set; }".R(options.ClassName)});
+                var baseEntity = options.ClassName.Substring(0, options.ClassName.Length - 4);
+                if (options.Fields.Any(f => f.FieldName == baseEntity && f.TypeName == baseEntity))
+                {
+                    fragments.AddLines(baseEntity + ".cs", this, new List<string> { 
+                        "    [JsonIgnore]\n    public virtual {0} AggregatedInfo { get; set; }".R(options.ClassName)});
 
-                fragments.AddLines(baseEntity + "Map.cs", this, new List<string> { 
-                "    OneToOne(x => x.AggregatedInfo, map => {{ map.PropertyReference(typeof({0}).GetProperty(\"{0}\")); }});".R(baseEntity)});
+                    fragments.AddLines(baseEntity + "Map.cs", this, new List<string> { 
+                        "    OneToOne(x => x.AggregatedInfo, map => {{ map.PropertyReference(typeof({0}).GetProperty(\"{0}\")); }});".R(baseEntity)});
+                }
             }
 
             file.Name = options.ClassName + ".cs";
