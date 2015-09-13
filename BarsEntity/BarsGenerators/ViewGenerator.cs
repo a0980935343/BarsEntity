@@ -568,6 +568,19 @@ namespace Barsix.BarsEntity.BarsGenerators
                     ) { Inline = true };
                     columns.Values.Add(col);
                 }
+                else if (field.TypeName == "FileInfo")
+                {
+                    var col = (JsObject)new
+                    {
+                        __inline = true,
+                        dataIndex = field.FieldName,
+                        header = lc(field.DisplayName),
+                        id = "column" + field.FieldName
+                    }.ToJs();
+
+                    col.AddScalar("renderer", "function (v) { if (v) return '<a href=\"' + EAS.url.action('/FileUpload/Download?id=' + v) + '\" target=\"_blank\">\'+lc('Скачать')+'</a>'; return ''; }");
+                    columns.Values.Add(col);
+                }
                 else
                 {
                     var col = (JsObject)new
@@ -627,6 +640,10 @@ namespace Barsix.BarsEntity.BarsGenerators
                     fil.AddScalar("value", "null");
                     fil.AddScalar("items", "{1}.Enum.{0}.getItems()".R(field.TypeName, project.DefaultNamespace.CutFirst(5)));
                     fil.Add("nullItemAdd", true);
+                }
+                else if (field.TypeName == "FileInfo")
+                {
+                    continue;
                 }
                 else
                 {
