@@ -79,11 +79,19 @@ namespace Barsix.BarsEntity.BarsOptions
                     case "DateTime":
                         ViewType            = "datefield";
                         ViewColumnType      = "easgriddatecolumn";
-                        DynamicFilterType   = "DateTime"; break;
+                        DynamicFilterType   = "DateTime"; 
+                        break;
                     case "decimal":
                         ViewType            = "eascurrencyfield";
                         ViewColumnType      = "eascurrencycolumn";
-                        DynamicFilterType   = "Decimal"; break;
+                        DynamicFilterType   = "Decimal"; 
+                        break;
+                    default:
+                        if (this.Enum)
+                        {
+                            ViewType = "eascombobox";
+                        };
+                        break;
                 }
             }
             else if (this.IsReference())

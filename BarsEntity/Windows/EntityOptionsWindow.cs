@@ -510,13 +510,14 @@ namespace Barsix.BarsEntity
                 FieldOptions fopt = (FieldOptions)lviEntity.Tag;
                 fopt.FieldName = tbeName.Text;
 
-                if (fopt.TypeName != cbeBaseClass.Text)
-                {
-                    fopt.TypeName = tbeType.Text;
-                    fopt.Collection = cheList.Checked;
+                // уже не помню зачем такая проверка
+                //if (fopt.TypeName != cbeBaseClass.Text)
+                //{
+                //    fopt.TypeName = tbeType.Text;
+                //    fopt.Collection = cheList.Checked;
 
-                    fopt.SetRelatedTypes();
-                }
+                //    fopt.SetRelatedTypes();
+                //}
                 
                 fopt.TypeName = tbeType.Text;
                 fopt.Comment = tbeComment.Text;
@@ -527,6 +528,7 @@ namespace Barsix.BarsEntity
                 fopt.ParentReference = cheParentReference.Checked;
                 fopt.Nullable = cheNullable.Checked;
                 fopt.Enum = cheEnum.Checked;
+                fopt.SetRelatedTypes();
 
                 if (fopt.Collection)
                 {

@@ -385,12 +385,12 @@ namespace Barsix.BarsEntity.BarsGenerators
             
             aFunction.Add(ns);
             aFunction.Add("");
-            aFunction.Add(EASGrid(options));
+            aFunction.Add(EASGrid(options, project));
 
             if (!options.View.EditingDisabled)
             {
                 aFunction.Add("");
-                aFunction.Add(EASEditWindow(options, controllerOpts.Name));
+                aFunction.Add(EASEditWindow(options, controllerOpts.Name, project));
             }
             aFunction.Add("");
             aFunction.Add(EASPage(options, controllerOpts.Name));
@@ -438,7 +438,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             fragments.Add("ResourceManifest.cs", resources);
         }
         
-        private JsFunctionCall EASGrid(EntityOptions options)
+        private JsFunctionCall EASGrid(EntityOptions options, ProjectInfo project)
         {
             var gridConfig = new JsFunctionCall { Function = "Ext3.apply", Name = "return" };
 
@@ -582,6 +582,10 @@ namespace Barsix.BarsEntity.BarsGenerators
                     {
                         col.AddScalar("renderer", "function (value) { return !!value ? 'да' : 'нет'; }");
                     }
+                    else if (field.Enum)
+                    {
+                        col.AddScalar("renderer", "{1}.Enum.{0}.getRenderer()".R(field.TypeName, project.DefaultNamespace.CutFirst(5)));
+                    }
                     else if (field.IsReference())
                     {
                         col.AddScalar("renderer", "function (value) {{ if (!value) return ''; return value.{0}; }}".R(field.TextProperty));
@@ -615,6 +619,14 @@ namespace Barsix.BarsEntity.BarsGenerators
                     fil.Add("xtype", "statefiltercombobox");
                     fil.Add("stateTypeId", options.ClassFullName);
                     fil.Add("editable", false);
+                } else 
+                if (field.Enum)
+                {
+                    fil.Add("xtype", "eascombobox");
+                    fil.Add("editable", false);
+                    fil.AddScalar("value", "null");
+                    fil.AddScalar("items", "{1}.Enum.{0}.getItems()".R(field.TypeName, project.DefaultNamespace.CutFirst(5)));
+                    fil.Add("nullItemAdd", true);
                 }
                 else
                 {
@@ -648,7 +660,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             return gridExtend;
         }
 
-        private JsFunctionCall EASEditWindow(EntityOptions options, string controllerName)
+        private JsFunctionCall EASEditWindow(EntityOptions options, string controllerName, ProjectInfo project)
         {
             var extendParams = new JsObject();
 
@@ -692,6 +704,19 @@ namespace Barsix.BarsEntity.BarsGenerators
                         @ref = "../field_State",
                         controllerName = controllerName,
                         entityTypeId = JsScalar.New("this.entityTypeId")
+                    }.ToJs());
+                } else
+                if (field.Enum)
+                {
+                    fields.Values.Add(new
+                    {
+                        xtype = field.ViewType,
+                        dataIndex = field.FieldName,
+                        fieldLabel = lc(field.DisplayName),
+                        editable = false,
+                        allowBlank = field.Nullable,
+                        items = JsScalar.New("{1}.Enum.{0}.getItems()".R(field.TypeName, project.DefaultNamespace.CutFirst(5))),
+                        defaultValue = JsScalar.New("{1}.Enum.{0}.getDefaultValue()".R(field.TypeName, project.DefaultNamespace.CutFirst(5)))
                     }.ToJs());
                 } else
                 if (field.ViewType == "easselectfield")
