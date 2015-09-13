@@ -34,7 +34,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 ns.InnerUsing.Add("B4.Modules.States");
 
             if (options.Signable)
-                ns.InnerUsing.Add("B4.Modules.DigitalSignature.Entities");
+                ns.InnerUsing.Add("DS = B4.Modules.DigitalSignature.Entities");
 
             if (options.AcceptFiles)
                 ns.InnerUsing.Add("B4.Modules.FileStorage");
@@ -117,8 +117,8 @@ namespace Barsix.BarsEntity.BarsGenerators
                 if (owner != null)
                     list.Body.Add("var {0}Id = baseParams.Params[\"{0}Id\"].ToLong();".R(owner.FieldName.camelCase()));
 
-                if (options.Signable)
-                    cls.AddProperty(new PropertyInfo { Name = "DsDigSignature", Type = "IDomainService<DigSignature>", IsVirtual = false }.Auto.Get().Set());
+                if (options.Signable && !cls.Properties.Any(x => x.Name == "DsDigSignature" && x.Type == "IDomainService<DS.DigSignature>"))
+                    cls.AddProperty(new PropertyInfo { Name = "DsDigSignature", Type = "IDomainService<DS.DigSignature>", IsVirtual = false }.Auto.Get().Set());
 
                 list.Body.Add("");
                 list.Body.Add("var qList = DomainService.GetAll()");
@@ -230,9 +230,9 @@ namespace Barsix.BarsEntity.BarsGenerators
                 body.Add("var id = baseParams.Params[\"id\"].ToLong();");
                 body.Add("var entity = DomainService.Get(id);");
 
-                if (options.Signable)
+                if (options.Signable && !cls.Properties.Any(x => x.Name == "DsDigSignature" && x.Type == "IDomainService<DS.DigSignature>"))
                 {
-                    body.Add("var qDigitalSignatures = Container.ResolveDomain<Bars.B4.Modules.DigitalSignature.Entities.DigSignature>().GetAll();");
+                    cls.AddProperty(new PropertyInfo { Name = "DsDigSignature", Type = "IDomainService<DS.DigSignature>" }.Public.Auto.Get().Set());
                 }
 
                 body.Add("var data = new {");
@@ -248,7 +248,7 @@ namespace Barsix.BarsEntity.BarsGenerators
 
                 if (options.Signable)
                 {
-                    body.Add("    Signed = qDigitalSignatures.Any(y => y.EntityTypeId == \"{0}\" && y.EntityId == entity.Id),".R(options.ClassFullName));
+                    body.Add("    Signed = DsDigSignature.GetAll().Any(y => y.EntityTypeId == \"{0}\" && y.EntityId == entity.Id),".R(options.ClassFullName));
                 }
 
                 body[body.Count - 1] = body.Last().Substring(0, body.Last().Length - 1);
