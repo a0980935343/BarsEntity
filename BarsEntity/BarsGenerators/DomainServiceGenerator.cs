@@ -210,7 +210,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 }).Protected.Override;
 
                 mi.Body.Add("IDataResult result;");
-                mi.Body.Add("var value = Container.Resolve<IDomainService<{0}>>().Get((long)id);".R(options.ClassName));
+                mi.Body.Add("var value = Repository.Get((long)id);");
                 mi.Body.Add("var interceptors = Container.ResolveAll<IDomainServiceInterceptor<{0}>>();".R(options.ClassName));
                 mi.Body.Add("foreach (var interceptor in interceptors)");
                 mi.Body.Add("{");
