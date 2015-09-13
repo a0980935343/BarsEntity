@@ -1,5 +1,15 @@
 # BarsEntity
-Создание нового Bars-объекта (включая Entity, Map, Controller, View и UpdateSchema, DomainService(Interceptor)) и многое, многое другое
+Создание нового Bars-объекта (включая Entity, Map, Controller, ViewModel, View, UpdateSchema, DomainService(Interceptor)) и многое, многое другое
+
+
+Версия 1.6.1
+----------
+
+Поиск типов только по требованию - в проекте или решении
+Ищутся только типы, наследованные от IEntity-based классов или перечисления
+При создании на основании найденного класса собираются summary-комментарии
+Улучшена генерация view для FileInfo и перечислений
+Мелкие баги
 
 
 Версия 1.6
