@@ -229,6 +229,7 @@ namespace Barsix.BarsEntity
                     var name = new FieldOptions{
                          FieldName = "Name",
                          TypeName = "string",
+                         DisplayName = "Наименование"
                     };
                     name.SetRelatedTypes();
 
@@ -1090,6 +1091,10 @@ namespace Barsix.BarsEntity
         {
             _preventInterfaceActions = true;
 
+            lvFields.Items.Clear();
+            lvView.Items.Clear();
+            lvMap.Items.Clear();
+
             foreach (var field in options.Fields)
             {
                 var lvif = lvFields.Items.Add(field.FieldName);
@@ -1129,7 +1134,7 @@ namespace Barsix.BarsEntity
 
             if (options.View != null)
             {
-                options.Map(tbvDisplayName, x => x.DisplayName);
+                options.Map(tbvEntityDisplayName, x => x.DisplayName);
                 options.Map(tbvNamespace, x => x.View.Namespace);
                 options.Map(chvEditingDisabled, x => x.View.EditingDisabled);
                 options.Map(chvDynamicFilter, x => x.View.DynamicFilter);
