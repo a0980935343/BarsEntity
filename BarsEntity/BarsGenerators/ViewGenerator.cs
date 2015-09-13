@@ -458,8 +458,6 @@ namespace Barsix.BarsEntity.BarsGenerators
             }
             gridApply.Add("sm", sm);
 
-
-
             var store = new JsInstance(options.View.TreeGrid ? "Ext3.ux.maximgb.tree.AdjacencyListStore" : "EAS.Store");
             
             var storeFields = new JsArray() { Inline = true };
@@ -689,10 +687,11 @@ namespace Barsix.BarsEntity.BarsGenerators
             init.Add("ns.EditWindow.superclass.initComponent.call(this);");
             init.Add("");
             init.Add("var thisWindow = this;");
-            init.Add("this.addEvents('signButtonClick');");
 
             if (options.Signable)
             {
+                init.Add("this.addEvents('signButtonClick');");
+
                 var signButton = new JsFunctionCall("this.saveButtonGroup.add",
                     new
                     {
@@ -853,7 +852,10 @@ namespace Barsix.BarsEntity.BarsGenerators
                 initPage.Add(this.addComponent("editWindow",
                     new JsInstance("ns.EditWindow",new []{ editParams }){ Inline = !editParams.Properties.Any() }
                 ));
-                initPage.Add("this.components.editWindow.on('signButtonClick', this.onSignButtonClick, this);");
+                if (options.Signable)
+                {
+                    initPage.Add("this.components.editWindow.on('signButtonClick', this.onSignButtonClick, this);");
+                }
             }
             initPage.Add("");
             
