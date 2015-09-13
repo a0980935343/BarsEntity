@@ -32,11 +32,17 @@ namespace Barsix.BarsEntity.BarsGenerators
         {
             _project = project;
 
-            if (classSearching && _classList.Count == 0)
+            if (classSearching) 
+                FindClasses(false, false);
+        }
+
+        public void FindClasses(bool forceSearch, bool onlyInProject)
+        {
+            if (_classList.Count == 0 || forceSearch)
             {
                 Task.Factory.StartNew(() =>
                 {
-                    _project.GetClassList(_classList, _enumList, "Bars");
+                    _project.GetClassList(_classList, _enumList, onlyInProject ? _project.DefaultNamespace() : "Bars");
                     _generators.ForEach(g => g.ClassList = _classList.Keys.ToList().Concat(_enumList).ToList());
                 });
             }

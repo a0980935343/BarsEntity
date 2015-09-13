@@ -146,7 +146,7 @@ namespace Barsix.BarsEntity
 
             tbTableName.Text = EntityHelper.TableNameByEntityName(tbEntityName.Text, _project.DefaultNamespace());
 
-            _manager = new GenerationManager(_project);
+            _manager = new GenerationManager(_project, false);
             _manager.AddGenerator(new EntityGenerator());
             _manager.AddGenerator(new MapGenerator());
             _manager.AddGenerator(new ControllerGenerator());
@@ -226,7 +226,13 @@ namespace Barsix.BarsEntity
             {
                 if (!options.Fields.Any(x => x.FieldName == "Name" && x.TypeName == "string"))
                 {
-                    throw new Exception("Не задано строковое поле Name (требуется для NamedBaseEntity)");
+                    var name = new FieldOptions{
+                         FieldName = "Name",
+                         TypeName = "string",
+                    };
+                    name.SetRelatedTypes();
+
+                    options.Fields.Insert(0, name);
                 }
             }
 
@@ -1224,6 +1230,24 @@ namespace Barsix.BarsEntity
         private void cbmInheritanceType_SelectedIndexChanged(object sender, EventArgs e)
         {
             tbDiscriminator.Visible = lbDiscriminator.Visible = cbmInheritanceType.Text == "Discriminator";
+        }
+
+        private void ctxItemAllSolution_Click(object sender, EventArgs e)
+        {
+            _manager.FindClasses(true, false);
+        }
+
+        private void ctxItemCurrentProject_Click(object sender, EventArgs e)
+        {
+            _manager.FindClasses(true, true);
+        }
+
+        private void btnSearchClasses_Click(object sender, EventArgs e)
+        {
+            Button btnSender = (Button)sender;
+            Point ptLowerLeft = new Point(0, btnSender.Height);
+            ptLowerLeft = btnSender.PointToScreen(ptLowerLeft);
+            contextMenuFindClasses.Show(ptLowerLeft);
         }
     }
 }

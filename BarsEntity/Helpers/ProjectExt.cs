@@ -72,44 +72,64 @@ namespace Barsix.BarsEntity
 
         public static void GetClassList(this Project project, IDictionary<string, CodeClass> classes, ICollection<string> enums, string filter = "")
         {
-            Action<CodeNamespace> enumClasses = null;
-            enumClasses = ns =>
+            List<string> bases = new List<string>{ "PersistentObject", "BaseEntity", "NamedBaseEntity"};
+
+            Action<CodeNamespace, int> enumClasses = null;
+            enumClasses = (ns, level) =>
             {
-                foreach (CodeNamespace ens in ns.Members.OfType<CodeNamespace>())
+                var nsList = filter.Split('.').ToList();
+                var nsFilter = level < nsList.Count ? string.Join(".", nsList.Take(level)) : filter;
+
+                foreach (CodeNamespace ens in ns.Members.OfType<CodeNamespace>().Where(x => x.FullName.StartsWith(nsFilter)))
                 {
-                    enumClasses(ens);
+                    enumClasses(ens, level + 1);
                 }
 
                 foreach (CodeClass @class in ns.Members.OfType<CodeClass>())
                 {
-                    if (@class.FullName.StartsWith(project.DefaultNamespace()))
+                    if (@class.FullName.StartsWith(filter))
                     {
-                        if (!classes.ContainsKey(@class.FullName.Substring(project.DefaultNamespace().Length + 1)))
-                            classes.Add(@class.FullName.Substring(project.DefaultNamespace().Length + 1), @class);
-                    }
-                    else
-                    {
-                        if (!classes.ContainsKey(@class.FullName.Substring(filter.Length + 1)))
+                        bool isEntity = false;
+                        List<string> ifl = new List<string>();
+                        foreach (CodeClass bs in @class.Bases.OfType<CodeClass>())
+                        {
+                            if (bases.Contains(bs.Name)) // base class match
+                            {
+                                isEntity = true;
+                            }
+                            else
+                            {
+                                foreach (CodeClass bsbs in bs.Bases.OfType<CodeClass>())
+                                {
+                                    if (bases.Contains(bsbs.Name)) // or grand-base class match
+                                    {
+                                        isEntity = true;
+                                    }
+                                }
+                            }
+                        } 
+
+                        if (!classes.ContainsKey(@class.FullName.Substring(filter.Length + 1)) && isEntity)
                             classes.Add(@class.FullName.Substring(filter.Length + 1), @class);
                     }
                 }
 
                 foreach (CodeEnum @class in ns.Members.OfType<CodeEnum>())
                 {
-                    if (@class.FullName.StartsWith(project.DefaultNamespace()))
-                    {
-                        enums.Add(@class.FullName.Substring(project.DefaultNamespace().Length + 1));
-                    }
-                    else
+                    if (@class.FullName.StartsWith(filter))
                     {
                         enums.Add(@class.FullName.Substring(filter.Length + 1));
                     }
                 }
             };
 
-            foreach (CodeNamespace element in project.CodeModel.CodeElements.OfType<CodeNamespace>().Where(x => x.FullName.StartsWith(filter)))
+            var filterPrefix = filter;
+            if (filterPrefix.Contains('.'))
+                filterPrefix = filter.Substring(0, filterPrefix.IndexOf('.'));
+
+            foreach (CodeNamespace element in project.CodeModel.CodeElements.OfType<CodeNamespace>().Where(x => x.FullName.StartsWith(filterPrefix)))
             {
-                enumClasses(element);
+                enumClasses(element, 2);
             }
         }
     }

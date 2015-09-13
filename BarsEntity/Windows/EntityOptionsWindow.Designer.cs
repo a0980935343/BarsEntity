@@ -30,6 +30,7 @@ namespace Barsix.BarsEntity
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.Label label16;
             System.Windows.Forms.Label label12;
             System.Windows.Forms.Label label4;
@@ -74,6 +75,7 @@ namespace Barsix.BarsEntity
             System.Windows.Forms.Label label29;
             System.Windows.Forms.Label label28;
             System.Windows.Forms.Label label32;
+            System.Windows.Forms.Button btnSearchClasses;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntityOptionsWindow));
             this.tbDiscriminator = new System.Windows.Forms.TextBox();
             this.lbDiscriminator = new System.Windows.Forms.Label();
@@ -106,6 +108,9 @@ namespace Barsix.BarsEntity
             this.chdUpdateBefore = new System.Windows.Forms.CheckBox();
             this.chdCreateAfter = new System.Windows.Forms.CheckBox();
             this.chdCreateBefore = new System.Windows.Forms.CheckBox();
+            this.contextMenuFindClasses = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ctxItemAllSolution = new System.Windows.Forms.ToolStripMenuItem();
+            this.ctxItemCurrentProject = new System.Windows.Forms.ToolStripMenuItem();
             this.tbEntityName = new System.Windows.Forms.TextBox();
             this.btnOk = new System.Windows.Forms.Button();
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -219,10 +224,12 @@ namespace Barsix.BarsEntity
             label29 = new System.Windows.Forms.Label();
             label28 = new System.Windows.Forms.Label();
             label32 = new System.Windows.Forms.Label();
+            btnSearchClasses = new System.Windows.Forms.Button();
             tabPage2.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
             groupBox1.SuspendLayout();
+            this.contextMenuFindClasses.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage3.SuspendLayout();
@@ -950,6 +957,38 @@ namespace Barsix.BarsEntity
             label32.TabIndex = 43;
             label32.Text = "Подпапка";
             // 
+            // btnSearchClasses
+            // 
+            btnSearchClasses.Location = new System.Drawing.Point(524, 5);
+            btnSearchClasses.Name = "btnSearchClasses";
+            btnSearchClasses.Size = new System.Drawing.Size(106, 40);
+            btnSearchClasses.TabIndex = 45;
+            btnSearchClasses.Text = "Найти классы";
+            btnSearchClasses.UseVisualStyleBackColor = true;
+            btnSearchClasses.Click += new System.EventHandler(this.btnSearchClasses_Click);
+            // 
+            // contextMenuFindClasses
+            // 
+            this.contextMenuFindClasses.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ctxItemAllSolution,
+            this.ctxItemCurrentProject});
+            this.contextMenuFindClasses.Name = "contextMenuFindClasses";
+            this.contextMenuFindClasses.Size = new System.Drawing.Size(181, 48);
+            // 
+            // ctxItemAllSolution
+            // 
+            this.ctxItemAllSolution.Name = "ctxItemAllSolution";
+            this.ctxItemAllSolution.Size = new System.Drawing.Size(180, 22);
+            this.ctxItemAllSolution.Text = "Во всём решении";
+            this.ctxItemAllSolution.Click += new System.EventHandler(this.ctxItemAllSolution_Click);
+            // 
+            // ctxItemCurrentProject
+            // 
+            this.ctxItemCurrentProject.Name = "ctxItemCurrentProject";
+            this.ctxItemCurrentProject.Size = new System.Drawing.Size(180, 22);
+            this.ctxItemCurrentProject.Text = "В текущем проекте";
+            this.ctxItemCurrentProject.Click += new System.EventHandler(this.ctxItemCurrentProject_Click);
+            // 
             // tbEntityName
             // 
             this.tbEntityName.Location = new System.Drawing.Point(79, 5);
@@ -1668,9 +1707,9 @@ namespace Barsix.BarsEntity
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(709, 5);
+            this.btnSave.Location = new System.Drawing.Point(711, 5);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 40);
+            this.btnSave.Size = new System.Drawing.Size(73, 40);
             this.btnSave.TabIndex = 41;
             this.btnSave.Text = "Сохранить";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -1678,9 +1717,9 @@ namespace Barsix.BarsEntity
             // 
             // btnLoad
             // 
-            this.btnLoad.Location = new System.Drawing.Point(628, 5);
+            this.btnLoad.Location = new System.Drawing.Point(636, 5);
             this.btnLoad.Name = "btnLoad";
-            this.btnLoad.Size = new System.Drawing.Size(75, 40);
+            this.btnLoad.Size = new System.Drawing.Size(73, 40);
             this.btnLoad.TabIndex = 42;
             this.btnLoad.Text = "Открыть";
             this.btnLoad.UseVisualStyleBackColor = true;
@@ -1708,6 +1747,7 @@ namespace Barsix.BarsEntity
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(790, 731);
+            this.Controls.Add(btnSearchClasses);
             this.Controls.Add(this.tbSubfolder);
             this.Controls.Add(label32);
             this.Controls.Add(this.btnLoad);
@@ -1737,6 +1777,7 @@ namespace Barsix.BarsEntity
             groupBox2.PerformLayout();
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            this.contextMenuFindClasses.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
@@ -1859,5 +1900,8 @@ namespace Barsix.BarsEntity
         private System.Windows.Forms.TextBox tbDiscriminator;
         private System.Windows.Forms.Label lbDiscriminator;
         private System.Windows.Forms.CheckBox chcListSummary;
+        private System.Windows.Forms.ContextMenuStrip contextMenuFindClasses;
+        private System.Windows.Forms.ToolStripMenuItem ctxItemAllSolution;
+        private System.Windows.Forms.ToolStripMenuItem ctxItemCurrentProject;
     }
 }
