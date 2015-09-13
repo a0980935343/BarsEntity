@@ -87,6 +87,7 @@ namespace Barsix.BarsEntity
             this.tbmColumn = new System.Windows.Forms.TextBox();
             this.tbmName = new System.Windows.Forms.TextBox();
             this.lvMap = new System.Windows.Forms.ListView();
+            this.chcListSummary = new System.Windows.Forms.CheckBox();
             this.chcViewModel = new System.Windows.Forms.CheckBox();
             this.chcCreate = new System.Windows.Forms.CheckBox();
             this.chcDelete = new System.Windows.Forms.CheckBox();
@@ -174,7 +175,6 @@ namespace Barsix.BarsEntity
             this.openDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveDialog = new System.Windows.Forms.SaveFileDialog();
             this.tbSubfolder = new System.Windows.Forms.TextBox();
-            this.chcListSummary = new System.Windows.Forms.CheckBox();
             label16 = new System.Windows.Forms.Label();
             label12 = new System.Windows.Forms.Label();
             label4 = new System.Windows.Forms.Label();
@@ -599,6 +599,16 @@ namespace Barsix.BarsEntity
             groupBox3.TabStop = false;
             groupBox3.Text = "override Actions";
             // 
+            // chcListSummary
+            // 
+            this.chcListSummary.AutoSize = true;
+            this.chcListSummary.Location = new System.Drawing.Point(23, 49);
+            this.chcListSummary.Name = "chcListSummary";
+            this.chcListSummary.Size = new System.Drawing.Size(85, 17);
+            this.chcListSummary.TabIndex = 14;
+            this.chcListSummary.Text = "ListSummary";
+            this.chcListSummary.UseVisualStyleBackColor = true;
+            // 
             // chcViewModel
             // 
             this.chcViewModel.AutoSize = true;
@@ -1013,7 +1023,9 @@ namespace Barsix.BarsEntity
             "int",
             "DateTime",
             "decimal",
-            "bool"});
+            "bool",
+            "State",
+            "FileInfo"});
             this.tbeType.Location = new System.Drawing.Point(451, 71);
             this.tbeType.Name = "tbeType";
             this.tbeType.Size = new System.Drawing.Size(162, 21);
@@ -1690,16 +1702,6 @@ namespace Barsix.BarsEntity
             this.tbSubfolder.Name = "tbSubfolder";
             this.tbSubfolder.Size = new System.Drawing.Size(154, 20);
             this.tbSubfolder.TabIndex = 44;
-            // 
-            // chcListSummary
-            // 
-            this.chcListSummary.AutoSize = true;
-            this.chcListSummary.Location = new System.Drawing.Point(23, 49);
-            this.chcListSummary.Name = "chcListSummary";
-            this.chcListSummary.Size = new System.Drawing.Size(85, 17);
-            this.chcListSummary.TabIndex = 14;
-            this.chcListSummary.Text = "ListSummary";
-            this.chcListSummary.UseVisualStyleBackColor = true;
             // 
             // EntityOptionsWindow
             // 

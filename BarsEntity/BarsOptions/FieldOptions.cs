@@ -85,8 +85,12 @@ namespace Barsix.BarsEntity.BarsOptions
                         ViewColumnType      = "eascurrencycolumn";
                         DynamicFilterType   = "Decimal"; break;
                 }
-            }
-            else if (this.IsReference())
+            } else
+            if (this.TypeName == "FileInfo")
+            {
+                ViewType = "easfileupload";
+            } else 
+            if (this.IsReference())
             {
                 ViewType = "easselectfield";
                 DynamicFilterType = "LongSet";
