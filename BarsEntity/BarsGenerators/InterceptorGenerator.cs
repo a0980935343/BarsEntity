@@ -40,6 +40,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             _knownTypes.Add("IDomainService");
             _knownTypes.Add(options.ClassName);
             _knownTypes.Add("IStateProvider");
+            _knownTypes.Add("IDataResult");
 
             foreach (string methodName in options.Interceptor.Actions)
             {
@@ -54,10 +55,9 @@ namespace Barsix.BarsEntity.BarsGenerators
 
                 if (options.Stateful && methodName == "BeforeCreate")
                 {
-                    ns.InnerUsing.Add("B4.Modules.States");
                     action.Body.Clear();
-                    action.Body.Add("var stateProvider = Container.Resolve<IStateProvider>();");
-                    action.Body.Add("stateProvider.SetDefaultState(entity);");
+                    cls.AddProperty(new PropertyInfo { Name = "StateProvider", Type = "IStateProvider" }.Public.Auto.Get().Set());
+                    action.Body.Add("StateProvider.SetDefaultState(entity);");
                     action.Body.Add("return Success();");
                 }
                 cls.AddMethod(action);
