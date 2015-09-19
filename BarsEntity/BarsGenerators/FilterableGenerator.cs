@@ -83,6 +83,19 @@ namespace Barsix.BarsEntity.BarsGenerators
 
                 _knownTypes.Add(field.DynamicFilterType + "EntityAttributeType");
 
+                if (field.Enum)
+                { 
+                    entityAttributes.Body.Add("        UserParameter = new SelectionUserParameter");
+                    entityAttributes.Body.Add("        {");
+                    entityAttributes.Body.Add("            Code = \"{0}\",".R(field.FieldName));
+                    entityAttributes.Body.Add("            Name = \"{0}\",".R(field.DisplayName));
+                    entityAttributes.Body.Add("            ValueType = typeof(int),");
+                    entityAttributes.Body.Add("            Require = true,");
+                    entityAttributes.Body.Add("            StoreData = new[] { /* заполните значения енума */ },");
+                    entityAttributes.Body.Add("            ComboBoxConfig = new SimpleComboBoxConfig(),");
+                    entityAttributes.Body.Add("            DefaultValue = null");
+                    entityAttributes.Body.Add("        },");
+                } else
                 if (field.IsReference())
                 { 
                     entityAttributes.Body.Add("        UserParameter = new PersistentObjectUserParameter");

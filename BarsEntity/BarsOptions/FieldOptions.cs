@@ -90,6 +90,7 @@ namespace Barsix.BarsEntity.BarsOptions
                         if (this.Enum)
                         {
                             ViewType = "eascombobox";
+                            DynamicFilterType = "Enum"; 
                         };
                         break;
                 }
