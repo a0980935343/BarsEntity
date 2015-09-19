@@ -2,6 +2,12 @@
 Создание нового Bars-объекта (включая Entity, Map, Controller, ViewModel, View, UpdateSchema, DomainService(Interceptor)) и многое, многое другое
 
 
+Версия 1.6.2
+----------
+
+ProjectProfile - чуть меньше зависимости от MosKs. Некоторые условия проверяются только если открыт проект Bars.MosKs
+
+
 Версия 1.6.1
 ----------
 

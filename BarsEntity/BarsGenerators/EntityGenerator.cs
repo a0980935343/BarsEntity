@@ -35,7 +35,7 @@ namespace Barsix.BarsEntity.BarsGenerators
 
             ns.Name = project.DefaultNamespace + ".Entities";
 
-            if (options.BaseClass == "NamedBaseEntity")
+            if (options.BaseClass == "NamedBaseEntity" && options.Profile is MosKsProfile)
             {
                 ns.InnerUsing.Add("MosKs.Core.Entities.Base");
             }
@@ -72,7 +72,7 @@ namespace Barsix.BarsEntity.BarsGenerators
 
             foreach (var field in options.Fields.Where(x => !x.Collection && !x.TypeName.EndsWith("View")))
             {
-                if (options.BaseClass == "NamedBaseEntity" && field.FieldName == "Name")
+                if (options.BaseClass == "NamedBaseEntity" && field.FieldName == "Name" && options.Profile is MosKsProfile)
                     continue;
 
                 var pi = (new PropertyInfo()).Public.Virtual.Auto.Get().Set();

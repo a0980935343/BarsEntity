@@ -161,7 +161,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 body.Add("var data = new {");
                 body.Add("    entity.Id,");
 
-                if (options.BaseClass == "NamedBaseEntity" && !options.Fields.Any(x => x.FieldName == "Name"))
+                if (options.BaseClass == "NamedBaseEntity" && !options.Fields.Any(x => x.FieldName == "Name") && options.Profile is MosKsProfile)
                     body.Add("    entity.Name" + (options.Fields.Any(x => x.FieldName != "Name") ? "," : ""));
 
                 foreach (var field in options.Fields.Where(x => !x.Collection && !x.TypeName.EndsWith("View")))

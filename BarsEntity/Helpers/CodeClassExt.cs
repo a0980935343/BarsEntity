@@ -11,9 +11,9 @@ namespace Barsix.BarsEntity
 
     public static class CodeClassExt
     {
-        public static EntityOptions ToOptions(CodeClass cls, IEnumerable<string> enums)
+        public static EntityOptions ToOptions(CodeClass cls, IEnumerable<string> enums, Project project)
         {
-            EntityOptions result = new EntityOptions();
+            EntityOptions result = new EntityOptions(project.GetProjectProfile());
 
             result.ClassName = cls.Name;
             result.ClassFullName = cls.FullName;

@@ -50,7 +50,7 @@ namespace Barsix.BarsEntity.BarsGenerators
 
         public Dictionary<string, EntityOptions> ClassExists(string className)
         {
-            return _classList.Where(x => x.Key.EndsWith("." + className)).ToDictionary(x => x.Key, x => CodeClassExt.ToOptions(x.Value, _enumList));
+            return _classList.Where(x => x.Key.EndsWith("." + className)).ToDictionary(x => x.Key, x => CodeClassExt.ToOptions(x.Value, _enumList, _project));
         }
         
         public string EnumExists(string enumName)
@@ -90,7 +90,8 @@ namespace Barsix.BarsEntity.BarsGenerators
                 try
                 {
                     var files = generator.Generate(projectInfo, options, _fragments);
-                    AddFiles(generator, files);
+                    if (files.Any())
+                        AddFiles(generator, files);
                 }
                 catch (Exception ex)
                 {

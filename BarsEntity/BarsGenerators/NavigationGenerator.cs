@@ -20,8 +20,22 @@ namespace Barsix.BarsEntity.BarsGenerators
                 InsertMethod = "public void Init(MenuItem root)",
                 Generator = this
             };
-            navigation.Lines.Add("root.Add(\"{0}\").Add(\"{1}\", \"#{2}\", \"modules/{3}\").WithIcon(\"content/modules/MosKs/icons64/meterUnit.png\"){4};"
-                .R(nav.Root, nav.Name, nav.Anchor, project.DefaultNamespace.Substring(5) + "." + options.ClassName, nav.MapPermission ? ".AddRequiredPermission(\"{0}\")".R(options.Permission.Prefix) : ""));
+            string menuItem = "root.Add(\"{0}\").Add(\"{1}\", \"{2}{3}\", \"modules/{4}\")"
+                .R(nav.Root,
+                    nav.Name,
+                    options.Profile.HrefPrefix,
+                    nav.Anchor,
+                    project.DefaultNamespace.Substring(5) + "." + options.ClassName);
+
+            if (nav.MapPermission)
+                menuItem = menuItem + ".AddRequiredPermission(\"{0}.View\")".R(options.Permission.Prefix);
+
+            if (!string.IsNullOrWhiteSpace(options.Profile.IconPath))
+                menuItem = menuItem + ".WithIcon(\"{0}\")".R(options.Profile.IconPath);
+
+            menuItem = menuItem + ";";
+
+            navigation.Lines.Add(menuItem);
 
             fragments.Add("Module.cs", navigation);
 

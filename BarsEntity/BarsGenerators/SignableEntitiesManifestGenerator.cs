@@ -70,6 +70,8 @@ namespace Barsix.BarsEntity.BarsGenerators
             }
             else
             {
+                _knownTypes.Add("SignableEntityInfo");
+
                 var field = (new FieldInfo
                 {
                     Name = options.ClassName + "Id",

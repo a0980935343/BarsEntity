@@ -70,6 +70,14 @@ namespace Barsix.BarsEntity
             return project.Properties.Item("DefaultNamespace").Value.ToString();
         }
 
+        public static ProjectProfileBase GetProjectProfile(this Project project)
+        {
+            if (project.DefaultNamespace().StartsWith("Bars.MosKs"))
+                return new MosKsProfile();
+            else
+                return new EmptyProfile();
+        }
+
         public static void GetClassList(this Project project, IDictionary<string, CodeClass> classes, ICollection<string> enums, string filter = "")
         {
             List<string> bases = new List<string>{ "PersistentObject", "BaseEntity", "NamedBaseEntity"};

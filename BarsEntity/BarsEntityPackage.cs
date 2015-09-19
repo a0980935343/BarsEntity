@@ -29,7 +29,7 @@ namespace Barsix.BarsEntity
     public sealed class BarsEntityPackage : ExtensionPointPackage
     {
         private static DTE2 _dte;
-        public const string Version = "1.6.1";
+        public const string Version = "1.6.2";
 
         protected override void Initialize()
         {
@@ -69,7 +69,7 @@ namespace Barsix.BarsEntity
             GenerationManager manager = new GenerationManager(project, false);
             manager.AddGenerator(new MigrationGenerator());
 
-            EntityOptions Options = new EntityOptions ();
+            EntityOptions Options = new EntityOptions (project.GetProjectProfile());
             Options.MigrationVersion = Interaction.InputBox("Укажите версию", "Миграция", DateTime.Now.ToString("yyyy_MM_dd_00"));
 
             if (Options.MigrationVersion == "")
@@ -105,7 +105,7 @@ namespace Barsix.BarsEntity
             GenerationManager manager = new GenerationManager(project, false);
             manager.AddGenerator(new QuartzTaskGenerator());
 
-            EntityOptions Options = new EntityOptions();
+            EntityOptions Options = new EntityOptions(project.GetProjectProfile());
             Options.ClassName = Interaction.InputBox("Укажите название задача", "Quartz-задача", "NewTask");
 
             if (Options.ClassName == "")

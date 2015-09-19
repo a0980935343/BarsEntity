@@ -138,13 +138,13 @@ namespace Barsix.BarsEntity
         }
 
         private Project _project;
+        private ProjectProfileBase _profile;
         public void SetProject(Project project)
         {
             Text = "Создание Bars-объекта ({0})".R(project.Name);
 
             _project = project;
-
-            tbTableName.Text = EntityHelper.TableNameByEntityName(tbEntityName.Text, _project.DefaultNamespace());
+            _profile = project.GetProjectProfile();
 
             _manager = new GenerationManager(_project, false);
             _manager.AddGenerator(new EntityGenerator());
@@ -162,13 +162,16 @@ namespace Barsix.BarsEntity
             _manager.AddGenerator(new AuditLogMapProviderGenerator());
             _manager.AddGenerator(new StatefulEntitiesManifestGenerator());
             _manager.AddGenerator(new SignableEntitiesManifestGenerator());
+
+            cbvViewType.SelectedIndex = (int)_profile.ViewType - 1;
+            tbTableName.Text = EntityHelper.TableNameByEntityName(tbEntityName.Text, _project.DefaultNamespace());
         }
         
         private GenerationManager _manager;
         
         private EntityOptions ComposeOptions()
         {
-            EntityOptions  options = new EntityOptions();
+            EntityOptions  options = new EntityOptions(_profile);
             options.ClassName = tbEntityName.Text;
             options.ClassFullName = _project.DefaultNamespace() + ".Entities." + tbEntityName.Text;
             options.TableName = tbTableName.Text;
@@ -222,7 +225,7 @@ namespace Barsix.BarsEntity
                     options.Fields.First(x => x.FieldName == "State" && x.TypeName == "State").ViewType = "easstatefield";
                 }
             }
-            if (options.BaseClass == "NamedBaseEntity")
+            if (options.BaseClass == "NamedBaseEntity" && options.Profile is MosKsProfile)
             {
                 if (!options.Fields.Any(x => x.FieldName == "Name" && x.TypeName == "string"))
                 {
@@ -715,7 +718,7 @@ namespace Barsix.BarsEntity
             }
             catch (Exception ex)
             {
-                MessageBox(ex.Message, "Ошибка");
+                MessageBox("UpdateEditors: " + ex.Message, "Ошибка");
                 return;
             }
         }
@@ -833,7 +836,7 @@ namespace Barsix.BarsEntity
                     cbvTextProperty.DisplayMember = "Display";
                     cbvTextProperty.ValueMember   = "Value";
                     var propList = new List<StringComboItem>();
-                    if (classes.BaseClass == "NamedBaseEntity")
+                    if (classes.BaseClass == "NamedBaseEntity" && _profile is MosKsProfile)
                         propList.Add(new StringComboItem { Value = "Name", Display = "Name  :  string" });
 
                     propList.AddRange(classes.Fields.Where(x => x.IsBasicType() && !x.Enum).Select(x => new StringComboItem { Value = x.FieldName, Display = x.FieldName + "  :  " + x.FullTypeName }));
@@ -1083,7 +1086,9 @@ namespace Barsix.BarsEntity
         {
             if (openDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                RestoreOptions(EntityOptionsExt.Load(openDialog.FileName));
+                var options = EntityOptionsExt.Load(openDialog.FileName);
+                options.Profile = _profile;
+                RestoreOptions(options);
             }
         }
 

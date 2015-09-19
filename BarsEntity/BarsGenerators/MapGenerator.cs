@@ -20,7 +20,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             ns.NestedValues.Add(cls);
             ns.Name = project.DefaultNamespace + ".Map";
 
-            if (options.BaseClass == "NamedBaseEntity")
+            if (options.BaseClass == "NamedBaseEntity" && options.Profile is MosKsProfile)
             {
                 ns.InnerUsing.Add("MosKs.Core.Map.Base");
             }
@@ -47,8 +47,8 @@ namespace Barsix.BarsEntity.BarsGenerators
                 IsConstructor = true,
                 Name = cls.Name
             };
-            
-            if (options.BaseClass == "NamedBaseEntity")
+
+            if (options.BaseClass == "NamedBaseEntity" && options.Profile is MosKsProfile)
             {
                 var field = options.Fields.Single(x => x.FieldName == "Name");
                 ctor.SignatureParams = "base(\"{0}\", {1}, {2})".R(options.TableName, field.Nullable.ToString().ToLower(), field.Length == 0 ? 100 : field.Length);
@@ -64,7 +64,7 @@ namespace Barsix.BarsEntity.BarsGenerators
 
             foreach (var field in options.Fields.Where(x => !x.Collection && !x.TypeName.EndsWith("View")))
             {
-                if (options.BaseClass == "NamedBaseEntity" && field.FieldName == "Name")
+                if (options.BaseClass == "NamedBaseEntity" && field.FieldName == "Name" && options.Profile is MosKsProfile)
                     continue;
 
                 if (field.IsBasicType())

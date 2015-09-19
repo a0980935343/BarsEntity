@@ -1462,7 +1462,7 @@ namespace Barsix.BarsEntity
             // chnMapPermissions
             // 
             this.chnMapPermissions.AutoSize = true;
-            this.chnMapPermissions.Location = new System.Drawing.Point(101, 101);
+            this.chnMapPermissions.Location = new System.Drawing.Point(101, 100);
             this.chnMapPermissions.Name = "chnMapPermissions";
             this.chnMapPermissions.Size = new System.Drawing.Size(132, 17);
             this.chnMapPermissions.TabIndex = 6;

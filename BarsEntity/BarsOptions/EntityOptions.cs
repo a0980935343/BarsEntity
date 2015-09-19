@@ -1,13 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace Barsix.BarsEntity.BarsOptions
 {
     public class EntityOptions
     {
+        private ProjectProfileBase _profile;
+
+        public EntityOptions()
+        {
+            _profile = new EmptyProfile();
+        }
+
+        public EntityOptions(ProjectProfileBase profile)
+        {
+            _profile = profile;
+        }
+
         public string ClassName;
 
         public string ClassFullName;
@@ -49,5 +58,8 @@ namespace Barsix.BarsEntity.BarsOptions
         public DomainServiceOptions DomainService;
 
         public bool AuditLogMap;
+
+        [XmlIgnore]
+        public ProjectProfileBase Profile;
     }
 }
