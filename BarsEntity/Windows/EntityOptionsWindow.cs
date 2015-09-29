@@ -23,6 +23,13 @@ namespace Barsix.BarsEntity
 
     public partial class EntityOptionsWindow : Form
     {
+        private Project _project;
+        private ProjectProfileBase _profile;
+        private Dictionary<string, FastColoredTextBox> _codeEditors = new Dictionary<string, FastColoredTextBox>();
+        private GenerationManager _manager;
+        private bool _preventInterfaceActions = false;
+        private EntityOptions _options;
+
         public EntityOptionsWindow()
         {
             InitializeComponent();
@@ -66,8 +73,6 @@ namespace Barsix.BarsEntity
                     }
             }
         }
-
-        private Dictionary<string, FastColoredTextBox> _codeEditors = new Dictionary<string, FastColoredTextBox>();
 
         private void CreateEditor(TabPage tab, string name)
         {
@@ -137,8 +142,6 @@ namespace Barsix.BarsEntity
             _codeEditors.Add(name, editor);
         }
 
-        private Project _project;
-        private ProjectProfileBase _profile;
         public void SetProject(Project project)
         {
             Text = "Создание Bars-объекта ({0})".R(project.Name);
@@ -166,12 +169,11 @@ namespace Barsix.BarsEntity
             cbvViewType.SelectedIndex = (int)_profile.ViewType - 1;
             tbTableName.Text = EntityHelper.TableNameByEntityName(tbEntityName.Text, _project.DefaultNamespace());
         }
-        
-        private GenerationManager _manager;
-        
+
         private EntityOptions ComposeOptions()
         {
             EntityOptions  options = new EntityOptions(_profile);
+            _options = options;
             options.ClassName = tbEntityName.Text;
             options.ClassFullName = _project.DefaultNamespace() + ".Entities." + tbEntityName.Text;
             options.TableName = tbTableName.Text;
@@ -315,9 +317,7 @@ namespace Barsix.BarsEntity
             return options;
         }
 
-        /// <summary>
-        /// Проверить настройки сущности и предложить дополнить/устранить возможные нестыковки
-        /// </summary>
+        /// <summary> Проверить настройки сущности и предложить дополнить/устранить возможные нестыковки </summary>
         private bool AnalyzeOptions(EntityOptions options)
         {
             // для View нет ссылки на основную сущность
@@ -1195,8 +1195,6 @@ namespace Barsix.BarsEntity
             
         }
 
-        private bool _preventInterfaceActions = false;
-
         private void MessageBox(string text, string caption, MessageBoxButtons buttons = MessageBoxButtons.OK, MessageBoxIcon icon = MessageBoxIcon.Exclamation)
         {
             if (!_preventInterfaceActions)
@@ -1242,14 +1240,26 @@ namespace Barsix.BarsEntity
             tbDiscriminator.Visible = lbDiscriminator.Visible = cbmInheritanceType.Text == "Discriminator";
         }
 
+        #region Class searching
+        private void _onClassSearchCompleted(int foundedCount)
+        {
+            this.btnSearchClasses.Invoke(new MethodInvoker(() =>
+            {
+                btnSearchClasses.Text = "Поиск классов (" + foundedCount + ")";
+                btnSearchClasses.Enabled = true;
+            }));
+        }
+
         private void ctxItemAllSolution_Click(object sender, EventArgs e)
         {
-            _manager.FindClasses(true, false);
+            btnSearchClasses.Enabled = false;
+            _manager.FindClasses(true, false, _onClassSearchCompleted);
         }
 
         private void ctxItemCurrentProject_Click(object sender, EventArgs e)
         {
-            _manager.FindClasses(true, true);
+            btnSearchClasses.Enabled = false;
+            _manager.FindClasses(true, true, _onClassSearchCompleted);
         }
 
         private void btnSearchClasses_Click(object sender, EventArgs e)
@@ -1259,5 +1269,6 @@ namespace Barsix.BarsEntity
             ptLowerLeft = btnSender.PointToScreen(ptLowerLeft);
             contextMenuFindClasses.Show(ptLowerLeft);
         }
+        #endregion
     }
 }

@@ -75,7 +75,6 @@ namespace Barsix.BarsEntity
             System.Windows.Forms.Label label29;
             System.Windows.Forms.Label label28;
             System.Windows.Forms.Label label32;
-            System.Windows.Forms.Button btnSearchClasses;
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(EntityOptionsWindow));
             this.tbDiscriminator = new System.Windows.Forms.TextBox();
             this.lbDiscriminator = new System.Windows.Forms.Label();
@@ -108,6 +107,7 @@ namespace Barsix.BarsEntity
             this.chdUpdateBefore = new System.Windows.Forms.CheckBox();
             this.chdCreateAfter = new System.Windows.Forms.CheckBox();
             this.chdCreateBefore = new System.Windows.Forms.CheckBox();
+            this.btnSearchClasses = new System.Windows.Forms.Button();
             this.contextMenuFindClasses = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.ctxItemAllSolution = new System.Windows.Forms.ToolStripMenuItem();
             this.ctxItemCurrentProject = new System.Windows.Forms.ToolStripMenuItem();
@@ -224,7 +224,6 @@ namespace Barsix.BarsEntity
             label29 = new System.Windows.Forms.Label();
             label28 = new System.Windows.Forms.Label();
             label32 = new System.Windows.Forms.Label();
-            btnSearchClasses = new System.Windows.Forms.Button();
             tabPage2.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
@@ -959,13 +958,13 @@ namespace Barsix.BarsEntity
             // 
             // btnSearchClasses
             // 
-            btnSearchClasses.Location = new System.Drawing.Point(524, 5);
-            btnSearchClasses.Name = "btnSearchClasses";
-            btnSearchClasses.Size = new System.Drawing.Size(106, 40);
-            btnSearchClasses.TabIndex = 45;
-            btnSearchClasses.Text = "Найти классы";
-            btnSearchClasses.UseVisualStyleBackColor = true;
-            btnSearchClasses.Click += new System.EventHandler(this.btnSearchClasses_Click);
+            this.btnSearchClasses.Location = new System.Drawing.Point(474, 5);
+            this.btnSearchClasses.Name = "btnSearchClasses";
+            this.btnSearchClasses.Size = new System.Drawing.Size(156, 40);
+            this.btnSearchClasses.TabIndex = 45;
+            this.btnSearchClasses.Text = "Найти классы";
+            this.btnSearchClasses.UseVisualStyleBackColor = true;
+            this.btnSearchClasses.Click += new System.EventHandler(this.btnSearchClasses_Click);
             // 
             // contextMenuFindClasses
             // 
@@ -1747,7 +1746,7 @@ namespace Barsix.BarsEntity
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(790, 731);
-            this.Controls.Add(btnSearchClasses);
+            this.Controls.Add(this.btnSearchClasses);
             this.Controls.Add(this.tbSubfolder);
             this.Controls.Add(label32);
             this.Controls.Add(this.btnLoad);
@@ -1903,5 +1902,6 @@ namespace Barsix.BarsEntity
         private System.Windows.Forms.ContextMenuStrip contextMenuFindClasses;
         private System.Windows.Forms.ToolStripMenuItem ctxItemAllSolution;
         private System.Windows.Forms.ToolStripMenuItem ctxItemCurrentProject;
+        private System.Windows.Forms.Button btnSearchClasses;
     }
 }

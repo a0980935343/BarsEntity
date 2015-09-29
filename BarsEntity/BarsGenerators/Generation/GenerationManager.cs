@@ -36,7 +36,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 FindClasses(false, false);
         }
 
-        public void FindClasses(bool forceSearch, bool onlyInProject)
+        public void FindClasses(bool forceSearch, bool onlyInProject, Action<int> onComplete = null)
         {
             if (_classList.Count == 0 || forceSearch)
             {
@@ -44,6 +44,8 @@ namespace Barsix.BarsEntity.BarsGenerators
                 {
                     _project.GetClassList(_classList, _enumList, onlyInProject ? _project.DefaultNamespace() : "Bars");
                     _generators.ForEach(g => g.ClassList = _classList.Keys.ToList().Concat(_enumList).ToList());
+                    if (onComplete != null)
+                        onComplete(_classList.Count);
                 });
             }
         }
