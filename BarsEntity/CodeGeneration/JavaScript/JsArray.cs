@@ -85,19 +85,31 @@ namespace Barsix.BarsEntity.CodeGeneration.JavaScript
             {
                 if (Values.Any())
                 {
+                    var indentDelta = Values.All(x => x.Inline) ? 1 : 0;
+
                     _result.Add((Name + ": [").Ind(indent));
-                    foreach (var prop in Values)
+                    for (int i = 0; i < Values.Count; i++)
                     {
+                        var prop = Values[i];
+
                         prop.Name = "x";
-                        var pr = prop.Draw(indent + 1);
-                        pr[0] = "".Ind(indent + 1) + pr[0].Substring(indent * 4 + 7);
+                        var pr = prop.Draw(indent + indentDelta);
+                        pr[0] = "".Ind(indent + indentDelta) + pr[0].Substring((indent + indentDelta) * 4 + 3);
 
                         if (prop != Values.Last())
                             pr[pr.Count - 1] = pr[pr.Count - 1] + ",";
 
+                        if (i == 0 && !prop.Inline)
+                        {
+                            pr.RemoveAt(0);
+                            _result[_result.Count - 1] = _result[_result.Count - 1] + "{";
+                        }
                         _result.AddRange(pr);
                     }
-                    _result.Add("]".Ind(indent));
+                    if (Values.Any(x => !x.Inline))
+                        _result[_result.Count - 1] = _result[_result.Count - 1] + "]";
+                    else
+                        _result.Add("]".Ind(indent));
                 }
                 else
                 {

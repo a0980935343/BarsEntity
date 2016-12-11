@@ -40,8 +40,10 @@ namespace Barsix.BarsEntity.BarsGenerators
         {
             files.Clear();
             files.Add(B4Grid(options, fragments, controllerOpts));
+
             if (!options.View.EditingDisabled)
-            files.Add(B4EditWindow(options, fragments, controllerOpts));
+                files.Add(B4EditWindow(options, fragments, controllerOpts));
+            
             files.Add(B4Page(options, fragments, controllerOpts));
         }
 
@@ -62,6 +64,11 @@ namespace Barsix.BarsEntity.BarsGenerators
             {
                 extened = extened + "tree.Tree";
                 created = created + "TreeGrid";
+                
+                depList.Add("EAS4.data.TreeStore");
+                if (!options.View.EditingDisabled)
+                    depList.Add("EAS4.tree.AddButton");
+                depList.Add("EAS4.tree.UpdateButton");
             }
             else
             {
@@ -76,7 +83,7 @@ namespace Barsix.BarsEntity.BarsGenerators
             foreach (var field in options.Fields.Where(x => !string.IsNullOrEmpty(x.DisplayName) && !x.Collection && !x.ParentReference))
                 storeFields.Add(field.FieldName);
 
-            var store = Ext.create(
+            var store = new JsInstance(
                 isTree ? "EAS4.data.TreeStore" : "EAS4.data.Store", 
                 new {
                     autoLoad = true,
@@ -89,7 +96,10 @@ namespace Barsix.BarsEntity.BarsGenerators
             var columns = new JsArray();
 
             bool first = true;
-            columns.Add(Ext.create("EAS4.grid.Columns.GridEditColumn"));
+
+            if (!options.View.EditingDisabled)
+                columns.Add(new JsInstance("EAS4.grid.Columns.GridEditColumn"));
+
             foreach (var field in options.Fields.Where(x => !string.IsNullOrEmpty(x.DisplayName) && !x.Collection && !x.ParentReference && !x.GroupField))
             {
                 if (options.Stateful && field.FieldName == "State")
@@ -127,7 +137,8 @@ namespace Barsix.BarsEntity.BarsGenerators
                     columns.Values.Add(col);
                 }
             }
-            columns.Add(Ext.create("EAS4.grid.Columns.GridDeleteColumn"));
+            if (!options.View.EditingDisabled)
+                columns.Add(new JsInstance("EAS4.grid.Columns.GridDeleteColumn"));
             
             var filter = new JsObject();
             foreach (var field in options.Fields.Where(x => !string.IsNullOrEmpty(x.DisplayName) && !x.Collection && !x.ParentReference && !x.GroupField))
@@ -155,19 +166,18 @@ namespace Barsix.BarsEntity.BarsGenerators
                 define = Ext.define(created, new
                 {
                     extend = extened,
-                    requires = depList,
-                    controllerName = JsScalar.Null,
-                    getGridConfig = function("config",
+                    requires = depList.ToArray(),
+                    getTreeConfig = function("config",
                         "var thisGrid = this;",
                         "",
                         Return(Ext.apply(new { __inline = true }, new
                         {
-                            selModel = Ext.create("Ext.selection.{0}Model".R(options.View.SelectionModel.StartsWith("Checkbox") ? "Checkbox" : "Row")),
+                            selModel = new JsInstance("Ext.selection.{0}Model".R(options.View.SelectionModel.StartsWith("Checkbox") ? "Checkbox" : "Row")),
                             pagingEnabled = true,
                             rootVisible = false,
                             cls = "eas4-tree-wrap eas4-tree-noicon",
                             columns = columns,
-                            store = Ext.create("EAS4.data.Store", new
+                            store = new JsInstance("EAS4.data.TreeStore", new
                             {
                                 autoLoad = true,
                                 fields = storeFields,
@@ -177,17 +187,13 @@ namespace Barsix.BarsEntity.BarsGenerators
                             {
                                 expanede = true
                             },
-                            tbar = new[]{
-                                New("EAS4.tree.AddButton"),
+                            tbarButtons = new[]
+                            {
+                                options.View.EditingDisabled ? null : New("EAS4.tree.AddButton"),
                                 New("EAS4.tree.UpdateButton")
                             },
                             filter = filter
-                        }, JsScalar.New("config"))),
-                        "",
-                        new JsFunctionCall("this.callParent", new[] { JsScalar.New("config") })
-                    ),
-                    initComponent = function(string.Empty,
-                        "this.callParent();"
+                        }, JsScalar.New("config")))
                     )
                 });
             }
@@ -196,16 +202,15 @@ namespace Barsix.BarsEntity.BarsGenerators
                 define = Ext.define(created, new
                 {
                     extend = extened,
-                    requires = depList,
-                    controllerName = JsScalar.Null,
-                    constructor = function("config",
+                    requires = depList.ToArray(),
+                    getGridConfig = function("config",
                         "var thisGrid = this;",
                         "",
                         Return(Ext.apply(new { __inline = true }, new
                         {
-                            selModel = Ext.create("Ext.selection.{0}Model".R(options.View.SelectionModel.StartsWith("Checkbox") ? "Checkbox" : "Row")),
+                            selModel = new JsInstance("Ext.selection.{0}Model".R(options.View.SelectionModel.StartsWith("Checkbox") ? "Checkbox" : "Row")),
                             columns = columns,
-                            store = Ext.create("EAS4.data.Store", new
+                            store = new JsInstance("EAS4.data.Store", new
                             {
                                 autoLoad = true,
                                 fields = storeFields,
@@ -216,9 +221,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                                 New("EAS4.grid.Buttons.GridUpdateButton")
                             },
                             filter = filter
-                        }, JsScalar.New("config"))),
-                        "",
-                        new JsFunctionCall("this.callParent", new[] { JsScalar.New("config") })
+                        }, JsScalar.New("config")))
                     )
                 });
             }
@@ -338,35 +341,49 @@ namespace Barsix.BarsEntity.BarsGenerators
             }
             depList.Add(options.View.Namespace + ".Grid");
 
+            var initPageContent = new List<object>
+            {
+                new JsFunctionCall("this.callParent"),
+                "",
+                this.addMainComponent("grid", new JsInstance(options.View.Namespace + ".Grid"))
+            };
+
+            if (!options.View.EditingDisabled)
+            {
+                initPageContent.Add(this.addComponent("editWindow", new JsInstance(options.View.Namespace + ".EditWindow")));
+                initPageContent.Add("");
+                initPageContent.Add(this.addPlugin( 
+                    new JsInstance("EAS4.page.plugins.GridEditWindowPlugin", new 
+                    {
+                        controllerName = JsScalar.New("this.controllerName"),
+                        gridName = "grid",
+                        windowName = "editWindow"
+                    }).NotInline
+                ));
+            }
+
+            if (options.Permission != null)
+            {
+                initPageContent.Add("");
+                initPageContent.Add(this.addPlugin(
+                    new JsInstance("EAS4.permissions.GenericDictionaryPermissionsPlugin", new 
+                    {
+                        permissionsNamespace = options.Permission.Prefix,
+                        gridName = "grid",
+                        windowName = !options.View.EditingDisabled ? "editWindow" : null,
+                        addButtonApplyBy = JsScalar.New("EAS4.permissions.Apply.DisableAndHide")
+                    }).NotInline
+                ));
+            }
+
             var define = Ext.define(options.View.Namespace + ".Page", new
             {
                 extend = "EAS4.page.Page",
                 requires = depList,
                 title = lc(options.DisplayName),
                 controllerName = options.Controller.Name,
-                initPage = function(string.Empty,
-                    new JsFunctionCall("this.callParent"),
-                    "",
-                    this.addMainComponent("grid", Ext.create(options.View.Namespace + ".Grid")),
-                    (!options.View.EditingDisabled ? this.addComponent("editWindow", Ext.create(options.View.Namespace + ".EditWindow")) : null),
-                    
-                    (!options.View.EditingDisabled ? this.addPlugin( 
-                        Ext.create("EAS4.page.plugins.GridEditWindowPlugin", new {
-                            controllerName = JsScalar.New("this.controllerName"),
-                            gridName = "grid",
-                            windowName = "editWindow"
-                        }).NotInline
-                    ) : null),
-                    
-                    (!options.View.EditingDisabled && options.Permission != null ? this.addPlugin(
-                        Ext.create("EAS4.permissions.GenericDictionaryPermissionsPlugin", new {
-                            permissionsNamespace = options.Permission.Prefix,
-                            gridName = "grid",
-                            windowName = "editWindow",
-                            addButtonApplyBy = JsScalar.New("EAS4.permissions.Apply.DisableAndHide")
-                        }).NotInline
-                    ) : null)
-                )
+                permissionNamespace = options.Permission != null ? options.Permission.Prefix : null,
+                initPage = function(string.Empty, initPageContent.ToArray())
             });
 
             file.Body = define.Draw(0);
@@ -482,7 +499,8 @@ namespace Barsix.BarsEntity.BarsGenerators
                     autoLoad = true,
                     remoteSort = true,
                     reader = new JsInstance("Ext3.data.JsonReader",
-                        new { 
+                        new 
+                        { 
                             idProperty = "Id", 
                             root = "data", 
                             totalProperty = "totalCount",
@@ -490,7 +508,8 @@ namespace Barsix.BarsEntity.BarsGenerators
                         }
                     ),
                     proxy = new JsInstance("Ext3.data.HttpProxy",
-                        new { 
+                        new 
+                        { 
                             __inline = true,
                             method = "POST", 
                             url = JsScalar.New("EAS.url.action('/' + config.controllerName + '/List/')"), 

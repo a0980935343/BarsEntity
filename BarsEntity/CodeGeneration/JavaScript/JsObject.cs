@@ -99,12 +99,14 @@ namespace Barsix.BarsEntity.CodeGeneration.JavaScript
                 }
                 else
                 {
-                    
+                    if (val == null)
+                        continue;
 
                     if (val is JsProperty)
                     {
                         jsObject.Add(prop.Name, (JsProperty)val);
                     }
+                    else
                     if (val is string) jsObject.Add(prop.Name, (string)val);
                     else
                     if (val is bool) jsObject.Add(prop.Name, (bool)val);

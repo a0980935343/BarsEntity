@@ -78,9 +78,10 @@ namespace Barsix.BarsEntity
                 return new EmptyProfile();
         }
 
-        public static void GetClassList(this Project project, IDictionary<string, CodeClass> classes, ICollection<string> enums, string filter = "")
+        public static void GetClassList(this Project project, IDictionary<string, CodeClass> classes, 
+            ICollection<string> enums, string filter, IEnumerable<string> bases)
         {
-            List<string> bases = new List<string>{ "PersistentObject", "BaseEntity", "NamedBaseEntity"};
+            //List<string> bases = new List<string>{ "PersistentObject", "BaseEntity", "NamedBaseEntity"};
 
             Action<CodeNamespace, int> enumClasses = null;
             enumClasses = (ns, level) =>
@@ -98,24 +99,30 @@ namespace Barsix.BarsEntity
                     if (@class.FullName.StartsWith(filter))
                     {
                         bool isEntity = false;
-                        List<string> ifl = new List<string>();
-                        foreach (CodeClass bs in @class.Bases.OfType<CodeClass>())
+                        if (bases != null)
                         {
-                            if (bases.Contains(bs.Name)) // base class match
+                            foreach (CodeClass bs in @class.Bases.OfType<CodeClass>())
                             {
-                                isEntity = true;
-                            }
-                            else
-                            {
-                                foreach (CodeClass bsbs in bs.Bases.OfType<CodeClass>())
+                                if (bases.Contains(bs.Name)) // base class match
                                 {
-                                    if (bases.Contains(bsbs.Name)) // or grand-base class match
+                                    isEntity = true;
+                                }
+                                else
+                                {
+                                    foreach (CodeClass bsbs in bs.Bases.OfType<CodeClass>())
                                     {
-                                        isEntity = true;
+                                        if (bases.Contains(bsbs.Name)) // or grand-base class match
+                                        {
+                                            isEntity = true;
+                                        }
                                     }
                                 }
                             }
-                        } 
+                        }
+                        else
+                        {
+                            isEntity = true;
+                        }
 
                         if (!classes.ContainsKey(@class.FullName.Substring(filter.Length + 1)) && isEntity)
                             classes.Add(@class.FullName.Substring(filter.Length + 1), @class);
@@ -139,6 +146,27 @@ namespace Barsix.BarsEntity
             {
                 enumClasses(element, 2);
             }
+        }
+
+        public static ProjectItem AddItem(this Project project, string filePath, string fileName, string fileBody, Dictionary<string, object> properties)
+        {
+            if (!Directory.Exists(Path.Combine(project.RootFolder(), filePath ?? string.Empty)))
+            {
+                Directory.CreateDirectory(Path.Combine(project.RootFolder(), filePath ?? string.Empty));
+            }
+
+            string fullPath = Path.Combine(project.RootFolder(), filePath ?? string.Empty, fileName);
+
+            File.WriteAllText(fullPath, fileBody, Encoding.UTF8);
+
+            var projectItem = project.ProjectItems.AddFromFile(fullPath);
+
+            foreach (Property prop in projectItem.Properties)
+            {
+                if (properties.ContainsKey(prop.Name))
+                    prop.Value = properties[prop.Name];
+            }
+            return projectItem;
         }
     }
 }

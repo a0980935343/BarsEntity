@@ -194,6 +194,7 @@
     <Compile Include="CodeGeneration\JavaScript\JsInstance.cs" />
     <Compile Include="CodeGeneration\JavaScript\JsObject.cs" />
     <Compile Include="CodeGeneration\JavaScript\JsScalar.cs" />
+    <Compile Include="Types\ClassRequest.cs" />
     <Compile Include="Types\ProjectProfile\BarsProjectProfile.cs" />
     <Compile Include="Types\InheritanceType.cs" />
     <Compile Include="Types\ProjectProfile\EmptyProfile.cs" />

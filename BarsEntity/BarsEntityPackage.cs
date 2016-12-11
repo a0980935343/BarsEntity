@@ -29,7 +29,7 @@ namespace Barsix.BarsEntity
     public sealed class BarsEntityPackage : ExtensionPointPackage
     {
         private static DTE2 _dte;
-        public const string Version = "1.6.2";
+        public const string Version = "1.7";
 
         protected override void Initialize()
         {
@@ -70,12 +70,16 @@ namespace Barsix.BarsEntity
             manager.AddGenerator(new MigrationGenerator());
 
             EntityOptions Options = new EntityOptions (project.GetProjectProfile());
-            Options.MigrationVersion = Interaction.InputBox("Укажите версию", "Миграция", DateTime.Now.ToString("yyyy_MM_dd_00"));
+            Options.MigrationVersion = Interaction.InputBox("Укажите версию. При увеличении от последней версии оставьте пустым", 
+                                                            "Миграция", DateTime.Now.ToString("yyyy_MM_dd_00"));
 
-            if (Options.MigrationVersion == "")
-                return;
+            if (string.IsNullOrEmpty(Options.MigrationVersion))
+            {
+                Options.FromLastMigration = true;
+                Options.MigrationVersion = DateTime.Now.ToString("yyyy_MM_dd_00");
+            }
 
-            if (File.Exists( Path.Combine( project.RootFolder(), "Migrations\\{0}\\UpdateSchema.cs".R(Options.MigrationVersion))))
+            if (!Options.FromLastMigration && File.Exists( Path.Combine( project.RootFolder(), "Migrations\\{0}\\UpdateSchema.cs".R(Options.MigrationVersion))))
             {
                 MessageBox.Show("Миграция с этим номером версии уже существует! Измените версию", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;

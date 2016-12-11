@@ -172,7 +172,7 @@ namespace Barsix.BarsEntity
 
         private EntityOptions ComposeOptions()
         {
-            EntityOptions  options = new EntityOptions(_profile);
+            EntityOptions options = new EntityOptions(_profile);
             _options = options;
             options.ClassName = tbEntityName.Text;
             options.ClassFullName = _project.DefaultNamespace() + ".Entities." + tbEntityName.Text;
@@ -184,6 +184,7 @@ namespace Barsix.BarsEntity
             options.Stateful = chStateful.Checked;
             options.Signable = chSignable.Checked;
             options.MigrationVersion = tbMigrationVersion.Text;
+            options.FromLastMigration = chFromLastMigration.Checked;
             options.AuditLogMap = chmLogMap.Checked;
             options.Subfolder = tbSubfolder.Text;
 
@@ -1149,6 +1150,7 @@ namespace Barsix.BarsEntity
             }
 
             options.Map(tbMigrationVersion, x => x.MigrationVersion);
+            options.Map(chFromLastMigration, x => x.FromLastMigration);
 
             if (options.Permission != null)
             {
@@ -1270,5 +1272,10 @@ namespace Barsix.BarsEntity
             contextMenuFindClasses.Show(ptLowerLeft);
         }
         #endregion
+
+        private void chFromLastMigration_CheckedChanged(object sender, EventArgs e)
+        {
+            tbMigrationVersion.Enabled = chFromLastMigration.Checked;
+        }
     }
 }

@@ -10,7 +10,7 @@ using Barsix.BarsEntity;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Malikov Denis")]
 [assembly: AssemblyProduct("Add Bars entity")]
-[assembly: AssemblyCopyright("Copyright 2015 Malikov Denis")]
+[assembly: AssemblyCopyright("Copyright 2015-2016 Malikov Denis")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]

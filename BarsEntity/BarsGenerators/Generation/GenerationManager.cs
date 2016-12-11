@@ -11,6 +11,8 @@ namespace Barsix.BarsEntity.BarsGenerators
 {
     using BarsOptions;
     using CodeGeneration.CSharp;
+    using Barsix.BarsEntity.Types;
+    using EnvDTE80;
 
     public class GenerationManager 
     {
@@ -42,8 +44,11 @@ namespace Barsix.BarsEntity.BarsGenerators
             {
                 Task.Factory.StartNew(() =>
                 {
-                    _project.GetClassList(_classList, _enumList, onlyInProject ? _project.DefaultNamespace() : "Bars");
-                    _generators.ForEach(g => g.ClassList = _classList.Keys.ToList().Concat(_enumList).ToList());
+                    _project.GetClassList(_classList, _enumList, 
+                                          onlyInProject ? _project.DefaultNamespace() + ".Entities" : "Bars",
+                                          new List<string> { "PersistentObject", "BaseEntity", "NamedBaseEntity" });
+
+                    _generators.ForEach(g => g.CodeItemNameList = _classList.Keys.ToList().Concat(_enumList).ToList());
                     if (onComplete != null)
                         onComplete(_classList.Count);
                 });
@@ -72,7 +77,17 @@ namespace Barsix.BarsEntity.BarsGenerators
         {
             if (!_generators.Any(x => x.GetType() == generator.GetType()))
             {
-                generator.ClassList = _classList.Keys.Concat(_enumList).ToList();
+                generator.CodeItemNameList = _classList.Keys.Concat(_enumList).ToList();
+
+                var request = generator.ClassRequest;
+                if (request != null)
+                {
+                    var classes = new Dictionary<string, CodeClass>();
+                    _project.GetClassList(classes, null, 
+                                          _project.DefaultNamespace() + request.NamespaceSuffix, request.BaseElements);
+                    generator.Classes = classes;
+                }
+
                 _generators.Add(generator);
             }
         }
@@ -112,7 +127,9 @@ namespace Barsix.BarsEntity.BarsGenerators
                 .SelectMany(x => x.Value)
                 .Where(x => x.Name != null))
             {
-                if (!Directory.Exists(Path.Combine(_project.RootFolder(), file.Path ?? string.Empty)))
+                var projectItem = _project.AddItem(file.Path, file.Name, string.Join(Environment.NewLine, file.Body), file.Properties);
+
+                /*if (!Directory.Exists(Path.Combine(_project.RootFolder(), file.Path ?? string.Empty)))
                 {
                     Directory.CreateDirectory(Path.Combine(_project.RootFolder(), file.Path ?? string.Empty));
                 }
@@ -127,7 +144,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 {
                     if (file.Properties.ContainsKey(prop.Name))
                         prop.Value = file.Properties[prop.Name];
-                }
+                }*/
 
                 result.Add(file.Generator, projectItem);
             }

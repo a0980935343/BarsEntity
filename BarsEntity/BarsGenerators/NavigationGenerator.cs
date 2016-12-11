@@ -31,7 +31,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 menuItem = menuItem + ".AddRequiredPermission(\"{0}.View\")".R(options.Permission.Prefix);
 
             if (!string.IsNullOrWhiteSpace(options.Profile.IconPath))
-                menuItem = menuItem + ".WithIcon(\"{0}\")".R(options.Profile.IconPath);
+                menuItem = menuItem + ".WithIcon({0})".R(options.Profile.IconPath);
 
             menuItem = menuItem + ";";
 

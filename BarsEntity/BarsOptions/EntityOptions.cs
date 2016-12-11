@@ -9,12 +9,12 @@ namespace Barsix.BarsEntity.BarsOptions
 
         public EntityOptions()
         {
-            _profile = new EmptyProfile();
+            Profile = _profile = new EmptyProfile();
         }
 
         public EntityOptions(ProjectProfileBase profile)
         {
-            _profile = profile;
+            Profile = _profile = profile;
         }
 
         public string ClassName;
@@ -30,6 +30,8 @@ namespace Barsix.BarsEntity.BarsOptions
         public string DiscriminatorValue;
 
         public string MigrationVersion;
+
+        public bool FromLastMigration;
 
         public string DisplayName;
 

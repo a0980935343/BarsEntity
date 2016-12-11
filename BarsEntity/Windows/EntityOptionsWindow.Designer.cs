@@ -146,6 +146,7 @@ namespace Barsix.BarsEntity
             this.tbvViewName = new System.Windows.Forms.TextBox();
             this.lvView = new System.Windows.Forms.ListView();
             this.tabPage5 = new System.Windows.Forms.TabPage();
+            this.chFromLastMigration = new System.Windows.Forms.CheckBox();
             this.tbMigrationVersion = new System.Windows.Forms.TextBox();
             this.tabPage6 = new System.Windows.Forms.TabPage();
             this.chpSimpleCRUDMap = new System.Windows.Forms.CheckBox();
@@ -1394,6 +1395,7 @@ namespace Barsix.BarsEntity
             // 
             // tabPage5
             // 
+            this.tabPage5.Controls.Add(this.chFromLastMigration);
             this.tabPage5.Controls.Add(this.tbMigrationVersion);
             this.tabPage5.Controls.Add(label18);
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
@@ -1403,6 +1405,17 @@ namespace Barsix.BarsEntity
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "Migration";
             this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // chFromLastMigration
+            // 
+            this.chFromLastMigration.AutoSize = true;
+            this.chFromLastMigration.Location = new System.Drawing.Point(82, 50);
+            this.chFromLastMigration.Name = "chFromLastMigration";
+            this.chFromLastMigration.Size = new System.Drawing.Size(199, 17);
+            this.chFromLastMigration.TabIndex = 2;
+            this.chFromLastMigration.Text = "от последней миграции в проекте";
+            this.chFromLastMigration.UseVisualStyleBackColor = true;
+            this.chFromLastMigration.CheckedChanged += new System.EventHandler(this.chFromLastMigration_CheckedChanged);
             // 
             // tbMigrationVersion
             // 
@@ -1903,5 +1916,6 @@ namespace Barsix.BarsEntity
         private System.Windows.Forms.ToolStripMenuItem ctxItemAllSolution;
         private System.Windows.Forms.ToolStripMenuItem ctxItemCurrentProject;
         private System.Windows.Forms.Button btnSearchClasses;
+        private System.Windows.Forms.CheckBox chFromLastMigration;
     }
 }

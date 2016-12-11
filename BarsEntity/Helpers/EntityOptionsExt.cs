@@ -56,7 +56,7 @@ namespace Barsix.BarsEntity
 
         public static bool IsStandartBaseClass(this EntityOptions options, string className)
         {
-            return className == "BaseEntity" || (className == "NamedBaseEntity" && options.Profile is MosKsProfile) || className == "PersistentObject";
+            return className == "BaseEntity" || (className == "NamedBaseEntity" /*&& options.Profile is MosKsProfile*/) || className == "PersistentObject";
         }
 
         public static string MapBaseClass(this EntityOptions options)

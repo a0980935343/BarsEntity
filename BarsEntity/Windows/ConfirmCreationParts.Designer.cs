@@ -45,6 +45,7 @@
             this.chPermission = new System.Windows.Forms.CheckBox();
             this.chNavigation = new System.Windows.Forms.CheckBox();
             this.chViewModel = new System.Windows.Forms.CheckBox();
+            this.btnViewModel = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // chEntity
@@ -120,7 +121,7 @@
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(213, 399);
+            this.button1.Location = new System.Drawing.Point(240, 399);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 7;
@@ -208,11 +209,22 @@
             this.chViewModel.Text = "ViewModel";
             this.chViewModel.UseVisualStyleBackColor = true;
             // 
+            // btnViewModel
+            // 
+            this.btnViewModel.Location = new System.Drawing.Point(204, 121);
+            this.btnViewModel.Name = "btnViewModel";
+            this.btnViewModel.Size = new System.Drawing.Size(111, 23);
+            this.btnViewModel.TabIndex = 16;
+            this.btnViewModel.Text = "ViewModel";
+            this.btnViewModel.UseVisualStyleBackColor = true;
+            this.btnViewModel.Click += new System.EventHandler(this.btnViewModel_Click);
+            // 
             // ConfirmCreationParts
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(300, 434);
+            this.ClientSize = new System.Drawing.Size(327, 434);
+            this.Controls.Add(this.btnViewModel);
             this.Controls.Add(this.chViewModel);
             this.Controls.Add(this.chNavigation);
             this.Controls.Add(this.chPermission);
@@ -258,6 +270,7 @@
         public System.Windows.Forms.CheckBox chPermission;
         public System.Windows.Forms.CheckBox chNavigation;
         public System.Windows.Forms.CheckBox chViewModel;
+        private System.Windows.Forms.Button btnViewModel;
 
     }
 }

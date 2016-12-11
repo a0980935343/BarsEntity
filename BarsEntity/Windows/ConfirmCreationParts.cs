@@ -25,5 +25,24 @@ namespace Barsix.BarsEntity
             DialogResult = DialogResult.OK;
             Close();
         }
+
+        private void UncheckAllExcept(CheckBox checkBox)
+        {
+            foreach (var control in Controls)
+            {
+                if (control is CheckBox && (CheckBox)control != checkBox)
+                {
+                    ((CheckBox)control).Checked = false;
+                }
+            }
+            checkBox.Checked = true;
+        }
+
+        private void btnViewModel_Click(object sender, EventArgs e)
+        {
+            UncheckAllExcept(chViewModel);
+            DialogResult = DialogResult.OK;
+            Close();
+        }
     }
 }

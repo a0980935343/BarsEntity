@@ -81,12 +81,10 @@ namespace Barsix.BarsEntity
 
         public static string Q(this string source, string quotes)
         {
-            if (quotes.Length == 1)
-                return quotes + source + quotes;
-            else if (quotes.Length == 2)
-                return quotes.Substring(0, 1) + source + quotes.Substring(1);
-            else
-                throw new ArgumentException();
+            var left = quotes[0];
+            var right = quotes[quotes.Length - 1];
+
+            return left + source + right;
         }
 
         public static string Ind(this string source, int indent)
@@ -114,6 +112,14 @@ namespace Barsix.BarsEntity
             return "<" + tag + ">" + source + "</" + tag + ">";
         }
 
+        public static string Unwrap(this string source, string bounds)
+        { 
+            var left = bounds[0];
+            var right = bounds[bounds.Length-1];
+
+            return source.Right(left).Left(right);
+        }
+
         public static string Left(this string source, string seporator)
         {
             return source.Substring(0, source.IndexOf(seporator));
@@ -122,6 +128,16 @@ namespace Barsix.BarsEntity
         public static string Right(this string source, string seporator)
         {
             return source.Substring(source.IndexOf(seporator) + seporator.Length);
+        }
+
+        public static string Left(this string source, char seporator)
+        {
+            return source.Substring(0, source.IndexOf(seporator));
+        }
+
+        public static string Right(this string source, char seporator)
+        {
+            return source.Substring(source.IndexOf(seporator) + 1);
         }
     }
 }

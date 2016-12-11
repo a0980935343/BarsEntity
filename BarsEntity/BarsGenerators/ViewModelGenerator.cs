@@ -27,7 +27,6 @@ namespace Barsix.BarsEntity.BarsGenerators
             if (options.Fields.Any(x => x.TypeName == "DateTime"))
                 ns.OuterUsing.Add("System");
             ns.OuterUsing.Add("System.Linq");
-            ns.OuterUsing.Add("System.Web.Mvc");
 
 
             ns.InnerUsing.Add("B4");
@@ -136,7 +135,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 list.Body.Add("    })");
                 list.Body.Add("    .Filter(loadParam, Container);");
 
-                list.Body.Add("return new ListDataResult(qList.Order(loadParam).Paging(loadParam), qList.Count());");
+                list.Body.Add("return new ListDataResult(qList.Order(loadParam).Paging(loadParam).ToList(), qList.Count());");
 
                 cls.AddMethod(list);
             }
@@ -183,6 +182,48 @@ namespace Barsix.BarsEntity.BarsGenerators
                 cls.AddMethod(get);
             }
 
+            if (options.Controller.ListSummary && options.Controller.ViewModel && options.Fields.Any(x => x.TypeName == "decimal"))
+            {
+                var listSummary = new MethodInfo()
+                {
+                    Name = "ListSummary",
+                    Type = "IDataResult",
+                    Params = "IDomainService<" + options.ClassName + "> domainService, BaseParams baseParams"
+                };
+                var body = listSummary.Body;
+
+                listSummary.Body.Add("var loadParam = baseParams.GetLoadParam();");
+
+                var owner = options.Fields.FirstOrDefault(x => x.OwnerReference);
+                var parent = options.Fields.FirstOrDefault(x => x.ParentReference);
+
+                if (owner != null)
+                    listSummary.Body.Add("var {0}Id = baseParams.Params[\"{0}Id\"].ToLong();".R(owner.FieldName.camelCase()));
+
+                listSummary.Body.Add("var qData = domainService.GetAll()");
+
+                if (owner != null)
+                    listSummary.Body.Add("    .Where(x => x.{0}.Id == {1}Id)".R(owner.FieldName, owner.FieldName.camelCase()));
+
+                listSummary.Body.Add("    .Filter(loadParam, Container);");
+
+                body.Add("return new BaseDataResult({");
+
+                foreach (var field in options.Fields.Where(x => x.TypeName == "decimal"))
+                {
+                    if (field.Nullable)
+                        listSummary.Body.Add("    {0} = qData.Sum(x => (decimal?)x.{0}) ?? decimal.Zero,".R(field.FieldName));
+                    else
+                        listSummary.Body.Add("    {0} = qData.Sum(x => x.{0}),".R(field.FieldName));
+                }
+                var last = listSummary.Body.Last();
+                last = last.Substring(0, last.Length - 1);
+                listSummary.Body.RemoveAt(listSummary.Body.Count - 1);
+                listSummary.Body.Add(last);
+
+                body.Add("});");
+            }
+
             var module = new GeneratedFragment
             {
                 FileName = "Module.cs",
@@ -191,7 +232,7 @@ namespace Barsix.BarsEntity.BarsGenerators
                 InsertMethod = "public override void Install()",
                 Generator = this
             };
-            module.Lines.Add("Container.Register(Component.For<IViewModel<{0}>>().ImplementedBy<{0}ViewModel>());".R(options.Controller.Name));
+            module.Lines.Add("Container.RegisterViewModel<{0}, {0}ViewModel>();".R(options.Controller.Name));
 
             file.Name = options.ClassName + "ViewModel.cs";
             file.Path = "ViewModel\\" + (options.IsDictionary ? "Dict\\" : (!string.IsNullOrWhiteSpace(options.Subfolder) ? options.Subfolder : ""));
